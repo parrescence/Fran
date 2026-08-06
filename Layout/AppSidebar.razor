@@ -1,0 +1,12 @@
+@* Left sidebar shell — same background color as the header by design.
+   Nav links go through ChildContent; the app's own NavMenu supplies them
+   (see FinanceApp.Web's NavMenu.razor for the real links + auth-aware admin check). *@
+
+<aside class="fa-sidebar @CssClass">
+    @ChildContent
+</aside>
+
+@code {
+    [Parameter] public string? CssClass { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

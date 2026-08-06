@@ -1,0 +1,17 @@
+@* Small pill label — invite status, budget over/under, etc. *@
+
+<span class="fa-badge @VariantClass @CssClass">@ChildContent</span>
+
+@code {
+    [Parameter] public FaBadgeVariant Variant { get; set; } = FaBadgeVariant.Neutral;
+    [Parameter] public string? CssClass { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    private string? VariantClass => Variant switch
+    {
+        FaBadgeVariant.Success => "fa-badge-success",
+        FaBadgeVariant.Danger => "fa-badge-danger",
+        FaBadgeVariant.Primary => "fa-badge-primary",
+        _ => null
+    };
+}

@@ -1,0 +1,35 @@
+@* Template 2: header + left sidebar + content + footer. This is the one FinanceApp.Web's
+   MainLayout actually uses today — Sidebar receives the app's own NavMenu as content. *@
+
+<div class="fa-shell fa-shell-sidebar">
+    <AppHeader BrandText="@BrandText"
+               BrandHref="@BrandHref"
+               IsAuthenticated="@IsAuthenticated"
+               UserDisplayName="@UserDisplayName"
+               UserImageUrl="@UserImageUrl"
+               OnLogin="OnLogin"
+               OnLogout="OnLogout" />
+
+    <div class="fa-shell-body">
+        <AppSidebar>@Sidebar</AppSidebar>
+
+        <main class="fa-shell-main">
+            @ChildContent
+        </main>
+    </div>
+
+    <AppFooter BrandText="@BrandText">@FooterContent</AppFooter>
+</div>
+
+@code {
+    [Parameter] public string BrandText { get; set; } = "FinanceApp";
+    [Parameter] public string BrandHref { get; set; } = "";
+    [Parameter] public bool IsAuthenticated { get; set; }
+    [Parameter] public string? UserDisplayName { get; set; }
+    [Parameter] public string? UserImageUrl { get; set; }
+    [Parameter] public EventCallback OnLogin { get; set; }
+    [Parameter] public EventCallback OnLogout { get; set; }
+    [Parameter] public RenderFragment? Sidebar { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? FooterContent { get; set; }
+}

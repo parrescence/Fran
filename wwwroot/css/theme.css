@@ -1,0 +1,387 @@
+/*
+  FinanceApp.UI — shared design system
+  ------------------------------------
+  Fall palette, rooted in burnt orange. Every component below styles itself
+  through the custom properties in :root, so retuning the season/theme later
+  is a matter of editing this one block, not hunting through components.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap');
+
+:root {
+    /* --- Fall palette, rooted in burnt orange --- */
+    --fa-primary: #bf5b26;          /* burnt orange — header, sidebar, primary actions */
+    --fa-primary-dark: #8c431b;     /* darker burnt orange — hover/focus states */
+    --fa-primary-light: #e0895a;    /* lighter tint — hover backgrounds, secondary accents */
+    --fa-footer: #f3dfc1;           /* light warm sand — footer background */
+    --fa-glow: #e8873d;             /* pumpkin orange — the border "backlight" glow */
+    --fa-gold: #c9971c;             /* goldenrod — badges, highlights */
+    --fa-maroon: #8a2e1f;           /* deep red — danger/errors */
+    --fa-olive: #74883b;            /* moss green — success */
+    --fa-cream: #fcf3e6;            /* page background */
+    --fa-surface: #fffdf9;          /* card/input surface */
+    --fa-text: #3b2712;             /* body text — dark brown */
+    --fa-text-muted: #7a6650;
+    --fa-text-on-primary: #fff8ef;
+    --fa-border: #e3b98a;           /* default border — warm tan */
+    --fa-border-focus: #8c431b;     /* darker border on focus, per spec */
+
+    /* --- Shape & type --- */
+    --fa-radius-sm: 8px;
+    --fa-radius-md: 14px;
+    --fa-radius-lg: 22px;
+    --fa-radius-pill: 999px;
+    --fa-font: 'Baloo 2', ui-rounded, 'Segoe UI Rounded', 'Nunito', system-ui, sans-serif;
+
+    /* --- The "orange backlight" every bordered element gets by default --- */
+    --fa-border-glow: 0 0 0 1px var(--fa-border), 0 0 10px 1px rgba(232, 135, 61, 0.35);
+    --fa-border-glow-focus: 0 0 0 2px var(--fa-border-focus), 0 0 12px 2px rgba(232, 135, 61, 0.55);
+}
+
+/* ============================= Base ============================= */
+
+body {
+    font-family: var(--fa-font);
+    background: var(--fa-cream);
+    color: var(--fa-text);
+}
+
+.fa-shell, .fa-shell * {
+    box-sizing: border-box;
+}
+
+/* ============================= Page shells ============================= */
+
+.fa-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.fa-shell-main {
+    flex: 1;
+    padding: 1.75rem 2rem;
+}
+
+.fa-shell-sidebar .fa-shell-body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+/* ============================= Header ============================= */
+
+.fa-header {
+    background: var(--fa-primary);
+    color: var(--fa-text-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 0 var(--fa-glow), 0 4px 14px rgba(140, 67, 27, 0.35);
+}
+
+.fa-header-brand {
+    font-family: var(--fa-font);
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--fa-text-on-primary);
+    text-decoration: none;
+}
+
+.fa-header-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.fa-header-username {
+    font-weight: 600;
+    color: var(--fa-text-on-primary);
+}
+
+/* ============================= Footer ============================= */
+
+.fa-footer {
+    background: var(--fa-footer);
+    color: var(--fa-text-muted);
+    text-align: center;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.9rem;
+    border-top: 3px solid var(--fa-glow);
+}
+
+/* ============================= Sidebar ============================= */
+
+.fa-sidebar {
+    background: var(--fa-primary);
+    width: 240px;
+    flex: 0 0 240px;
+    padding: 1.25rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    box-shadow: 2px 0 0 var(--fa-glow), 4px 0 14px rgba(140, 67, 27, 0.25);
+}
+
+.fa-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--fa-radius-md);
+    color: var(--fa-text-on-primary);
+    text-decoration: none;
+    font-weight: 600;
+    opacity: 0.9;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+    .fa-sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.14);
+        opacity: 1;
+    }
+
+    .fa-sidebar-link.active {
+        background: var(--fa-primary-dark);
+        opacity: 1;
+        box-shadow: inset 0 0 0 2px var(--fa-glow);
+    }
+
+/* ============================= Buttons ============================= */
+
+.fa-btn {
+    font-family: var(--fa-font);
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: var(--fa-radius-pill);
+    padding: 0.55rem 1.4rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+    .fa-btn:active {
+        transform: translateY(1px);
+    }
+
+    .fa-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+.fa-btn-primary {
+    background: var(--fa-primary);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-primary);
+}
+
+    .fa-btn-primary:hover:not(:disabled) {
+        background: var(--fa-primary-dark);
+        border-color: var(--fa-primary-dark);
+    }
+
+    .fa-btn-primary:focus-visible {
+        background: var(--fa-glow);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-secondary {
+    background: var(--fa-surface);
+    color: var(--fa-primary-dark);
+    border-color: var(--fa-border);
+}
+
+    .fa-btn-secondary:hover:not(:disabled) {
+        background: var(--fa-footer);
+        border-color: var(--fa-glow);
+    }
+
+    .fa-btn-secondary:focus-visible {
+        border-color: var(--fa-border-focus);
+        color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-outline {
+    background: transparent;
+    color: var(--fa-primary-dark);
+    border-color: var(--fa-primary);
+}
+
+    .fa-btn-outline:hover:not(:disabled) {
+        background: var(--fa-primary);
+        color: var(--fa-text-on-primary);
+    }
+
+    .fa-btn-outline:focus-visible {
+        background: var(--fa-primary-dark);
+        color: var(--fa-text-on-primary);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-danger {
+    background: var(--fa-maroon);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-maroon);
+}
+
+    .fa-btn-danger:hover:not(:disabled) {
+        background: #6f2116;
+        border-color: #6f2116;
+    }
+
+    .fa-btn-danger:focus-visible {
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-sm {
+    padding: 0.32rem 0.9rem;
+    font-size: 0.82rem;
+}
+
+/* ============================= Inputs & selects ============================= */
+
+.fa-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.fa-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-input, .fa-select {
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.5rem 0.9rem;
+    box-shadow: var(--fa-border-glow);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-input:focus, .fa-select:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    .fa-input::placeholder {
+        color: var(--fa-text-muted);
+        opacity: 0.7;
+    }
+
+/* ============================= Cards ============================= */
+
+.fa-card {
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-lg);
+    box-shadow: var(--fa-border-glow);
+    padding: 1.1rem 1.3rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-card:focus-within, .fa-card.fa-card-active {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    .fa-card[tabindex] {
+        cursor: pointer;
+    }
+
+    .fa-card[tabindex]:focus-visible {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+/* ============================= Badges ============================= */
+
+.fa-badge {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: var(--fa-radius-pill);
+    background: var(--fa-gold);
+    color: #3b2712;
+}
+
+.fa-badge-success { background: var(--fa-olive); color: #fff8ef; }
+.fa-badge-danger { background: var(--fa-maroon); color: #fff8ef; }
+.fa-badge-primary { background: var(--fa-primary); color: #fff8ef; }
+
+/* ============================= Alerts ============================= */
+
+.fa-alert {
+    border-radius: var(--fa-radius-md);
+    padding: 0.75rem 1.1rem;
+    border: 2px solid var(--fa-border);
+    box-shadow: var(--fa-border-glow);
+    font-weight: 600;
+}
+
+.fa-alert-danger { border-color: var(--fa-maroon); color: var(--fa-maroon); background: #fbe9e5; }
+.fa-alert-success { border-color: var(--fa-olive); color: var(--fa-olive); background: #eef3e4; }
+.fa-alert-info { border-color: var(--fa-primary); color: var(--fa-primary-dark); background: #fbeee2; }
+
+/* ============================= Avatar ============================= */
+
+.fa-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: var(--fa-primary-light);
+    color: #3b2712;
+    box-shadow: 0 0 0 2px var(--fa-text-on-primary), 0 0 8px rgba(232, 135, 61, 0.6);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+    .fa-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* ============================= Small screens ============================= */
+
+@media (max-width: 720px) {
+    .fa-shell-sidebar .fa-shell-body {
+        flex-direction: column;
+    }
+
+    .fa-sidebar {
+        width: 100%;
+        flex: 0 0 auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        box-shadow: 0 2px 0 var(--fa-glow), 0 4px 14px rgba(140, 67, 27, 0.25);
+    }
+
+    .fa-header-username {
+        display: none;
+    }
+}

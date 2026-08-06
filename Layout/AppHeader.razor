@@ -1,0 +1,30 @@
+@* Header bar — brand on the left, user name + avatar + login/logout at the far right.
+   Purely presentational: the consuming app supplies auth state and wires up the
+   login/logout callbacks (see FinanceApp.Web's MainLayout for the real wiring). *@
+
+<header class="fa-header">
+    <a class="fa-header-brand" href="@BrandHref">@BrandText</a>
+
+    <div class="fa-header-user">
+        @if (IsAuthenticated)
+        {
+            <FaAvatar DisplayName="@UserDisplayName" ImageUrl="@UserImageUrl" />
+            <span class="fa-header-username">@UserDisplayName</span>
+            <FaButton Variant="FaButtonVariant.Secondary" Small="true" OnClick="OnLogout">Log out</FaButton>
+        }
+        else
+        {
+            <FaButton Variant="FaButtonVariant.Secondary" Small="true" OnClick="OnLogin">Log in</FaButton>
+        }
+    </div>
+</header>
+
+@code {
+    [Parameter] public string BrandText { get; set; } = "FinanceApp";
+    [Parameter] public string BrandHref { get; set; } = "";
+    [Parameter] public bool IsAuthenticated { get; set; }
+    [Parameter] public string? UserDisplayName { get; set; }
+    [Parameter] public string? UserImageUrl { get; set; }
+    [Parameter] public EventCallback OnLogin { get; set; }
+    [Parameter] public EventCallback OnLogout { get; set; }
+}
