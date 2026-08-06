@@ -5,5 +5,8 @@ public enum FaButtonVariant
     Primary,
     Secondary,
     Outline,
-    Danger
+    Danger,
+    OutlineDanger,
+    Accent,
+    OutlineAccent
 }

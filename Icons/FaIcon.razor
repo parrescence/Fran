@@ -1,0 +1,71 @@
+@namespace FinanceApp.UI.Icons
+@* Small hand-drawn icon set — no third-party icon font/library, matching the
+   "no third-party styling dependency" rule Bootstrap was removed under. Every
+   path fills with `currentColor`, so the two color variants are pure CSS
+   (.fa-icon-white / .fa-icon-black in theme.css), not per-icon markup. *@
+
+<svg class="fa-icon @ColorClass @CssClass" viewBox="0 0 24 24" width="@Size" height="@Size"
+     aria-hidden="@(string.IsNullOrEmpty(Title) ? "true" : null)"
+     role="@(string.IsNullOrEmpty(Title) ? null : "img")">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <title>@Title</title>
+    }
+    @switch (Name)
+    {
+        case FaIconName.Home:
+            <path d="M12 3.2 3 10.6V21h6.5v-7.5h5V21H21V10.6z" />
+            break;
+        case FaIconName.Plus:
+            <path d="M11 3h2v8h8v2h-8v8h-2v-8H3v-2h8z" />
+            break;
+        case FaIconName.Ledger:
+            <rect x="4" y="5" width="16" height="2.6" rx="1.3" />
+            <rect x="4" y="10.7" width="16" height="2.6" rx="1.3" />
+            <rect x="4" y="16.4" width="10" height="2.6" rx="1.3" />
+            break;
+        case FaIconName.PiggyBank:
+            <path d="M12 4.2c-4.4 0-8 2.9-8 6.4 0 1.6.7 3 1.8 4.1L5.2 18h3l.5-1.3c1 .3 2.1.4 3.3.4s2.3-.1 3.3-.4l.5 1.3h3l-.6-3.3c1.1-1.1 1.8-2.5 1.8-4.1 0-3.5-3.6-6.4-8-6.4z" />
+            <circle cx="16.6" cy="9.4" r="1.1" />
+            <rect x="9.8" y="6.2" width="4" height="1.4" rx="0.7" />
+            break;
+        case FaIconName.Dashboard:
+            <rect x="4" y="13" width="4" height="7" rx="1" />
+            <rect x="10" y="8" width="4" height="12" rx="1" />
+            <rect x="16" y="4" width="4" height="16" rx="1" />
+            break;
+        case FaIconName.People:
+            <circle cx="9" cy="8" r="3" />
+            <path d="M3 19.5c0-3.3 2.7-6 6-6s6 2.7 6 6z" />
+            <circle cx="17.5" cy="9" r="2.3" />
+            <path d="M14.6 13.8c1-.5 2.1-.8 2.9-.8 2.8 0 5 2.3 5 5v1.5h-4.2v-1.5c0-1.7-.7-3.2-1.8-4.2z" />
+            break;
+        case FaIconName.Sun:
+            <circle cx="12" cy="12" r="4.5" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(0 12 12)" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(45 12 12)" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(90 12 12)" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(135 12 12)" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(180 12 12)" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(225 12 12)" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(270 12 12)" />
+            <rect x="11" y="1" width="2" height="4" rx="1" transform="rotate(315 12 12)" />
+            break;
+        case FaIconName.Moon:
+            <path d="M20 15A8 8 0 1 1 9 4 6.4 6.4 0 0 0 20 15z" />
+            break;
+        case FaIconName.Eye:
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6c-5 0-8.5 3.4-9.6 5.6a1 1 0 0 0 0 .8C3.5 14.6 7 18 12 18s8.5-3.4 9.6-5.6a1 1 0 0 0 0-.8C20.5 9.4 17 6 12 6zm0 9.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z" />
+            break;
+    }
+</svg>
+
+@code {
+    [Parameter, EditorRequired] public FaIconName Name { get; set; }
+    [Parameter] public FaIconColor Color { get; set; } = FaIconColor.White;
+    [Parameter] public int Size { get; set; } = 20;
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? CssClass { get; set; }
+
+    private string ColorClass => Color == FaIconColor.Black ? "fa-icon-black" : "fa-icon-white";
+}

@@ -6,6 +6,7 @@
     <a class="fa-header-brand" href="@BrandHref">@BrandText</a>
 
     <div class="fa-header-user">
+        <ThemeSwitcher />
         @if (IsAuthenticated)
         {
             <FaAvatar DisplayName="@UserDisplayName" ImageUrl="@UserImageUrl" />
