@@ -10,5 +10,6 @@ public enum FaIconName
     People,
     Sun,
     Moon,
-    Eye
+    Eye,
+    ChevronLeft
 }

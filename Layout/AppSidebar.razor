@@ -1,8 +1,17 @@
 @* Left sidebar shell — same background color as the header by design.
    Nav links go through ChildContent; the app's own NavMenu supplies them
-   (see FinanceApp.Web's NavMenu.razor for the real links + auth-aware admin check). *@
+   (see FinanceApp.Web's NavMenu.razor for the real links + auth-aware admin check).
+
+   The collapse toggle is deliberately plain JS (onclick -> window.faToggleSidebar,
+   see js/sidebar.js), same reasoning as ThemeSwitcher: collapsed/expanded is pure
+   client-side UI state stamped on <html>, with no Blazor state to keep in sync. *@
 
 <aside class="fa-sidebar @CssClass">
+    <button type="button" class="fa-sidebar-toggle" data-sidebar-toggle
+            title="Collapse sidebar" aria-label="Collapse sidebar" aria-expanded="true"
+            onclick="faToggleSidebar()">
+        <FaIcon Name="FaIconName.ChevronLeft" Color="FaIconColor.White" Size="14" />
+    </button>
     @ChildContent
 </aside>
 
