@@ -506,7 +506,13 @@ table {
 
 .fa-table {
     width: 100%;
-    border-collapse: collapse;
+    /* border-collapse: collapse merges cell borders into the table's own border box,
+       which breaks border-radius clipping in most browsers — the corners end up
+       square even though border-radius is set. border-collapse: separate with zero
+       spacing keeps the same visual seams (via border-bottom on th/td below) while
+       letting the table's own border follow its border-radius correctly. */
+    border-collapse: separate;
+    border-spacing: 0;
     background: var(--fa-surface);
     border: 2px solid var(--fa-border);
     border-radius: var(--fa-radius-md);
