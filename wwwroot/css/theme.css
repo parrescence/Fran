@@ -616,13 +616,18 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
         box-shadow: var(--fa-border-glow-focus);
     }
 
-.fa-toggle {
+/* The two options are always both visible, active one highlighted — same idea as
+   .fa-theme-switcher/.fa-theme-btn, just text buttons instead of icon buttons. */
+.fa-toggle-switch {
     display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
+    align-items: stretch;
+    flex: 0 0 auto;
+}
+
+.fa-toggle-option {
     border: none;
     background: transparent;
-    color: var(--fa-text);
+    color: var(--fa-text-muted);
     padding: 0.45rem 0.9rem;
     cursor: pointer;
     font-family: var(--fa-font);
@@ -632,36 +637,24 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-    .fa-toggle:disabled {
+    .fa-toggle-option:not(:first-child) {
+        border-left: 2px solid var(--fa-border);
+    }
+
+    .fa-toggle-option:disabled {
         cursor: not-allowed;
         opacity: 0.6;
     }
 
-    .fa-toggle:focus-visible {
+    .fa-toggle-option:focus-visible {
         outline: none;
+        background: rgba(0, 0, 0, 0.06);
     }
 
-    .fa-toggle.fa-toggle-on {
+    .fa-toggle-option.fa-toggle-option-active {
         background: var(--fa-accent);
         color: var(--fa-text-on-primary);
     }
-
-.fa-toggle-knob {
-    width: 10px;
-    height: 10px;
-    flex: 0 0 auto;
-    border-radius: 50%;
-    background: var(--fa-border);
-    transition: background-color 0.15s ease;
-}
-
-.fa-toggle-on .fa-toggle-knob {
-    background: var(--fa-text-on-primary);
-}
-
-.fa-toggle-label {
-    line-height: 1;
-}
 
 .fa-toggle-input {
     flex: 1 1 auto;

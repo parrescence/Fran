@@ -1,8 +1,8 @@
-@* Yes/No switch with an optional companion input shown inline only while the toggle
-   is on — e.g. Transactions' "Paid by check?" toggle that reveals a check-number field.
-   The Yes/No text lives inside the toggle button itself, and the whole control (toggle
-   + input, when the input is showing) shares one bordered group instead of the input
-   floating outside with its own separate border.
+@* Segmented Yes/No switch — both options always visible, active one highlighted, same
+   idea as ThemeSwitcher's row of buttons (not a single sliding knob). An optional
+   companion input can show inline only while the toggle is on, sharing the same
+   bordered group so the control's width stays just the two buttons when off and only
+   grows to include the input when on.
    Not InputBase-based (that requires an EditContext/EditForm, which nothing in this app
    uses yet — see FaSelect/FaInput) — plain two-way-bindable parameters instead, same
    pattern as FaButton/FaCard. Supports @bind-Value and @bind-InputValue. *@
@@ -19,15 +19,22 @@
                    value="@InputValue" disabled="@Disabled" @oninput="OnInputChanged" />
         }
 
-        <button type="button"
-                class="fa-toggle @(Value ? "fa-toggle-on" : "fa-toggle-off")"
-                role="switch"
-                aria-checked="@(Value ? "true" : "false")"
-                disabled="@Disabled"
-                @onclick="ToggleAsync">
-            <span class="fa-toggle-knob"></span>
-            <span class="fa-toggle-label">@(Value ? OnLabel : OffLabel)</span>
-        </button>
+        <div class="fa-toggle-switch" role="group" aria-label="@Label">
+            <button type="button"
+                    class="fa-toggle-option @(!Value ? "fa-toggle-option-active" : null)"
+                    aria-pressed="@(!Value ? "true" : "false")"
+                    disabled="@Disabled"
+                    @onclick="() => SetValueAsync(false)">
+                @OffLabel
+            </button>
+            <button type="button"
+                    class="fa-toggle-option @(Value ? "fa-toggle-option-active" : null)"
+                    aria-pressed="@(Value ? "true" : "false")"
+                    disabled="@Disabled"
+                    @onclick="() => SetValueAsync(true)">
+                @OnLabel
+            </button>
+        </div>
 
         @if (Value && InputType is not null && InputPosition == FaTogglePosition.After)
         {
@@ -55,12 +62,12 @@
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? CssClass { get; set; }
 
-    private async Task ToggleAsync()
+    private async Task SetValueAsync(bool newValue)
     {
-        if (Disabled)
+        if (Disabled || Value == newValue)
             return;
 
-        Value = !Value;
+        Value = newValue;
         await ValueChanged.InvokeAsync(Value);
     }
 
