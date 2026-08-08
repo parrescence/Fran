@@ -1,11 +1,14 @@
 // Theme toggle — plain JS on purpose, not Blazor JS interop. Nothing here needs
 // C# state: it's three explicit modes (light / dark / colorblind) stamped as
-// data-theme on <html> and persisted to localStorage, read back by the inline
-// snippet in index.html <head> before first paint so there's no flash of the
-// wrong theme. <ThemeSwitcher> calls window.faSetTheme(...) directly via a plain
-// onclick attribute — see its .razor file for why that's fine here.
+// data-theme on <html>, and a separate seasonal/regional palette stamped as
+// data-fa-palette on <html> (see theme.css's "Theme variants" section — the two
+// attributes are independent axes) — both persisted to localStorage, read back by
+// an inline snippet in index.html <head> before first paint so there's no flash of
+// the wrong theme/palette. <ThemeSwitcher> calls window.faSetTheme(...) directly
+// via a plain onclick attribute — see its .cs file for why that's fine here.
 (function () {
-    var STORAGE_KEY = 'fa-theme';
+    var THEME_STORAGE_KEY = 'fa-theme';
+    var PALETTE_STORAGE_KEY = 'fa-palette';
 
     function markActive(theme) {
         // No stored theme means "following the OS", not "Light" specifically — leave
@@ -28,11 +31,29 @@
         } else {
             document.documentElement.setAttribute('data-theme', theme);
         }
-        localStorage.setItem(STORAGE_KEY, theme);
+        localStorage.setItem(THEME_STORAGE_KEY, theme);
         markActive(theme);
     };
 
+    // Palette has no "unset means follow the OS" concept the way mode does — there's
+    // no OS-level signal for "Southwest Summer" — so unlike faSetTheme this always
+    // just stamps (or removes, for the "northwest-fall" default) the attribute.
+    window.faSetPalette = function (palette) {
+        if (!palette || palette === 'northwest-fall') {
+            document.documentElement.removeAttribute('data-fa-palette');
+            localStorage.removeItem(PALETTE_STORAGE_KEY);
+        } else {
+            document.documentElement.setAttribute('data-fa-palette', palette);
+            localStorage.setItem(PALETTE_STORAGE_KEY, palette);
+        }
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
-        markActive(localStorage.getItem(STORAGE_KEY));
+        markActive(localStorage.getItem(THEME_STORAGE_KEY));
+
+        var storedPalette = localStorage.getItem(PALETTE_STORAGE_KEY);
+        if (storedPalette) {
+            document.documentElement.setAttribute('data-fa-palette', storedPalette);
+        }
     });
 })();

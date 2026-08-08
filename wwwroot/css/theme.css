@@ -50,16 +50,141 @@
 }
 
 /* ============================= Theme variants ============================= */
-/* Three modes: light (default, above), dark, and colorblind-safe. Applied via
-   data-theme="dark"/"colorblind" on <html> (see js/theme.js — reads/writes
-   localStorage, toggled by <ThemeSwitcher>), with the OS's prefers-color-scheme
-   as the fallback for dark before any explicit choice is made. Colorblind mode
-   has no OS-level media-query equivalent, so it's opt-in only, never automatic.
+/* Two independent axes, both applied via data attributes on <html>:
 
-   Every component above reads color exclusively through these custom properties,
-   so a variant only has to redefine the tokens that actually need to change —
-   shape, type, and the header/sidebar/footer's burnt-orange brand color stay
-   identical across all three. */
+   1. Palette — which seasonal/regional color story is active. data-fa-palette=
+      "southwest-summer" | "northeast-spring" | "midwest-winter" | "southeast-beach".
+      No attribute (or data-fa-palette="northwest-fall") means the :root defaults
+      above. Toggle with window.faSetPalette(name) (js/theme.js — reads/writes
+      localStorage the same way faSetTheme does).
+   2. Mode — light (default), dark, or colorblind-safe. data-theme="dark"/
+      "colorblind", toggled by window.faSetTheme(...) / <ThemeSwitcher>, with the
+      OS's prefers-color-scheme as the fallback for dark before any explicit choice
+      is made. Colorblind mode has no OS-level media-query equivalent, so it's
+      opt-in only, never automatic.
+
+   Every component reads color exclusively through these custom properties, so a
+   palette or mode only has to redefine the tokens that actually change — shape and
+   type (radii, font) stay identical across every combination of the two axes. */
+
+/* --- Palettes: light-mode values only. Each block is self-contained (redefines
+   every color token the default :root sets), not a diff against Northwest Fall, so
+   picking a palette can't accidentally inherit an unrelated hue. See .themes/ (git-
+   ignored, local design docs) for the reasoning behind each palette's color choices. --- */
+
+:root[data-fa-palette="southwest-summer"] {
+    /* Redone from an early "same terracotta family as Northwest Fall" first draft,
+       which read as too close to the default theme to tell apart at a glance. This
+       version pulls from three different things instead of one: Sea of Cortez/Baja
+       ocean blue for primary (a genuinely different hue family from Fall's burnt
+       orange, and more saturated than Midwest Winter's greyer slate blue so the two
+       don't collapse into each other either), Sonoran Desert wildflowers for gold
+       and accent (marigold yellow, penstemon purple), and canyon sandstone for the
+       danger family. */
+    --fa-primary: #1f77a8;          /* Sea of Cortez Blue */
+    --fa-primary-dark: #164f70;
+    --fa-primary-light: #6bb0d1;
+    --fa-footer: #f0ece0;
+    --fa-glow: #2f96c9;
+    --fa-gold: #e0a940;              /* Desert Marigold */
+    --fa-accent: #7a4f9e;            /* Penstemon Purple */
+    --fa-accent-dark: #573a72;
+    --fa-ember: #b23a28;             /* Canyon Sandstone Red */
+    --fa-wine: #6b2018;              /* Canyon Shadow */
+    --fa-fir: #33283a;               /* Canyon Twilight Shadow */
+    --fa-cream: #faf6ee;
+    --fa-surface: #fffdf8;
+    --fa-text: #2e2a24;
+    --fa-text-muted: #7d766a;
+    --fa-text-on-primary: #f5fbff;
+    --fa-border: #d8d0bc;
+    --fa-border-focus: #164f70;
+    --fa-alert-danger-bg: #f8e3df;
+    --fa-alert-success-bg: #efe6f2;
+    --fa-alert-info-bg: #e2eef4;
+}
+
+:root[data-fa-palette="northeast-spring"] {
+    --fa-primary: #a24a78;          /* Redbud Blossom */
+    --fa-primary-dark: #74345a;
+    --fa-primary-light: #cf8fae;
+    --fa-footer: #f5e6ee;
+    --fa-glow: #c96a97;
+    --fa-gold: #d9b23c;              /* Forsythia Gold */
+    --fa-accent: #5a8f4f;            /* New Leaf Green */
+    --fa-accent-dark: #3f6636;
+    --fa-ember: #b3392f;             /* Cardinal Red */
+    --fa-wine: #6b2030;
+    --fa-fir: #33402f;               /* Birch Bark Shadow */
+    --fa-cream: #faf3f6;
+    --fa-surface: #fffbfc;
+    --fa-text: #3a2230;
+    --fa-text-muted: #7a6070;
+    --fa-text-on-primary: #fff5fa;
+    --fa-border: #e8c6d6;
+    --fa-border-focus: #74345a;
+    --fa-alert-danger-bg: #f9e3e1;
+    --fa-alert-success-bg: #edf3ea;
+    --fa-alert-info-bg: #f7e9ef;
+}
+
+:root[data-fa-palette="midwest-winter"] {
+    --fa-primary: #3d5a73;          /* Prairie Slate Blue */
+    --fa-primary-dark: #28404f;
+    --fa-primary-light: #7098af;
+    --fa-footer: #e6edf0;
+    --fa-glow: #4f7a94;
+    --fa-gold: #c9a227;              /* Wheat Stubble Gold */
+    --fa-accent: #3f5c42;            /* Windbreak Evergreen */
+    --fa-accent-dark: #2b4030;
+    --fa-ember: #9c3b30;             /* Barn Red */
+    --fa-wine: #5c2320;
+    --fa-fir: #2a3138;               /* Frozen Furrow Shadow */
+    --fa-cream: #f5f8fa;
+    --fa-surface: #fbfdfe;
+    --fa-text: #26313a;
+    --fa-text-muted: #66727c;
+    --fa-text-on-primary: #f5f9fb;
+    --fa-border: #c3d2da;
+    --fa-border-focus: #28404f;
+    --fa-alert-danger-bg: #f3e2df;
+    --fa-alert-success-bg: #e6ece4;
+    --fa-alert-info-bg: #e3ebf0;
+}
+
+:root[data-fa-palette="southeast-beach"] {
+    --fa-primary: #2c8c8a;          /* Seafoam Turquoise */
+    --fa-primary-dark: #1e615f;
+    --fa-primary-light: #6bbdbb;
+    --fa-footer: #f3e9d4;
+    --fa-glow: #3ba6a3;
+    --fa-gold: #d9b871;              /* Sand Dune Gold */
+    --fa-accent: #7a9457;            /* Sea Oat Green */
+    --fa-accent-dark: #566b3c;
+    --fa-ember: #d9634a;             /* Coral Sunset */
+    --fa-wine: #8a3626;
+    --fa-fir: #3a3630;               /* Driftwood Shadow */
+    --fa-cream: #fbf6ea;
+    --fa-surface: #fffdf7;
+    --fa-text: #3a2f22;
+    --fa-text-muted: #7d7261;
+    --fa-text-on-primary: #f2fbfa;
+    --fa-border: #e3d3ab;
+    --fa-border-focus: #1e615f;
+    --fa-alert-danger-bg: #f9e6e0;
+    --fa-alert-success-bg: #eef1e6;
+    --fa-alert-info-bg: #e3f0ee;
+}
+
+/* --- Dark mode, per palette. Northwest Fall's dark block (no data-fa-palette
+   attribute needed — it's the default) stays a single-attribute selector; every
+   other palette needs data-fa-palette AND data-theme="dark" together so it wins
+   over the single-attribute selector regardless of source order (two attributes
+   beats one, always, independent of where each rule sits in the file). Same
+   transform recipe every time: darken cream/surface/footer, lighten text, border-
+   focus becomes the palette's --fa-glow, primary-dark becomes primary-light
+   (still legible as hover text against a dark surface), accent-dark lightens, and
+   the three alert backgrounds become translucent rgba() of ember/accent/primary. */
 
 :root[data-theme="dark"] {
     --fa-cream: #1c140d;
@@ -69,13 +194,75 @@
     --fa-border: #4a3524;
     --fa-border-focus: #e8873d;
     --fa-footer: #2a2015;
-    --fa-primary-dark: #e0895a;     /* lightened, not darkened — legible as text on a dark surface,
-                                        and a hover state that lightens reads correctly in dark mode too */
+    --fa-primary-dark: #e0895a;
     --fa-accent-dark: #9db06a;
     --fa-alert-danger-bg: rgba(166, 58, 44, 0.22);
     --fa-alert-success-bg: rgba(107, 122, 62, 0.22);
     --fa-alert-info-bg: rgba(191, 91, 38, 0.22);
 }
+
+:root[data-fa-palette="southwest-summer"][data-theme="dark"] {
+    --fa-cream: #17140f;
+    --fa-surface: #221d15;
+    --fa-text: #f0ece2;
+    --fa-text-muted: #beb5a4;
+    --fa-border: #4a4030;
+    --fa-border-focus: #2f96c9;
+    --fa-footer: #1f1b12;
+    --fa-primary-dark: #6bb0d1;
+    --fa-accent-dark: #a985c9;
+    --fa-alert-danger-bg: rgba(178, 58, 40, 0.22);
+    --fa-alert-success-bg: rgba(122, 79, 158, 0.22);
+    --fa-alert-info-bg: rgba(31, 119, 168, 0.22);
+}
+
+:root[data-fa-palette="northeast-spring"][data-theme="dark"] {
+    --fa-cream: #170f14;
+    --fa-surface: #211621;
+    --fa-text: #f2e2ec;
+    --fa-text-muted: #c0a6b8;
+    --fa-border: #4a3040;
+    --fa-border-focus: #c96a97;
+    --fa-footer: #241825;
+    --fa-primary-dark: #cf8fae;
+    --fa-accent-dark: #8fb384;
+    --fa-alert-danger-bg: rgba(179, 57, 47, 0.22);
+    --fa-alert-success-bg: rgba(90, 143, 79, 0.22);
+    --fa-alert-info-bg: rgba(162, 74, 120, 0.22);
+}
+
+:root[data-fa-palette="midwest-winter"][data-theme="dark"] {
+    --fa-cream: #0f161c;
+    --fa-surface: #172029;
+    --fa-text: #e7edf1;
+    --fa-text-muted: #a9b7c0;
+    --fa-border: #33434f;
+    --fa-border-focus: #4f7a94;
+    --fa-footer: #1a2530;
+    --fa-primary-dark: #7098af;
+    --fa-accent-dark: #7a9a7e;
+    --fa-alert-danger-bg: rgba(156, 59, 48, 0.22);
+    --fa-alert-success-bg: rgba(63, 92, 66, 0.22);
+    --fa-alert-info-bg: rgba(61, 90, 115, 0.22);
+}
+
+:root[data-fa-palette="southeast-beach"][data-theme="dark"] {
+    --fa-cream: #14100a;
+    --fa-surface: #1e170f;
+    --fa-text: #f2e9d8;
+    --fa-text-muted: #beae94;
+    --fa-border: #423a28;
+    --fa-border-focus: #3ba6a3;
+    --fa-footer: #221b12;
+    --fa-primary-dark: #6bbdbb;
+    --fa-accent-dark: #a7bb84;
+    --fa-alert-danger-bg: rgba(217, 99, 74, 0.22);
+    --fa-alert-success-bg: rgba(122, 148, 87, 0.22);
+    --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
+}
+
+/* --- Same dark values again, gated on prefers-color-scheme instead of an explicit
+   data-theme="dark" — the OS-level fallback before any explicit mode choice. --- */
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]):not([data-theme="colorblind"]) {
@@ -92,16 +279,81 @@
         --fa-alert-success-bg: rgba(107, 122, 62, 0.22);
         --fa-alert-info-bg: rgba(191, 91, 38, 0.22);
     }
+
+    :root[data-fa-palette="southwest-summer"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #17140f;
+        --fa-surface: #221d15;
+        --fa-text: #f0ece2;
+        --fa-text-muted: #beb5a4;
+        --fa-border: #4a4030;
+        --fa-border-focus: #2f96c9;
+        --fa-footer: #1f1b12;
+        --fa-primary-dark: #6bb0d1;
+        --fa-accent-dark: #a985c9;
+        --fa-alert-danger-bg: rgba(178, 58, 40, 0.22);
+        --fa-alert-success-bg: rgba(122, 79, 158, 0.22);
+        --fa-alert-info-bg: rgba(31, 119, 168, 0.22);
+    }
+
+    :root[data-fa-palette="northeast-spring"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #170f14;
+        --fa-surface: #211621;
+        --fa-text: #f2e2ec;
+        --fa-text-muted: #c0a6b8;
+        --fa-border: #4a3040;
+        --fa-border-focus: #c96a97;
+        --fa-footer: #241825;
+        --fa-primary-dark: #cf8fae;
+        --fa-accent-dark: #8fb384;
+        --fa-alert-danger-bg: rgba(179, 57, 47, 0.22);
+        --fa-alert-success-bg: rgba(90, 143, 79, 0.22);
+        --fa-alert-info-bg: rgba(162, 74, 120, 0.22);
+    }
+
+    :root[data-fa-palette="midwest-winter"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f161c;
+        --fa-surface: #172029;
+        --fa-text: #e7edf1;
+        --fa-text-muted: #a9b7c0;
+        --fa-border: #33434f;
+        --fa-border-focus: #4f7a94;
+        --fa-footer: #1a2530;
+        --fa-primary-dark: #7098af;
+        --fa-accent-dark: #7a9a7e;
+        --fa-alert-danger-bg: rgba(156, 59, 48, 0.22);
+        --fa-alert-success-bg: rgba(63, 92, 66, 0.22);
+        --fa-alert-info-bg: rgba(61, 90, 115, 0.22);
+    }
+
+    :root[data-fa-palette="southeast-beach"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #14100a;
+        --fa-surface: #1e170f;
+        --fa-text: #f2e9d8;
+        --fa-text-muted: #beae94;
+        --fa-border: #423a28;
+        --fa-border-focus: #3ba6a3;
+        --fa-footer: #221b12;
+        --fa-primary-dark: #6bbdbb;
+        --fa-accent-dark: #a7bb84;
+        --fa-alert-danger-bg: rgba(217, 99, 74, 0.22);
+        --fa-alert-success-bg: rgba(122, 148, 87, 0.22);
+        --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
+    }
 }
 
-/* Colorblind-safe: swaps the two colors that matter most — Fern Moss's green and
-   Vine Maple Ember's red-orange are the pair most likely to collapse into each
-   other under red-green color vision deficiency (deuteranopia/protanopia, ~8% of
-   men). The accent moves to a teal that's distinguishable from red under every
-   common CVD type, not just fine-tuned within the red-green axis; danger moves to
-   a darker, more desaturated red so it stays readable as "darker/more urgent"
-   even when its hue is hard to place. Burnt orange itself is left alone — it's
-   the brand, and orange survives all three common CVD types reasonably well. */
+/* Colorblind-safe: swaps the two colors that matter most, the same way regardless
+   of which palette is active — deliberately palette-agnostic (this block must stay
+   *after* the palette blocks above so it wins the equal-specificity, single-
+   attribute tie against whichever data-fa-palette is set). A theme's own accent/
+   danger hues are exactly what colorblind mode exists to override, so reusing one
+   known-safe pair everywhere is the point, not a shortcut: green and red-orange are
+   the pair most likely to collapse into each other under red-green color vision
+   deficiency (deuteranopia/protanopia, ~8% of men) in every one of these palettes,
+   not just Northwest Fall's. The accent moves to a teal that's distinguishable from
+   red under every common CVD type, not just fine-tuned within the red-green axis;
+   danger moves to a darker, more desaturated red so it stays readable as "darker/
+   more urgent" even when its hue is hard to place. Each palette's primary is left
+   alone — it's the brand color, not part of the red/green confusion pair. */
 :root[data-theme="colorblind"] {
     --fa-accent: #14776b;
     --fa-accent-dark: #0d554c;
@@ -615,6 +867,190 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
     font-size: 0.82rem;
 }
 
+/* ============================= Date picker ============================= */
+
+.fa-datepicker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.4rem 0.7rem;
+    box-shadow: var(--fa-border-glow);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-datepicker:focus-within {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-datepicker-fields {
+    display: flex;
+    align-items: center;
+}
+
+.fa-datepicker-input {
+    width: 2.2ch;
+    border: none;
+    background: transparent;
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    text-align: center;
+}
+
+    .fa-datepicker-input:last-child {
+        width: 4ch;
+    }
+
+    .fa-datepicker-input:focus {
+        outline: none;
+    }
+
+.fa-datepicker-separator {
+    color: var(--fa-text-muted);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.fa-datepicker-toggle {
+    display: inline-flex;
+    border: none;
+    background: none;
+    padding: 0.1rem;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* --- Floating label, same idea as the plain .fa-label but overlapping the border --- */
+.fa-datepicker-floating {
+    min-height: 3.2em;
+}
+
+.fa-datepicker-floating-label {
+    position: absolute;
+    top: -0.6rem;
+    left: 0.6rem;
+    font-size: 0.7rem;
+    background: var(--fa-surface);
+    padding: 0 0.3rem;
+    border-radius: var(--fa-radius-sm);
+}
+
+/* --- Popup: a plain Blazor bool (FaDatePicker._isOpen) drives this class — no JS
+   needed to open/close it, just to size/position it would need extra work this
+   component intentionally skips (see FaDatePicker.cs remarks). Always rendered,
+   just hidden, so no @ref remount churn between opens. --- */
+.fa-datepicker-calendar {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    margin-top: 0.4rem;
+    width: 17rem;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    box-shadow: var(--fa-border-glow);
+    padding: 0.6rem;
+}
+
+    .fa-datepicker-calendar.fa-datepicker-calendar-open {
+        display: block;
+    }
+
+.fa-datepicker-calendar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.fa-datepicker-calendar-month {
+    font-weight: 700;
+    color: var(--fa-primary-dark);
+    flex: 1;
+    text-align: center;
+}
+
+.fa-datepicker-calendar-year {
+    width: 4.5rem;
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    padding: 0.15rem 0.3rem;
+    font-family: var(--fa-font);
+    color: var(--fa-text);
+    background: var(--fa-surface);
+}
+
+.fa-datepicker-calendar-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.fa-datepicker-calendar-weekdays, .fa-datepicker-calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+}
+
+.fa-datepicker-calendar-weekdays span {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--fa-text-muted);
+}
+
+.fa-datepicker-day {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: var(--fa-radius-sm);
+    background: none;
+    color: var(--fa-text);
+    cursor: pointer;
+}
+
+    .fa-datepicker-day:hover:not(:disabled) {
+        background: rgba(232, 135, 61, 0.15);
+    }
+
+    .fa-datepicker-day:disabled {
+        color: var(--fa-text-muted);
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .fa-datepicker-day-selected {
+        background: var(--fa-primary);
+        color: var(--fa-text-on-primary);
+    }
+
+.fa-datepicker-calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--fa-border);
+}
+
+.fa-datepicker-calendar-footer-btn {
+    border: none;
+    background: none;
+    color: var(--fa-primary-dark);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
 /* ============================= Toggle ============================= */
 
 /* One shared border around the toggle button and, when it's showing, its companion
@@ -726,6 +1162,89 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
         color: var(--fa-text-muted);
         opacity: 0.7;
     }
+
+/* ============================= Textarea ============================= */
+
+.fa-textarea {
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.5rem 0.9rem;
+    box-shadow: var(--fa-border-glow);
+    resize: vertical;
+    min-height: 6rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-textarea:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-textarea-readonly {
+    white-space: pre-wrap;
+    border-color: transparent;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+}
+
+.fa-textarea-counter {
+    align-self: flex-end;
+    font-size: 0.75rem;
+    color: var(--fa-text-muted);
+}
+
+/* ============================= Checkbox & radio ============================= */
+
+.fa-checkbox, .fa-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.fa-checkbox-input, .fa-radio-input {
+    accent-color: var(--fa-primary);
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+}
+
+.fa-checkbox-label, .fa-radio-label {
+    font-size: 0.95rem;
+    color: var(--fa-text);
+}
+
+.fa-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* ============================= File & currency ============================= */
+
+.fa-file-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.fa-file-input {
+    font-family: var(--fa-font);
+    color: var(--fa-text);
+}
+
+.fa-currency-input {
+    text-align: right;
+}
 
 /* ============================= Table ============================= */
 

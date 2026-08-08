@@ -44,7 +44,7 @@ Consequences for any change here:
   component," they're independent decisions.
 - **`theme.js`/`sidebar.js` are plain vanilla JS, not Blazor JS interop** — IIFEs using
   only `localStorage`/`document.documentElement`, invoked via plain `onclick="..."`
-  HTML attributes (`ThemeSwitcher.razor`, `AppSidebar.razor`), not
+  HTML attributes (`ThemeSwitcher.cs`, `AppSidebar.cs`), not
   `IJSRuntime.InvokeVoidAsync`. This is deliberate: collapsed/expanded and
   light/dark/colorblind are pure client-side UI state with nothing to keep in sync on
   the Blazor side. Keep new purely-visual client state in this style rather than
@@ -56,6 +56,45 @@ Consequences for any change here:
 - **No license is set yet** (`FactoryAspects.csproj`'s `PackageLicenseExpression` is
   intentionally absent) — pick one before this is relied on by any consumer outside
   `bencalvin`'s own accounts.
+
+## Component authoring: C# builder, not markup
+
+Components are authored as plain C# — `ComponentBase`/`InputBase<TValue>` subclasses
+overriding `BuildRenderTree(RenderTreeBuilder builder)` directly — not `.razor` markup
+files. This applies to every component in `Components/`, `Layout/`, and `Icons/`.
+(`_Imports.razor` is project config, not a component, and stays.) Rules that keep this
+style from degrading into the mess it was ported out of:
+
+- **Stable ids are field initializers, generated once, never regenerated inside
+  `BuildRenderTree`/`OnParametersSet`/any per-render path.** e.g. `private readonly
+  string _id = $"fa-input-{Guid.NewGuid():N}";`. A `Guid.NewGuid()` called during
+  render produces a new id on every re-render, which silently breaks anything that
+  keys off that id — `@key` diffing, JS `getElementById` lookups, `<label for>`
+  pairing. This was the single most common bug in the two source libraries this
+  project's components were ported/rewritten from — don't reintroduce it.
+- **Class-list building goes through `Internal.ClassNames.Combine(...)`**
+  (`Internal/ClassNames.cs`) instead of ad hoc string concatenation repeated in every
+  component — `ClassNames.Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null,
+  CssClass)`. Named `ClassNames`, not `CssClass` — most components have a `CssClass`
+  parameter, which would shadow a same-named type inside their own methods. Preserve
+  each component's existing attribute-splat order when converting
+  it (explicit attributes vs. `builder.AddMultipleAttributes(AdditionalAttributes)`) —
+  don't silently change which one wins if a caller passes a conflicting `class` via
+  `AdditionalAttributes`.
+- **Swappable string/formatting behavior goes through an injected interface**
+  (`[Inject] ISomeService`), not `new SomeHelper()` constructed inline inside the
+  component — keeps it consumer-overridable and testable.
+- **Vanilla-JS, not Blazor JS interop, for client-only visual state** — same rule as
+  `theme.js`/`sidebar.js` above: plain IIFEs wired via `onclick`/data attributes, no
+  `IJSRuntime.InvokeVoidAsync`/`[JSInvokable]`. But check for a pure-Blazor answer
+  first, since one often exists and needs no JS file at all: `FaDatePicker`'s calendar
+  popup looks JS-shaped (open/close, outside-click-to-close, positioning) but ships
+  with zero JavaScript — open/closed is a plain bool field, and "close when focus
+  leaves the control" is a native `@onfocusout` + short grace-period delay (so a
+  `focusin` on a sibling field inside the same control cancels the pending close)
+  instead of a document click listener reaching back into Blazor over JS interop. Only
+  reach for a `wwwroot/js/<component>.js` IIFE when the behavior genuinely can't be
+  expressed in Blazor's own event model.
 
 ## Branching: dev → test → main
 
@@ -87,21 +126,50 @@ against forgetting to bump `<Version>` before a `test → main` merge.
 `.github/workflows/ci.yml` builds + packs (no publish) on every push/PR to `dev`,
 `test`, and `main` as a sanity check.
 
+## Themes
+
+Five palettes, all in the one `theme.css` (settled: not separate stylesheets per
+theme), picked via `data-fa-palette` on `<html>` — `northwest-fall` (default, no
+attribute needed), `southwest-summer`, `northeast-spring`, `midwest-winter`,
+`southeast-beach`. This is a second, independent axis from the existing light/dark/
+colorblind `data-theme` mode switch — every palette × mode combination has to work,
+which is why each palette needs its own dark-mode block
+(`:root[data-fa-palette="X"][data-theme="dark"]`, plus the `prefers-color-scheme`
+equivalent) rather than just a light-mode override. Colorblind mode stays
+palette-agnostic on purpose (see its comment in `theme.css`) — one known-safe
+accent/danger substitution reused across every palette, not five separate ones.
+
+`js/theme.js`'s `window.faSetPalette(name)` mirrors `window.faSetTheme(...)`:
+persists to `localStorage` (`fa-palette` key) and stamps/removes the attribute. No
+bundled `<PaletteSwitcher>` component exists yet — README's "Choosing a theme" covers
+both the build-time (hardcode the attribute) and runtime (call `faSetPalette`) paths a
+consumer has today.
+
+Each palette's color choices are worked out first in `.themes/` at the repo root — a
+**gitignored**, local-only folder of Markdown design docs (one file per theme, a
+`--fa-*` variable → hex table each), not shipped in the package and not committed. Once
+a palette is wired into `theme.css` (all five are, as of this writing), `.themes/`'s
+copy of that palette is just historical design rationale, not the source of truth —
+`theme.css` is. Don't assume `.themes/` exists when cloning fresh elsewhere; it's local
+reference material, regenerate it (or ask) rather than expecting it to already be
+there, and don't treat its absence as a sign a palette isn't real — check `theme.css`.
+
 ## Components inventory
 
 See `README.md`'s "What's in here" section — keep both in sync when adding/removing a
 component (this file for contributor-facing rules, the README for consumer-facing
 docs).
 
-`FaToggle<TValue>` (`Components/FaToggle.razor`) is the one component with real
-runtime validation: it throws `ArgumentException` in `OnParametersSet` if fewer than
-two `Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
+`FaToggle<TValue>` (`Components/FaToggle.cs`) is the one component with real runtime
+validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two
+`Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
 Value)>` — a `System.ValueTuple`, deliberately not a custom DTO type, to avoid forcing
 consumers to reference a FactoryAspects-specific model type just to build a list of
-options.
+options. `FaRadioGroup<TValue>` mirrors the same Options-tuple shape.
 
-`FaInput<TValue>`/`FaSelect<TValue>` are the only `InputBase<TValue>`-derived
-components — they only work inside an `EditForm`/`EditContext`. As of the split from
-FinanceApp, nothing in that example consumer used `EditForm`, so these two were
-unexercised there — don't assume they're wired into any particular consumer just
-because they exist here.
+`FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea`, `FaCheckbox`, `FaDatePicker`, and
+`FaCurrency` are all `InputBase<TValue>`-derived (directly or via `InputTextArea`/
+`InputCheckbox`) — they only work inside an `EditForm`/`EditContext`. As of the split
+from FinanceApp, nothing in that example consumer used `EditForm`, so none of these
+were exercised there — don't assume any of them are wired into any particular consumer
+just because they exist here.
