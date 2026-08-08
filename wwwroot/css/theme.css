@@ -911,6 +911,70 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
         opacity: 0.7;
     }
 
+/* ============================= Textarea ============================= */
+
+.fa-textarea {
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.5rem 0.9rem;
+    box-shadow: var(--fa-border-glow);
+    resize: vertical;
+    min-height: 6rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-textarea:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-textarea-readonly {
+    white-space: pre-wrap;
+    border-color: transparent;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+}
+
+.fa-textarea-counter {
+    align-self: flex-end;
+    font-size: 0.75rem;
+    color: var(--fa-text-muted);
+}
+
+/* ============================= Checkbox & radio ============================= */
+
+.fa-checkbox, .fa-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.fa-checkbox-input, .fa-radio-input {
+    accent-color: var(--fa-primary);
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+}
+
+.fa-checkbox-label, .fa-radio-label {
+    font-size: 0.95rem;
+    color: var(--fa-text);
+}
+
+.fa-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
 /* ============================= Table ============================= */
 
 .fa-table {
