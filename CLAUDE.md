@@ -1,39 +1,47 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in
-this directory.
+this repository.
 
-Read the root `CLAUDE.md` first for the overall architecture. This file covers what's
-specific to FinanceApp.UI.
+This is `FactoryAspects` — a standalone Blazor Razor Class Library, split out of the
+[FinanceApp](https://github.com/bencalvin/FinanceApp) monorepo (full history carried
+over via `git subtree split`) into its own repo/package. There is no root/monorepo
+CLAUDE.md above this one to read first; this file is the whole picture.
 
 ## This project ships standalone — treat it that way
 
-FinanceApp.UI is a generic Blazor Razor Class Library, built on the assumption it will
-eventually be consumed outside this repo (as a NuGet package, or imported as source),
-not just via `FinanceApp.Web`'s `<ProjectReference>`. See `README.md` in this directory
-for the consumer-facing docs (install steps, required manual asset wiring, component
-inventory) — that file is packed into the `.nupkg` itself (`PackageReadmeFile`), so
-keep it accurate, not just this CLAUDE.md.
+Built on the assumption it's consumed outside any one app — as a package (currently
+via **GitHub Packages**, `https://nuget.pkg.github.com/bencalvin/index.json`, not
+NuGet.org), or imported as source. See `README.md` for the consumer-facing docs
+(install steps, required manual asset wiring, component inventory) — that file is
+packed into the `.nupkg` itself (`PackageReadmeFile`), so keep it accurate, not just
+this CLAUDE.md.
 
 Consequences for any change here:
 
-- **No app-specific coupling, ever.** No `using FinanceApp.Shared`/`FinanceApp.Web`,
-  no reference to `UserId`/`AccountId`/`Transaction`/`Category`/`Payer`/`Budget`/etc.,
-  no `ProjectReference` to any other FinanceApp project. If a component needs data or
-  behavior, it comes in via a `[Parameter]`/`EventCallback`, full stop. This has held
-  since the project's first commit — keep it that way rather than reaching for "just
-  this once" convenience access to app types.
+- **No app-specific coupling, ever.** No reference to any consuming app's project or
+  type (e.g. FinanceApp's `FinanceApp.Shared`/`.Web`, or concepts like `UserId`/
+  `AccountId`/`Transaction`/`Category`/`Payer`/`Budget`), no `ProjectReference` to
+  anything outside this repo. If a component needs data or behavior, it comes in via
+  a `[Parameter]`/`EventCallback`, full stop. This has held since the project existed
+  (originally as `FinanceApp.UI` inside the FinanceApp monorepo) — keep it that way
+  rather than reaching for "just this once" convenience access to some consumer's
+  types.
 - **No hardcoded brand/app defaults.** `BrandText` on `AppHeader`/`AppFooter`/
   `SidebarShell`/`StandardShell` is `[Parameter, EditorRequired]` with an empty-string
-  default, not `= "FinanceApp"` — the consuming app always supplies its own (see
-  `FinanceApp.Web`'s `MainLayout.razor`, which passes `BrandText="FinanceApp"`
-  explicitly to `SidebarShell`). Follow the same pattern for any new parameter that
-  would otherwise bake in FinanceApp's own branding/copy.
-- **`PackageId` (`FinanceApp.UI.csproj`) is pinned to `FinanceApp.UI`.** Razor Class
-  Library static assets are served at `_content/{PackageId}/...` — `theme.css`/
-  `theme.js`/`sidebar.js` are referenced that way from `FinanceApp.Web/wwwroot/
-  index.html`. Renaming `PackageId` without updating every one of those references
-  (here and in any other consumer) silently 404s the CSS/JS with no obvious error.
+  default — every consumer supplies its own (FinanceApp.Web's `MainLayout.razor`
+  passes `BrandText="FinanceApp"` explicitly to `SidebarShell`, for example). Follow
+  the same pattern for any new parameter that would otherwise bake in one consumer's
+  branding/copy.
+- **`PackageId` (`FactoryAspects.csproj`) is pinned to `FactoryAspects`, and
+  `RootNamespace`/`AssemblyName` match it too.** Razor Class Library static assets are
+  served at `_content/{PackageId}/...` — `theme.css`/`theme.js`/`sidebar.js` are
+  referenced that way from every consumer's `index.html`. Renaming `PackageId`
+  without updating every one of those references (in every consumer) silently 404s
+  the CSS/JS with no obvious error. Component/type names themselves (`FaButton`,
+  `FaCard`, `FaToggle<TValue>`, `FaIcon`, ...) are a separate concern from the
+  package/namespace identity — don't conflate "rename the package" with "rename a
+  component," they're independent decisions.
 - **`theme.js`/`sidebar.js` are plain vanilla JS, not Blazor JS interop** — IIFEs using
   only `localStorage`/`document.documentElement`, invoked via plain `onclick="..."`
   HTML attributes (`ThemeSwitcher.razor`, `AppSidebar.razor`), not
@@ -42,12 +50,21 @@ Consequences for any change here:
   the Blazor side. Keep new purely-visual client state in this style rather than
   wiring up JS interop for it.
 - **RCL static assets aren't auto-injected into the host page.** Adding a new CSS/JS
-  file here means the README's install snippet (and any real consumer's `index.html`)
-  needs the corresponding `<link>`/`<script>` tag added by hand — `dotnet pack`
-  bundles the file, it doesn't wire up the tag for you.
-- **No license is set yet** (`FinanceApp.UI.csproj`'s `PackageLicenseExpression` is
-  intentionally absent) — pick one before actually publishing a `.nupkg` anywhere a
-  real external consumer would depend on it.
+  file here means the README's install snippet (and every real consumer's
+  `index.html`) needs the corresponding `<link>`/`<script>` tag added by hand —
+  `dotnet pack` bundles the file, it doesn't wire up the tag for you.
+- **No license is set yet** (`FactoryAspects.csproj`'s `PackageLicenseExpression` is
+  intentionally absent) — pick one before this is relied on by any consumer outside
+  `bencalvin`'s own accounts.
+
+## Publishing
+
+`.github/workflows/publish.yml` packs and pushes to GitHub Packages on every push to
+`main`, using the workflow's own `GITHUB_TOKEN` (`permissions: packages: write`) — no
+manual PAT needed to publish. Bump `<Version>` in `FactoryAspects.csproj` before a
+push that should actually ship a new version; GitHub Packages rejects re-publishing an
+existing version number. `.github/workflows/ci.yml` builds + packs (no publish) on
+every push/PR as a sanity check.
 
 ## Components inventory
 
@@ -59,11 +76,11 @@ docs).
 runtime validation: it throws `ArgumentException` in `OnParametersSet` if fewer than
 two `Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
 Value)>` — a `System.ValueTuple`, deliberately not a custom DTO type, to avoid forcing
-consumers to reference a FinanceApp.UI-specific model type just to build a list of
+consumers to reference a FactoryAspects-specific model type just to build a list of
 options.
 
 `FaInput<TValue>`/`FaSelect<TValue>` are the only `InputBase<TValue>`-derived
-components — they only work inside an `EditForm`/`EditContext`. Nothing in
-`FinanceApp.Web` uses `EditForm` today (see that project's `CLAUDE.md`), so these two
-are currently unexercised by the real app; don't assume they're wired into anything
-just because they exist.
+components — they only work inside an `EditForm`/`EditContext`. As of the split from
+FinanceApp, nothing in that example consumer used `EditForm`, so these two were
+unexercised there — don't assume they're wired into any particular consumer just
+because they exist here.

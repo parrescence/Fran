@@ -1,4 +1,4 @@
-namespace FinanceApp.UI.Components;
+namespace FactoryAspects.Components;
 
 public enum FaAlertVariant
 {

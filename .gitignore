@@ -1,0 +1,10 @@
+# .NET build output
+bin/
+obj/
+*.user
+.vs/
+
+# Packed output from local `dotnet pack` testing
+artifacts/
+*.nupkg
+*.snupkg

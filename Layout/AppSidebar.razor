@@ -1,6 +1,6 @@
 @* Left sidebar shell — same background color as the header by design.
    Nav links go through ChildContent; the app's own NavMenu supplies them
-   (see FinanceApp.Web's NavMenu.razor for the real links + auth-aware admin check).
+   (e.g. FinanceApp.Web's NavMenu.razor, an example consumer, for real links + auth-aware admin check).
 
    The collapse toggle is deliberately plain JS (onclick -> window.faToggleSidebar,
    see js/sidebar.js), same reasoning as ThemeSwitcher: collapsed/expanded is pure

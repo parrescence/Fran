@@ -1,4 +1,4 @@
-namespace FinanceApp.UI.Icons;
+namespace FactoryAspects.Icons;
 
 public enum FaIconColor
 {

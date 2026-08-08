@@ -1,0 +1,39 @@
+name: Publish to GitHub Packages
+
+# Every push to main packs and pushes to GitHub Packages. GitHub Packages rejects
+# re-publishing an already-existing version, so a push that doesn't bump <Version> in
+# FactoryAspects.csproj will fail this step — bump it first when you actually want to
+# ship a new version, not just merge a change.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  packages: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore FactoryAspects.csproj
+
+      - name: Pack
+        run: dotnet pack FactoryAspects.csproj --configuration Release -o ./artifacts
+
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --source https://nuget.pkg.github.com/bencalvin/index.json \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate
