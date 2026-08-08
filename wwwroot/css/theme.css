@@ -345,28 +345,35 @@ html.fa-sidebar-collapsed .fa-sidebar-toggle svg {
         box-shadow: inset 0 0 0 2px var(--fa-glow);
     }
 
-/* max-width (not display:none) so collapsing reads as the label sliding away/getting
-   covered as the sidebar narrows, in step with .fa-sidebar's own width transition,
-   instead of the text just vanishing the instant the class flips. */
+/* max-width (not display:none, and no opacity fade) so collapsing reads as the
+   sidebar's edge closing directly over the label — text stays fully opaque and gets
+   clipped by overflow:hidden as max-width shrinks, down to just the first letter or
+   two, rather than fading out independently of the width animation. */
 .fa-sidebar-link-text {
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     max-width: 160px;
-    opacity: 1;
-    transition: max-width 0.2s ease, opacity 0.15s ease;
+    transition: max-width 0.2s ease;
 }
 
 html.fa-sidebar-collapsed .fa-sidebar-link {
-    justify-content: center;
     gap: 0;
     padding-left: 0.6rem;
     padding-right: 0.6rem;
 }
 
+/* justify-content isn't animatable, so centering the icon has to be a discrete jump —
+   applying it via this separate class (added by js/sidebar.js only once the label has
+   actually finished collapsing) instead of directly off .fa-sidebar-collapsed keeps
+   that jump from happening at the same instant the collapse starts, which read as the
+   icon recentering before the text had visually finished closing. */
+html.fa-sidebar-collapsed-settled .fa-sidebar-link {
+    justify-content: center;
+}
+
 html.fa-sidebar-collapsed .fa-sidebar-link-text {
     max-width: 0;
-    opacity: 0;
 }
 
 /* The "really cool" tooltip: a small pill in the app's own palette, not the browser's
@@ -1186,8 +1193,9 @@ code {
     }
 
     /* Mobile ignores the collapse state entirely — undo the desktop-collapsed
-       tightened gap/padding/centering along with the text's max-width/opacity. */
-    html.fa-sidebar-collapsed .fa-sidebar-link {
+       tightened gap/padding/centering along with the text's max-width. */
+    html.fa-sidebar-collapsed .fa-sidebar-link,
+    html.fa-sidebar-collapsed-settled .fa-sidebar-link {
         justify-content: flex-start;
         gap: 0.6rem;
         padding-left: 0.9rem;
@@ -1196,7 +1204,6 @@ code {
 
     html.fa-sidebar-collapsed .fa-sidebar-link-text {
         max-width: none;
-        opacity: 1;
     }
 
     html.fa-sidebar-collapsed .fa-sidebar-link::after {
