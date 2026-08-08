@@ -57,14 +57,35 @@ Consequences for any change here:
   intentionally absent) — pick one before this is relied on by any consumer outside
   `bencalvin`'s own accounts.
 
+## Branching: dev → test → main
+
+Three long-lived branches, one direction of flow:
+
+- **`dev`** — the default branch on GitHub, and where day-to-day work happens.
+  Feature branches merge here first.
+- **`test`** — a gate before `main`. Only reachable via a PR from `dev`.
+- **`main`** — what consumers actually pull the package from. Only reachable via a
+  PR from `test`. Nothing lands here directly.
+
+`test` and `main` are both branch-protected: no direct pushes, a PR is required, and
+the `build-and-pack` CI check (`.github/workflows/ci.yml`) must pass before merging.
+Required approving reviews are set to 0 (solo maintainer today) — so a green CI check
+is what actually gates the merge, not a second pair of eyes. If collaborators join,
+raise `required_approving_review_count` on both branches' protection rules.
+
 ## Publishing
 
-`.github/workflows/publish.yml` packs and pushes to GitHub Packages on every push to
-`main`, using the workflow's own `GITHUB_TOKEN` (`permissions: packages: write`) — no
-manual PAT needed to publish. Bump `<Version>` in `FactoryAspects.csproj` before a
-push that should actually ship a new version; GitHub Packages rejects re-publishing an
-existing version number. `.github/workflows/ci.yml` builds + packs (no publish) on
-every push/PR as a sanity check.
+Bump `<Version>` in `FactoryAspects.csproj` as part of normal `dev` work (semantic
+`major.minor.hotfix`, e.g. `0.1.0`) — that version rides unchanged through the
+`dev → test → main` promotion; don't bump it again at the `test → main` step.
+
+`.github/workflows/publish.yml` packs and pushes to GitHub Packages, but **only on
+push to `main`**, using the workflow's own `GITHUB_TOKEN` (`permissions: packages:
+write`) — no manual PAT needed. `dev` and `test` never publish a package; GitHub
+Packages rejects re-publishing an existing version number, which is the real backstop
+against forgetting to bump `<Version>` before a `test → main` merge.
+`.github/workflows/ci.yml` builds + packs (no publish) on every push/PR to `dev`,
+`test`, and `main` as a sanity check.
 
 ## Components inventory
 
