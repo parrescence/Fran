@@ -283,7 +283,10 @@ html.fa-sidebar-collapsed .fa-sidebar {
 
 .fa-sidebar-toggle {
     position: absolute;
-    top: 1.1rem;
+    /* Sits right at the sidebar's top edge and pokes up a little over the header
+       above it (.fa-header has no z-index/positioning of its own, so a positioned
+       descendant like this paints above it without needing a very high z-index). */
+    top: -0.65rem;
     right: -0.85rem;
     width: 1.7rem;
     height: 1.7rem;
