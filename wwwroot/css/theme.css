@@ -73,27 +73,35 @@
    ignored, local design docs) for the reasoning behind each palette's color choices. --- */
 
 :root[data-fa-palette="southwest-summer"] {
-    --fa-primary: #c2603f;          /* Adobe Terracotta */
-    --fa-primary-dark: #8f4025;
-    --fa-primary-light: #dd9270;
-    --fa-footer: #f2e2c8;
-    --fa-glow: #d97847;
-    --fa-gold: #d4a13a;              /* Sun-Baked Ochre */
-    --fa-accent: #7a8f6a;            /* Desert Sage */
-    --fa-accent-dark: #566b4a;
-    --fa-ember: #b3382a;             /* Ocotillo Red */
-    --fa-wine: #6b2318;              /* Prickly-Pear Wine */
-    --fa-fir: #2f3347;               /* Desert Dusk Shadow */
-    --fa-cream: #fbf1e0;
-    --fa-surface: #fffaf2;
-    --fa-text: #3a2417;
-    --fa-text-muted: #8a7460;
-    --fa-text-on-primary: #fff8ef;
-    --fa-border: #e0b98f;
-    --fa-border-focus: #8f4025;
-    --fa-alert-danger-bg: #f9e4df;
-    --fa-alert-success-bg: #eef1e8;
-    --fa-alert-info-bg: #fbeee0;
+    /* Redone from an early "same terracotta family as Northwest Fall" first draft,
+       which read as too close to the default theme to tell apart at a glance. This
+       version pulls from three different things instead of one: Sea of Cortez/Baja
+       ocean blue for primary (a genuinely different hue family from Fall's burnt
+       orange, and more saturated than Midwest Winter's greyer slate blue so the two
+       don't collapse into each other either), Sonoran Desert wildflowers for gold
+       and accent (marigold yellow, penstemon purple), and canyon sandstone for the
+       danger family. */
+    --fa-primary: #1f77a8;          /* Sea of Cortez Blue */
+    --fa-primary-dark: #164f70;
+    --fa-primary-light: #6bb0d1;
+    --fa-footer: #f0ece0;
+    --fa-glow: #2f96c9;
+    --fa-gold: #e0a940;              /* Desert Marigold */
+    --fa-accent: #7a4f9e;            /* Penstemon Purple */
+    --fa-accent-dark: #573a72;
+    --fa-ember: #b23a28;             /* Canyon Sandstone Red */
+    --fa-wine: #6b2018;              /* Canyon Shadow */
+    --fa-fir: #33283a;               /* Canyon Twilight Shadow */
+    --fa-cream: #faf6ee;
+    --fa-surface: #fffdf8;
+    --fa-text: #2e2a24;
+    --fa-text-muted: #7d766a;
+    --fa-text-on-primary: #f5fbff;
+    --fa-border: #d8d0bc;
+    --fa-border-focus: #164f70;
+    --fa-alert-danger-bg: #f8e3df;
+    --fa-alert-success-bg: #efe6f2;
+    --fa-alert-info-bg: #e2eef4;
 }
 
 :root[data-fa-palette="northeast-spring"] {
@@ -194,18 +202,18 @@
 }
 
 :root[data-fa-palette="southwest-summer"][data-theme="dark"] {
-    --fa-cream: #1c130d;
-    --fa-surface: #26190f;
-    --fa-text: #f3e6d8;
-    --fa-text-muted: #bfa88f;
-    --fa-border: #4a3524;
-    --fa-border-focus: #d97847;
-    --fa-footer: #2a1f14;
-    --fa-primary-dark: #dd9270;
-    --fa-accent-dark: #a8bd97;
-    --fa-alert-danger-bg: rgba(179, 56, 42, 0.22);
-    --fa-alert-success-bg: rgba(122, 143, 106, 0.22);
-    --fa-alert-info-bg: rgba(194, 96, 63, 0.22);
+    --fa-cream: #17140f;
+    --fa-surface: #221d15;
+    --fa-text: #f0ece2;
+    --fa-text-muted: #beb5a4;
+    --fa-border: #4a4030;
+    --fa-border-focus: #2f96c9;
+    --fa-footer: #1f1b12;
+    --fa-primary-dark: #6bb0d1;
+    --fa-accent-dark: #a985c9;
+    --fa-alert-danger-bg: rgba(178, 58, 40, 0.22);
+    --fa-alert-success-bg: rgba(122, 79, 158, 0.22);
+    --fa-alert-info-bg: rgba(31, 119, 168, 0.22);
 }
 
 :root[data-fa-palette="northeast-spring"][data-theme="dark"] {
@@ -273,18 +281,18 @@
     }
 
     :root[data-fa-palette="southwest-summer"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
-        --fa-cream: #1c130d;
-        --fa-surface: #26190f;
-        --fa-text: #f3e6d8;
-        --fa-text-muted: #bfa88f;
-        --fa-border: #4a3524;
-        --fa-border-focus: #d97847;
-        --fa-footer: #2a1f14;
-        --fa-primary-dark: #dd9270;
-        --fa-accent-dark: #a8bd97;
-        --fa-alert-danger-bg: rgba(179, 56, 42, 0.22);
-        --fa-alert-success-bg: rgba(122, 143, 106, 0.22);
-        --fa-alert-info-bg: rgba(194, 96, 63, 0.22);
+        --fa-cream: #17140f;
+        --fa-surface: #221d15;
+        --fa-text: #f0ece2;
+        --fa-text-muted: #beb5a4;
+        --fa-border: #4a4030;
+        --fa-border-focus: #2f96c9;
+        --fa-footer: #1f1b12;
+        --fa-primary-dark: #6bb0d1;
+        --fa-accent-dark: #a985c9;
+        --fa-alert-danger-bg: rgba(178, 58, 40, 0.22);
+        --fa-alert-success-bg: rgba(122, 79, 158, 0.22);
+        --fa-alert-info-bg: rgba(31, 119, 168, 0.22);
     }
 
     :root[data-fa-palette="northeast-spring"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
