@@ -1,5 +1,8 @@
 @* Yes/No switch with an optional companion input shown inline only while the toggle
    is on — e.g. Transactions' "Paid by check?" toggle that reveals a check-number field.
+   The Yes/No text lives inside the toggle button itself, and the whole control (toggle
+   + input, when the input is showing) shares one bordered group instead of the input
+   floating outside with its own separate border.
    Not InputBase-based (that requires an EditContext/EditForm, which nothing in this app
    uses yet — see FaSelect/FaInput) — plain two-way-bindable parameters instead, same
    pattern as FaButton/FaCard. Supports @bind-Value and @bind-InputValue. *@
@@ -9,10 +12,10 @@
     {
         <label class="fa-label">@Label</label>
     }
-    <div class="fa-toggle-row">
+    <div class="fa-toggle-group">
         @if (Value && InputType is not null && InputPosition == FaTogglePosition.Before)
         {
-            <input class="fa-input fa-toggle-input" type="@InputType" placeholder="@InputPlaceholder"
+            <input class="fa-toggle-input fa-toggle-input-before" type="@InputType" placeholder="@InputPlaceholder"
                    value="@InputValue" disabled="@Disabled" @oninput="OnInputChanged" />
         }
 
@@ -23,12 +26,12 @@
                 disabled="@Disabled"
                 @onclick="ToggleAsync">
             <span class="fa-toggle-knob"></span>
+            <span class="fa-toggle-label">@(Value ? OnLabel : OffLabel)</span>
         </button>
-        <span class="fa-toggle-state-label">@(Value ? OnLabel : OffLabel)</span>
 
         @if (Value && InputType is not null && InputPosition == FaTogglePosition.After)
         {
-            <input class="fa-input fa-toggle-input" type="@InputType" placeholder="@InputPlaceholder"
+            <input class="fa-toggle-input" type="@InputType" placeholder="@InputPlaceholder"
                    value="@InputValue" disabled="@Disabled" @oninput="OnInputChanged" />
         }
     </div>

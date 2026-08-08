@@ -598,23 +598,38 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
 
 /* ============================= Toggle ============================= */
 
-.fa-toggle-row {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+/* One shared border around the toggle button and, when it's showing, its companion
+   input — not two separately-bordered controls sitting next to each other. */
+.fa-toggle-group {
+    display: inline-flex;
+    align-items: stretch;
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-pill);
+    background: var(--fa-surface);
+    box-shadow: var(--fa-border-glow);
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+    .fa-toggle-group:focus-within {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
 .fa-toggle {
-    position: relative;
-    width: 42px;
-    height: 24px;
-    flex: 0 0 auto;
-    border-radius: var(--fa-radius-pill);
-    border: 2px solid var(--fa-border);
-    background: var(--fa-surface);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: none;
+    background: transparent;
+    color: var(--fa-text);
+    padding: 0.45rem 0.9rem;
     cursor: pointer;
-    padding: 0;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+    font-family: var(--fa-font);
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
     .fa-toggle:disabled {
@@ -624,40 +639,55 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
 
     .fa-toggle:focus-visible {
         outline: none;
-        border-color: var(--fa-border-focus);
-        box-shadow: var(--fa-border-glow-focus);
     }
 
     .fa-toggle.fa-toggle-on {
         background: var(--fa-accent);
-        border-color: var(--fa-accent);
+        color: var(--fa-text-on-primary);
     }
 
 .fa-toggle-knob {
-    position: absolute;
-    top: 1px;
-    left: 1px;
-    width: 16px;
-    height: 16px;
+    width: 10px;
+    height: 10px;
+    flex: 0 0 auto;
     border-radius: 50%;
-    background: var(--fa-surface);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
-    transition: transform 0.15s ease;
+    background: var(--fa-border);
+    transition: background-color 0.15s ease;
 }
 
 .fa-toggle-on .fa-toggle-knob {
-    transform: translateX(18px);
     background: var(--fa-text-on-primary);
 }
 
-.fa-toggle-state-label {
-    font-size: 0.85rem;
-    color: var(--fa-text-muted);
+.fa-toggle-label {
+    line-height: 1;
 }
 
 .fa-toggle-input {
-    max-width: 160px;
+    flex: 1 1 auto;
+    min-width: 100px;
+    border: none;
+    border-left: 2px solid var(--fa-border);
+    background: transparent;
+    color: var(--fa-text);
+    font-family: var(--fa-font);
+    font-size: 0.9rem;
+    padding: 0.45rem 0.8rem;
 }
+
+    .fa-toggle-input.fa-toggle-input-before {
+        border-left: none;
+        border-right: 2px solid var(--fa-border);
+    }
+
+    .fa-toggle-input:focus {
+        outline: none;
+    }
+
+    .fa-toggle-input::placeholder {
+        color: var(--fa-text-muted);
+        opacity: 0.7;
+    }
 
 /* ============================= Table ============================= */
 
