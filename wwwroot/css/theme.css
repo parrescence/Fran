@@ -630,44 +630,59 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
         width: 100%;
     }
 
-/* The two options are always both visible, active one highlighted — same idea as
-   .fa-theme-switcher/.fa-theme-btn, just text buttons instead of icon buttons. */
+/* The two options are always both visible, active one highlighted — same pattern as
+   .fa-theme-switcher/.fa-theme-btn: an inset row of pill-shaped buttons (not edge-to-
+   edge segments with dividers between them), and instead of a hard fill, the active
+   one gets a shaded moss (accent) capsule behind its label. */
 .fa-toggle-switch {
     display: inline-flex;
-    align-items: stretch;
+    align-items: center;
+    gap: 0.2rem;
     flex: 0 0 auto;
+    padding: 0.2rem;
 }
 
 .fa-toggle-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.3rem;
+    height: 1.9rem;
+    padding: 0 0.75rem;
     border: none;
+    border-radius: var(--fa-radius-pill);
     background: transparent;
     color: var(--fa-text-muted);
-    padding: 0.45rem 0.9rem;
     cursor: pointer;
     font-family: var(--fa-font);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
     white-space: nowrap;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    opacity: 0.7;
+    transition: background-color 0.15s ease, opacity 0.15s ease, color 0.15s ease;
 }
 
-    .fa-toggle-option:not(:first-child) {
-        border-left: 2px solid var(--fa-border);
+    .fa-toggle-option:hover {
+        opacity: 1;
+        background: rgba(107, 122, 62, 0.14);
     }
 
     .fa-toggle-option:disabled {
         cursor: not-allowed;
-        opacity: 0.6;
+        opacity: 0.4;
+        background: transparent;
     }
 
     .fa-toggle-option:focus-visible {
         outline: none;
-        background: rgba(0, 0, 0, 0.06);
+        box-shadow: 0 0 0 2px var(--fa-border-focus);
     }
 
     .fa-toggle-option.fa-toggle-option-active {
+        opacity: 1;
         background: var(--fa-accent);
         color: var(--fa-text-on-primary);
+        box-shadow: 0 0 0 2px var(--fa-accent-dark);
     }
 
 .fa-toggle-input {
