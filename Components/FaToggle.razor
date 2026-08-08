@@ -20,8 +20,9 @@
                    value="@InputValue" disabled="@Disabled" @oninput="OnInputChanged" />
         }
 
-        <div class="fa-toggle-switch" role="group" aria-label="@Label">
+        <div class="fa-toggle-switch" role="group" aria-label="@Label" @onkeydown="HandleKeyDown">
             <button type="button"
+                    @ref="_offButtonRef"
                     class="fa-toggle-option @(!Value ? "fa-toggle-option-active" : null)"
                     aria-pressed="@(!Value ? "true" : "false")"
                     disabled="@Disabled"
@@ -29,6 +30,7 @@
                 @OffLabel
             </button>
             <button type="button"
+                    @ref="_onButtonRef"
                     class="fa-toggle-option @(Value ? "fa-toggle-option-active" : null)"
                     aria-pressed="@(Value ? "true" : "false")"
                     disabled="@Disabled"
@@ -65,6 +67,9 @@
 
     private bool ShowInput => Value && InputType is not null;
 
+    private ElementReference _offButtonRef;
+    private ElementReference _onButtonRef;
+
     private async Task SetValueAsync(bool newValue)
     {
         if (Disabled || Value == newValue)
@@ -72,6 +77,26 @@
 
         Value = newValue;
         await ValueChanged.InvokeAsync(Value);
+    }
+
+    // Left/right arrows move both the selection and focus together, same as a native
+    // radio group — not just Tab between the two buttons.
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (Disabled)
+            return;
+
+        switch (e.Key)
+        {
+            case "ArrowLeft":
+                await SetValueAsync(false);
+                await _offButtonRef.FocusAsync();
+                break;
+            case "ArrowRight":
+                await SetValueAsync(true);
+                await _onButtonRef.FocusAsync();
+                break;
+        }
     }
 
     private async Task OnInputChanged(ChangeEventArgs e)
