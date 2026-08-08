@@ -44,7 +44,7 @@ Consequences for any change here:
   component," they're independent decisions.
 - **`theme.js`/`sidebar.js` are plain vanilla JS, not Blazor JS interop** — IIFEs using
   only `localStorage`/`document.documentElement`, invoked via plain `onclick="..."`
-  HTML attributes (`ThemeSwitcher.razor`, `AppSidebar.razor`), not
+  HTML attributes (`ThemeSwitcher.cs`, `AppSidebar.cs`), not
   `IJSRuntime.InvokeVoidAsync`. This is deliberate: collapsed/expanded and
   light/dark/colorblind are pure client-side UI state with nothing to keep in sync on
   the Blazor side. Keep new purely-visual client state in this style rather than
@@ -86,9 +86,15 @@ style from degrading into the mess it was ported out of:
   component — keeps it consumer-overridable and testable.
 - **Vanilla-JS, not Blazor JS interop, for client-only visual state** — same rule as
   `theme.js`/`sidebar.js` above: plain IIFEs wired via `onclick`/data attributes, no
-  `IJSRuntime.InvokeVoidAsync`/`[JSInvokable]`. If a component needs popup
-  positioning, outside-click-to-close, or similar, it gets its own
-  `wwwroot/js/<component>.js` in this style (see `datepicker.js` for `FaDatePicker`).
+  `IJSRuntime.InvokeVoidAsync`/`[JSInvokable]`. But check for a pure-Blazor answer
+  first, since one often exists and needs no JS file at all: `FaDatePicker`'s calendar
+  popup looks JS-shaped (open/close, outside-click-to-close, positioning) but ships
+  with zero JavaScript — open/closed is a plain bool field, and "close when focus
+  leaves the control" is a native `@onfocusout` + short grace-period delay (so a
+  `focusin` on a sibling field inside the same control cancels the pending close)
+  instead of a document click listener reaching back into Blazor over JS interop. Only
+  reach for a `wwwroot/js/<component>.js` IIFE when the behavior genuinely can't be
+  expressed in Blazor's own event model.
 
 ## Branching: dev → test → main
 
@@ -126,15 +132,16 @@ See `README.md`'s "What's in here" section — keep both in sync when adding/rem
 component (this file for contributor-facing rules, the README for consumer-facing
 docs).
 
-`FaToggle<TValue>` (`Components/FaToggle.razor`) is the one component with real
-runtime validation: it throws `ArgumentException` in `OnParametersSet` if fewer than
-two `Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
+`FaToggle<TValue>` (`Components/FaToggle.cs`) is the one component with real runtime
+validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two
+`Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
 Value)>` — a `System.ValueTuple`, deliberately not a custom DTO type, to avoid forcing
 consumers to reference a FactoryAspects-specific model type just to build a list of
-options.
+options. `FaRadioGroup<TValue>` mirrors the same Options-tuple shape.
 
-`FaInput<TValue>`/`FaSelect<TValue>` are the only `InputBase<TValue>`-derived
-components — they only work inside an `EditForm`/`EditContext`. As of the split from
-FinanceApp, nothing in that example consumer used `EditForm`, so these two were
-unexercised there — don't assume they're wired into any particular consumer just
-because they exist here.
+`FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea`, `FaCheckbox`, `FaDatePicker`, and
+`FaCurrency` are all `InputBase<TValue>`-derived (directly or via `InputTextArea`/
+`InputCheckbox`) — they only work inside an `EditForm`/`EditContext`. As of the split
+from FinanceApp, nothing in that example consumer used `EditForm`, so none of these
+were exercised there — don't assume any of them are wired into any particular consumer
+just because they exist here.

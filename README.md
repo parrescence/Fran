@@ -1,14 +1,17 @@
 # FactoryAspects
 
 A self-contained Blazor Razor Class Library of UI primitives: buttons, cards, alerts,
-badges, a modal, a generic N-option toggle/segmented switch, form inputs, page-shell
-layouts (header/sidebar/footer), a light/dark/colorblind-safe theme switcher, and a
-hand-drawn SVG icon set. No dependency on any other project, database, or web API —
-it renders whatever state/callbacks you pass it and nothing else.
+badges, a modal, a generic N-option toggle/segmented switch, a full set of form inputs
+(text, select, textarea, checkbox, radio group, date picker, file, currency), a table,
+page-shell layouts (header/sidebar/footer), a light/dark/colorblind-safe theme switcher,
+and a hand-drawn SVG icon set. No dependency on any other project, database, or web API
+— it renders whatever state/callbacks you pass it and nothing else.
 
 Every component keeps its original `Fa`-prefixed name (`FaButton`, `FaCard`,
 `FaToggle<TValue>`, `FaIcon`, ...) — only the package/namespace/repo identity is
-`FactoryAspects`.
+`FactoryAspects`. Every component is a plain C# class (`ComponentBase`/
+`InputBase<TValue>` subclass overriding `BuildRenderTree` directly), not `.razor`
+markup — see `CLAUDE.md` if you're contributing.
 
 Originally built inside the [FinanceApp](https://github.com/bencalvin/FinanceApp)
 monorepo (still an example consumer, now via a package reference instead of an in-repo
@@ -77,10 +80,18 @@ still read it once granted that permission). See `FinanceApp`'s `ci.yml`/
 
 ## What's in here
 
-- **Components**: `FaButton`, `FaCard`, `FaAlert`, `FaBadge`, `FaAvatar`, `FaModal`,
-  `FaToggle<TValue>` (pass 2+ `(string Title, TValue Value)` options — see its doc
-  comment), `FaInput<TValue>`/`FaSelect<TValue>` (`InputBase<TValue>`-based, for use
-  inside an `EditForm`), `ThemeSwitcher`.
+- **Components**: `FaButton` (set `Href` to render an anchor styled as a button),
+  `FaCard`, `FaAlert`, `FaBadge`, `FaAvatar`, `FaModal`, `FaTable` (typed
+  `Columns`/`Rows`, renders a real `<table>`), `FaToggle<TValue>` (pass 2+
+  `(string Title, TValue Value)` options — see its doc comment).
+- **Form fields** (all `InputBase<TValue>`-derived, for use inside an `EditForm`):
+  `FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea` (optional maxlength counter /
+  read-only display mode), `FaCheckbox`, `FaRadioGroup<TValue>` (same Options-tuple
+  shape as `FaToggle<TValue>`), `FaDatePicker` (split day/month/year fields + a
+  calendar popup, `Min`/`Max`, optional floating label — no JS interop), `FaFile`
+  (optional `AsButton` styled picker), `FaCurrency` (formatted display / raw entry on
+  focus, no JS interop).
+- **`ThemeSwitcher`**.
 - **Layout**: `AppHeader`, `AppFooter`, `AppSidebar`, `SidebarShell` (header + sidebar
   + content + footer), `StandardShell` (header + content + footer, no sidebar).
 - **Icons**: `FaIcon` + `FaIconName` — a small hand-drawn SVG set (no icon font/
