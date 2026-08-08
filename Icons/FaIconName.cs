@@ -13,5 +13,6 @@ public enum FaIconName
     Eye,
     ChevronLeft,
     Tag,
-    Person
+    Person,
+    Receipt
 }
