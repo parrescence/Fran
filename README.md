@@ -86,18 +86,3 @@ still read it once granted that permission). See `FinanceApp`'s `ci.yml`/
 - **Icons**: `FaIcon` + `FaIconName` — a small hand-drawn SVG set (no icon font/
   external dependency), rendered as inline `<svg>` so `currentColor` picks up
   `FaIconColor`.
-
-## Design notes for contributors
-
-- Nothing in this project may reference any specific consuming app's project or type
-  (e.g. FinanceApp's `FinanceApp.Shared`/`.Web`, or concepts like `UserId`/
-  `AccountId`/`Transaction`/`Category`) — that would break its reusability. If a
-  component needs data, it takes it as a `[Parameter]`.
-- No component defaults to a specific brand/app name — `BrandText` on
-  `AppHeader`/`AppFooter`/`SidebarShell`/`StandardShell` is `[EditorRequired]` with no
-  default value; the consuming app always supplies its own.
-- `PackageId` is pinned to `FactoryAspects` in the `.csproj` — don't rename it without
-  also updating every `_content/FactoryAspects/...` reference in every consumer (the
-  RCL static-asset path is derived from `PackageId`, not the C# namespace).
-- No `PackageLicenseExpression` is set yet — pick one before this is relied on by any
-  consumer outside `bencalvin`'s own accounts.
