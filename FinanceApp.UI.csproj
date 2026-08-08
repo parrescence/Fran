@@ -4,7 +4,55 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Kept in sync with the repo's Directory.Build.props, but declared explicitly
+         here too: this project is meant to build and pack correctly on its own,
+         outside this monorepo, without relying on a root props file it won't have. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- CS1591 (missing XML doc comment) would otherwise fail the build for every
+         public parameter across every component — this library documents itself via
+         README.md + inline comments on the handful of non-obvious parameters (see
+         FaToggle's Options/ShowInputWhen), not exhaustive per-member XML docs. Still
+         want GenerateDocumentationFile on so the .nupkg ships a (mostly empty) .xml
+         doc file rather than none at all. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
+
+  <!-- ============================= NuGet packaging =============================
+       Currently only consumed in-repo via <ProjectReference> from FinanceApp.Web,
+       but every component here is written with the assumption it'll eventually ship
+       as a standalone package (or be imported as source into another project) — no
+       FinanceApp.Shared/.Web reference, no app-specific types, no hardcoded brand
+       strings (see BrandText on AppHeader/AppFooter/*Shell — required, not defaulted).
+       This block is real packaging metadata, not a placeholder: `dotnet pack` on this
+       project today produces a usable, correctly-labeled .nupkg.
+       PackageId is pinned to match the assembly name on purpose — FinanceApp.Web's
+       index.html references this library's static assets via the RCL convention
+       (_content/FinanceApp.UI/...), which is derived from PackageId at pack time, so
+       changing PackageId without updating every _content/FinanceApp.UI/... reference
+       (in this repo and in any other consumer) would silently 404 the CSS/JS. -->
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>FinanceApp.UI</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Ben Calvin</Authors>
+    <Description>Self-contained Blazor UI component library — buttons, cards, alerts, badges, modals, a generic N-option toggle, form inputs, page-shell layouts, a theme switcher, and a hand-drawn SVG icon set. No dependency on any FinanceApp-specific project or type; built to be reusable as-is in other Blazor apps.</Description>
+    <PackageTags>blazor;razor;razorclasslibrary;ui;components</PackageTags>
+    <RepositoryUrl>https://github.com/bencalvin/FinanceApp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/bencalvin/FinanceApp</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- No PackageLicenseExpression yet — a license hasn't been chosen for this
+         library specifically. Set one (e.g. MIT) before actually publishing a .nupkg
+         anywhere consumers would rely on it; `dotnet pack` works without it, but
+         nuget.org and most consumers expect it. -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />

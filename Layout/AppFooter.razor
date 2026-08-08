@@ -12,6 +12,6 @@
 </footer>
 
 @code {
-    [Parameter] public string BrandText { get; set; } = "FinanceApp";
+    [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
 }
