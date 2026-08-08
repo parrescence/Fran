@@ -1,12 +1,16 @@
-@* Segmented Yes/No switch — both options always visible, active one highlighted, same
-   idea as ThemeSwitcher's row of buttons (not a single sliding knob). An optional
-   companion input can show inline only while the toggle is on, sharing the same
-   bordered group: compact (just the two buttons) while there's no input showing,
-   and only then does the group expand to fill the field's width, with the input
-   absorbing the extra space (see .fa-toggle-group-expanded in theme.css).
+@* Generic segmented toggle/switch — pass 2+ (Title, Value) options; the active one is
+   highlighted, same visual idea as ThemeSwitcher's row of buttons (not a boolean-only
+   on/off knob). Options are plain System.ValueTuple, not a custom DTO type, so this
+   stays self-contained enough to ship standalone as a NuGet package later without
+   dragging in an app-specific model. An optional companion input can show inline only
+   while the current Value satisfies ShowInputWhen, sharing the same bordered group:
+   compact while there's no input showing, and only then does the group expand to fill
+   the field's width, with the input absorbing the extra space (see
+   .fa-toggle-group-expanded in theme.css).
    Not InputBase-based (that requires an EditContext/EditForm, which nothing in this app
    uses yet — see FaSelect/FaInput) — plain two-way-bindable parameters instead, same
    pattern as FaButton/FaCard. Supports @bind-Value and @bind-InputValue. *@
+@typeparam TValue
 
 <div class="fa-field @CssClass">
     @if (!string.IsNullOrEmpty(Label))
@@ -14,32 +18,30 @@
         <label class="fa-label">@Label</label>
     }
     <div class="fa-toggle-group @(ShowInput ? "fa-toggle-group-expanded" : null)">
-        @if (Value && InputType is not null && InputPosition == FaTogglePosition.Before)
+        @if (ShowInput && InputPosition == FaTogglePosition.Before)
         {
             <input class="fa-toggle-input fa-toggle-input-before" type="@InputType" placeholder="@InputPlaceholder"
                    value="@InputValue" disabled="@Disabled" @oninput="OnInputChanged" />
         }
 
         <div class="fa-toggle-switch" role="group" aria-label="@Label" @onkeydown="HandleKeyDown">
-            <button type="button"
-                    @ref="_offButtonRef"
-                    class="fa-toggle-option @(!Value ? "fa-toggle-option-active" : null)"
-                    aria-pressed="@(!Value ? "true" : "false")"
-                    disabled="@Disabled"
-                    @onclick="() => SetValueAsync(false)">
-                @OffLabel
-            </button>
-            <button type="button"
-                    @ref="_onButtonRef"
-                    class="fa-toggle-option @(Value ? "fa-toggle-option-active" : null)"
-                    aria-pressed="@(Value ? "true" : "false")"
-                    disabled="@Disabled"
-                    @onclick="() => SetValueAsync(true)">
-                @OnLabel
-            </button>
+            @for (var i = 0; i < Options.Count; i++)
+            {
+                var index = i;
+                var option = Options[index];
+                var isActive = EqualityComparer<TValue>.Default.Equals(option.Value, Value);
+                <button type="button"
+                        @ref="_buttonRefs[index]"
+                        class="fa-toggle-option @(isActive ? "fa-toggle-option-active" : null)"
+                        aria-pressed="@(isActive ? "true" : "false")"
+                        disabled="@Disabled"
+                        @onclick="() => SelectAsync(index)">
+                    @option.Title
+                </button>
+            }
         </div>
 
-        @if (Value && InputType is not null && InputPosition == FaTogglePosition.After)
+        @if (ShowInput && InputPosition == FaTogglePosition.After)
         {
             <input class="fa-toggle-input" type="@InputType" placeholder="@InputPlaceholder"
                    value="@InputValue" disabled="@Disabled" @oninput="OnInputChanged" />
@@ -48,8 +50,10 @@
 </div>
 
 @code {
-    [Parameter] public bool Value { get; set; }
-    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+    /// <summary>At least two (Title, Value) options — Title is the button label, Value is what gets bound/returned.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<(string Title, TValue Value)> Options { get; set; } = Array.Empty<(string, TValue)>();
+    [Parameter] public TValue Value { get; set; } = default!;
+    [Parameter] public EventCallback<TValue> ValueChanged { get; set; }
 
     [Parameter] public string? InputValue { get; set; }
     [Parameter] public EventCallback<string?> InputValueChanged { get; set; }
@@ -58,45 +62,71 @@
     [Parameter] public string? InputType { get; set; }
     [Parameter] public FaTogglePosition InputPosition { get; set; } = FaTogglePosition.After;
     [Parameter] public string? InputPlaceholder { get; set; }
+    /// <summary>Whether the companion input shows for the current Value. Ignored when InputType is null.</summary>
+    [Parameter] public Func<TValue, bool>? ShowInputWhen { get; set; }
 
     [Parameter] public string? Label { get; set; }
-    [Parameter] public string OnLabel { get; set; } = "Yes";
-    [Parameter] public string OffLabel { get; set; } = "No";
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? CssClass { get; set; }
 
-    private bool ShowInput => Value && InputType is not null;
+    private ElementReference[] _buttonRefs = Array.Empty<ElementReference>();
 
-    private ElementReference _offButtonRef;
-    private ElementReference _onButtonRef;
+    private bool ShowInput => InputType is not null && ShowInputWhen is not null && ShowInputWhen(Value);
 
-    private async Task SetValueAsync(bool newValue)
+    protected override void OnParametersSet()
     {
-        if (Disabled || Value == newValue)
+        if (Options is null || Options.Count < 2)
+            throw new ArgumentException("FaToggle requires at least two Options.", nameof(Options));
+
+        if (_buttonRefs.Length != Options.Count)
+            _buttonRefs = new ElementReference[Options.Count];
+    }
+
+    private async Task SelectAsync(int index)
+    {
+        if (Disabled)
             return;
 
-        Value = newValue;
-        await ValueChanged.InvokeAsync(Value);
+        var newValue = Options[index].Value;
+        if (!EqualityComparer<TValue>.Default.Equals(Value, newValue))
+        {
+            Value = newValue;
+            await ValueChanged.InvokeAsync(Value);
+        }
     }
 
     // Left/right arrows move both the selection and focus together, same as a native
-    // radio group — not just Tab between the two buttons.
+    // radio group — not just Tab between the option buttons.
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
         if (Disabled)
             return;
 
-        switch (e.Key)
+        var currentIndex = IndexOfCurrentValue();
+        var fallback = currentIndex < 0 ? 0 : currentIndex;
+
+        int? targetIndex = e.Key switch
         {
-            case "ArrowLeft":
-                await SetValueAsync(false);
-                await _offButtonRef.FocusAsync();
-                break;
-            case "ArrowRight":
-                await SetValueAsync(true);
-                await _onButtonRef.FocusAsync();
-                break;
+            "ArrowLeft" => Math.Max(0, fallback - 1),
+            "ArrowRight" => Math.Min(Options.Count - 1, fallback + 1),
+            _ => null
+        };
+
+        if (targetIndex is int index)
+        {
+            await SelectAsync(index);
+            await _buttonRefs[index].FocusAsync();
         }
+    }
+
+    private int IndexOfCurrentValue()
+    {
+        for (var i = 0; i < Options.Count; i++)
+        {
+            if (EqualityComparer<TValue>.Default.Equals(Options[i].Value, Value))
+                return i;
+        }
+        return -1;
     }
 
     private async Task OnInputChanged(ChangeEventArgs e)
