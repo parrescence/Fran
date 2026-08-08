@@ -57,6 +57,39 @@ Consequences for any change here:
   intentionally absent) — pick one before this is relied on by any consumer outside
   `bencalvin`'s own accounts.
 
+## Component authoring: C# builder, not markup
+
+Components are authored as plain C# — `ComponentBase`/`InputBase<TValue>` subclasses
+overriding `BuildRenderTree(RenderTreeBuilder builder)` directly — not `.razor` markup
+files. This applies to every component in `Components/`, `Layout/`, and `Icons/`.
+(`_Imports.razor` is project config, not a component, and stays.) Rules that keep this
+style from degrading into the mess it was ported out of:
+
+- **Stable ids are field initializers, generated once, never regenerated inside
+  `BuildRenderTree`/`OnParametersSet`/any per-render path.** e.g. `private readonly
+  string _id = $"fa-input-{Guid.NewGuid():N}";`. A `Guid.NewGuid()` called during
+  render produces a new id on every re-render, which silently breaks anything that
+  keys off that id — `@key` diffing, JS `getElementById` lookups, `<label for>`
+  pairing. This was the single most common bug in the two source libraries this
+  project's components were ported/rewritten from — don't reintroduce it.
+- **Class-list building goes through `Internal.ClassNames.Combine(...)`**
+  (`Internal/ClassNames.cs`) instead of ad hoc string concatenation repeated in every
+  component — `ClassNames.Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null,
+  CssClass)`. Named `ClassNames`, not `CssClass` — most components have a `CssClass`
+  parameter, which would shadow a same-named type inside their own methods. Preserve
+  each component's existing attribute-splat order when converting
+  it (explicit attributes vs. `builder.AddMultipleAttributes(AdditionalAttributes)`) —
+  don't silently change which one wins if a caller passes a conflicting `class` via
+  `AdditionalAttributes`.
+- **Swappable string/formatting behavior goes through an injected interface**
+  (`[Inject] ISomeService`), not `new SomeHelper()` constructed inline inside the
+  component — keeps it consumer-overridable and testable.
+- **Vanilla-JS, not Blazor JS interop, for client-only visual state** — same rule as
+  `theme.js`/`sidebar.js` above: plain IIFEs wired via `onclick`/data attributes, no
+  `IJSRuntime.InvokeVoidAsync`/`[JSInvokable]`. If a component needs popup
+  positioning, outside-click-to-close, or similar, it gets its own
+  `wwwroot/js/<component>.js` in this style (see `datepicker.js` for `FaDatePicker`).
+
 ## Branching: dev → test → main
 
 Three long-lived branches, one direction of flow:

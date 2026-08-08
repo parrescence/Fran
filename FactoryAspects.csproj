@@ -54,6 +54,18 @@
     <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
+  <!-- FactoryAspects/ (this exact repo, stray-cloned into itself, not tracked by this
+       repo's own git) sits inside this directory tree — exclude it explicitly so its
+       old duplicate .cs/.razor files never collide with this project's own default
+       glob-based item includes. Safe to delete by hand once nothing has it open (file
+       locks blocked an automated delete); remove this ItemGroup once it's gone. -->
+  <ItemGroup>
+    <Compile Remove="FactoryAspects\**" />
+    <Content Remove="FactoryAspects\**" />
+    <None Remove="FactoryAspects\**" />
+    <EmbeddedResource Remove="FactoryAspects\**" />
+  </ItemGroup>
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.5" />
