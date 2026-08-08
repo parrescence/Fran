@@ -8,3 +8,8 @@ obj/
 artifacts/
 *.nupkg
 *.snupkg
+
+# Theme palette design docs — local reference/planning material for picking each
+# theme's colors, not shipped in the package and not meant to be committed. See
+# CLAUDE.md's "Themes" section.
+.themes/
