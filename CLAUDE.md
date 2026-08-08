@@ -126,6 +126,20 @@ against forgetting to bump `<Version>` before a `test → main` merge.
 `.github/workflows/ci.yml` builds + packs (no publish) on every push/PR to `dev`,
 `test`, and `main` as a sanity check.
 
+## Themes
+
+Currently one implemented palette (Northwest Fall, `theme.css`'s `:root` block).
+Four more are planned: Southwest Summer, Northeast Spring, Midwest Winter, Southeast
+Beach. Their color values are being designed in `.themes/` at the repo root — a
+**gitignored**, local-only folder of Markdown design docs (one file per theme, a
+`--fa-*` variable → hex table each), not shipped in the package and not committed.
+See `.themes/README.md` for the palette docs themselves and the still-open question of
+*how* a consumer picks a theme (separate stylesheet per theme vs. one `theme.css` with
+a runtime-switchable palette, the same way light/dark/colorblind mode already works) —
+resolve that before wiring any of the four new palettes into `theme.css` for real.
+Don't assume `.themes/` exists when cloning fresh elsewhere — it's local reference
+material, regenerate it (or ask) rather than expecting it to already be there.
+
 ## Components inventory
 
 See `README.md`'s "What's in here" section — keep both in sync when adding/removing a
