@@ -599,10 +599,14 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
 /* ============================= Toggle ============================= */
 
 /* One shared border around the toggle button and, when it's showing, its companion
-   input — not two separately-bordered controls sitting next to each other. */
+   input — not two separately-bordered controls sitting next to each other. Compact
+   (just the two option buttons) by default; .fa-field is a flex column, whose items
+   stretch to its full width by default, so this has to opt back out of that to stay
+   hugged to its content instead of spanning the whole form like the inputs above it. */
 .fa-toggle-group {
     display: inline-flex;
     align-items: stretch;
+    align-self: flex-start;
     border: 2px solid var(--fa-border);
     border-radius: var(--fa-radius-pill);
     background: var(--fa-surface);
@@ -614,6 +618,13 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
     .fa-toggle-group:focus-within {
         border-color: var(--fa-border-focus);
         box-shadow: var(--fa-border-glow-focus);
+    }
+
+    /* Once the companion input is showing, span the field's full width — the input
+       (flex: 1 1 auto below) absorbs the extra space; the option buttons stay put. */
+    .fa-toggle-group.fa-toggle-group-expanded {
+        align-self: stretch;
+        width: 100%;
     }
 
 /* The two options are always both visible, active one highlighted — same idea as

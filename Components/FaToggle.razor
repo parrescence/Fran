@@ -1,8 +1,9 @@
 @* Segmented Yes/No switch — both options always visible, active one highlighted, same
    idea as ThemeSwitcher's row of buttons (not a single sliding knob). An optional
    companion input can show inline only while the toggle is on, sharing the same
-   bordered group so the control's width stays just the two buttons when off and only
-   grows to include the input when on.
+   bordered group: compact (just the two buttons) while there's no input showing,
+   and only then does the group expand to fill the field's width, with the input
+   absorbing the extra space (see .fa-toggle-group-expanded in theme.css).
    Not InputBase-based (that requires an EditContext/EditForm, which nothing in this app
    uses yet — see FaSelect/FaInput) — plain two-way-bindable parameters instead, same
    pattern as FaButton/FaCard. Supports @bind-Value and @bind-InputValue. *@
@@ -12,7 +13,7 @@
     {
         <label class="fa-label">@Label</label>
     }
-    <div class="fa-toggle-group">
+    <div class="fa-toggle-group @(ShowInput ? "fa-toggle-group-expanded" : null)">
         @if (Value && InputType is not null && InputPosition == FaTogglePosition.Before)
         {
             <input class="fa-toggle-input fa-toggle-input-before" type="@InputType" placeholder="@InputPlaceholder"
@@ -61,6 +62,8 @@
     [Parameter] public string OffLabel { get; set; } = "No";
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? CssClass { get; set; }
+
+    private bool ShowInput => Value && InputType is not null;
 
     private async Task SetValueAsync(bool newValue)
     {
