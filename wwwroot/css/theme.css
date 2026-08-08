@@ -50,16 +50,133 @@
 }
 
 /* ============================= Theme variants ============================= */
-/* Three modes: light (default, above), dark, and colorblind-safe. Applied via
-   data-theme="dark"/"colorblind" on <html> (see js/theme.js — reads/writes
-   localStorage, toggled by <ThemeSwitcher>), with the OS's prefers-color-scheme
-   as the fallback for dark before any explicit choice is made. Colorblind mode
-   has no OS-level media-query equivalent, so it's opt-in only, never automatic.
+/* Two independent axes, both applied via data attributes on <html>:
 
-   Every component above reads color exclusively through these custom properties,
-   so a variant only has to redefine the tokens that actually need to change —
-   shape, type, and the header/sidebar/footer's burnt-orange brand color stay
-   identical across all three. */
+   1. Palette — which seasonal/regional color story is active. data-fa-palette=
+      "southwest-summer" | "northeast-spring" | "midwest-winter" | "southeast-beach".
+      No attribute (or data-fa-palette="northwest-fall") means the :root defaults
+      above. Toggle with window.faSetPalette(name) (js/theme.js — reads/writes
+      localStorage the same way faSetTheme does).
+   2. Mode — light (default), dark, or colorblind-safe. data-theme="dark"/
+      "colorblind", toggled by window.faSetTheme(...) / <ThemeSwitcher>, with the
+      OS's prefers-color-scheme as the fallback for dark before any explicit choice
+      is made. Colorblind mode has no OS-level media-query equivalent, so it's
+      opt-in only, never automatic.
+
+   Every component reads color exclusively through these custom properties, so a
+   palette or mode only has to redefine the tokens that actually change — shape and
+   type (radii, font) stay identical across every combination of the two axes. */
+
+/* --- Palettes: light-mode values only. Each block is self-contained (redefines
+   every color token the default :root sets), not a diff against Northwest Fall, so
+   picking a palette can't accidentally inherit an unrelated hue. See .themes/ (git-
+   ignored, local design docs) for the reasoning behind each palette's color choices. --- */
+
+:root[data-fa-palette="southwest-summer"] {
+    --fa-primary: #c2603f;          /* Adobe Terracotta */
+    --fa-primary-dark: #8f4025;
+    --fa-primary-light: #dd9270;
+    --fa-footer: #f2e2c8;
+    --fa-glow: #d97847;
+    --fa-gold: #d4a13a;              /* Sun-Baked Ochre */
+    --fa-accent: #7a8f6a;            /* Desert Sage */
+    --fa-accent-dark: #566b4a;
+    --fa-ember: #b3382a;             /* Ocotillo Red */
+    --fa-wine: #6b2318;              /* Prickly-Pear Wine */
+    --fa-fir: #2f3347;               /* Desert Dusk Shadow */
+    --fa-cream: #fbf1e0;
+    --fa-surface: #fffaf2;
+    --fa-text: #3a2417;
+    --fa-text-muted: #8a7460;
+    --fa-text-on-primary: #fff8ef;
+    --fa-border: #e0b98f;
+    --fa-border-focus: #8f4025;
+    --fa-alert-danger-bg: #f9e4df;
+    --fa-alert-success-bg: #eef1e8;
+    --fa-alert-info-bg: #fbeee0;
+}
+
+:root[data-fa-palette="northeast-spring"] {
+    --fa-primary: #a24a78;          /* Redbud Blossom */
+    --fa-primary-dark: #74345a;
+    --fa-primary-light: #cf8fae;
+    --fa-footer: #f5e6ee;
+    --fa-glow: #c96a97;
+    --fa-gold: #d9b23c;              /* Forsythia Gold */
+    --fa-accent: #5a8f4f;            /* New Leaf Green */
+    --fa-accent-dark: #3f6636;
+    --fa-ember: #b3392f;             /* Cardinal Red */
+    --fa-wine: #6b2030;
+    --fa-fir: #33402f;               /* Birch Bark Shadow */
+    --fa-cream: #faf3f6;
+    --fa-surface: #fffbfc;
+    --fa-text: #3a2230;
+    --fa-text-muted: #7a6070;
+    --fa-text-on-primary: #fff5fa;
+    --fa-border: #e8c6d6;
+    --fa-border-focus: #74345a;
+    --fa-alert-danger-bg: #f9e3e1;
+    --fa-alert-success-bg: #edf3ea;
+    --fa-alert-info-bg: #f7e9ef;
+}
+
+:root[data-fa-palette="midwest-winter"] {
+    --fa-primary: #3d5a73;          /* Prairie Slate Blue */
+    --fa-primary-dark: #28404f;
+    --fa-primary-light: #7098af;
+    --fa-footer: #e6edf0;
+    --fa-glow: #4f7a94;
+    --fa-gold: #c9a227;              /* Wheat Stubble Gold */
+    --fa-accent: #3f5c42;            /* Windbreak Evergreen */
+    --fa-accent-dark: #2b4030;
+    --fa-ember: #9c3b30;             /* Barn Red */
+    --fa-wine: #5c2320;
+    --fa-fir: #2a3138;               /* Frozen Furrow Shadow */
+    --fa-cream: #f5f8fa;
+    --fa-surface: #fbfdfe;
+    --fa-text: #26313a;
+    --fa-text-muted: #66727c;
+    --fa-text-on-primary: #f5f9fb;
+    --fa-border: #c3d2da;
+    --fa-border-focus: #28404f;
+    --fa-alert-danger-bg: #f3e2df;
+    --fa-alert-success-bg: #e6ece4;
+    --fa-alert-info-bg: #e3ebf0;
+}
+
+:root[data-fa-palette="southeast-beach"] {
+    --fa-primary: #2c8c8a;          /* Seafoam Turquoise */
+    --fa-primary-dark: #1e615f;
+    --fa-primary-light: #6bbdbb;
+    --fa-footer: #f3e9d4;
+    --fa-glow: #3ba6a3;
+    --fa-gold: #d9b871;              /* Sand Dune Gold */
+    --fa-accent: #7a9457;            /* Sea Oat Green */
+    --fa-accent-dark: #566b3c;
+    --fa-ember: #d9634a;             /* Coral Sunset */
+    --fa-wine: #8a3626;
+    --fa-fir: #3a3630;               /* Driftwood Shadow */
+    --fa-cream: #fbf6ea;
+    --fa-surface: #fffdf7;
+    --fa-text: #3a2f22;
+    --fa-text-muted: #7d7261;
+    --fa-text-on-primary: #f2fbfa;
+    --fa-border: #e3d3ab;
+    --fa-border-focus: #1e615f;
+    --fa-alert-danger-bg: #f9e6e0;
+    --fa-alert-success-bg: #eef1e6;
+    --fa-alert-info-bg: #e3f0ee;
+}
+
+/* --- Dark mode, per palette. Northwest Fall's dark block (no data-fa-palette
+   attribute needed — it's the default) stays a single-attribute selector; every
+   other palette needs data-fa-palette AND data-theme="dark" together so it wins
+   over the single-attribute selector regardless of source order (two attributes
+   beats one, always, independent of where each rule sits in the file). Same
+   transform recipe every time: darken cream/surface/footer, lighten text, border-
+   focus becomes the palette's --fa-glow, primary-dark becomes primary-light
+   (still legible as hover text against a dark surface), accent-dark lightens, and
+   the three alert backgrounds become translucent rgba() of ember/accent/primary. */
 
 :root[data-theme="dark"] {
     --fa-cream: #1c140d;
@@ -69,13 +186,75 @@
     --fa-border: #4a3524;
     --fa-border-focus: #e8873d;
     --fa-footer: #2a2015;
-    --fa-primary-dark: #e0895a;     /* lightened, not darkened — legible as text on a dark surface,
-                                        and a hover state that lightens reads correctly in dark mode too */
+    --fa-primary-dark: #e0895a;
     --fa-accent-dark: #9db06a;
     --fa-alert-danger-bg: rgba(166, 58, 44, 0.22);
     --fa-alert-success-bg: rgba(107, 122, 62, 0.22);
     --fa-alert-info-bg: rgba(191, 91, 38, 0.22);
 }
+
+:root[data-fa-palette="southwest-summer"][data-theme="dark"] {
+    --fa-cream: #1c130d;
+    --fa-surface: #26190f;
+    --fa-text: #f3e6d8;
+    --fa-text-muted: #bfa88f;
+    --fa-border: #4a3524;
+    --fa-border-focus: #d97847;
+    --fa-footer: #2a1f14;
+    --fa-primary-dark: #dd9270;
+    --fa-accent-dark: #a8bd97;
+    --fa-alert-danger-bg: rgba(179, 56, 42, 0.22);
+    --fa-alert-success-bg: rgba(122, 143, 106, 0.22);
+    --fa-alert-info-bg: rgba(194, 96, 63, 0.22);
+}
+
+:root[data-fa-palette="northeast-spring"][data-theme="dark"] {
+    --fa-cream: #170f14;
+    --fa-surface: #211621;
+    --fa-text: #f2e2ec;
+    --fa-text-muted: #c0a6b8;
+    --fa-border: #4a3040;
+    --fa-border-focus: #c96a97;
+    --fa-footer: #241825;
+    --fa-primary-dark: #cf8fae;
+    --fa-accent-dark: #8fb384;
+    --fa-alert-danger-bg: rgba(179, 57, 47, 0.22);
+    --fa-alert-success-bg: rgba(90, 143, 79, 0.22);
+    --fa-alert-info-bg: rgba(162, 74, 120, 0.22);
+}
+
+:root[data-fa-palette="midwest-winter"][data-theme="dark"] {
+    --fa-cream: #0f161c;
+    --fa-surface: #172029;
+    --fa-text: #e7edf1;
+    --fa-text-muted: #a9b7c0;
+    --fa-border: #33434f;
+    --fa-border-focus: #4f7a94;
+    --fa-footer: #1a2530;
+    --fa-primary-dark: #7098af;
+    --fa-accent-dark: #7a9a7e;
+    --fa-alert-danger-bg: rgba(156, 59, 48, 0.22);
+    --fa-alert-success-bg: rgba(63, 92, 66, 0.22);
+    --fa-alert-info-bg: rgba(61, 90, 115, 0.22);
+}
+
+:root[data-fa-palette="southeast-beach"][data-theme="dark"] {
+    --fa-cream: #14100a;
+    --fa-surface: #1e170f;
+    --fa-text: #f2e9d8;
+    --fa-text-muted: #beae94;
+    --fa-border: #423a28;
+    --fa-border-focus: #3ba6a3;
+    --fa-footer: #221b12;
+    --fa-primary-dark: #6bbdbb;
+    --fa-accent-dark: #a7bb84;
+    --fa-alert-danger-bg: rgba(217, 99, 74, 0.22);
+    --fa-alert-success-bg: rgba(122, 148, 87, 0.22);
+    --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
+}
+
+/* --- Same dark values again, gated on prefers-color-scheme instead of an explicit
+   data-theme="dark" — the OS-level fallback before any explicit mode choice. --- */
 
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]):not([data-theme="colorblind"]) {
@@ -92,16 +271,81 @@
         --fa-alert-success-bg: rgba(107, 122, 62, 0.22);
         --fa-alert-info-bg: rgba(191, 91, 38, 0.22);
     }
+
+    :root[data-fa-palette="southwest-summer"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #1c130d;
+        --fa-surface: #26190f;
+        --fa-text: #f3e6d8;
+        --fa-text-muted: #bfa88f;
+        --fa-border: #4a3524;
+        --fa-border-focus: #d97847;
+        --fa-footer: #2a1f14;
+        --fa-primary-dark: #dd9270;
+        --fa-accent-dark: #a8bd97;
+        --fa-alert-danger-bg: rgba(179, 56, 42, 0.22);
+        --fa-alert-success-bg: rgba(122, 143, 106, 0.22);
+        --fa-alert-info-bg: rgba(194, 96, 63, 0.22);
+    }
+
+    :root[data-fa-palette="northeast-spring"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #170f14;
+        --fa-surface: #211621;
+        --fa-text: #f2e2ec;
+        --fa-text-muted: #c0a6b8;
+        --fa-border: #4a3040;
+        --fa-border-focus: #c96a97;
+        --fa-footer: #241825;
+        --fa-primary-dark: #cf8fae;
+        --fa-accent-dark: #8fb384;
+        --fa-alert-danger-bg: rgba(179, 57, 47, 0.22);
+        --fa-alert-success-bg: rgba(90, 143, 79, 0.22);
+        --fa-alert-info-bg: rgba(162, 74, 120, 0.22);
+    }
+
+    :root[data-fa-palette="midwest-winter"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f161c;
+        --fa-surface: #172029;
+        --fa-text: #e7edf1;
+        --fa-text-muted: #a9b7c0;
+        --fa-border: #33434f;
+        --fa-border-focus: #4f7a94;
+        --fa-footer: #1a2530;
+        --fa-primary-dark: #7098af;
+        --fa-accent-dark: #7a9a7e;
+        --fa-alert-danger-bg: rgba(156, 59, 48, 0.22);
+        --fa-alert-success-bg: rgba(63, 92, 66, 0.22);
+        --fa-alert-info-bg: rgba(61, 90, 115, 0.22);
+    }
+
+    :root[data-fa-palette="southeast-beach"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #14100a;
+        --fa-surface: #1e170f;
+        --fa-text: #f2e9d8;
+        --fa-text-muted: #beae94;
+        --fa-border: #423a28;
+        --fa-border-focus: #3ba6a3;
+        --fa-footer: #221b12;
+        --fa-primary-dark: #6bbdbb;
+        --fa-accent-dark: #a7bb84;
+        --fa-alert-danger-bg: rgba(217, 99, 74, 0.22);
+        --fa-alert-success-bg: rgba(122, 148, 87, 0.22);
+        --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
+    }
 }
 
-/* Colorblind-safe: swaps the two colors that matter most — Fern Moss's green and
-   Vine Maple Ember's red-orange are the pair most likely to collapse into each
-   other under red-green color vision deficiency (deuteranopia/protanopia, ~8% of
-   men). The accent moves to a teal that's distinguishable from red under every
-   common CVD type, not just fine-tuned within the red-green axis; danger moves to
-   a darker, more desaturated red so it stays readable as "darker/more urgent"
-   even when its hue is hard to place. Burnt orange itself is left alone — it's
-   the brand, and orange survives all three common CVD types reasonably well. */
+/* Colorblind-safe: swaps the two colors that matter most, the same way regardless
+   of which palette is active — deliberately palette-agnostic (this block must stay
+   *after* the palette blocks above so it wins the equal-specificity, single-
+   attribute tie against whichever data-fa-palette is set). A theme's own accent/
+   danger hues are exactly what colorblind mode exists to override, so reusing one
+   known-safe pair everywhere is the point, not a shortcut: green and red-orange are
+   the pair most likely to collapse into each other under red-green color vision
+   deficiency (deuteranopia/protanopia, ~8% of men) in every one of these palettes,
+   not just Northwest Fall's. The accent moves to a teal that's distinguishable from
+   red under every common CVD type, not just fine-tuned within the red-green axis;
+   danger moves to a darker, more desaturated red so it stays readable as "darker/
+   more urgent" even when its hue is hard to place. Each palette's primary is left
+   alone — it's the brand color, not part of the red/green confusion pair. */
 :root[data-theme="colorblind"] {
     --fa-accent: #14776b;
     --fa-accent-dark: #0d554c;

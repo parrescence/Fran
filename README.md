@@ -68,6 +68,47 @@ component state needs to stay in sync with them.
 it works from any host — but if your app has a strict Content-Security-Policy or needs
 to run fully offline/air-gapped, you'll need to account for or self-host that font.
 
+### Choosing a theme
+
+One `theme.css`, five seasonal/regional color palettes, picked via a
+`data-fa-palette` attribute on `<html>` — same pattern as the existing
+light/dark/colorblind mode (`data-theme`), and fully independent of it: any palette
+combines with any mode.
+
+- `northwest-fall` — the default. No attribute needed.
+- `southwest-summer`
+- `northeast-spring`
+- `midwest-winter`
+- `southeast-beach`
+
+**Pick one at build time** by hardcoding the attribute in your host page:
+
+```html
+<html lang="en" data-fa-palette="southeast-beach">
+```
+
+**Or let your app switch palettes at runtime**, the same way `<ThemeSwitcher>` calls
+`window.faSetTheme(...)`: call `window.faSetPalette('southeast-beach')` (or
+`window.faSetPalette('northwest-fall')`/`null` to go back to the default) from a
+button's `onclick`. It persists the choice to `localStorage` under `fa-palette` and
+stamps `data-fa-palette` on `<html>` — there's no bundled `<PaletteSwitcher>`
+component for this yet, so wire your own button(s) up to it for now.
+
+Either way, add this inline snippet to your host page's `<head>`, **before** the
+`theme.css` `<link>`, so a returning visitor's saved mode/palette applies before first
+paint instead of flashing the default and then jumping:
+
+```html
+<script>
+  (function () {
+    var theme = localStorage.getItem('fa-theme');
+    if (theme) document.documentElement.setAttribute('data-theme', theme);
+    var palette = localStorage.getItem('fa-palette');
+    if (palette) document.documentElement.setAttribute('data-fa-palette', palette);
+  })();
+</script>
+```
+
 ### CI consumers
 
 A GitHub Actions workflow in the *same* GitHub account/org as this repo can restore
