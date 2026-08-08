@@ -694,6 +694,72 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
         box-shadow: var(--fa-border-glow-focus);
     }
 
+/* ============================= Modal ============================= */
+
+.fa-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+.fa-modal {
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-lg);
+    box-shadow: var(--fa-border-glow-focus);
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.fa-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.3rem;
+    border-bottom: 2px solid var(--fa-border);
+}
+
+.fa-modal-title {
+    margin: 0;
+    color: var(--fa-text);
+}
+
+.fa-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--fa-text-muted);
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+}
+
+    .fa-modal-close:hover {
+        color: var(--fa-text);
+    }
+
+.fa-modal-body {
+    padding: 1.3rem;
+    overflow-y: auto;
+}
+
+.fa-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding: 1rem 1.3rem;
+    border-top: 2px solid var(--fa-border);
+}
+
 /* ============================= Badges ============================= */
 
 .fa-badge {
