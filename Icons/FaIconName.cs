@@ -12,7 +12,9 @@ public enum FaIconName
     Moon,
     Eye,
     ChevronLeft,
+    ChevronRight,
     Tag,
     Person,
-    Receipt
+    Receipt,
+    Calendar
 }

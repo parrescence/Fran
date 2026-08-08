@@ -126,6 +126,9 @@ public sealed class FaIcon : ComponentBase
             case FaIconName.ChevronLeft:
                 Path("M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z");
                 break;
+            case FaIconName.ChevronRight:
+                Path("M8.6 7.4 10 6l6 6-6 6-1.4-1.4L13.2 12z");
+                break;
             case FaIconName.Tag:
                 FillRulePath("M12.6 3.4 20.6 3l-.4 8-9.4 9.4a1.4 1.4 0 0 1-2 0l-6-6a1.4 1.4 0 0 1 0-2zM17 8.4a1.6 1.6 0 1 0 0-3.2 1.6 1.6 0 0 0 0 3.2z");
                 break;
@@ -135,6 +138,11 @@ public sealed class FaIcon : ComponentBase
                 break;
             case FaIconName.Receipt:
                 FillRulePath("M6 2.5h12a1 1 0 0 1 1 1V21l-2.2-1.3-2.1 1.3-2.2-1.3-2.2 1.3-2.1-1.3L5 21V3.5a1 1 0 0 1 1-1zm1.8 5.2h8.4v1.6H7.8zm0 4h8.4v1.6H7.8zm0 4h5.6v1.6H7.8z");
+                break;
+            case FaIconName.Calendar:
+                FillRulePath("M5 7h14v13H5V7zm2 3h10v8H7v-8z");
+                Rect("8", "4", "1.6", "4", "0.8");
+                Rect("14.4", "4", "1.6", "4", "0.8");
                 break;
         }
 
