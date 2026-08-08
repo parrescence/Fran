@@ -275,8 +275,8 @@ table {
 }
 
 html.fa-sidebar-collapsed .fa-sidebar {
-    width: 76px;
-    flex-basis: 76px;
+    width: 64px;
+    flex-basis: 64px;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
@@ -331,7 +331,7 @@ html.fa-sidebar-collapsed .fa-sidebar-toggle svg {
     font-weight: 600;
     opacity: 0.9;
     position: relative;
-    transition: background-color 0.15s ease, opacity 0.15s ease;
+    transition: background-color 0.15s ease, opacity 0.15s ease, gap 0.2s ease, padding 0.2s ease;
 }
 
     .fa-sidebar-link:hover {
@@ -345,19 +345,28 @@ html.fa-sidebar-collapsed .fa-sidebar-toggle svg {
         box-shadow: inset 0 0 0 2px var(--fa-glow);
     }
 
+/* max-width (not display:none) so collapsing reads as the label sliding away/getting
+   covered as the sidebar narrows, in step with .fa-sidebar's own width transition,
+   instead of the text just vanishing the instant the class flips. */
 .fa-sidebar-link-text {
+    display: inline-block;
     white-space: nowrap;
     overflow: hidden;
+    max-width: 160px;
+    opacity: 1;
+    transition: max-width 0.2s ease, opacity 0.15s ease;
 }
 
 html.fa-sidebar-collapsed .fa-sidebar-link {
     justify-content: center;
+    gap: 0;
     padding-left: 0.6rem;
     padding-right: 0.6rem;
 }
 
 html.fa-sidebar-collapsed .fa-sidebar-link-text {
-    display: none;
+    max-width: 0;
+    opacity: 0;
 }
 
 /* The "really cool" tooltip: a small pill in the app's own palette, not the browser's
@@ -1176,8 +1185,18 @@ code {
         display: none;
     }
 
+    /* Mobile ignores the collapse state entirely — undo the desktop-collapsed
+       tightened gap/padding/centering along with the text's max-width/opacity. */
+    html.fa-sidebar-collapsed .fa-sidebar-link {
+        justify-content: flex-start;
+        gap: 0.6rem;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+
     html.fa-sidebar-collapsed .fa-sidebar-link-text {
-        display: inline;
+        max-width: none;
+        opacity: 1;
     }
 
     html.fa-sidebar-collapsed .fa-sidebar-link::after {
