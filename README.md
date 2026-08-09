@@ -13,12 +13,14 @@ Every component keeps its original `Fa`-prefixed name (`FaButton`, `FaCard`,
 `InputBase<TValue>` subclass overriding `BuildRenderTree` directly), not `.razor`
 markup — see `CLAUDE.md` if you're contributing.
 
-Originally built inside the [FinanceApp](https://github.com/bencalvin/FinanceApp)
-monorepo (still an example consumer, now via a package reference instead of an in-repo
-project reference) and split out into its own repo/history here. Every component is
-intentionally free of FinanceApp-specific types or assumptions, so it's usable as-is —
-either as a package or by importing the source directly — in any Blazor WebAssembly or
-Blazor Server project.
+## Docs
+
+Per-component usage examples (a minimal `.razor` snippet + how to read the value back
+out) live in [`docs/`](docs/index.md) — start at
+[`docs/index.md`](docs/index.md) to browse by category, or open
+[`docs/site.html`](docs/site.html) directly in a browser for the same content as one
+scrollable, searchable-by-scrolling page (no server needed — it's a plain static
+file).
 
 ## Install
 
@@ -116,15 +118,25 @@ this package with no manual PAT: declare `permissions: packages: read` in the
 workflow, add a `nuget.config` pointing at
 `https://nuget.pkg.github.com/bencalvin/index.json`, and the workflow's own
 `GITHUB_TOKEN` is sufficient (this repo is private, but same-account workflows can
-still read it once granted that permission). See `FinanceApp`'s `ci.yml`/
-`deploy-web.yml` for a working example.
+still read it once granted that permission).
 
 ## What's in here
 
 - **Components**: `FaButton` (set `Href` to render an anchor styled as a button),
   `FaCard`, `FaAlert`, `FaBadge`, `FaAvatar`, `FaModal`, `FaTable` (typed
-  `Columns`/`Rows`, renders a real `<table>`), `FaToggle<TValue>` (pass 2+
-  `(string Title, TValue Value)` options — see its doc comment).
+  `Columns`/`Rows`, renders a real `<table>`), `FaGrid<TItem>` (a table that owns its
+  own paging/rows-per-page and per-column sorting/filtering — pass `Columns` as
+  `FaGridColumn<TItem>`, each optionally `Sortable` or given `FilterOptions` as
+  `(string Key, string Label)` pairs. Two mutually exclusive data modes: `Items`, the
+  whole dataset in memory, paged/sorted/filtered client-side; or `ItemsProvider`, a
+  `Func<FaGridRequest, Task<FaGridResult<TItem>>>` FaGrid calls on every page/size/
+  sort/filter change — it hands back just that page's rows plus a total count, so
+  FaGrid never holds more than one page in memory at once, letting a real paged
+  query/API back it instead of a fully-loaded list), `FaSearchSelect<TItem>`
+  (type-to-search combobox — debounced `QueryAsync` lookup, dropdown of results, no JS
+  interop), `FaDateRange` (linked From/To date fields, bound as one
+  `FaDateRangeValue`), `FaToggle<TValue>` (pass 2+ `(string Title, TValue Value)`
+  options — see its doc comment).
 - **Form fields** (all `InputBase<TValue>`-derived, for use inside an `EditForm`):
   `FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea` (optional maxlength counter /
   read-only display mode), `FaCheckbox`, `FaRadioGroup<TValue>` (same Options-tuple
