@@ -30,4 +30,12 @@ No bound value — it's a static icon. `Name` picks which SVG renders.
 `Home`, `Plus`, `Ledger`, `PiggyBank`, `Dashboard`, `People`, `Sun`, `Moon`, `Eye`,
 `ChevronLeft`, `ChevronRight`, `Tag`, `Person`, `Receipt`, `Calendar`
 
+Action suite — CRUD, editing, and general UI actions:
+
+`Edit`, `Save`, `Delete`, `Cancel`, `Confirm`, `Search`, `Filter`, `Sort`, `Download`,
+`Upload`, `Copy`, `Print`, `Refresh`, `Settings`, `Menu`, `MoreHorizontal`,
+`MoreVertical`, `Warning`, `Info`, `Success`, `Error`, `EyeOff`, `Star`, `Bell`,
+`Lock`, `Unlock`, `ArrowUp`, `ArrowDown`, `ArrowLeft`, `ArrowRight`, `ChevronUp`,
+`ChevronDown`, `Undo`, `Redo`, `Login`, `Logout`, `Share`, `ExternalLink`
+
 [← Back to index](index.md)
