@@ -27,7 +27,7 @@ file).
 Published to **GitHub Packages** (not NuGet.org, for now) under `bencalvin`. Add the
 feed as a NuGet source, then reference the package normally:
 
-```
+```bash
 dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
   --name github-bencalvin \
   --username <your-github-username> \
@@ -36,6 +36,14 @@ dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
 
 dotnet add package FactoryAspects
 ```
+
+> **⚠️ Don't run the `dotnet nuget add source` command above through an AI coding
+> assistant's terminal/tool-use (Claude Code, Copilot's agent mode, Cursor, etc.).**
+> `--store-password-in-clear-text` writes your PAT in plain text into `NuGet.Config`,
+> and running the command itself means the token passes through that tool's context —
+> depending on the tool, it may end up logged, transcripted, or sent to a model
+> provider. Run it yourself in a plain terminal (your own shell, not one an AI agent is
+> driving) — the PAT never needs to touch anything AI-adjacent to work.
 
 (A repo consuming this via CI can skip the manual PAT — see "CI consumers" below.)
 
