@@ -132,7 +132,9 @@ still read it once granted that permission).
 
 - **Components**: `FaButton` (set `Href` to render an anchor styled as a button),
   `FaCard`, `FaAlert`, `FaBadge`, `FaAvatar`, `FaModal`, `FaTable` (typed
-  `Columns`/`Rows`, renders a real `<table>`), `FaGrid<TItem>` (a table that owns its
+  `Columns`/`Rows`, renders a real `<table>`; collapses to a card-per-row layout at
+  the same ≤720px breakpoint the sidebar collapses at — see
+  [docs/fa-table.md](docs/fa-table.md)), `FaGrid<TItem>` (a table that owns its
   own paging/rows-per-page and per-column sorting/filtering — pass `Columns` as
   `FaGridColumn<TItem>`, each optionally `Sortable` or given `FilterOptions` as
   `(string Key, string Label)` pairs. Two mutually exclusive data modes: `Items`, the
