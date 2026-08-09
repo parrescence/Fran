@@ -118,6 +118,17 @@ Bump `<Version>` in `FactoryAspects.csproj` as part of normal `dev` work (semant
 `major.minor.hotfix`, e.g. `0.1.0`) — that version rides unchanged through the
 `dev → test → main` promotion; don't bump it again at the `test → main` step.
 
+**Bump on every change that reaches `main`, not just at the end of a batch of work** —
+the patch (`z`) number by default (`0.3.0` → `0.3.1` → `0.3.2` → ...), `minor`/`major`
+only when a consumer explicitly calls for it. Package versions are immutable once
+published (GitHub Packages rejects re-publishing an existing version, and the release
+tag below never gets re-pointed), so leaving `<Version>` unchanged across several
+commits doesn't "queue up" those changes for consumers — it just means none of them are
+reachable at all until the next bump, since the already-published version's contents
+can never change. Consumers pin to an exact version and opt into a new one explicitly
+(editing their own `<PackageReference>`/`<Version>`) — nothing updates for them
+silently, on any restore, no matter how the version policy here is run.
+
 `.github/workflows/publish.yml` packs and pushes to GitHub Packages, but **only on
 push to `main`**, using the workflow's own `GITHUB_TOKEN` (`permissions: packages:
 write`) — no manual PAT needed. `dev` and `test` never publish a package; GitHub
