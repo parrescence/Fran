@@ -1284,6 +1284,175 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
         background: rgba(232, 135, 61, 0.08);
     }
 
+/* ============================= Date range ============================= */
+
+.fa-daterange {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.fa-daterange-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.fa-daterange-end-label {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-daterange-input {
+    max-width: 11rem;
+}
+
+.fa-daterange-separator {
+    padding-bottom: 0.55rem;
+    color: var(--fa-text-muted);
+}
+
+/* ============================= Search select ============================= */
+
+.fa-searchselect {
+    position: relative;
+}
+
+.fa-searchselect-input {
+    width: 100%;
+}
+
+.fa-searchselect-dropdown {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 0.3rem);
+    left: 0;
+    right: 0;
+    max-height: 16rem;
+    overflow-y: auto;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    box-shadow: var(--fa-border-glow);
+    padding: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.fa-searchselect-status, .fa-searchselect-empty {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.88rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-searchselect-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: var(--fa-radius-sm);
+    padding: 0.45rem 0.7rem;
+    font-family: var(--fa-font);
+    font-size: 0.92rem;
+    color: var(--fa-text);
+    cursor: pointer;
+}
+
+    .fa-searchselect-option:hover, .fa-searchselect-option-highlighted {
+        background: rgba(232, 135, 61, 0.12);
+    }
+
+/* ============================= Data table (paging/filters) ============================= */
+
+.fa-datatable {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.fa-datatable-empty {
+    text-align: center;
+    color: var(--fa-text-muted);
+    padding: 1.4rem 0.9rem !important;
+}
+
+.fa-datatable-filter-row th {
+    background: var(--fa-surface);
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+.fa-datatable-filter-select {
+    width: 100%;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.fa-datatable-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 700;
+    color: inherit;
+    cursor: pointer;
+}
+
+.fa-datatable-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-datatable-pagination-size {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .fa-datatable-pagination-size select {
+        width: auto;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+.fa-datatable-pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.fa-datatable-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    width: 1.9rem;
+    height: 1.9rem;
+    cursor: pointer;
+}
+
+    .fa-datatable-pagination-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .fa-datatable-pagination-btn:not(:disabled):hover {
+        border-color: var(--fa-border-focus);
+    }
+
 /* ============================= List group ============================= */
 
 .fa-list-group {

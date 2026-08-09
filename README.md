@@ -123,7 +123,13 @@ still read it once granted that permission). See `FinanceApp`'s `ci.yml`/
 
 - **Components**: `FaButton` (set `Href` to render an anchor styled as a button),
   `FaCard`, `FaAlert`, `FaBadge`, `FaAvatar`, `FaModal`, `FaTable` (typed
-  `Columns`/`Rows`, renders a real `<table>`), `FaToggle<TValue>` (pass 2+
+  `Columns`/`Rows`, renders a real `<table>`), `FaDataTable<TItem>` (a table that owns
+  its own paging/rows-per-page and per-column sorting/filtering — pass `Columns` as
+  `FaDataTableColumn<TItem>`, each optionally `Sortable` with a `SortKey`, or given
+  `FilterOptions` as `(string Key, string Label)` pairs plus a `FilterPredicate`),
+  `FaSearchSelect<TItem>` (type-to-search combobox — debounced `QueryAsync` lookup,
+  dropdown of results, no JS interop), `FaDateRange` (linked From/To date fields,
+  bound as one `FaDateRangeValue`), `FaToggle<TValue>` (pass 2+
   `(string Title, TValue Value)` options — see its doc comment).
 - **Form fields** (all `InputBase<TValue>`-derived, for use inside an `EditForm`):
   `FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea` (optional maxlength counter /
