@@ -12,6 +12,11 @@ namespace FactoryAspects.Components;
 /// component, a formatted number, ...). Renders through <c>.fa-table</c> in
 /// theme.css, which already styles plain &lt;table&gt; markup — this component exists
 /// so callers get typed headers/rows instead of hand-writing that markup themselves.
+/// Each generated &lt;td&gt; carries a <c>data-label</c> attribute (its column name),
+/// which theme.css's &lt;=720px card mode uses to print a label next to the value —
+/// callers get responsive card layout with no markup changes of their own. Hand-written
+/// <c>&lt;table class="fa-table"&gt;</c> markup opts into card mode by adding
+/// <c>data-label</c> to its own &lt;td&gt;s.
 /// </summary>
 public sealed class FaTable : ComponentBase
 {
@@ -47,6 +52,7 @@ public sealed class FaTable : ComponentBase
             foreach (var column in Columns)
             {
                 builder.OpenElement(seq++, "td");
+                builder.AddAttribute(seq++, "data-label", column);
                 if (row.TryGetValue(column, out var cell))
                 {
                     builder.AddContent(seq++, cell);

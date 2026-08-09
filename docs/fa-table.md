@@ -48,4 +48,37 @@ click/selection, wrap each cell's content in your own click handler (e.g. put an
 | `Rows` | `IReadOnlyList<IReadOnlyDictionary<string, RenderFragment>>` | **required** — one dict per row, keyed by column name |
 | `CssClass` | `string?` | |
 
+## Responsive card mode (≤720px)
+
+Below the same 720px breakpoint the sidebar collapses at, `.fa-table` switches from a
+grid table to a stack of bordered cards — one per row, `<thead>` hidden (visually, not
+`display:none`, so it stays screen-reader accessible) and each `<td>` printing a label
+next to its value.
+
+The label comes from each `<td>`'s `data-label` attribute. `FaTable` emits it
+automatically from `Columns` — nothing to change in your markup. Hand-written
+`<table class="fa-table">` markup opts in by adding `data-label` itself:
+
+```html
+<table class="fa-table">
+  <thead>
+    <tr><th>Name</th><th>Amount</th><th class="fa-table-actions">Actions</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td data-label="Name">Rent</td>
+      <td data-label="Amount">$1,200.00</td>
+      <td class="fa-table-actions">
+        <button class="fa-btn fa-btn-sm">Edit</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+```
+
+`.fa-table-actions` marks the action column — on desktop it shrinks to fit its content
+(`width:1%; white-space:nowrap`, replacing the inline-style trick consumers previously
+hand-rolled); in card mode it drops its label and renders as its own right-aligned row
+pinned above the data fields, assumed to be the last `<td>` in each row.
+
 [← Back to index](index.md)
