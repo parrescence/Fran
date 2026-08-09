@@ -1526,6 +1526,12 @@ html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
     z-index: 1000;
 }
 
+/* Applied instead of unmounting when FaModal's ResetOnClose="false" (the default) keeps
+   ChildContent mounted across a close/reopen cycle so its values persist. */
+.fa-modal-backdrop-hidden {
+    display: none;
+}
+
 .fa-modal {
     background: var(--fa-surface);
     border: 2px solid var(--fa-border);
