@@ -126,6 +126,15 @@ against forgetting to bump `<Version>` before a `test → main` merge.
 `.github/workflows/ci.yml` builds + packs (no publish) on every push/PR to `dev`,
 `test`, and `main` as a sanity check.
 
+After a successful publish, the same workflow also stamps a `vX.Y.Z` git tag (matching
+`<Version>`) on the `main` commit that shipped it — skipped if that tag already exists,
+never re-pointed once it does. This is the pinnable target for anything consuming this
+repo as source rather than as a package (a git submodule, say): check out the tag
+instead of tracking `main`'s moving tip, and `vX.Y.Z` is guaranteed to always mean
+exactly the code that produced that package version. `v0.3.0` was back-filled by hand
+onto the pre-existing `main` tip it corresponds to since it predates this tagging step;
+every release from here on gets tagged automatically.
+
 ## Themes
 
 Five palettes, all in the one `theme.css` (settled: not separate stylesheets per
