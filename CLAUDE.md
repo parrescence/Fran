@@ -148,16 +148,18 @@ every release from here on gets tagged automatically.
 
 ## Themes
 
-Five palettes, all in the one `theme.css` (settled: not separate stylesheets per
+Fourteen palettes, all in the one `theme.css` (settled: not separate stylesheets per
 theme), picked via `data-fa-palette` on `<html>` — `northwest-fall` (default, no
 attribute needed), `southwest-summer`, `northeast-spring`, `midwest-winter`,
-`southeast-beach`. This is a second, independent axis from the existing light/dark/
-colorblind `data-theme` mode switch — every palette × mode combination has to work,
-which is why each palette needs its own dark-mode block
+`southeast-beach`, `greece-aegean`, `spain-flamenco`, `ireland-emerald`,
+`jamaica-blue-mountain`, `japan-indigo`, `korea-celadon`, `china-cinnabar`,
+`india-peacock`, `cameroon-rainforest`. This is a second, independent axis from the
+existing light/dark/colorblind `data-theme` mode switch — every palette × mode
+combination has to work, which is why each palette needs its own dark-mode block
 (`:root[data-fa-palette="X"][data-theme="dark"]`, plus the `prefers-color-scheme`
 equivalent) rather than just a light-mode override. Colorblind mode stays
 palette-agnostic on purpose (see its comment in `theme.css`) — one known-safe
-accent/danger substitution reused across every palette, not five separate ones.
+accent/danger substitution reused across every palette, not fourteen separate ones.
 
 `js/theme.js`'s `window.faSetPalette(name)` mirrors `window.faSetTheme(...)`:
 persists to `localStorage` (`fa-palette` key) and stamps/removes the attribute. No
@@ -168,7 +170,7 @@ consumer has today.
 Each palette's color choices are worked out first in `.themes/` at the repo root — a
 **gitignored**, local-only folder of Markdown design docs (one file per theme, a
 `--fa-*` variable → hex table each), not shipped in the package and not committed. Once
-a palette is wired into `theme.css` (all five are, as of this writing), `.themes/`'s
+a palette is wired into `theme.css` (all fourteen are, as of this writing), `.themes/`'s
 copy of that palette is just historical design rationale, not the source of truth —
 `theme.css` is. Don't assume `.themes/` exists when cloning fresh elsewhere; it's local
 reference material, regenerate it (or ask) rather than expecting it to already be
