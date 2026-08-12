@@ -44,8 +44,9 @@ permissions:
 </configuration>
 ```
 
-The workflow's own `GITHUB_TOKEN` is sufficient — no PAT needed (this repo is private,
-but same-account workflows can still read it once granted the permission above).
+The workflow's own `GITHUB_TOKEN` is sufficient — no PAT needed. GitHub Packages'
+NuGet feeds require authentication to read even for a public repo like this one, but
+a same-account workflow's own token satisfies that once granted the permission above.
 
 ## 2. Reference the package
 

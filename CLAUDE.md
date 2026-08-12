@@ -3,66 +3,50 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in
 this repository.
 
-This is `FactoryAspects` — a standalone Blazor Razor Class Library, split out of the
-[FinanceApp](https://github.com/bencalvin/FinanceApp) monorepo (full history carried
-over via `git subtree split`) into its own repo/package. There is no root/monorepo
-CLAUDE.md above this one to read first; this file is the whole picture.
+This is `FactoryAspects` — a standalone Blazor Razor Class Library, split out of a
+private monorepo (full history carried over via `git subtree split`) into its own
+repo/package. There is no root/monorepo CLAUDE.md above this one to read first; this
+file is the whole picture. This repo is **public** — don't add anything here that
+names or describes the internals of the private app it was split from beyond "it was
+split from one"; the guardrails below apply regardless of which app they came from.
 
 ## This project ships standalone — treat it that way
 
 Built on the assumption it's consumed outside any one app — as a package (currently
 via **GitHub Packages**, `https://nuget.pkg.github.com/bencalvin/index.json`, not
-NuGet.org), or imported as source. See `README.md` for the consumer-facing high-level
-overview (what it is, quick-start install, category-level features list) — that file
-is packed into the `.nupkg` itself (`<None Include="README.md" Pack="true" .../>` in
-`FactoryAspects.csproj`), so keep it accurate, not just this CLAUDE.md. `docs/` is
-**not** packed into the `.nupkg` (only `README.md` is) — links from README.md into
-`docs/install.md`/`docs/index.md`/`docs/site.html` are plain relative paths
-(`docs/...`), deliberately **not** absolute `github.com/.../blob/main/...` URLs. Two
-different audiences read this file and they pull in opposite directions on that
-choice: relative links resolve correctly on GitHub no matter which branch you're
-viewing (`dev`'s README points at `dev`'s docs, `main`'s at `main`'s — self-contained
-per branch), which absolute-to-`main` links don't (they 404 on `dev`/`test` until
-promoted to `main`, which is what happened the one time this was tried). The
-trade-off: relative links don't resolve at all from the README as rendered on the
-GitHub Packages package page, since `docs/` was never packed there either way — that
-reader has to go browse the repo on GitHub regardless of link style, so relative
-links lose nothing there while fixing the more common case.
+NuGet.org), or imported as source. `README.md` is the consumer-facing high-level
+overview and is packed into the `.nupkg` itself (`<None Include="README.md"
+Pack="true" .../>` in `FactoryAspects.csproj`) — keep it accurate, not just this file.
+Full step-by-step/reference detail lives under `docs/` instead (not packed into the
+`.nupkg` — link to it from README with relative paths, not absolute GitHub URLs, so
+each branch's README stays self-contained).
 
 Consequences for any change here:
 
-- **No app-specific coupling, ever.** No reference to any consuming app's project or
-  type (e.g. FinanceApp's `FinanceApp.Shared`/`.Web`, or concepts like `UserId`/
-  `AccountId`/`Transaction`/`Category`/`Payer`/`Budget`), no `ProjectReference` to
-  anything outside this repo. If a component needs data or behavior, it comes in via
-  a `[Parameter]`/`EventCallback`, full stop. This has held since the project existed
-  (originally as `FinanceApp.UI` inside the FinanceApp monorepo) — keep it that way
-  rather than reaching for "just this once" convenience access to some consumer's
-  types.
+- **No app-specific coupling, ever.** No reference to any consuming app's project,
+  type, or domain model, no `ProjectReference` to anything outside this repo. If a
+  component needs data or behavior, it comes in via a `[Parameter]`/`EventCallback`,
+  full stop.
 - **No hardcoded brand/app defaults.** `BrandText` on `AppHeader`/`AppFooter`/
   `SidebarShell`/`StandardShell` is `[Parameter, EditorRequired]` with an empty-string
-  default — every consumer supplies its own (FinanceApp.Web's `MainLayout.razor`
-  passes `BrandText="FinanceApp"` explicitly to `SidebarShell`, for example). Follow
-  the same pattern for any new parameter that would otherwise bake in one consumer's
-  branding/copy.
+  default — every consumer supplies its own. Follow the same pattern for any new
+  parameter that would otherwise bake in one consumer's branding/copy.
 - **`PackageId` (`FactoryAspects.csproj`) is pinned to `FactoryAspects`, and
   `RootNamespace`/`AssemblyName` match it too.** Razor Class Library static assets are
   served at `_content/{PackageId}/...` — `theme.css`/`theme.js`/`sidebar.js` are
   referenced that way from every consumer's `index.html`. Renaming `PackageId`
   without updating every one of those references (in every consumer) silently 404s
-  the CSS/JS with no obvious error. Component/type names themselves (`FaButton`,
-  `FaCard`, `FaToggle<TValue>`, `FaIcon`, ...) are a separate concern from the
-  package/namespace identity — don't conflate "rename the package" with "rename a
-  component," they're independent decisions.
+  the CSS/JS. Component/type names (`FaButton`, `FaCard`, `FaToggle<TValue>`,
+  `FaIcon`, ...) are a separate concern from the package/namespace identity — don't
+  conflate "rename the package" with "rename a component."
 - **`theme.js`/`sidebar.js` are plain vanilla JS, not Blazor JS interop** — IIFEs using
-  only `localStorage`/`document.documentElement`, invoked via plain `onclick="..."`
-  HTML attributes (`ThemeSwitcher.cs`, `AppSidebar.cs`), not
-  `IJSRuntime.InvokeVoidAsync`. This is deliberate: collapsed/expanded and
-  light/dark/colorblind are pure client-side UI state with nothing to keep in sync on
-  the Blazor side. Keep new purely-visual client state in this style rather than
-  wiring up JS interop for it.
+  only `localStorage`/`document.documentElement`, invoked via plain `onclick="..."`/
+  `onchange="..."` HTML attributes (`ThemeSwitcher.cs`, `PaletteSwitcher.cs`,
+  `AppSidebar.cs`), not `IJSRuntime.InvokeVoidAsync`. Deliberate: this is pure
+  client-side UI state with nothing to keep in sync on the Blazor side. Keep new
+  purely-visual client state in this style rather than wiring up JS interop for it.
 - **RCL static assets aren't auto-injected into the host page.** Adding a new CSS/JS
-  file here means the README's install snippet (and every real consumer's
+  file here means `docs/install.md`'s wiring step (and every real consumer's
   `index.html`) needs the corresponding `<link>`/`<script>` tag added by hand —
   `dotnet pack` bundles the file, it doesn't wire up the tag for you.
 - **No license is set yet** (`FactoryAspects.csproj`'s `PackageLicenseExpression` is
@@ -75,38 +59,33 @@ Components are authored as plain C# — `ComponentBase`/`InputBase<TValue>` subc
 overriding `BuildRenderTree(RenderTreeBuilder builder)` directly — not `.razor` markup
 files. This applies to every component in `Components/`, `Layout/`, and `Icons/`.
 (`_Imports.razor` is project config, not a component, and stays.) Rules that keep this
-style from degrading into the mess it was ported out of:
+style consistent:
 
 - **Stable ids are field initializers, generated once, never regenerated inside
   `BuildRenderTree`/`OnParametersSet`/any per-render path.** e.g. `private readonly
   string _id = $"fa-input-{Guid.NewGuid():N}";`. A `Guid.NewGuid()` called during
   render produces a new id on every re-render, which silently breaks anything that
   keys off that id — `@key` diffing, JS `getElementById` lookups, `<label for>`
-  pairing. This was the single most common bug in the two source libraries this
-  project's components were ported/rewritten from — don't reintroduce it.
+  pairing.
 - **Class-list building goes through `Internal.ClassNames.Combine(...)`**
-  (`Internal/ClassNames.cs`) instead of ad hoc string concatenation repeated in every
-  component — `ClassNames.Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null,
-  CssClass)`. Named `ClassNames`, not `CssClass` — most components have a `CssClass`
-  parameter, which would shadow a same-named type inside their own methods. Preserve
-  each component's existing attribute-splat order when converting
-  it (explicit attributes vs. `builder.AddMultipleAttributes(AdditionalAttributes)`) —
-  don't silently change which one wins if a caller passes a conflicting `class` via
-  `AdditionalAttributes`.
+  (`Internal/ClassNames.cs`) instead of ad hoc string concatenation — `ClassNames
+  .Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null, CssClass)`. Named
+  `ClassNames`, not `CssClass` — most components already have a `CssClass` parameter,
+  which would shadow a same-named type inside their own methods. Preserve each
+  component's existing attribute-splat order when converting it (explicit attributes
+  vs. `builder.AddMultipleAttributes(AdditionalAttributes)`) — don't silently change
+  which one wins if a caller passes a conflicting `class` via `AdditionalAttributes`.
 - **Swappable string/formatting behavior goes through an injected interface**
   (`[Inject] ISomeService`), not `new SomeHelper()` constructed inline inside the
   component — keeps it consumer-overridable and testable.
-- **Vanilla-JS, not Blazor JS interop, for client-only visual state** — same rule as
-  `theme.js`/`sidebar.js` above: plain IIFEs wired via `onclick`/data attributes, no
-  `IJSRuntime.InvokeVoidAsync`/`[JSInvokable]`. But check for a pure-Blazor answer
-  first, since one often exists and needs no JS file at all: `FaDatePicker`'s calendar
-  popup looks JS-shaped (open/close, outside-click-to-close, positioning) but ships
-  with zero JavaScript — open/closed is a plain bool field, and "close when focus
-  leaves the control" is a native `@onfocusout` + short grace-period delay (so a
-  `focusin` on a sibling field inside the same control cancels the pending close)
-  instead of a document click listener reaching back into Blazor over JS interop. Only
-  reach for a `wwwroot/js/<component>.js` IIFE when the behavior genuinely can't be
-  expressed in Blazor's own event model.
+- **Vanilla-JS, not Blazor JS interop, for client-only visual state.** But check for a
+  pure-Blazor answer first, since one often exists and needs no JS file at all:
+  `FaDatePicker`'s calendar popup looks JS-shaped (open/close, outside-click-to-close,
+  positioning) but ships with zero JavaScript — open/closed is a plain bool field, and
+  "close when focus leaves the control" is a native `@onfocusout` + short
+  grace-period delay instead of a document click listener reaching back into Blazor
+  over JS interop. Only reach for a `wwwroot/js/<component>.js` IIFE when the
+  behavior genuinely can't be expressed in Blazor's own event model.
 
 ## Branching: dev → test → main
 
@@ -127,85 +106,50 @@ raise `required_approving_review_count` on both branches' protection rules.
 ## Publishing
 
 Bump `<Version>` in `FactoryAspects.csproj` as part of normal `dev` work (semantic
-`major.minor.hotfix`, e.g. `0.1.0`) — that version rides unchanged through the
-`dev → test → main` promotion; don't bump it again at the `test → main` step.
-
-**Bump on every change that reaches `main`, not just at the end of a batch of work** —
-the patch (`z`) number by default (`0.3.0` → `0.3.1` → `0.3.2` → ...), `minor`/`major`
-only when a consumer explicitly calls for it. Package versions are immutable once
-published (GitHub Packages rejects re-publishing an existing version, and the release
-tag below never gets re-pointed), so leaving `<Version>` unchanged across several
-commits doesn't "queue up" those changes for consumers — it just means none of them are
-reachable at all until the next bump, since the already-published version's contents
-can never change. Consumers pin to an exact version and opt into a new one explicitly
-(editing their own `<PackageReference>`/`<Version>`) — nothing updates for them
-silently, on any restore, no matter how the version policy here is run.
+`major.minor.hotfix`), on every change that reaches `main` — the patch (`z`) number by
+default, `minor`/`major` only when a consumer explicitly calls for it. That version
+rides unchanged through the `dev → test → main` promotion; don't bump it again at the
+`test → main` step. Package versions are immutable once published (GitHub Packages
+rejects re-publishing an existing version), so leaving `<Version>` unchanged across
+several commits doesn't queue those changes up for consumers — it just means none of
+them are reachable until the next bump.
 
 `.github/workflows/publish.yml` packs and pushes to GitHub Packages, but **only on
-push to `main`**, using the workflow's own `GITHUB_TOKEN` (`permissions: packages:
-write`) — no manual PAT needed. `dev` and `test` never publish a package; GitHub
-Packages rejects re-publishing an existing version number, which is the real backstop
-against forgetting to bump `<Version>` before a `test → main` merge.
-`.github/workflows/ci.yml` builds + packs (no publish) on every push/PR to `dev`,
-`test`, and `main` as a sanity check.
-
-After a successful publish, the same workflow also stamps a `vX.Y.Z` git tag (matching
-`<Version>`) on the `main` commit that shipped it — skipped if that tag already exists,
-never re-pointed once it does. This is the pinnable target for anything consuming this
-repo as source rather than as a package (a git submodule, say): check out the tag
-instead of tracking `main`'s moving tip, and `vX.Y.Z` is guaranteed to always mean
-exactly the code that produced that package version. `v0.3.0` was back-filled by hand
-onto the pre-existing `main` tip it corresponds to since it predates this tagging step;
-every release from here on gets tagged automatically.
+push to `main`**, using the workflow's own `GITHUB_TOKEN` — no manual PAT needed.
+`dev`/`test` never publish. `.github/workflows/ci.yml` builds + packs (no publish) on
+every push/PR to `dev`/`test`/`main` as a sanity check. After a successful publish,
+the same workflow stamps a `vX.Y.Z` git tag on the `main` commit that shipped it
+(skipped if it already exists, never re-pointed) — the pinnable target for anything
+consuming this repo as source (a git submodule, say) instead of tracking `main`'s
+moving tip.
 
 ## Themes
 
-Fourteen palettes, all in the one `theme.css` (settled: not separate stylesheets per
-theme), picked via `data-fa-palette` on `<html>` — `northwest-fall` (default, no
-attribute needed), `southwest-summer`, `northeast-spring`, `midwest-winter`,
-`southeast-beach`, `greece-aegean`, `spain-flamenco`, `ireland-emerald`,
-`jamaica-blue-mountain`, `japan-indigo`, `korea-celadon`, `china-cinnabar`,
-`india-peacock`, `cameroon-rainforest`. This is a second, independent axis from the
-existing light/dark/colorblind `data-theme` mode switch — every palette × mode
-combination has to work, which is why each palette needs its own dark-mode block
-(`:root[data-fa-palette="X"][data-theme="dark"]`, plus the `prefers-color-scheme`
-equivalent) rather than just a light-mode override. Colorblind mode stays
-palette-agnostic on purpose (see its comment in `theme.css`) — one known-safe
-accent/danger substitution reused across every palette, not fourteen separate ones.
-
-`js/theme.js`'s `window.faSetPalette(name)` mirrors `window.faSetTheme(...)`:
-persists to `localStorage` (`fa-palette` key) and stamps/removes the attribute.
-`PaletteSwitcher` (`Components/PaletteSwitcher.cs`) is the bundled runtime-switching
-UI for it — a `<select>` over all fourteen names, not a button row like
-`ThemeSwitcher` (fourteen options don't fit a pill row the way three modes do).
-`theme.js`'s `syncPaletteSelects` keeps every `<select data-palette-select>` on the
-page showing the palette actually in effect, both on first paint (from
-`localStorage`) and after any `faSetPalette` call — a plain `onchange` attribute
-doesn't update a `<select>`'s displayed value for you when the value changes
-programmatically, only on user interaction. `docs/install.md`'s "Pick a color
-palette" step and `docs/palette-switcher.md` cover both the build-time (hardcode the
-attribute) and runtime (`<PaletteSwitcher>` or call `faSetPalette` directly) paths a
-consumer has today. The README itself stays high-level (what/why, a quick-start
-install snippet, a category-level features list) and links out to
-`docs/install.md`/`docs/index.md`/`docs/site.html` for the step-by-step and
-per-component detail — don't let install/theme/component detail creep back into the
-README itself.
+Fourteen color palettes ship in the one `theme.css`, picked via `data-fa-palette` on
+`<html>` — a second, independent axis from the existing light/dark/colorblind
+`data-theme` mode switch, so every palette × mode combination needs its own dark-mode
+block (`:root[data-fa-palette="X"][data-theme="dark"]`, plus the
+`prefers-color-scheme` equivalent) rather than just a light-mode override. Colorblind
+mode stays palette-agnostic on purpose (see its comment in `theme.css`) — one
+known-safe accent/danger substitution reused across every palette, not fourteen
+separate ones. The full palette list, and how a consumer picks one
+(`<PaletteSwitcher>`, `window.faSetPalette(...)`, or a build-time attribute), is
+documented in `docs/install.md`/`docs/palette-switcher.md` — don't duplicate that
+detail here, just the two things a contributor actually needs: every palette needs
+both mode blocks, and colorblind mode never gets a palette-specific variant.
 
 Each palette's color choices are worked out first in `.themes/` at the repo root — a
-**gitignored**, local-only folder of Markdown design docs (one file per theme, a
-`--fa-*` variable → hex table each), not shipped in the package and not committed. Once
-a palette is wired into `theme.css` (all fourteen are, as of this writing), `.themes/`'s
-copy of that palette is just historical design rationale, not the source of truth —
-`theme.css` is. Don't assume `.themes/` exists when cloning fresh elsewhere; it's local
-reference material, regenerate it (or ask) rather than expecting it to already be
-there, and don't treat its absence as a sign a palette isn't real — check `theme.css`.
+**gitignored**, local-only folder of Markdown design docs, not shipped in the package
+and not committed. Once a palette is wired into `theme.css`, `.themes/`'s copy of it
+is just historical design rationale, not the source of truth — `theme.css` is. Don't
+assume `.themes/` exists when cloning fresh elsewhere.
 
 ## Components inventory
 
 See `docs/index.md` — keep it in sync when adding/removing a component (this file for
 contributor-facing rules, `docs/index.md` for the consumer-facing component list, each
-entry linking to its own usage-example page under `docs/`). The README no longer
-duplicates the component list itself — it just points to `docs/index.md`.
+entry linking to its own usage-example page under `docs/`). The README doesn't
+duplicate the component list — it just points to `docs/index.md`.
 
 `FaToggle<TValue>` (`Components/FaToggle.cs`) is the one component with real runtime
 validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two
@@ -216,7 +160,6 @@ options. `FaRadioGroup<TValue>` mirrors the same Options-tuple shape.
 
 `FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea`, `FaCheckbox`, `FaDatePicker`, and
 `FaCurrency` are all `InputBase<TValue>`-derived (directly or via `InputTextArea`/
-`InputCheckbox`) — they only work inside an `EditForm`/`EditContext`. As of the split
-from FinanceApp, nothing in that example consumer used `EditForm`, so none of these
-were exercised there — don't assume any of them are wired into any particular consumer
-just because they exist here.
+`InputCheckbox`) — they only work inside an `EditForm`/`EditContext`. Don't assume any
+of these are exercised by a particular consumer just because they exist here — check
+that consumer's own code for actual `EditForm` usage before relying on it.

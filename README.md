@@ -38,9 +38,3 @@ switcher, and a hand-drawn SVG icon set — see **[`docs/index.md`](docs/index.m
 the full inventory with usage examples for each, or open
 [`docs/site.html`](docs/site.html) in a browser for the same content as one
 scrollable page (no server needed).
-
-> `docs/` links above are relative, so they resolve correctly no matter which branch
-> you're viewing on GitHub (`dev`/`test`/`main`) — but they won't resolve from the
-> README as rendered on the GitHub Packages package page, since only `README.md`
-> itself is packed into the `.nupkg`, not `docs/`. Browse the repo on GitHub for the
-> full docs.

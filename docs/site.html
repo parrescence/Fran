@@ -485,7 +485,7 @@
     &lt;add key="github-bencalvin" value="https://nuget.pkg.github.com/bencalvin/index.json" /&gt;
   &lt;/packageSources&gt;
 &lt;/configuration&gt;</code></pre></div>
-      <p>The workflow's own <code>GITHUB_TOKEN</code> is sufficient — no PAT needed (this repo is private, but same-account workflows can still read it once granted the permission above).</p>
+      <p>The workflow's own <code>GITHUB_TOKEN</code> is sufficient — no PAT needed. GitHub Packages' NuGet feeds require authentication to read even for a public repo like this one, but a same-account workflow's own token satisfies that once granted the permission above.</p>
 
       <h3>2. Reference the package</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package FactoryAspects</code></pre></div>
