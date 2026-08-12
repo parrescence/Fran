@@ -36,6 +36,7 @@ scrollable textarea.
 | `Label` | `string?` | |
 | `Placeholder` | `string?` | |
 | `MaxLength` | `int?` | shows a live counter when set |
-| `ReadOnlyDisplay` | `bool` | render as plain text instead of an editable box |
+| `ReadOnly` | `bool` | same boxed textarea look, muted and non-interactive |
+| `ReadOnlyDisplay` | `bool` | drops the box entirely, flows as plain text instead — wins over `ReadOnly` if both are set |
 
 [← Back to index](index.md)

@@ -17,6 +17,14 @@ public sealed class FaTextarea : InputTextArea
     [Parameter] public string? ContainerCssClass { get; set; }
     [Parameter] public int? MaxLength { get; set; }
     [Parameter] public bool ReadOnlyDisplay { get; set; }
+    /// <summary>
+    /// Same boxed textarea look as normal, just muted and non-interactive — for a
+    /// value that's temporarily locked but should still read as a form field.
+    /// Different from <see cref="ReadOnlyDisplay"/>, which drops the box entirely to
+    /// flow as plain text; this keeps the box. Ignored when <see cref="ReadOnlyDisplay"/>
+    /// is also set (that one wins).
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private readonly string _id = $"fa-textarea-{Guid.NewGuid():N}";
 
@@ -51,10 +59,11 @@ public sealed class FaTextarea : InputTextArea
             builder.AddAttribute(14, "placeholder", Placeholder);
             builder.AddAttribute(15, "maxlength", MaxLength);
             builder.AddAttribute(16, "value", CurrentValueAsString);
-            builder.AddMultipleAttributes(17, AdditionalAttributes);
-            builder.AddAttribute(18, "oninput", EventCallback.Factory.CreateBinder<string?>(this, value => CurrentValueAsString = value, CurrentValueAsString));
+            builder.AddAttribute(17, "readonly", ReadOnly);
+            builder.AddMultipleAttributes(18, AdditionalAttributes);
+            builder.AddAttribute(19, "oninput", EventCallback.Factory.CreateBinder<string?>(this, value => CurrentValueAsString = value, CurrentValueAsString));
             builder.SetUpdatesAttributeName("value");
-            builder.AddElementReferenceCapture(19, reference => Element = reference);
+            builder.AddElementReferenceCapture(20, reference => Element = reference);
             builder.CloseElement();
 
             if (MaxLength is int max)

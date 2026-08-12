@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/Blazor/">
+    <Project Path="Blazor/FactoryAspects.csproj" />
+  </Folder>
+</Solution>

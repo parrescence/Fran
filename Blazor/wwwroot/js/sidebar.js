@@ -7,7 +7,7 @@
     var STORAGE_KEY = 'fa-sidebar-collapsed';
     var CLASS_NAME = 'fa-sidebar-collapsed';
     var SETTLED_CLASS_NAME = 'fa-sidebar-collapsed-settled';
-    // Matches .fa-sidebar-link-text's max-width transition duration in theme.css —
+    // Matches .fa-sidebar-link-text's max-width transition duration in fa-styles.css —
     // justify-content isn't an animatable CSS property, so centering the icon has to
     // be a discrete class added once the label has actually finished collapsing,
     // not the instant collapse starts (that read as the icon jumping to center

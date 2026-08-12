@@ -59,5 +59,6 @@ value is an arbitrary `TItem`, not a string), so it works with or without an
 | `MinQueryLength` | `int` | default `1` — shorter text doesn't query |
 | `DebounceMilliseconds` | `int` | default `250` |
 | `NoResultsText` | `string` | |
+| `ReadOnly` | `bool` | flattens to the selected item's label as plain text with a bottom border |
 
 [← Back to index](index.md)

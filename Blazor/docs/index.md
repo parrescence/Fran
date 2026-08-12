@@ -7,7 +7,7 @@ laid out with a sidebar nav and copy buttons, no server required.
 One page per component: a minimal usage example and how to read the value back out.
 This assumes you've already done the install/wiring steps in
 [**`install.md`**](install.md) (package reference, namespace imports, the
-`theme.css`/`theme.js`/`sidebar.js` `<link>`/`<script>` tags in your host page, and
+`fa-styles.css`/`theme.js`/`sidebar.js` `<link>`/`<script>` tags in your host page, and
 picking a color palette).
 
 Every example is a `.razor` file — the components themselves are authored as plain C#
@@ -20,8 +20,8 @@ Two binding shapes show up repeatedly:
   `FaCheckbox`, `FaDatePicker`, `FaCurrency`) only work inside an `<EditForm>`/
   `EditContext`, same as Blazor's own `InputText`/`InputNumber`.
 - **Everything else that's bindable** (`FaToggle`, `FaRadioGroup`, `FaSearchSelect`,
-  `FaDateRange`) uses a plain `Value`/`ValueChanged` pair, so `@bind-Value` works with
-  or without an `EditForm` around it.
+  `FaDropdown`, `FaDateRange`) uses a plain `Value`/`ValueChanged` pair, so
+  `@bind-Value` works with or without an `EditForm` around it.
 
 ## Start here
 
@@ -42,6 +42,7 @@ Two binding shapes show up repeatedly:
 - [FaInput](fa-input.md) — generic text/number field
 - [FaSelect](fa-select.md) — plain `<select>`, options as child content
 - [FaSearchSelect](fa-search-select.md) — type-to-search combobox over your own query function
+- [FaDropdown](fa-dropdown.md) — type-to-filter combobox over a local list, windowed to N visible rows
 - [FaTextarea](fa-textarea.md) — multi-line text, optional maxlength counter
 - [FaCheckbox](fa-checkbox.md) — checkbox with a clickable label
 - [FaRadioGroup](fa-radio-group.md) — a group of radio buttons from a tuple list

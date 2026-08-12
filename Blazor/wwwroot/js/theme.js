@@ -1,7 +1,7 @@
 // Theme toggle — plain JS on purpose, not Blazor JS interop. Nothing here needs
 // C# state: it's three explicit modes (light / dark / colorblind) stamped as
 // data-theme on <html>, and a separate seasonal/regional palette stamped as
-// data-fa-palette on <html> (see theme.css's "Theme variants" section — the two
+// data-fa-palette on <html> (see fa-styles.css's palette partial — the two
 // attributes are independent axes) — both persisted to localStorage, read back by
 // an inline snippet in index.html <head> before first paint so there's no flash of
 // the wrong theme/palette. <ThemeSwitcher> calls window.faSetTheme(...) directly

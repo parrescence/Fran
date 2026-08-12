@@ -1,0 +1,15 @@
+/* ============================= Progress ============================= */
+
+.fa-progress {
+    background: var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    height: 6px;
+    overflow: hidden;
+}
+
+.fa-progress-bar {
+    height: 100%;
+    background: var(--fa-accent);
+    transition: width var(--fa-transition-medium);
+}
+

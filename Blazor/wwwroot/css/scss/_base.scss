@@ -1,0 +1,37 @@
+/* ============================= Base / reset ============================= */
+/* No third-party CSS library (Bootstrap or otherwise) — this replaces the handful of
+   browser-default resets Bootstrap's reboot.css used to provide. */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--fa-font);
+    background: var(--fa-cream);
+    color: var(--fa-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0.6em;
+    font-weight: 700;
+}
+
+p {
+    margin: 0 0 0.75em;
+}
+
+a {
+    color: var(--fa-primary-dark);
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+table {
+    border-collapse: collapse;
+}
+

@@ -1,0 +1,29 @@
+/* ============================= Date range ============================= */
+
+.fa-daterange {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.fa-daterange-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.fa-daterange-end-label {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-daterange-input {
+    max-width: 11rem;
+}
+
+.fa-daterange-separator {
+    padding-bottom: 0.55rem;
+    color: var(--fa-text-muted);
+}
+

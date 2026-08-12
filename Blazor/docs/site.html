@@ -6,7 +6,7 @@
 <title>FactoryAspects — component docs</title>
 <style>
   /* ============================= Tokens ============================= */
-  /* Pulled directly from FactoryAspects' own wwwroot/css/theme.css (Northwest Fall,
+  /* Pulled directly from FactoryAspects' own wwwroot/css/fa-styles.css (Northwest Fall,
      the library's default palette) — this page documents that library, so it wears
      the library's own design system rather than inventing a separate one. */
   :root {
@@ -411,6 +411,7 @@
         <li><a href="#fa-input">FaInput</a></li>
         <li><a href="#fa-select">FaSelect</a></li>
         <li><a href="#fa-search-select">FaSearchSelect</a></li>
+        <li><a href="#fa-dropdown">FaDropdown</a></li>
         <li><a href="#fa-textarea">FaTextarea</a></li>
         <li><a href="#fa-checkbox">FaCheckbox</a></li>
         <li><a href="#fa-radio-group">FaRadioGroup</a></li>
@@ -442,7 +443,7 @@
   <main class="content">
 
     <section class="intro" id="overview">
-      <p class="lede">One page per component: a minimal usage example and how to read the value back out. This assumes the <a href="#install">install &amp; setup</a> steps are already done — the package reference, namespace imports, plus the <code>theme.css</code>/<code>theme.js</code>/<code>sidebar.js</code> tags in your host page.</p>
+      <p class="lede">One page per component: a minimal usage example and how to read the value back out. This assumes the <a href="#install">install &amp; setup</a> steps are already done — the package reference, namespace imports, plus the <code>fa-styles.css</code>/<code>theme.js</code>/<code>sidebar.js</code> tags in your host page.</p>
       <p>Every component is authored as plain C# (a <code>ComponentBase</code>/<code>InputBase&lt;TValue&gt;</code> subclass), but you consume it the normal Blazor way — tags, attributes, <code>@bind-*</code>, all of it.</p>
 
       <div class="binding-note">
@@ -452,7 +453,7 @@
         </div>
         <div class="binding-card">
           <h3>Anywhere</h3>
-          <p><code>FaToggle</code>, <code>FaRadioGroup</code>, <code>FaSearchSelect</code>, <code>FaDateRange</code> use a plain <code>Value</code>/<code>ValueChanged</code> pair, so <code>@bind-Value</code> works with or without an <code>EditForm</code> around it.</p>
+          <p><code>FaToggle</code>, <code>FaRadioGroup</code>, <code>FaSearchSelect</code>, <code>FaDropdown</code>, <code>FaDateRange</code> use a plain <code>Value</code>/<code>ValueChanged</code> pair, so <code>@bind-Value</code> works with or without an <code>EditForm</code> around it.</p>
         </div>
       </div>
     </section>
@@ -498,15 +499,15 @@
 
       <h3>4. Wire the static assets into your host page</h3>
       <p>Razor Class Libraries ship their static assets under <code>_content/{PackageId}/...</code>, but they are <strong>not</strong> auto-injected into your host page — this is standard Blazor RCL behavior, not something specific to this package. Add these tags yourself:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FactoryAspects/css/theme.css" /&gt;
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FactoryAspects/css/fa-styles.css" /&gt;
 ...
 &lt;script src="_content/FactoryAspects/js/theme.js"&gt;&lt;/script&gt;
 &lt;script src="_content/FactoryAspects/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
       <p><code>theme.js</code>/<code>sidebar.js</code> are plain vanilla-JS IIFEs (no Blazor JS interop, no external dependencies) backing the theme switcher and the sidebar's collapse toggle — both persist to <code>localStorage</code> and stamp classes on <code>&lt;html&gt;</code>, so no Blazor component state needs to stay in sync with them.</p>
-      <p><code>theme.css</code> pulls one Google Font over <code>@import</code> (<code>Baloo 2</code>) from <code>fonts.googleapis.com</code> — a public CDN URL that works from any host, but if your app needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.</p>
+      <p><code>fa-styles.css</code> pulls one Google Font over <code>@import</code> (<code>Baloo 2</code>) from <code>fonts.googleapis.com</code> — a public CDN URL that works from any host, but if your app needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.</p>
 
       <h3>5. Pick a color palette (optional)</h3>
-      <p>Fourteen seasonal/regional/country color palettes ship in the one <code>theme.css</code>, picked via a <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> — a second, independent axis from the light/dark/colorblind mode (<code>data-theme</code>); any palette combines with any mode. Default is <code>northwest-fall</code> (no attribute needed) if you skip this step.</p>
+      <p>Fourteen seasonal/regional/country color palettes ship in the one <code>fa-styles.css</code>, picked via a <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> — a second, independent axis from the light/dark/colorblind mode (<code>data-theme</code>); any palette combines with any mode. Default is <code>northwest-fall</code> (no attribute needed) if you skip this step.</p>
       <p>Available names: <code>northwest-fall</code>, <code>southwest-summer</code>, <code>northeast-spring</code>, <code>midwest-winter</code>, <code>southeast-beach</code>, <code>greece-aegean</code>, <code>spain-flamenco</code>, <code>ireland-emerald</code>, <code>jamaica-blue-mountain</code>, <code>japan-indigo</code>, <code>korea-celadon</code>, <code>china-cinnabar</code>, <code>india-peacock</code>, <code>cameroon-rainforest</code>.</p>
 
       <h4>Option A — pick one at build time</h4>
@@ -521,7 +522,7 @@
       <p>Either way, this persists the choice to <code>localStorage</code> under <code>fa-palette</code> and stamps <code>data-fa-palette</code> on <code>&lt;html&gt;</code>.</p>
 
       <h4>Either way</h4>
-      <p>Add this inline snippet to your host page's <code>&lt;head&gt;</code>, before the <code>theme.css</code> <code>&lt;link&gt;</code> from step 4, so a returning visitor's saved mode/palette applies before first paint instead of flashing the default and then jumping:</p>
+      <p>Add this inline snippet to your host page's <code>&lt;head&gt;</code>, before the <code>fa-styles.css</code> <code>&lt;link&gt;</code> from step 4, so a returning visitor's saved mode/palette applies before first paint instead of flashing the default and then jumping:</p>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;script&gt;
   (function () {
     var theme = localStorage.getItem('fa-theme');
@@ -779,6 +780,7 @@
           <tr><td><code>Placeholder</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>Type</code></td><td><code>string</code></td><td>HTML type, default "text"</td></tr>
           <tr><td><code>Step</code></td><td><code>string?</code></td><td>for type="number"</td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>same boxed look, muted and non-interactive</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -814,6 +816,7 @@
           <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>TValue</code></td><td>@bind-Value</td></tr>
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>&lt;option&gt; elements</td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>renders disabled (no native readonly on &lt;select&gt;), same boxed look, muted</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -863,6 +866,80 @@
           <tr><td><code>MinQueryLength</code></td><td><code>int</code></td><td>default 1</td></tr>
           <tr><td><code>DebounceMilliseconds</code></td><td><code>int</code></td><td>default 250</td></tr>
           <tr><td><code>NoResultsText</code></td><td><code>string</code></td><td></td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens to the selected item's label as plain text with a bottom border</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaDropdown ============================= -->
+    <section class="component" id="fa-dropdown">
+      <span class="kicker">Form fields</span>
+      <h2>FaDropdown&lt;TItem&gt;</h2>
+      <p class="dek">Dropdown over either a local <code>Items</code> list or a server-paged <code>QueryPageAsync</code> provider, in two selection modes picked via <code>Searchable</code>. Never renders more than <code>MaxVisibleItems</code> rows (default 10) — the mouse wheel or arrow keys slide the visible window instead of the dropdown growing or scrolling natively, and in remote mode sliding past what's loaded pulls the next page.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaDropdown TItem="Person"
+            Label="Person"
+            Placeholder="Type a name…"
+            Items="_people"
+            ItemLabel="p =&gt; p.Name"
+            @bind-Value="_selectedPerson" /&gt;
+
+@code {
+    private Person? _selectedPerson;
+    private List&lt;Person&gt; _people = ...; // your own local list
+}</code></pre></div>
+
+      <h4>Plain dropdown (no search)</h4>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaDropdown TItem="Person"
+            Label="Person"
+            Searchable="false"
+            Items="_people"
+            ItemLabel="p =&gt; p.Name"
+            @bind-Value="_selectedPerson" /&gt;</code></pre></div>
+
+      <h4>Pulling from a database (server paging)</h4>
+      <p>Set <code>QueryPageAsync</code> instead of <code>Items</code>. It's asked for one page at a time — <code>(search, skip, take)</code> in, <code>(items, totalCount)</code> out — same "caller owns the data source" split as FaSearchSelect's <code>QueryAsync</code> and FaGrid's <code>ItemsProvider</code>.</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaDropdown TItem="Person"
+            Label="Person"
+            QueryPageAsync="QueryPeoplePageAsync"
+            ItemLabel="p =&gt; p.Name"
+            @bind-Value="_selectedPerson" /&gt;
+
+@code {
+    private Person? _selectedPerson;
+
+    private async Task&lt;(IReadOnlyList&lt;Person&gt; Items, int TotalCount)&gt; QueryPeoplePageAsync(string search, int skip, int take)
+    {
+        return await _peopleService.SearchPageAsync(search, skip, take); // your own paged lookup
+    }
+}</code></pre></div>
+
+      <h4>Custom row rendering</h4>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaDropdown TItem="Person" Items="_people" ItemLabel="p =&gt; p.Name" @bind-Value="_selectedPerson"&gt;
+    &lt;ItemTemplate Context="person"&gt;
+        &lt;strong&gt;@person.Name&lt;/strong&gt; &lt;span class="fa-text-muted"&gt;@person.Email&lt;/span&gt;
+    &lt;/ItemTemplate&gt;
+&lt;/FaDropdown&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> <code>@bind-Value</code> gives you the selected <code>TItem</code> directly. <code>@bind-SearchText</code> is also available for the raw typed text.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Items</code></td><td><code>IReadOnlyList&lt;TItem&gt;</code></td><td>local list — ignored when QueryPageAsync is set</td></tr>
+          <tr><td><code>QueryPageAsync</code></td><td><code>Func&lt;string, int, int, Task&lt;(IReadOnlyList&lt;TItem&gt;, int)&gt;&gt;?</code></td><td>server-paged alternative to Items</td></tr>
+          <tr><td><code>ItemLabel</code></td><td><code>Func&lt;TItem, string&gt;</code></td><td class="req">required</td></tr>
+          <tr><td><code>ItemTemplate</code></td><td><code>RenderFragment&lt;TItem&gt;?</code></td><td>custom row rendering</td></tr>
+          <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>TItem?</code></td><td>@bind-Value</td></tr>
+          <tr><td><code>SearchText</code> / <code>SearchTextChanged</code></td><td><code>string?</code></td><td>@bind-SearchText</td></tr>
+          <tr><td><code>Searchable</code></td><td><code>bool</code></td><td>default true; false = plain read-only click-to-open dropdown</td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens to the selected item's label as plain text with a bottom border</td></tr>
+          <tr><td><code>MaxVisibleItems</code></td><td><code>int</code></td><td>default 10; also the QueryPageAsync page size</td></tr>
+          <tr><td><code>DebounceMilliseconds</code></td><td><code>int</code></td><td>default 250; ignored in local mode</td></tr>
+          <tr><td><code>NoResultsText</code></td><td><code>string</code></td><td></td></tr>
+          <tr><td><code>LoadingText</code></td><td><code>string</code></td><td>shown while the first QueryPageAsync page loads</td></tr>
         </table>
       </div>
     </section>
@@ -893,7 +970,8 @@
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>Placeholder</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>MaxLength</code></td><td><code>int?</code></td><td>live counter when set</td></tr>
-          <tr><td><code>ReadOnlyDisplay</code></td><td><code>bool</code></td><td>renders as plain text</td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>same boxed textarea look, muted and non-interactive</td></tr>
+          <tr><td><code>ReadOnlyDisplay</code></td><td><code>bool</code></td><td>drops the box, flows as plain text — wins over ReadOnly if both set</td></tr>
         </table>
       </div>
     </section>
@@ -922,6 +1000,7 @@
           <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
           <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>bool</code></td><td>@bind-Value</td></tr>
           <tr><td><code>Label</code></td><td><code>string?</code></td><td>clickable label text</td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens to a plain ☑/☐ + label with a bottom border</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -961,6 +1040,7 @@
           <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>TValue?</code></td><td>@bind-Value</td></tr>
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>Disabled</code></td><td><code>bool</code></td><td></td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens to the selected option's title as plain text with a bottom border</td></tr>
         </table>
       </div>
     </section>
@@ -1021,6 +1101,7 @@
           <tr><td><code>ShowInputWhen</code></td><td><code>Func&lt;TValue, bool&gt;?</code></td><td></td></tr>
           <tr><td><code>InputValue</code> / <code>InputValueChanged</code></td><td><code>string?</code></td><td>@bind-InputValue</td></tr>
           <tr><td><code>Disabled</code></td><td><code>bool</code></td><td></td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens the pill row to the active option's title as plain text with a bottom border</td></tr>
         </table>
       </div>
     </section>
@@ -1053,6 +1134,7 @@
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>FloatingLabel</code></td><td><code>bool</code></td><td>label overlaps the field</td></tr>
           <tr><td><code>Min</code> / <code>Max</code></td><td><code>DateOnly?</code></td><td></td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens the fields, toggle, and popup to the formatted date as plain text with a bottom border</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -1085,6 +1167,7 @@
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>FromLabel</code> / <code>ToLabel</code></td><td><code>string?</code></td><td>default "From"/"To"</td></tr>
           <tr><td><code>Min</code> / <code>Max</code></td><td><code>DateOnly?</code></td><td>applies to both ends</td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens both ends to "From – To" as plain text with a bottom border</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -1116,6 +1199,7 @@
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>Min</code> / <code>Max</code></td><td><code>decimal?</code></td><td></td></tr>
           <tr><td><code>CurrencySymbol</code></td><td><code>string</code></td><td>default "$"</td></tr>
+          <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>same boxed look, muted and non-interactive</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>

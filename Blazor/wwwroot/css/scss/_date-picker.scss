@@ -1,0 +1,184 @@
+/* ============================= Date picker ============================= */
+
+.fa-datepicker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.4rem 0.7rem;
+    box-shadow: var(--fa-border-glow);
+    transition: border-color var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    .fa-datepicker:focus-within {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-datepicker-fields {
+    display: flex;
+    align-items: center;
+}
+
+.fa-datepicker-input {
+    width: 2.2ch;
+    border: none;
+    background: transparent;
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    text-align: center;
+}
+
+    .fa-datepicker-input:last-child {
+        width: 4ch;
+    }
+
+    .fa-datepicker-input:focus {
+        outline: none;
+    }
+
+.fa-datepicker-separator {
+    color: var(--fa-text-muted);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.fa-datepicker-toggle {
+    display: inline-flex;
+    border: none;
+    background: none;
+    padding: 0.1rem;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* --- Floating label, same idea as the plain .fa-label but overlapping the border --- */
+.fa-datepicker-floating {
+    min-height: 3.2em;
+}
+
+.fa-datepicker-floating-label {
+    position: absolute;
+    top: -0.6rem;
+    left: 0.6rem;
+    font-size: 0.7rem;
+    background: var(--fa-surface);
+    padding: 0 0.3rem;
+    border-radius: var(--fa-radius-sm);
+}
+
+/* --- Popup: a plain Blazor bool (FaDatePicker._isOpen) drives this class — no JS
+   needed to open/close it, just to size/position it would need extra work this
+   component intentionally skips (see FaDatePicker.cs remarks). Always rendered,
+   just hidden, so no @ref remount churn between opens. --- */
+.fa-datepicker-calendar {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    margin-top: 0.4rem;
+    width: 17rem;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    box-shadow: var(--fa-border-glow);
+    padding: 0.6rem;
+}
+
+    .fa-datepicker-calendar.fa-datepicker-calendar-open {
+        display: block;
+    }
+
+.fa-datepicker-calendar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.fa-datepicker-calendar-month {
+    font-weight: 700;
+    color: var(--fa-primary-dark);
+    flex: 1;
+    text-align: center;
+}
+
+.fa-datepicker-calendar-year {
+    width: 4.5rem;
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    padding: 0.15rem 0.3rem;
+    font-family: var(--fa-font);
+    color: var(--fa-text);
+    background: var(--fa-surface);
+}
+
+.fa-datepicker-calendar-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.fa-datepicker-calendar-weekdays, .fa-datepicker-calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+}
+
+.fa-datepicker-calendar-weekdays span {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--fa-text-muted);
+}
+
+.fa-datepicker-day {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: var(--fa-radius-sm);
+    background: none;
+    color: var(--fa-text);
+    cursor: pointer;
+}
+
+    .fa-datepicker-day:hover:not(:disabled) {
+        background: rgba(232, 135, 61, 0.15);
+    }
+
+    .fa-datepicker-day:disabled {
+        color: var(--fa-text-muted);
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .fa-datepicker-day-selected {
+        background: var(--fa-primary);
+        color: var(--fa-text-on-primary);
+    }
+
+.fa-datepicker-calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--fa-border);
+}
+
+.fa-datepicker-calendar-footer-btn {
+    border: none;
+    background: none;
+    color: var(--fa-primary-dark);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+

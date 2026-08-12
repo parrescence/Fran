@@ -67,5 +67,6 @@ via `@bind-InputValue`.
 | `ShowInputWhen` | `Func<TValue, bool>?` | when the companion input is visible |
 | `InputValue` / `InputValueChanged` | `string?` | `@bind-InputValue` |
 | `Disabled` | `bool` | |
+| `ReadOnly` | `bool` | flattens the pill row to the active option's title as plain text with a bottom border |
 
 [← Back to index](index.md)

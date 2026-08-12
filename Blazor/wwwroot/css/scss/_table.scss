@@ -1,0 +1,60 @@
+/* ============================= Table ============================= */
+
+.fa-table {
+    width: 100%;
+    /* border-collapse: collapse merges cell borders into the table's own border box,
+       which breaks border-radius clipping in most browsers — the corners end up
+       square even though border-radius is set. border-collapse: separate with zero
+       spacing keeps the same visual seams (via border-bottom on th/td below) while
+       letting the table's own border follow its border-radius correctly. */
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    overflow: hidden;
+    box-shadow: var(--fa-border-glow);
+}
+
+    .fa-table th, .fa-table td {
+        padding: 0.6rem 0.9rem;
+        text-align: left;
+        border-bottom: 1px solid var(--fa-border);
+    }
+
+    .fa-table th {
+        background: var(--fa-footer);
+        font-weight: 700;
+        color: var(--fa-primary-dark);
+    }
+
+    .fa-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .fa-table tbody tr:hover {
+        background: rgba(232, 135, 61, 0.08);
+    }
+
+/* Shrink-to-content action column — the width:1%/white-space:nowrap trick, as a
+   reusable class instead of every consumer hand-rolling it inline. Card mode
+   (below, <=720px) overrides this into its own unlabeled row at the top of the card. */
+.fa-table-actions {
+    width: 1%;
+    white-space: nowrap;
+}
+
+/* Visually hidden but still reachable by screen readers — standard accessible-hide
+   clip technique. General utility; first used by .fa-table's card mode below. */
+.fa-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+

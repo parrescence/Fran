@@ -33,6 +33,12 @@ public sealed class FaDateRange : ComponentBase
     /// <summary>Latest selectable date for either end. Optional.</summary>
     [Parameter] public DateOnly? Max { get; set; }
     [Parameter] public string? ContainerCssClass { get; set; }
+    /// <summary>
+    /// Flattens both From/To fields down to "From – To" as plain text with a bottom
+    /// border — the shared "other fa styles" readonly look (see FaInput/FaSelect/etc.
+    /// for the boxed-muted style used by native inputs).
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private readonly string _fromId = $"fa-daterange-from-{Guid.NewGuid():N}";
     private readonly string _toId = $"fa-daterange-to-{Guid.NewGuid():N}";
@@ -78,6 +84,18 @@ public sealed class FaDateRange : ComponentBase
             builder.AddAttribute(3, "class", "fa-label");
             builder.AddContent(4, Label);
             builder.CloseElement();
+        }
+
+        if (ReadOnly)
+        {
+            var from = Value.From?.ToString("MMM d, yyyy") ?? "—";
+            var to = Value.To?.ToString("MMM d, yyyy") ?? "—";
+            builder.OpenElement(5, "div");
+            builder.AddAttribute(6, "class", "fa-readonly-flat");
+            builder.AddContent(7, $"{from} – {to}");
+            builder.CloseElement();
+            builder.CloseElement();
+            return;
         }
 
         builder.OpenElement(5, "div");
