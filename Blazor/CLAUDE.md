@@ -48,11 +48,35 @@ Consequences for any change here:
   intentionally absent) — pick one before this is relied on by any consumer outside
   `bencalvin`'s own accounts.
 
+## Folder layout: components vs. supporting types
+
+`Components/`, `Layout/`, and `Icons/` hold only actual renderable components —
+`ComponentBase`/`InputBase<TValue>` subclasses a consumer uses as a markup tag
+(`<FaButton>`, `<AppHeader>`, `<FaIcon>`, ...). Supporting types a consumer references
+in their own C# (not as a tag) live in two separate folders instead:
+
+- **`Enums/`** — `FaButtonVariant`, `FaBadgeVariant`, `FaAlertVariant`,
+  `FaTogglePosition`, `FaIconColor`, `FaIconName`.
+- **`Models/`** — `FaDateRangeValue`, `FaGridColumn<TItem>`, `FaGridRequest`,
+  `FaGridResult<TItem>` (DTOs/records passed to or bound by a specific component).
+
+Folder placement is purely physical organization — it does **not** change a type's
+namespace. `FaButtonVariant` still declares `namespace FactoryAspects.Components;`
+even though the file lives in `Enums/`; `FaIconColor`/`FaIconName` still declare
+`namespace FactoryAspects.Icons;` even though the file lives in `Enums/` rather than
+`Icons/`. This is deliberate: a consumer's existing `@using FactoryAspects.Components`/
+`.Icons` keeps resolving every type it always did — moving a file between these
+folders is never a breaking API change and never needs a version bump for that reason
+alone. When adding a new enum/DTO, put it in `Enums`/`Models` but keep its namespace
+declaration matching whichever component/feature area it belongs to, not the new
+folder name.
+
 ## Component authoring: C# builder, not markup
 
 Components are authored as plain C# — `ComponentBase`/`InputBase<TValue>` subclasses
 overriding `BuildRenderTree(RenderTreeBuilder builder)` directly — not `.razor` markup
-files. This applies to every component in `Components/`, `Layout/`, and `Icons/`.
+files. This applies to every component in `Components/`, `Layout/`, and `Icons/` —
+not to the plain data types in `Enums/`/`Models/`, which have no render tree at all.
 (`_Imports.razor` is project config, not a component, and stays.) Rules that keep this
 style consistent:
 
