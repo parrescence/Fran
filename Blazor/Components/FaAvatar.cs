@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -36,7 +36,7 @@ public sealed class FaAvatar : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "span");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-avatar", CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-avatar", CssClass));
         builder.AddAttribute(2, "title", DisplayName);
 
         if (!string.IsNullOrWhiteSpace(ImageUrl))

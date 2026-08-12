@@ -71,6 +71,13 @@ alone. When adding a new enum/DTO, put it in `Enums`/`Models` but keep its names
 declaration matching whichever component/feature area it belongs to, not the new
 folder name.
 
+`Rendering/` is different from both: `internal` (not `public`) helper types that
+support building a component's output — `CssClassNames` today, potentially other
+HTML/CSS/JS-interop-support helpers later. Nothing in a consumer's own code can ever
+reference an `internal` type, so — unlike `Enums`/`Models` above — `Rendering/`'s
+namespace *does* match the folder (`namespace FactoryAspects.Rendering;`) with no
+breaking-change concern, since there's no public API surface to break.
+
 ## Component authoring: C# builder, not markup
 
 Components are authored as plain C# — `ComponentBase`/`InputBase<TValue>` subclasses
@@ -86,11 +93,12 @@ style consistent:
   render produces a new id on every re-render, which silently breaks anything that
   keys off that id — `@key` diffing, JS `getElementById` lookups, `<label for>`
   pairing.
-- **Class-list building goes through `Internal.ClassNames.Combine(...)`**
-  (`Internal/ClassNames.cs`) instead of ad hoc string concatenation — `ClassNames
-  .Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null, CssClass)`. Named
-  `ClassNames`, not `CssClass` — most components already have a `CssClass` parameter,
-  which would shadow a same-named type inside their own methods. Preserve each
+- **Class-list building goes through `Rendering.CssClassNames.Combine(...)`**
+  (`Rendering/CssClassNames.cs`) instead of ad hoc string concatenation —
+  `CssClassNames.Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null,
+  CssClass)`. Named `CssClassNames`, not plain `ClassNames` (ambiguous next to actual
+  C# classes) or `CssClass` (most components already have a `CssClass` parameter,
+  which would shadow a same-named type inside their own methods). Preserve each
   component's existing attribute-splat order when converting it (explicit attributes
   vs. `builder.AddMultipleAttributes(AdditionalAttributes)`) — don't silently change
   which one wins if a caller passes a conflicting `class` via `AdditionalAttributes`.

@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -28,14 +28,14 @@ public sealed class FaFile : ComponentBase
         {
             builder.OpenElement(0, "label");
             builder.AddAttribute(1, "for", _id);
-            builder.AddAttribute(2, "class", ClassNames.Combine("fa-btn", "fa-btn-secondary", CssClass));
+            builder.AddAttribute(2, "class", CssClassNames.Combine("fa-btn", "fa-btn-secondary", CssClass));
             builder.AddContent(3, ButtonLabel);
             builder.CloseElement();
         }
 
         builder.OpenComponent<InputFile>(10);
         builder.AddComponentParameter(11, "id", _id);
-        builder.AddComponentParameter(12, "class", AsButton ? "fa-file-hidden" : ClassNames.Combine("fa-file-input", CssClass));
+        builder.AddComponentParameter(12, "class", AsButton ? "fa-file-hidden" : CssClassNames.Combine("fa-file-input", CssClass));
         builder.AddComponentParameter(13, "multiple", Multiple);
         builder.AddComponentParameter(14, nameof(InputFile.OnChange), EventCallback.Factory.Create<InputFileChangeEventArgs>(this, HandleChange));
         builder.CloseComponent();

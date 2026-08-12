@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -170,7 +170,7 @@ public sealed class FaSearchSelect<TItem> : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-field", ContainerCssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-field", ContainerCssClass));
 
         if (!string.IsNullOrEmpty(Label))
         {
@@ -240,7 +240,7 @@ public sealed class FaSearchSelect<TItem> : ComponentBase
                 builder.OpenElement(seq++, "button");
                 builder.SetKey(index);
                 builder.AddAttribute(seq++, "type", "button");
-                builder.AddAttribute(seq++, "class", ClassNames.Combine("fa-searchselect-option", isHighlighted ? "fa-searchselect-option-highlighted" : null));
+                builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-searchselect-option", isHighlighted ? "fa-searchselect-option-highlighted" : null));
                 builder.AddAttribute(seq++, "role", "option");
                 builder.AddAttribute(seq++, "aria-selected", isHighlighted ? "true" : "false");
                 builder.AddAttribute(seq++, "onmouseenter", EventCallback.Factory.Create(this, () => _highlightedIndex = index));

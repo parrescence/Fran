@@ -1,5 +1,5 @@
 using FactoryAspects.Icons;
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -190,7 +190,7 @@ public sealed class FaGrid<TItem> : ComponentBase
         }
 
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-grid", CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-grid", CssClass));
 
         builder.OpenElement(2, "table");
         builder.AddAttribute(3, "class", "fa-table");

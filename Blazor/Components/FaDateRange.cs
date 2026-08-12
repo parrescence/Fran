@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -70,7 +70,7 @@ public sealed class FaDateRange : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-field", ContainerCssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-field", ContainerCssClass));
 
         if (!string.IsNullOrEmpty(Label))
         {

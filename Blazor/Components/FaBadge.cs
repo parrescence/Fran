@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -24,7 +24,7 @@ public sealed class FaBadge : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "span");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-badge", VariantClass, CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-badge", VariantClass, CssClass));
         builder.AddContent(2, ChildContent);
         builder.CloseElement();
     }

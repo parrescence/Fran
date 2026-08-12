@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -23,7 +23,7 @@ public sealed class FaAlert : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-alert", VariantClass, CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-alert", VariantClass, CssClass));
         builder.AddAttribute(2, "role", "alert");
         builder.AddContent(3, ChildContent);
         builder.CloseElement();

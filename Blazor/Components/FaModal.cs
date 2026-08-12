@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -49,7 +49,7 @@ public sealed class FaModal : ComponentBase
         }
 
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-modal-backdrop", Show ? null : "fa-modal-backdrop-hidden"));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-modal-backdrop", Show ? null : "fa-modal-backdrop-hidden"));
         builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, HandleBackdropClick));
         if (!Show)
         {

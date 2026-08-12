@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -121,7 +121,7 @@ public sealed class FaToggle<TValue> : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-field", CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-field", CssClass));
 
         if (!string.IsNullOrEmpty(Label))
         {
@@ -132,7 +132,7 @@ public sealed class FaToggle<TValue> : ComponentBase
         }
 
         builder.OpenElement(5, "div");
-        builder.AddAttribute(6, "class", ClassNames.Combine("fa-toggle-group", ShowInput ? "fa-toggle-group-expanded" : null));
+        builder.AddAttribute(6, "class", CssClassNames.Combine("fa-toggle-group", ShowInput ? "fa-toggle-group-expanded" : null));
 
         if (ShowInput && InputPosition == FaTogglePosition.Before)
         {
@@ -154,7 +154,7 @@ public sealed class FaToggle<TValue> : ComponentBase
             builder.OpenElement(25, "button");
             builder.SetKey(index);
             builder.AddAttribute(26, "type", "button");
-            builder.AddAttribute(27, "class", ClassNames.Combine("fa-toggle-option", isActive ? "fa-toggle-option-active" : null));
+            builder.AddAttribute(27, "class", CssClassNames.Combine("fa-toggle-option", isActive ? "fa-toggle-option-active" : null));
             builder.AddAttribute(28, "aria-pressed", isActive ? "true" : "false");
             builder.AddAttribute(29, "disabled", Disabled);
             builder.AddAttribute(30, "onclick", EventCallback.Factory.Create(this, () => SelectAsync(index)));

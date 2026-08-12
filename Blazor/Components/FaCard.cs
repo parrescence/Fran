@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -23,7 +23,7 @@ public sealed class FaCard : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-card", Active ? "fa-card-active" : null, CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-card", Active ? "fa-card-active" : null, CssClass));
         builder.AddAttribute(2, "tabindex", Clickable ? "0" : null);
         builder.AddAttribute(3, "onclick", EventCallback.Factory.Create(this, OnClick));
         builder.AddMultipleAttributes(4, AdditionalAttributes);

@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
@@ -48,7 +48,7 @@ public sealed class FaButton : ComponentBase
         var isLink = !string.IsNullOrEmpty(Href);
 
         builder.OpenElement(0, isLink ? "a" : "button");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null, CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null, CssClass));
 
         if (isLink)
         {

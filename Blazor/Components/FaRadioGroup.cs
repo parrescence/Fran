@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -41,7 +41,7 @@ public sealed class FaRadioGroup<TValue> : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-field", CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-field", CssClass));
 
         if (!string.IsNullOrEmpty(Label))
         {

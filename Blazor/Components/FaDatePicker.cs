@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using FactoryAspects.Icons;
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -276,7 +276,7 @@ public sealed class FaDatePicker : InputBase<DateOnly?>
         var hasLabel = !string.IsNullOrEmpty(Label);
 
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-field", ContainerCssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-field", ContainerCssClass));
 
         if (hasLabel && !FloatingLabel)
         {
@@ -288,7 +288,7 @@ public sealed class FaDatePicker : InputBase<DateOnly?>
 
         builder.OpenElement(5, "div");
         builder.AddAttribute(6, "id", _wrapperId);
-        builder.AddAttribute(7, "class", ClassNames.Combine("fa-datepicker", FloatingLabel ? "fa-datepicker-floating" : null, Value.HasValue ? "fa-datepicker-has-value" : null));
+        builder.AddAttribute(7, "class", CssClassNames.Combine("fa-datepicker", FloatingLabel ? "fa-datepicker-floating" : null, Value.HasValue ? "fa-datepicker-has-value" : null));
         builder.AddAttribute(8, "onkeydown", EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleWrapperKeyDown));
         builder.AddAttribute(9, "onfocusin", EventCallback.Factory.Create(this, HandleFocusIn));
         builder.AddAttribute(10, "onfocusout", EventCallback.Factory.Create(this, HandleFocusOutAsync));
@@ -358,7 +358,7 @@ public sealed class FaDatePicker : InputBase<DateOnly?>
     private void RenderCalendar(RenderTreeBuilder builder, int sequence)
     {
         builder.OpenElement(sequence, "div");
-        builder.AddAttribute(sequence + 1, "class", ClassNames.Combine("fa-datepicker-calendar", _isOpen ? "fa-datepicker-calendar-open" : null));
+        builder.AddAttribute(sequence + 1, "class", CssClassNames.Combine("fa-datepicker-calendar", _isOpen ? "fa-datepicker-calendar-open" : null));
 
         // Header: prev/next month + an editable year, replacing the scroll-driven year
         // picker of the library this was ported from with a plain stepper.
@@ -424,7 +424,7 @@ public sealed class FaDatePicker : InputBase<DateOnly?>
             builder.OpenElement(seq++, "button");
             builder.SetKey(day);
             builder.AddAttribute(seq++, "type", "button");
-            builder.AddAttribute(seq++, "class", ClassNames.Combine("fa-datepicker-day", isSelected ? "fa-datepicker-day-selected" : null));
+            builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-datepicker-day", isSelected ? "fa-datepicker-day-selected" : null));
             builder.AddAttribute(seq++, "disabled", isDisabled);
             builder.AddAttribute(seq++, "onclick", EventCallback.Factory.Create(this, () => SelectDay(capturedDay)));
             builder.AddContent(seq++, day);

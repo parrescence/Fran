@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -30,7 +30,7 @@ public sealed class FaTable : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "table");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-table", CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-table", CssClass));
         builder.AddMultipleAttributes(2, AdditionalAttributes);
 
         builder.OpenElement(3, "thead");

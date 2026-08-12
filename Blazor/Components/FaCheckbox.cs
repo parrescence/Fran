@@ -1,4 +1,4 @@
-using FactoryAspects.Internal;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -18,7 +18,7 @@ public sealed class FaCheckbox : InputCheckbox
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "label");
-        builder.AddAttribute(1, "class", ClassNames.Combine("fa-checkbox", ContainerCssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-checkbox", ContainerCssClass));
 
         builder.OpenElement(2, "input");
         builder.AddAttribute(3, "type", "checkbox");
