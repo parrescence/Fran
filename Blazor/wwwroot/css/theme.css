@@ -1,0 +1,2549 @@
+/*
+  FinanceApp.UI — shared design system
+  ------------------------------------
+  Fall palette, rooted in burnt orange. Every component below styles itself
+  through the custom properties in :root, so retuning the season/theme later
+  is a matter of editing this one block, not hunting through components.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap');
+
+:root {
+    /* --- Fall palette, rooted in burnt orange, extended into a Northwest dying-leaf
+       sequence: still-green fern moss, through gold, through the root itself, into
+       vine-maple ember and huckleberry wine, grounded by the Douglas fir that never
+       turns at all. See financeapp-build-styling.html Step 11 for the full reasoning. --- */
+    --fa-primary: #bf5b26;          /* Burnt Orange — root. header, sidebar, primary actions */
+    --fa-primary-dark: #8c431b;     /* darker burnt orange — hover/focus states */
+    --fa-primary-light: #e0895a;    /* lighter tint — hover backgrounds, secondary accents */
+    --fa-footer: #f3dfc1;           /* light warm sand — footer background */
+    --fa-glow: #e8873d;             /* pumpkin orange — the border "backlight" glow */
+    --fa-gold: #d9a441;             /* Golden Larch — badges, highlights, dashboard progress labels */
+    --fa-accent: #6b7a3e;           /* Fern Moss — the accent. success states, secondary actions */
+    --fa-accent-dark: #4f5c2c;      /* darker Fern Moss — hover/focus on accent elements */
+    --fa-ember: #a63a2c;            /* Vine Maple Ember — danger/errors, needs to actually get noticed */
+    --fa-wine: #6b2737;             /* Huckleberry Wine — deep/hover shade for ember, dark accents */
+    --fa-fir: #2b3b30;              /* Douglas Fir Shadow — deep neutral-green anchor, "black" icons */
+    --fa-cream: #fcf3e6;            /* page background */
+    --fa-surface: #fffdf9;          /* card/input surface */
+    --fa-text: #3b2712;             /* body text — dark brown */
+    --fa-text-muted: #7a6650;
+    --fa-text-on-primary: #fff8ef;
+    --fa-border: #e3b98a;           /* default border — warm tan */
+    --fa-border-focus: #8c431b;     /* darker border on focus, per spec */
+
+    /* --- Pale tint backgrounds behind alert borders --- */
+    --fa-alert-danger-bg: #fbe9e5;
+    --fa-alert-success-bg: #eef3e4;
+    --fa-alert-info-bg: #fbeee2;
+
+    /* --- Shape & type --- */
+    --fa-radius-sm: 8px;
+    --fa-radius-md: 14px;
+    --fa-radius-lg: 22px;
+    --fa-radius-pill: 999px;
+    --fa-font: 'Baloo 2', ui-rounded, 'Segoe UI Rounded', 'Nunito', system-ui, sans-serif;
+
+    /* --- The "orange backlight" every bordered element gets by default --- */
+    --fa-border-glow: 0 0 0 1px var(--fa-border), 0 0 10px 1px rgba(232, 135, 61, 0.35);
+    --fa-border-glow-focus: 0 0 0 2px var(--fa-border-focus), 0 0 12px 2px rgba(232, 135, 61, 0.55);
+}
+
+/* ============================= Theme variants ============================= */
+/* Two independent axes, both applied via data attributes on <html>:
+
+   1. Palette — which seasonal/regional color story is active. data-fa-palette=
+      "southwest-summer" | "northeast-spring" | "midwest-winter" | "southeast-beach" |
+      "greece-aegean" | "spain-flamenco" | "ireland-emerald" | "jamaica-blue-mountain" |
+      "japan-indigo" | "korea-celadon" | "china-cinnabar" | "india-peacock" |
+      "cameroon-rainforest".
+      No attribute (or data-fa-palette="northwest-fall") means the :root defaults
+      above. Toggle with window.faSetPalette(name) (js/theme.js — reads/writes
+      localStorage the same way faSetTheme does).
+   2. Mode — light (default), dark, or colorblind-safe. data-theme="dark"/
+      "colorblind", toggled by window.faSetTheme(...) / <ThemeSwitcher>, with the
+      OS's prefers-color-scheme as the fallback for dark before any explicit choice
+      is made. Colorblind mode has no OS-level media-query equivalent, so it's
+      opt-in only, never automatic.
+
+   Every component reads color exclusively through these custom properties, so a
+   palette or mode only has to redefine the tokens that actually change — shape and
+   type (radii, font) stay identical across every combination of the two axes. */
+
+/* --- Palettes: light-mode values only. Each block is self-contained (redefines
+   every color token the default :root sets), not a diff against Northwest Fall, so
+   picking a palette can't accidentally inherit an unrelated hue. See .themes/ (git-
+   ignored, local design docs) for the reasoning behind each palette's color choices. --- */
+
+:root[data-fa-palette="southwest-summer"] {
+    /* Redone from an early "same terracotta family as Northwest Fall" first draft,
+       which read as too close to the default theme to tell apart at a glance. This
+       version pulls from three different things instead of one: Sea of Cortez/Baja
+       ocean blue for primary (a genuinely different hue family from Fall's burnt
+       orange, and more saturated than Midwest Winter's greyer slate blue so the two
+       don't collapse into each other either), Sonoran Desert wildflowers for gold
+       and accent (marigold yellow, penstemon purple), and canyon sandstone for the
+       danger family. */
+    --fa-primary: #1f77a8;          /* Sea of Cortez Blue */
+    --fa-primary-dark: #164f70;
+    --fa-primary-light: #6bb0d1;
+    --fa-footer: #f0ece0;
+    --fa-glow: #2f96c9;
+    --fa-gold: #e0a940;              /* Desert Marigold */
+    --fa-accent: #7a4f9e;            /* Penstemon Purple */
+    --fa-accent-dark: #573a72;
+    --fa-ember: #b23a28;             /* Canyon Sandstone Red */
+    --fa-wine: #6b2018;              /* Canyon Shadow */
+    --fa-fir: #33283a;               /* Canyon Twilight Shadow */
+    --fa-cream: #faf6ee;
+    --fa-surface: #fffdf8;
+    --fa-text: #2e2a24;
+    --fa-text-muted: #7d766a;
+    --fa-text-on-primary: #f5fbff;
+    --fa-border: #d8d0bc;
+    --fa-border-focus: #164f70;
+    --fa-alert-danger-bg: #f8e3df;
+    --fa-alert-success-bg: #efe6f2;
+    --fa-alert-info-bg: #e2eef4;
+}
+
+:root[data-fa-palette="northeast-spring"] {
+    --fa-primary: #a24a78;          /* Redbud Blossom */
+    --fa-primary-dark: #74345a;
+    --fa-primary-light: #cf8fae;
+    --fa-footer: #f5e6ee;
+    --fa-glow: #c96a97;
+    --fa-gold: #d9b23c;              /* Forsythia Gold */
+    --fa-accent: #5a8f4f;            /* New Leaf Green */
+    --fa-accent-dark: #3f6636;
+    --fa-ember: #b3392f;             /* Cardinal Red */
+    --fa-wine: #6b2030;
+    --fa-fir: #33402f;               /* Birch Bark Shadow */
+    --fa-cream: #faf3f6;
+    --fa-surface: #fffbfc;
+    --fa-text: #3a2230;
+    --fa-text-muted: #7a6070;
+    --fa-text-on-primary: #fff5fa;
+    --fa-border: #e8c6d6;
+    --fa-border-focus: #74345a;
+    --fa-alert-danger-bg: #f9e3e1;
+    --fa-alert-success-bg: #edf3ea;
+    --fa-alert-info-bg: #f7e9ef;
+}
+
+:root[data-fa-palette="midwest-winter"] {
+    --fa-primary: #3d5a73;          /* Prairie Slate Blue */
+    --fa-primary-dark: #28404f;
+    --fa-primary-light: #7098af;
+    --fa-footer: #e6edf0;
+    --fa-glow: #4f7a94;
+    --fa-gold: #c9a227;              /* Wheat Stubble Gold */
+    --fa-accent: #3f5c42;            /* Windbreak Evergreen */
+    --fa-accent-dark: #2b4030;
+    --fa-ember: #9c3b30;             /* Barn Red */
+    --fa-wine: #5c2320;
+    --fa-fir: #2a3138;               /* Frozen Furrow Shadow */
+    --fa-cream: #f5f8fa;
+    --fa-surface: #fbfdfe;
+    --fa-text: #26313a;
+    --fa-text-muted: #66727c;
+    --fa-text-on-primary: #f5f9fb;
+    --fa-border: #c3d2da;
+    --fa-border-focus: #28404f;
+    --fa-alert-danger-bg: #f3e2df;
+    --fa-alert-success-bg: #e6ece4;
+    --fa-alert-info-bg: #e3ebf0;
+}
+
+:root[data-fa-palette="southeast-beach"] {
+    --fa-primary: #2c8c8a;          /* Seafoam Turquoise */
+    --fa-primary-dark: #1e615f;
+    --fa-primary-light: #6bbdbb;
+    --fa-footer: #f3e9d4;
+    --fa-glow: #3ba6a3;
+    --fa-gold: #d9b871;              /* Sand Dune Gold */
+    --fa-accent: #7a9457;            /* Sea Oat Green */
+    --fa-accent-dark: #566b3c;
+    --fa-ember: #d9634a;             /* Coral Sunset */
+    --fa-wine: #8a3626;
+    --fa-fir: #3a3630;               /* Driftwood Shadow */
+    --fa-cream: #fbf6ea;
+    --fa-surface: #fffdf7;
+    --fa-text: #3a2f22;
+    --fa-text-muted: #7d7261;
+    --fa-text-on-primary: #f2fbfa;
+    --fa-border: #e3d3ab;
+    --fa-border-focus: #1e615f;
+    --fa-alert-danger-bg: #f9e6e0;
+    --fa-alert-success-bg: #eef1e6;
+    --fa-alert-info-bg: #e3f0ee;
+}
+
+:root[data-fa-palette="greece-aegean"] {
+    /* --- Greece — Aegean whitewash-and-sea blue, olive groves, limestone gold, terracotta danger. --- */
+    --fa-primary: #1568a8; /* Aegean Blue */
+    --fa-primary-dark: #0d4570;
+    --fa-primary-light: #5fa8d9;
+    --fa-footer: #e6eef1; /* Sea Foam */
+    --fa-glow: #2e8fc9; /* Aegean Glow */
+    --fa-gold: #d9a53c; /* Limestone Sun */
+    --fa-accent: #6f7f3f; /* Olive Grove */
+    --fa-accent-dark: #4d5a2b;
+    --fa-ember: #c1552f; /* Terracotta Roof */
+    --fa-wine: #7a2f22;
+    --fa-fir: #2c3a2e; /* Cypress Shadow */
+    --fa-cream: #f7f5ef;
+    --fa-surface: #fffefb;
+    --fa-text: #2b2a26;
+    --fa-text-muted: #7d7a6e;
+    --fa-text-on-primary: #f5faff;
+    --fa-border: #d3e3ec;
+    --fa-border-focus: #0d4570;
+    --fa-alert-danger-bg: #f7e1da;
+    --fa-alert-success-bg: #eaf0e0;
+    --fa-alert-info-bg: #e1eef5;
+}
+
+:root[data-fa-palette="spain-flamenco"] {
+    /* --- Spain — flamenco red, Andalusian gold, Manzanilla olive, Rioja wine danger. --- */
+    --fa-primary: #a02830; /* Flamenco Red */
+    --fa-primary-dark: #701b21;
+    --fa-primary-light: #d1707a;
+    --fa-footer: #f7ece1; /* Almond Blossom */
+    --fa-glow: #c23e46;
+    --fa-gold: #d9a13c; /* La Mancha Gold */
+    --fa-accent: #7c8a4a; /* Manzanilla Olive */
+    --fa-accent-dark: #59642f;
+    --fa-ember: #8a3a22; /* Sierra Clay */
+    --fa-wine: #5c1f2c;
+    --fa-fir: #33302c; /* Sierra Shadow */
+    --fa-cream: #faf3ea;
+    --fa-surface: #fffaf3;
+    --fa-text: #362320;
+    --fa-text-muted: #83706a;
+    --fa-text-on-primary: #fff6f3;
+    --fa-border: #e6c9b0;
+    --fa-border-focus: #701b21;
+    --fa-alert-danger-bg: #f7e0da;
+    --fa-alert-success-bg: #eef0df;
+    --fa-alert-info-bg: #f5e7da;
+}
+
+:root[data-fa-palette="ireland-emerald"] {
+    /* --- Ireland — emerald green, Celtic gold, heather-purple accent, peat-fire danger. --- */
+    --fa-primary: #1f7a4d; /* Emerald Green */
+    --fa-primary-dark: #144f32;
+    --fa-primary-light: #5fb888;
+    --fa-footer: #e9f0e6; /* Misty Meadow */
+    --fa-glow: #2c9c63;
+    --fa-gold: #c9a13a; /* Celtic Gold */
+    --fa-accent: #7a5a8f; /* Heather Purple */
+    --fa-accent-dark: #563f66;
+    --fa-ember: #a1432c; /* Peat Fire */
+    --fa-wine: #5c2a24;
+    --fa-fir: #2b3a3a; /* Cliff Shadow */
+    --fa-cream: #f3f6f1;
+    --fa-surface: #fbfdf9;
+    --fa-text: #23302a;
+    --fa-text-muted: #728077;
+    --fa-text-on-primary: #f2fbf6;
+    --fa-border: #c8ddc9;
+    --fa-border-focus: #144f32;
+    --fa-alert-danger-bg: #f6e0da;
+    --fa-alert-success-bg: #e2efe3;
+    --fa-alert-info-bg: #eae3f0;
+}
+
+:root[data-fa-palette="jamaica-blue-mountain"] {
+    /* --- Jamaica — Blue Mountain mist teal, reggae gold, rainforest accent, hibiscus danger. --- */
+    --fa-primary: #1f6e6b; /* Blue Mountain Teal */
+    --fa-primary-dark: #144a48;
+    --fa-primary-light: #5fa8a3;
+    --fa-footer: #eaf1ec; /* Coconut Cream */
+    --fa-glow: #2c8f8a;
+    --fa-gold: #dba428; /* Reggae Sun Gold */
+    --fa-accent: #4f8a3f; /* Rainforest Green */
+    --fa-accent-dark: #35602a;
+    --fa-ember: #b23348; /* Hibiscus Red */
+    --fa-wine: #661f2e;
+    --fa-fir: #26302a; /* Volcanic Rock */
+    --fa-cream: #faf6ec;
+    --fa-surface: #fffdf6;
+    --fa-text: #2a2620;
+    --fa-text-muted: #7c7466;
+    --fa-text-on-primary: #f3fbf9;
+    --fa-border: #cfe0da;
+    --fa-border-focus: #144a48;
+    --fa-alert-danger-bg: #f8e0e2;
+    --fa-alert-success-bg: #e5efdf;
+    --fa-alert-info-bg: #dcece9;
+}
+
+:root[data-fa-palette="japan-indigo"] {
+    /* --- Japan — Ai indigo, sakura-blush footer, bamboo accent, torii vermillion danger. --- */
+    --fa-primary: #223a70; /* Ai Indigo */
+    --fa-primary-dark: #152548;
+    --fa-primary-light: #6a80ac;
+    --fa-footer: #f4e3e8; /* Sakura Blush */
+    --fa-glow: #33518f;
+    --fa-gold: #c9a23e; /* Katsura Gold */
+    --fa-accent: #5b7a4f; /* Bamboo Green */
+    --fa-accent-dark: #3d5636;
+    --fa-ember: #c23b2e; /* Torii Vermillion */
+    --fa-wine: #6b1f22;
+    --fa-fir: #2a2622; /* Sumi Ink */
+    --fa-cream: #f7f3ea;
+    --fa-surface: #fffdf7;
+    --fa-text: #2a2622;
+    --fa-text-muted: #7d7668;
+    --fa-text-on-primary: #f3f6fc;
+    --fa-border: #d6dced;
+    --fa-border-focus: #152548;
+    --fa-alert-danger-bg: #f7dfda;
+    --fa-alert-success-bg: #e6ecdf;
+    --fa-alert-info-bg: #e1e5f2;
+}
+
+:root[data-fa-palette="korea-celadon"] {
+    /* --- Korea — Goryeo celadon jade, dancheong blue accent, dancheong red danger, hanji paper bg. --- */
+    --fa-primary: #4f8a7a; /* Celadon Jade */
+    --fa-primary-dark: #2f5c4e;
+    --fa-primary-light: #8fc0af;
+    --fa-footer: #e7efe6; /* Celadon Mist */
+    --fa-glow: #5fa08d;
+    --fa-gold: #d1a83c; /* Dancheong Gold */
+    --fa-accent: #3c6e9e; /* Dancheong Blue */
+    --fa-accent-dark: #2a4d70;
+    --fa-ember: #b23b30; /* Dancheong Red */
+    --fa-wine: #6b201f;
+    --fa-fir: #2b3530; /* Ink Mountain Shadow */
+    --fa-cream: #f6f2e7;
+    --fa-surface: #fffdf6;
+    --fa-text: #2a2c26;
+    --fa-text-muted: #7a7d70;
+    --fa-text-on-primary: #f2f8f5;
+    --fa-border: #cfe0d4;
+    --fa-border-focus: #2f5c4e;
+    --fa-alert-danger-bg: #f7e0dc;
+    --fa-alert-success-bg: #e2efe6;
+    --fa-alert-info-bg: #dde8f0;
+}
+
+:root[data-fa-palette="china-cinnabar"] {
+    /* --- China — Forbidden City cinnabar, imperial gold, Guilin jade accent, rice-paper bg. --- */
+    --fa-primary: #b8342a; /* Cinnabar Red */
+    --fa-primary-dark: #832318;
+    --fa-primary-light: #d97c6f;
+    --fa-footer: #f2e4c4; /* Gilded Parchment */
+    --fa-glow: #cf4a35;
+    --fa-gold: #d4a92f; /* Imperial Gold */
+    --fa-accent: #3f8a6f; /* Guilin Jade */
+    --fa-accent-dark: #2b6050;
+    --fa-ember: #8a2a1e; /* Burnt Vermillion */
+    --fa-wine: #591b17;
+    --fa-fir: #262421; /* Ink Stone */
+    --fa-cream: #f7f1e4;
+    --fa-surface: #fffbf1;
+    --fa-text: #2c2521;
+    --fa-text-muted: #7d7268;
+    --fa-text-on-primary: #fff5f0;
+    --fa-border: #e8cd9e;
+    --fa-border-focus: #832318;
+    --fa-alert-danger-bg: #f6ddd6;
+    --fa-alert-success-bg: #e0efe6;
+    --fa-alert-info-bg: #f5ecd7;
+}
+
+:root[data-fa-palette="india-peacock"] {
+    /* --- India — peacock teal, marigold gold, monsoon-green accent, Rajasthan rose danger. --- */
+    --fa-primary: #146b73; /* Peacock Teal */
+    --fa-primary-dark: #0d4a50;
+    --fa-primary-light: #4fa3ab;
+    --fa-footer: #f4e6cf; /* Marigold Cream */
+    --fa-glow: #1f8b95;
+    --fa-gold: #dd8f2c; /* Marigold Orange */
+    --fa-accent: #4c8a3f; /* Monsoon Green */
+    --fa-accent-dark: #345f2b;
+    --fa-ember: #b23458; /* Rajasthan Rose */
+    --fa-wine: #6b1f38;
+    --fa-fir: #262c3a; /* Monsoon Night */
+    --fa-cream: #f7f4ec;
+    --fa-surface: #fffdf7;
+    --fa-text: #2a2723;
+    --fa-text-muted: #7c7568;
+    --fa-text-on-primary: #f2fbfa;
+    --fa-border: #cfe4dd;
+    --fa-border-focus: #0d4a50;
+    --fa-alert-danger-bg: #f7dee6;
+    --fa-alert-success-bg: #e3efdd;
+    --fa-alert-info-bg: #d9eceb;
+}
+
+:root[data-fa-palette="cameroon-rainforest"] {
+    /* --- Cameroon — rainforest green, savanna gold, river-blue accent, laterite danger. --- */
+    --fa-primary: #256b3f; /* Rainforest Green */
+    --fa-primary-dark: #17492b;
+    --fa-primary-light: #5fa878;
+    --fa-footer: #f0e2bd; /* Savanna Dust */
+    --fa-glow: #338a54;
+    --fa-gold: #d9a83c; /* Savanna Gold */
+    --fa-accent: #2f6e8a; /* River Blue */
+    --fa-accent-dark: #204d61;
+    --fa-ember: #a63b28; /* Laterite Red */
+    --fa-wine: #5c2018;
+    --fa-fir: #262620; /* Volcanic Basalt */
+    --fa-cream: #f7f2e6;
+    --fa-surface: #fffcf5;
+    --fa-text: #2b2620;
+    --fa-text-muted: #7d7568;
+    --fa-text-on-primary: #f2faf5;
+    --fa-border: #d8c99e;
+    --fa-border-focus: #17492b;
+    --fa-alert-danger-bg: #f6ddd6;
+    --fa-alert-success-bg: #e1efe4;
+    --fa-alert-info-bg: #dbe9ee;
+}
+
+/* --- Dark mode, per palette. Northwest Fall's dark block (no data-fa-palette
+   attribute needed — it's the default) stays a single-attribute selector; every
+   other palette needs data-fa-palette AND data-theme="dark" together so it wins
+   over the single-attribute selector regardless of source order (two attributes
+   beats one, always, independent of where each rule sits in the file). Same
+   transform recipe every time: darken cream/surface/footer, lighten text, border-
+   focus becomes the palette's --fa-glow, primary-dark becomes primary-light
+   (still legible as hover text against a dark surface), accent-dark lightens, and
+   the three alert backgrounds become translucent rgba() of ember/accent/primary. */
+
+:root[data-theme="dark"] {
+    --fa-cream: #1c140d;
+    --fa-surface: #261c12;
+    --fa-text: #f1e6d6;
+    --fa-text-muted: #b7a78d;
+    --fa-border: #4a3524;
+    --fa-border-focus: #e8873d;
+    --fa-footer: #2a2015;
+    --fa-primary-dark: #e0895a;
+    --fa-accent-dark: #9db06a;
+    --fa-alert-danger-bg: rgba(166, 58, 44, 0.22);
+    --fa-alert-success-bg: rgba(107, 122, 62, 0.22);
+    --fa-alert-info-bg: rgba(191, 91, 38, 0.22);
+}
+
+:root[data-fa-palette="southwest-summer"][data-theme="dark"] {
+    --fa-cream: #17140f;
+    --fa-surface: #221d15;
+    --fa-text: #f0ece2;
+    --fa-text-muted: #beb5a4;
+    --fa-border: #4a4030;
+    --fa-border-focus: #2f96c9;
+    --fa-footer: #1f1b12;
+    --fa-primary-dark: #6bb0d1;
+    --fa-accent-dark: #a985c9;
+    --fa-alert-danger-bg: rgba(178, 58, 40, 0.22);
+    --fa-alert-success-bg: rgba(122, 79, 158, 0.22);
+    --fa-alert-info-bg: rgba(31, 119, 168, 0.22);
+}
+
+:root[data-fa-palette="northeast-spring"][data-theme="dark"] {
+    --fa-cream: #170f14;
+    --fa-surface: #211621;
+    --fa-text: #f2e2ec;
+    --fa-text-muted: #c0a6b8;
+    --fa-border: #4a3040;
+    --fa-border-focus: #c96a97;
+    --fa-footer: #241825;
+    --fa-primary-dark: #cf8fae;
+    --fa-accent-dark: #8fb384;
+    --fa-alert-danger-bg: rgba(179, 57, 47, 0.22);
+    --fa-alert-success-bg: rgba(90, 143, 79, 0.22);
+    --fa-alert-info-bg: rgba(162, 74, 120, 0.22);
+}
+
+:root[data-fa-palette="midwest-winter"][data-theme="dark"] {
+    --fa-cream: #0f161c;
+    --fa-surface: #172029;
+    --fa-text: #e7edf1;
+    --fa-text-muted: #a9b7c0;
+    --fa-border: #33434f;
+    --fa-border-focus: #4f7a94;
+    --fa-footer: #1a2530;
+    --fa-primary-dark: #7098af;
+    --fa-accent-dark: #7a9a7e;
+    --fa-alert-danger-bg: rgba(156, 59, 48, 0.22);
+    --fa-alert-success-bg: rgba(63, 92, 66, 0.22);
+    --fa-alert-info-bg: rgba(61, 90, 115, 0.22);
+}
+
+:root[data-fa-palette="southeast-beach"][data-theme="dark"] {
+    --fa-cream: #14100a;
+    --fa-surface: #1e170f;
+    --fa-text: #f2e9d8;
+    --fa-text-muted: #beae94;
+    --fa-border: #423a28;
+    --fa-border-focus: #3ba6a3;
+    --fa-footer: #221b12;
+    --fa-primary-dark: #6bbdbb;
+    --fa-accent-dark: #a7bb84;
+    --fa-alert-danger-bg: rgba(217, 99, 74, 0.22);
+    --fa-alert-success-bg: rgba(122, 148, 87, 0.22);
+    --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
+}
+
+:root[data-fa-palette="greece-aegean"][data-theme="dark"] {
+    --fa-cream: #0d151b;
+    --fa-surface: #142029;
+    --fa-text: #eef3f6;
+    --fa-text-muted: #a9b8c2;
+    --fa-border: #294555;
+    --fa-border-focus: #2e8fc9;
+    --fa-footer: #182430;
+    --fa-primary-dark: #5fa8d9;
+    --fa-accent-dark: #a1ac82;
+    --fa-alert-danger-bg: rgba(193, 85, 47, 0.22);
+    --fa-alert-success-bg: rgba(111, 127, 63, 0.22);
+    --fa-alert-info-bg: rgba(21, 104, 168, 0.22);
+}
+
+:root[data-fa-palette="spain-flamenco"][data-theme="dark"] {
+    --fa-cream: #170f0d;
+    --fa-surface: #221614;
+    --fa-text: #f3e6df;
+    --fa-text-muted: #c2a99e;
+    --fa-border: #4a2f28;
+    --fa-border-focus: #c23e46;
+    --fa-footer: #241512;
+    --fa-primary-dark: #d1707a;
+    --fa-accent-dark: #aab389;
+    --fa-alert-danger-bg: rgba(138, 58, 34, 0.22);
+    --fa-alert-success-bg: rgba(124, 138, 74, 0.22);
+    --fa-alert-info-bg: rgba(217, 161, 60, 0.22);
+}
+
+:root[data-fa-palette="ireland-emerald"][data-theme="dark"] {
+    --fa-cream: #0d1512;
+    --fa-surface: #14201a;
+    --fa-text: #e9f1ec;
+    --fa-text-muted: #a7bcae;
+    --fa-border: #2c4536;
+    --fa-border-focus: #2c9c63;
+    --fa-footer: #182720;
+    --fa-primary-dark: #5fb888;
+    --fa-accent-dark: #a994b6;
+    --fa-alert-danger-bg: rgba(161, 67, 44, 0.22);
+    --fa-alert-success-bg: rgba(44, 156, 99, 0.22);
+    --fa-alert-info-bg: rgba(122, 90, 143, 0.22);
+}
+
+:root[data-fa-palette="jamaica-blue-mountain"][data-theme="dark"] {
+    --fa-cream: #0d1310;
+    --fa-surface: #141d18;
+    --fa-text: #edf2ee;
+    --fa-text-muted: #a9b8ae;
+    --fa-border: #2a4540;
+    --fa-border-focus: #2c8f8a;
+    --fa-footer: #182420;
+    --fa-primary-dark: #5fa8a3;
+    --fa-accent-dark: #8db382;
+    --fa-alert-danger-bg: rgba(178, 51, 72, 0.22);
+    --fa-alert-success-bg: rgba(79, 138, 63, 0.22);
+    --fa-alert-info-bg: rgba(31, 110, 107, 0.22);
+}
+
+:root[data-fa-palette="japan-indigo"][data-theme="dark"] {
+    --fa-cream: #10131c;
+    --fa-surface: #171b26;
+    --fa-text: #ecedf2;
+    --fa-text-muted: #a8adba;
+    --fa-border: #2e3550;
+    --fa-border-focus: #33518f;
+    --fa-footer: #1b202e;
+    --fa-primary-dark: #6a80ac;
+    --fa-accent-dark: #94a98d;
+    --fa-alert-danger-bg: rgba(194, 59, 46, 0.22);
+    --fa-alert-success-bg: rgba(91, 122, 79, 0.22);
+    --fa-alert-info-bg: rgba(51, 81, 143, 0.22);
+}
+
+:root[data-fa-palette="korea-celadon"][data-theme="dark"] {
+    --fa-cream: #0f1512;
+    --fa-surface: #172019;
+    --fa-text: #eaf0ec;
+    --fa-text-muted: #a7b7ac;
+    --fa-border: #2c453a;
+    --fa-border-focus: #5fa08d;
+    --fa-footer: #182420;
+    --fa-primary-dark: #8fc0af;
+    --fa-accent-dark: #80a1c0;
+    --fa-alert-danger-bg: rgba(178, 59, 48, 0.22);
+    --fa-alert-success-bg: rgba(79, 138, 113, 0.22);
+    --fa-alert-info-bg: rgba(60, 110, 158, 0.22);
+}
+
+:root[data-fa-palette="china-cinnabar"][data-theme="dark"] {
+    --fa-cream: #160f0c;
+    --fa-surface: #221712;
+    --fa-text: #f2e6da;
+    --fa-text-muted: #c0a996;
+    --fa-border: #4a3524;
+    --fa-border-focus: #cf4a35;
+    --fa-footer: #241813;
+    --fa-primary-dark: #d97c6f;
+    --fa-accent-dark: #82b3a1;
+    --fa-alert-danger-bg: rgba(138, 42, 30, 0.22);
+    --fa-alert-success-bg: rgba(63, 138, 111, 0.22);
+    --fa-alert-info-bg: rgba(212, 169, 47, 0.22);
+}
+
+:root[data-fa-palette="india-peacock"][data-theme="dark"] {
+    --fa-cream: #0d1312;
+    --fa-surface: #141d1c;
+    --fa-text: #e9f0ee;
+    --fa-text-muted: #a4b7b2;
+    --fa-border: #2a453f;
+    --fa-border-focus: #1f8b95;
+    --fa-footer: #182420;
+    --fa-primary-dark: #4fa3ab;
+    --fa-accent-dark: #8bb382;
+    --fa-alert-danger-bg: rgba(178, 52, 88, 0.22);
+    --fa-alert-success-bg: rgba(76, 138, 63, 0.22);
+    --fa-alert-info-bg: rgba(31, 139, 149, 0.22);
+}
+
+:root[data-fa-palette="cameroon-rainforest"][data-theme="dark"] {
+    --fa-cream: #0f130c;
+    --fa-surface: #171e12;
+    --fa-text: #edf1e6;
+    --fa-text-muted: #a8b39a;
+    --fa-border: #3a4a2c;
+    --fa-border-focus: #338a54;
+    --fa-footer: #1c2415;
+    --fa-primary-dark: #5fa878;
+    --fa-accent-dark: #78a1b3;
+    --fa-alert-danger-bg: rgba(166, 59, 40, 0.22);
+    --fa-alert-success-bg: rgba(51, 138, 84, 0.22);
+    --fa-alert-info-bg: rgba(47, 110, 138, 0.22);
+}
+
+/* --- Same dark values again, gated on prefers-color-scheme instead of an explicit
+   data-theme="dark" — the OS-level fallback before any explicit mode choice. --- */
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #1c140d;
+        --fa-surface: #261c12;
+        --fa-text: #f1e6d6;
+        --fa-text-muted: #b7a78d;
+        --fa-border: #4a3524;
+        --fa-border-focus: #e8873d;
+        --fa-footer: #2a2015;
+        --fa-primary-dark: #e0895a;
+        --fa-accent-dark: #9db06a;
+        --fa-alert-danger-bg: rgba(166, 58, 44, 0.22);
+        --fa-alert-success-bg: rgba(107, 122, 62, 0.22);
+        --fa-alert-info-bg: rgba(191, 91, 38, 0.22);
+    }
+
+    :root[data-fa-palette="southwest-summer"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #17140f;
+        --fa-surface: #221d15;
+        --fa-text: #f0ece2;
+        --fa-text-muted: #beb5a4;
+        --fa-border: #4a4030;
+        --fa-border-focus: #2f96c9;
+        --fa-footer: #1f1b12;
+        --fa-primary-dark: #6bb0d1;
+        --fa-accent-dark: #a985c9;
+        --fa-alert-danger-bg: rgba(178, 58, 40, 0.22);
+        --fa-alert-success-bg: rgba(122, 79, 158, 0.22);
+        --fa-alert-info-bg: rgba(31, 119, 168, 0.22);
+    }
+
+    :root[data-fa-palette="northeast-spring"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #170f14;
+        --fa-surface: #211621;
+        --fa-text: #f2e2ec;
+        --fa-text-muted: #c0a6b8;
+        --fa-border: #4a3040;
+        --fa-border-focus: #c96a97;
+        --fa-footer: #241825;
+        --fa-primary-dark: #cf8fae;
+        --fa-accent-dark: #8fb384;
+        --fa-alert-danger-bg: rgba(179, 57, 47, 0.22);
+        --fa-alert-success-bg: rgba(90, 143, 79, 0.22);
+        --fa-alert-info-bg: rgba(162, 74, 120, 0.22);
+    }
+
+    :root[data-fa-palette="midwest-winter"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f161c;
+        --fa-surface: #172029;
+        --fa-text: #e7edf1;
+        --fa-text-muted: #a9b7c0;
+        --fa-border: #33434f;
+        --fa-border-focus: #4f7a94;
+        --fa-footer: #1a2530;
+        --fa-primary-dark: #7098af;
+        --fa-accent-dark: #7a9a7e;
+        --fa-alert-danger-bg: rgba(156, 59, 48, 0.22);
+        --fa-alert-success-bg: rgba(63, 92, 66, 0.22);
+        --fa-alert-info-bg: rgba(61, 90, 115, 0.22);
+    }
+
+    :root[data-fa-palette="southeast-beach"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #14100a;
+        --fa-surface: #1e170f;
+        --fa-text: #f2e9d8;
+        --fa-text-muted: #beae94;
+        --fa-border: #423a28;
+        --fa-border-focus: #3ba6a3;
+        --fa-footer: #221b12;
+        --fa-primary-dark: #6bbdbb;
+        --fa-accent-dark: #a7bb84;
+        --fa-alert-danger-bg: rgba(217, 99, 74, 0.22);
+        --fa-alert-success-bg: rgba(122, 148, 87, 0.22);
+        --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
+    }
+
+    :root[data-fa-palette="greece-aegean"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d151b;
+        --fa-surface: #142029;
+        --fa-text: #eef3f6;
+        --fa-text-muted: #a9b8c2;
+        --fa-border: #294555;
+        --fa-border-focus: #2e8fc9;
+        --fa-footer: #182430;
+        --fa-primary-dark: #5fa8d9;
+        --fa-accent-dark: #a1ac82;
+        --fa-alert-danger-bg: rgba(193, 85, 47, 0.22);
+        --fa-alert-success-bg: rgba(111, 127, 63, 0.22);
+        --fa-alert-info-bg: rgba(21, 104, 168, 0.22);
+    }
+
+    :root[data-fa-palette="spain-flamenco"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #170f0d;
+        --fa-surface: #221614;
+        --fa-text: #f3e6df;
+        --fa-text-muted: #c2a99e;
+        --fa-border: #4a2f28;
+        --fa-border-focus: #c23e46;
+        --fa-footer: #241512;
+        --fa-primary-dark: #d1707a;
+        --fa-accent-dark: #aab389;
+        --fa-alert-danger-bg: rgba(138, 58, 34, 0.22);
+        --fa-alert-success-bg: rgba(124, 138, 74, 0.22);
+        --fa-alert-info-bg: rgba(217, 161, 60, 0.22);
+    }
+
+    :root[data-fa-palette="ireland-emerald"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d1512;
+        --fa-surface: #14201a;
+        --fa-text: #e9f1ec;
+        --fa-text-muted: #a7bcae;
+        --fa-border: #2c4536;
+        --fa-border-focus: #2c9c63;
+        --fa-footer: #182720;
+        --fa-primary-dark: #5fb888;
+        --fa-accent-dark: #a994b6;
+        --fa-alert-danger-bg: rgba(161, 67, 44, 0.22);
+        --fa-alert-success-bg: rgba(44, 156, 99, 0.22);
+        --fa-alert-info-bg: rgba(122, 90, 143, 0.22);
+    }
+
+    :root[data-fa-palette="jamaica-blue-mountain"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d1310;
+        --fa-surface: #141d18;
+        --fa-text: #edf2ee;
+        --fa-text-muted: #a9b8ae;
+        --fa-border: #2a4540;
+        --fa-border-focus: #2c8f8a;
+        --fa-footer: #182420;
+        --fa-primary-dark: #5fa8a3;
+        --fa-accent-dark: #8db382;
+        --fa-alert-danger-bg: rgba(178, 51, 72, 0.22);
+        --fa-alert-success-bg: rgba(79, 138, 63, 0.22);
+        --fa-alert-info-bg: rgba(31, 110, 107, 0.22);
+    }
+
+    :root[data-fa-palette="japan-indigo"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #10131c;
+        --fa-surface: #171b26;
+        --fa-text: #ecedf2;
+        --fa-text-muted: #a8adba;
+        --fa-border: #2e3550;
+        --fa-border-focus: #33518f;
+        --fa-footer: #1b202e;
+        --fa-primary-dark: #6a80ac;
+        --fa-accent-dark: #94a98d;
+        --fa-alert-danger-bg: rgba(194, 59, 46, 0.22);
+        --fa-alert-success-bg: rgba(91, 122, 79, 0.22);
+        --fa-alert-info-bg: rgba(51, 81, 143, 0.22);
+    }
+
+    :root[data-fa-palette="korea-celadon"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f1512;
+        --fa-surface: #172019;
+        --fa-text: #eaf0ec;
+        --fa-text-muted: #a7b7ac;
+        --fa-border: #2c453a;
+        --fa-border-focus: #5fa08d;
+        --fa-footer: #182420;
+        --fa-primary-dark: #8fc0af;
+        --fa-accent-dark: #80a1c0;
+        --fa-alert-danger-bg: rgba(178, 59, 48, 0.22);
+        --fa-alert-success-bg: rgba(79, 138, 113, 0.22);
+        --fa-alert-info-bg: rgba(60, 110, 158, 0.22);
+    }
+
+    :root[data-fa-palette="china-cinnabar"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #160f0c;
+        --fa-surface: #221712;
+        --fa-text: #f2e6da;
+        --fa-text-muted: #c0a996;
+        --fa-border: #4a3524;
+        --fa-border-focus: #cf4a35;
+        --fa-footer: #241813;
+        --fa-primary-dark: #d97c6f;
+        --fa-accent-dark: #82b3a1;
+        --fa-alert-danger-bg: rgba(138, 42, 30, 0.22);
+        --fa-alert-success-bg: rgba(63, 138, 111, 0.22);
+        --fa-alert-info-bg: rgba(212, 169, 47, 0.22);
+    }
+
+    :root[data-fa-palette="india-peacock"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d1312;
+        --fa-surface: #141d1c;
+        --fa-text: #e9f0ee;
+        --fa-text-muted: #a4b7b2;
+        --fa-border: #2a453f;
+        --fa-border-focus: #1f8b95;
+        --fa-footer: #182420;
+        --fa-primary-dark: #4fa3ab;
+        --fa-accent-dark: #8bb382;
+        --fa-alert-danger-bg: rgba(178, 52, 88, 0.22);
+        --fa-alert-success-bg: rgba(76, 138, 63, 0.22);
+        --fa-alert-info-bg: rgba(31, 139, 149, 0.22);
+    }
+
+    :root[data-fa-palette="cameroon-rainforest"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f130c;
+        --fa-surface: #171e12;
+        --fa-text: #edf1e6;
+        --fa-text-muted: #a8b39a;
+        --fa-border: #3a4a2c;
+        --fa-border-focus: #338a54;
+        --fa-footer: #1c2415;
+        --fa-primary-dark: #5fa878;
+        --fa-accent-dark: #78a1b3;
+        --fa-alert-danger-bg: rgba(166, 59, 40, 0.22);
+        --fa-alert-success-bg: rgba(51, 138, 84, 0.22);
+        --fa-alert-info-bg: rgba(47, 110, 138, 0.22);
+    }
+}
+
+/* Colorblind-safe: swaps the two colors that matter most, the same way regardless
+   of which palette is active — deliberately palette-agnostic (this block must stay
+   *after* the palette blocks above so it wins the equal-specificity, single-
+   attribute tie against whichever data-fa-palette is set). A theme's own accent/
+   danger hues are exactly what colorblind mode exists to override, so reusing one
+   known-safe pair everywhere is the point, not a shortcut: green and red-orange are
+   the pair most likely to collapse into each other under red-green color vision
+   deficiency (deuteranopia/protanopia, ~8% of men) in every one of these palettes,
+   not just Northwest Fall's. The accent moves to a teal that's distinguishable from
+   red under every common CVD type, not just fine-tuned within the red-green axis;
+   danger moves to a darker, more desaturated red so it stays readable as "darker/
+   more urgent" even when its hue is hard to place. Each palette's primary is left
+   alone — it's the brand color, not part of the red/green confusion pair. */
+:root[data-theme="colorblind"] {
+    --fa-accent: #14776b;
+    --fa-accent-dark: #0d554c;
+    --fa-ember: #8b2e2e;
+    --fa-wine: #5c1f2e;
+    --fa-fir: #23281f;
+    --fa-alert-danger-bg: #f6e5e0;
+    --fa-alert-success-bg: #e2ece9;
+}
+
+/* ============================= Base / reset ============================= */
+/* No third-party CSS library (Bootstrap or otherwise) — this replaces the handful of
+   browser-default resets Bootstrap's reboot.css used to provide. */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--fa-font);
+    background: var(--fa-cream);
+    color: var(--fa-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0.6em;
+    font-weight: 700;
+}
+
+p {
+    margin: 0 0 0.75em;
+}
+
+a {
+    color: var(--fa-primary-dark);
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+table {
+    border-collapse: collapse;
+}
+
+/* ============================= Page shells ============================= */
+
+.fa-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.fa-shell-main {
+    flex: 1;
+    padding: 1.75rem 2rem;
+}
+
+.fa-shell-sidebar .fa-shell-body {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+/* ============================= Header ============================= */
+
+.fa-header {
+    background: var(--fa-primary);
+    color: var(--fa-text-on-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 2px 0 var(--fa-glow), 0 4px 14px rgba(140, 67, 27, 0.35);
+}
+
+.fa-header-brand {
+    font-family: var(--fa-font);
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    color: var(--fa-text-on-primary);
+    text-decoration: none;
+}
+
+.fa-header-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.fa-header-username {
+    font-weight: 600;
+    color: var(--fa-text-on-primary);
+}
+
+/* ============================= Theme switcher ============================= */
+/* Sits in the header, which stays burnt orange across all three modes — so its
+   own icons are always white, regardless of which theme is currently active. */
+
+.fa-theme-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    background: rgba(0, 0, 0, 0.14);
+    border-radius: var(--fa-radius-pill);
+    padding: 0.2rem;
+}
+
+.fa-theme-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+    .fa-theme-btn:hover {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.16);
+    }
+
+    .fa-theme-btn.fa-theme-btn-active {
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.24);
+        box-shadow: 0 0 0 2px var(--fa-glow);
+    }
+
+    .fa-theme-btn:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+    }
+
+/* Same inset-pill treatment as .fa-theme-switcher, but a native <select> instead of a
+   button row — fourteen palette options don't fit a pill row the way three theme
+   modes do. Sits in the header alongside ThemeSwitcher, so it wears the same
+   always-white-on-burnt-orange styling regardless of the active theme mode. */
+.fa-palette-switcher {
+    appearance: none;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--fa-text-on-primary);
+    background: rgba(0, 0, 0, 0.14);
+    border: none;
+    border-radius: var(--fa-radius-pill);
+    padding: 0.35rem 1.7rem 0.35rem 0.75rem;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 6 8 10 12 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.55rem center;
+    background-size: 0.7rem;
+    transition: background-color 0.15s ease;
+}
+
+    .fa-palette-switcher:hover {
+        background-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .fa-palette-switcher:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+    }
+
+    .fa-palette-switcher option {
+        color: var(--fa-text);
+        background: var(--fa-surface);
+    }
+
+/* ============================= Footer ============================= */
+
+.fa-footer {
+    background: var(--fa-footer);
+    color: var(--fa-text-muted);
+    text-align: center;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.9rem;
+    border-top: 3px solid var(--fa-glow);
+}
+
+/* ============================= Sidebar ============================= */
+/* Collapse/expand is plain-JS UI state (js/sidebar.js) stamped as .fa-sidebar-collapsed
+   on <html>, same pattern as the light/dark/colorblind theme — everything below keys
+   off that one class, no Blazor state involved. */
+
+.fa-sidebar {
+    background: var(--fa-primary);
+    width: 240px;
+    flex: 0 0 240px;
+    padding: 1.25rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    box-shadow: 2px 0 0 var(--fa-glow), 4px 0 14px rgba(140, 67, 27, 0.25);
+    position: relative;
+    overflow: visible; /* the toggle button and collapsed-state tooltips both spill outside the sidebar's own edge */
+    transition: width 0.2s ease, flex-basis 0.2s ease;
+}
+
+html.fa-sidebar-collapsed .fa-sidebar {
+    width: 64px;
+    flex-basis: 64px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.fa-sidebar-toggle {
+    position: absolute;
+    /* Sits right at the sidebar's top edge and pokes up a little over the header
+       above it (.fa-header has no z-index/positioning of its own, so a positioned
+       descendant like this paints above it without needing a very high z-index). */
+    top: -0.65rem;
+    right: -0.85rem;
+    width: 1.7rem;
+    height: 1.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--fa-glow);
+    background: var(--fa-primary-dark);
+    color: var(--fa-text-on-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 20;
+    transition: transform 0.2s ease, background-color 0.15s ease;
+}
+
+    .fa-sidebar-toggle:hover {
+        background: var(--fa-primary);
+    }
+
+    .fa-sidebar-toggle:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+    }
+
+    .fa-sidebar-toggle svg {
+        transition: transform 0.2s ease;
+    }
+
+html.fa-sidebar-collapsed .fa-sidebar-toggle svg {
+    transform: rotate(180deg);
+}
+
+.fa-sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--fa-radius-md);
+    color: var(--fa-text-on-primary);
+    text-decoration: none;
+    font-weight: 600;
+    opacity: 0.9;
+    position: relative;
+    transition: background-color 0.15s ease, opacity 0.15s ease, gap 0.2s ease, padding 0.2s ease;
+}
+
+    .fa-sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.14);
+        opacity: 1;
+    }
+
+    .fa-sidebar-link.active {
+        background: var(--fa-primary-dark);
+        opacity: 1;
+        box-shadow: inset 0 0 0 2px var(--fa-glow);
+    }
+
+/* max-width (not display:none, and no opacity fade) so collapsing reads as the
+   sidebar's edge closing directly over the label — text stays fully opaque and gets
+   clipped by overflow:hidden as max-width shrinks, down to just the first letter or
+   two, rather than fading out independently of the width animation. */
+.fa-sidebar-link-text {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 160px;
+    transition: max-width 0.2s ease;
+}
+
+html.fa-sidebar-collapsed .fa-sidebar-link {
+    gap: 0;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+}
+
+/* justify-content isn't animatable, so centering the icon has to be a discrete jump —
+   applying it via this separate class (added by js/sidebar.js only once the label has
+   actually finished collapsing) instead of directly off .fa-sidebar-collapsed keeps
+   that jump from happening at the same instant the collapse starts, which read as the
+   icon recentering before the text had visually finished closing. */
+html.fa-sidebar-collapsed-settled .fa-sidebar-link {
+    justify-content: center;
+}
+
+html.fa-sidebar-collapsed .fa-sidebar-link-text {
+    max-width: 0;
+}
+
+/* The "really cool" tooltip: a small pill in the app's own palette, not the browser's
+   plain title tooltip. Built from data-tooltip (set alongside each label in
+   NavMenu.razor) via a pseudo-element, so it costs nothing extra to render. */
+html.fa-sidebar-collapsed .fa-sidebar-link::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: calc(100% + 0.9rem);
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px) scale(0.94);
+    background: var(--fa-primary-dark);
+    color: var(--fa-text-on-primary);
+    padding: 0.45rem 0.8rem;
+    border-radius: var(--fa-radius-md);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), 0 0 0 1.5px var(--fa-glow);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 30;
+}
+
+html.fa-sidebar-collapsed .fa-sidebar-link:hover::after,
+html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0) scale(1);
+}
+
+/* ============================= Buttons ============================= */
+
+.fa-btn {
+    font-family: var(--fa-font);
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: var(--fa-radius-pill);
+    padding: 0.55rem 1.4rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.05s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+    .fa-btn:active {
+        transform: translateY(1px);
+    }
+
+    .fa-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+.fa-btn-primary {
+    background: var(--fa-primary);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-primary);
+}
+
+    .fa-btn-primary:hover:not(:disabled) {
+        background: var(--fa-primary-dark);
+        border-color: var(--fa-primary-dark);
+    }
+
+    .fa-btn-primary:focus-visible {
+        background: var(--fa-glow);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-secondary {
+    background: var(--fa-surface);
+    color: var(--fa-primary-dark);
+    border-color: var(--fa-border);
+}
+
+    .fa-btn-secondary:hover:not(:disabled) {
+        background: var(--fa-footer);
+        border-color: var(--fa-glow);
+    }
+
+    .fa-btn-secondary:focus-visible {
+        border-color: var(--fa-border-focus);
+        color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-outline {
+    background: transparent;
+    color: var(--fa-primary-dark);
+    border-color: var(--fa-primary);
+}
+
+    .fa-btn-outline:hover:not(:disabled) {
+        background: var(--fa-primary);
+        color: var(--fa-text-on-primary);
+    }
+
+    .fa-btn-outline:focus-visible {
+        background: var(--fa-primary-dark);
+        color: var(--fa-text-on-primary);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-danger {
+    background: var(--fa-ember);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-ember);
+}
+
+    .fa-btn-danger:hover:not(:disabled) {
+        background: var(--fa-wine);
+        border-color: var(--fa-wine);
+    }
+
+    .fa-btn-danger:focus-visible {
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-outline-danger {
+    background: transparent;
+    color: var(--fa-ember);
+    border-color: var(--fa-ember);
+}
+
+    .fa-btn-outline-danger:hover:not(:disabled) {
+        background: var(--fa-ember);
+        color: var(--fa-text-on-primary);
+    }
+
+    .fa-btn-outline-danger:focus-visible {
+        background: var(--fa-wine);
+        color: var(--fa-text-on-primary);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-accent {
+    background: var(--fa-accent);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-accent);
+}
+
+    .fa-btn-accent:hover:not(:disabled) {
+        background: var(--fa-accent-dark);
+        border-color: var(--fa-accent-dark);
+    }
+
+    .fa-btn-accent:focus-visible {
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-outline-accent {
+    background: transparent;
+    color: var(--fa-accent-dark);
+    border-color: var(--fa-accent);
+}
+
+    .fa-btn-outline-accent:hover:not(:disabled) {
+        background: var(--fa-accent);
+        color: var(--fa-text-on-primary);
+    }
+
+    .fa-btn-outline-accent:focus-visible {
+        background: var(--fa-accent-dark);
+        color: var(--fa-text-on-primary);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-sm {
+    padding: 0.32rem 0.9rem;
+    font-size: 0.82rem;
+}
+
+/* ============================= Inputs & selects ============================= */
+
+.fa-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.fa-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-input, .fa-select {
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.5rem 0.9rem;
+    box-shadow: var(--fa-border-glow);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-input:focus, .fa-select:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    .fa-input::placeholder {
+        color: var(--fa-text-muted);
+        opacity: 0.7;
+    }
+
+.fa-input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+    .fa-input-group .fa-field {
+        flex: 1;
+    }
+
+    .fa-input-group .fa-input {
+        border-radius: var(--fa-radius-md) 0 0 var(--fa-radius-md);
+        border-right: none;
+    }
+
+    .fa-input-group .fa-btn {
+        border-radius: 0 var(--fa-radius-md) var(--fa-radius-md) 0;
+    }
+
+.fa-input-group-sm .fa-input, .fa-input-group-sm .fa-btn {
+    padding: 0.32rem 0.9rem;
+    font-size: 0.82rem;
+}
+
+/* ============================= Date picker ============================= */
+
+.fa-datepicker {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.4rem 0.7rem;
+    box-shadow: var(--fa-border-glow);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-datepicker:focus-within {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-datepicker-fields {
+    display: flex;
+    align-items: center;
+}
+
+.fa-datepicker-input {
+    width: 2.2ch;
+    border: none;
+    background: transparent;
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    text-align: center;
+}
+
+    .fa-datepicker-input:last-child {
+        width: 4ch;
+    }
+
+    .fa-datepicker-input:focus {
+        outline: none;
+    }
+
+.fa-datepicker-separator {
+    color: var(--fa-text-muted);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.fa-datepicker-toggle {
+    display: inline-flex;
+    border: none;
+    background: none;
+    padding: 0.1rem;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* --- Floating label, same idea as the plain .fa-label but overlapping the border --- */
+.fa-datepicker-floating {
+    min-height: 3.2em;
+}
+
+.fa-datepicker-floating-label {
+    position: absolute;
+    top: -0.6rem;
+    left: 0.6rem;
+    font-size: 0.7rem;
+    background: var(--fa-surface);
+    padding: 0 0.3rem;
+    border-radius: var(--fa-radius-sm);
+}
+
+/* --- Popup: a plain Blazor bool (FaDatePicker._isOpen) drives this class — no JS
+   needed to open/close it, just to size/position it would need extra work this
+   component intentionally skips (see FaDatePicker.cs remarks). Always rendered,
+   just hidden, so no @ref remount churn between opens. --- */
+.fa-datepicker-calendar {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    margin-top: 0.4rem;
+    width: 17rem;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    box-shadow: var(--fa-border-glow);
+    padding: 0.6rem;
+}
+
+    .fa-datepicker-calendar.fa-datepicker-calendar-open {
+        display: block;
+    }
+
+.fa-datepicker-calendar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.fa-datepicker-calendar-month {
+    font-weight: 700;
+    color: var(--fa-primary-dark);
+    flex: 1;
+    text-align: center;
+}
+
+.fa-datepicker-calendar-year {
+    width: 4.5rem;
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    padding: 0.15rem 0.3rem;
+    font-family: var(--fa-font);
+    color: var(--fa-text);
+    background: var(--fa-surface);
+}
+
+.fa-datepicker-calendar-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.fa-datepicker-calendar-weekdays, .fa-datepicker-calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+}
+
+.fa-datepicker-calendar-weekdays span {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--fa-text-muted);
+}
+
+.fa-datepicker-day {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: var(--fa-radius-sm);
+    background: none;
+    color: var(--fa-text);
+    cursor: pointer;
+}
+
+    .fa-datepicker-day:hover:not(:disabled) {
+        background: rgba(232, 135, 61, 0.15);
+    }
+
+    .fa-datepicker-day:disabled {
+        color: var(--fa-text-muted);
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .fa-datepicker-day-selected {
+        background: var(--fa-primary);
+        color: var(--fa-text-on-primary);
+    }
+
+.fa-datepicker-calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--fa-border);
+}
+
+.fa-datepicker-calendar-footer-btn {
+    border: none;
+    background: none;
+    color: var(--fa-primary-dark);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* ============================= Toggle ============================= */
+
+/* One shared border around the toggle button and, when it's showing, its companion
+   input — not two separately-bordered controls sitting next to each other. Compact
+   (just the two option buttons) by default; .fa-field is a flex column, whose items
+   stretch to its full width by default, so this has to opt back out of that to stay
+   hugged to its content instead of spanning the whole form like the inputs above it. */
+.fa-toggle-group {
+    display: inline-flex;
+    align-items: stretch;
+    align-self: flex-start;
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-pill);
+    background: var(--fa-surface);
+    box-shadow: var(--fa-border-glow);
+    overflow: hidden;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-toggle-group:focus-within {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    /* Once the companion input is showing, span the field's full width — the input
+       (flex: 1 1 auto below) absorbs the extra space; the option buttons stay put. */
+    .fa-toggle-group.fa-toggle-group-expanded {
+        align-self: stretch;
+        width: 100%;
+    }
+
+/* The two options are always both visible, active one highlighted — same pattern as
+   .fa-theme-switcher/.fa-theme-btn: an inset row of pill-shaped buttons (not edge-to-
+   edge segments with dividers between them), and instead of a hard fill, the active
+   one gets a shaded moss (accent) capsule behind its label. */
+.fa-toggle-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    flex: 0 0 auto;
+    padding: 0.2rem;
+}
+
+.fa-toggle-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.3rem;
+    height: 1.9rem;
+    padding: 0 0.75rem;
+    border: none;
+    border-radius: var(--fa-radius-pill);
+    background: transparent;
+    color: var(--fa-text-muted);
+    cursor: pointer;
+    font-family: var(--fa-font);
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0.7;
+    transition: background-color 0.15s ease, opacity 0.15s ease, color 0.15s ease;
+}
+
+    .fa-toggle-option:hover {
+        opacity: 1;
+        background: rgba(107, 122, 62, 0.14);
+    }
+
+    .fa-toggle-option:disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+        background: transparent;
+    }
+
+    .fa-toggle-option:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-border-focus);
+    }
+
+    .fa-toggle-option.fa-toggle-option-active {
+        opacity: 1;
+        background: var(--fa-accent);
+        color: var(--fa-text-on-primary);
+        box-shadow: 0 0 0 2px var(--fa-accent-dark);
+    }
+
+.fa-toggle-input {
+    flex: 1 1 auto;
+    min-width: 100px;
+    border: none;
+    border-left: 2px solid var(--fa-border);
+    background: transparent;
+    color: var(--fa-text);
+    font-family: var(--fa-font);
+    font-size: 0.9rem;
+    padding: 0.45rem 0.8rem;
+}
+
+    .fa-toggle-input.fa-toggle-input-before {
+        border-left: none;
+        border-right: 2px solid var(--fa-border);
+    }
+
+    .fa-toggle-input:focus {
+        outline: none;
+    }
+
+    .fa-toggle-input::placeholder {
+        color: var(--fa-text-muted);
+        opacity: 0.7;
+    }
+
+/* ============================= Textarea ============================= */
+
+.fa-textarea {
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.5rem 0.9rem;
+    box-shadow: var(--fa-border-glow);
+    resize: vertical;
+    min-height: 6rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-textarea:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-textarea-readonly {
+    white-space: pre-wrap;
+    border-color: transparent;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+}
+
+.fa-textarea-counter {
+    align-self: flex-end;
+    font-size: 0.75rem;
+    color: var(--fa-text-muted);
+}
+
+/* ============================= Checkbox & radio ============================= */
+
+.fa-checkbox, .fa-radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.fa-checkbox-input, .fa-radio-input {
+    accent-color: var(--fa-primary);
+    width: 1.1rem;
+    height: 1.1rem;
+    cursor: pointer;
+}
+
+.fa-checkbox-label, .fa-radio-label {
+    font-size: 0.95rem;
+    color: var(--fa-text);
+}
+
+.fa-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+/* ============================= File & currency ============================= */
+
+.fa-file-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.fa-file-input {
+    font-family: var(--fa-font);
+    color: var(--fa-text);
+}
+
+.fa-currency-input {
+    text-align: right;
+}
+
+/* ============================= Table ============================= */
+
+.fa-table {
+    width: 100%;
+    /* border-collapse: collapse merges cell borders into the table's own border box,
+       which breaks border-radius clipping in most browsers — the corners end up
+       square even though border-radius is set. border-collapse: separate with zero
+       spacing keeps the same visual seams (via border-bottom on th/td below) while
+       letting the table's own border follow its border-radius correctly. */
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    overflow: hidden;
+    box-shadow: var(--fa-border-glow);
+}
+
+    .fa-table th, .fa-table td {
+        padding: 0.6rem 0.9rem;
+        text-align: left;
+        border-bottom: 1px solid var(--fa-border);
+    }
+
+    .fa-table th {
+        background: var(--fa-footer);
+        font-weight: 700;
+        color: var(--fa-primary-dark);
+    }
+
+    .fa-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .fa-table tbody tr:hover {
+        background: rgba(232, 135, 61, 0.08);
+    }
+
+/* Shrink-to-content action column — the width:1%/white-space:nowrap trick, as a
+   reusable class instead of every consumer hand-rolling it inline. Card mode
+   (below, <=720px) overrides this into its own unlabeled row at the top of the card. */
+.fa-table-actions {
+    width: 1%;
+    white-space: nowrap;
+}
+
+/* Visually hidden but still reachable by screen readers — standard accessible-hide
+   clip technique. General utility; first used by .fa-table's card mode below. */
+.fa-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================= Date range ============================= */
+
+.fa-daterange {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.fa-daterange-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.fa-daterange-end-label {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-daterange-input {
+    max-width: 11rem;
+}
+
+.fa-daterange-separator {
+    padding-bottom: 0.55rem;
+    color: var(--fa-text-muted);
+}
+
+/* ============================= Search select ============================= */
+
+.fa-searchselect {
+    position: relative;
+}
+
+.fa-searchselect-input {
+    width: 100%;
+}
+
+.fa-searchselect-dropdown {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 0.3rem);
+    left: 0;
+    right: 0;
+    max-height: 16rem;
+    overflow-y: auto;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    box-shadow: var(--fa-border-glow);
+    padding: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.fa-searchselect-status, .fa-searchselect-empty {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.88rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-searchselect-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: var(--fa-radius-sm);
+    padding: 0.45rem 0.7rem;
+    font-family: var(--fa-font);
+    font-size: 0.92rem;
+    color: var(--fa-text);
+    cursor: pointer;
+}
+
+    .fa-searchselect-option:hover, .fa-searchselect-option-highlighted {
+        background: rgba(232, 135, 61, 0.12);
+    }
+
+/* ============================= Grid (paging/filters) ============================= */
+
+.fa-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.fa-grid-empty {
+    text-align: center;
+    color: var(--fa-text-muted);
+    padding: 1.4rem 0.9rem !important;
+}
+
+.fa-grid-filter-row th {
+    background: var(--fa-surface);
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+.fa-grid-filter-select {
+    width: 100%;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.fa-grid-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 700;
+    color: inherit;
+    cursor: pointer;
+}
+
+.fa-grid-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-grid-pagination-size {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .fa-grid-pagination-size select {
+        width: auto;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+.fa-grid-pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.fa-grid-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    width: 1.9rem;
+    height: 1.9rem;
+    cursor: pointer;
+}
+
+    .fa-grid-pagination-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .fa-grid-pagination-btn:not(:disabled):hover {
+        border-color: var(--fa-border-focus);
+    }
+
+/* ============================= List group ============================= */
+
+.fa-list-group {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.fa-list-group-item {
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    box-shadow: var(--fa-border-glow);
+    padding: 0.75rem 1rem;
+}
+
+/* ============================= Progress ============================= */
+
+.fa-progress {
+    background: var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    height: 6px;
+    overflow: hidden;
+}
+
+.fa-progress-bar {
+    height: 100%;
+    background: var(--fa-accent);
+    transition: width 0.2s ease;
+}
+
+/* ============================= Cards ============================= */
+
+.fa-card {
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-lg);
+    box-shadow: var(--fa-border-glow);
+    padding: 1.1rem 1.3rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+    .fa-card:focus-within, .fa-card.fa-card-active {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    .fa-card[tabindex] {
+        cursor: pointer;
+    }
+
+    .fa-card[tabindex]:focus-visible {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+/* ============================= Modal ============================= */
+
+.fa-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+/* Applied instead of unmounting when FaModal's ResetOnClose="false" (the default) keeps
+   ChildContent mounted across a close/reopen cycle so its values persist. */
+.fa-modal-backdrop-hidden {
+    display: none;
+}
+
+.fa-modal {
+    background: var(--fa-surface);
+    border: 2px solid var(--fa-border);
+    border-radius: var(--fa-radius-lg);
+    box-shadow: var(--fa-border-glow-focus);
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.fa-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.3rem;
+    border-bottom: 2px solid var(--fa-border);
+}
+
+.fa-modal-title {
+    margin: 0;
+    color: var(--fa-text);
+}
+
+.fa-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--fa-text-muted);
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+}
+
+    .fa-modal-close:hover {
+        color: var(--fa-text);
+    }
+
+.fa-modal-body {
+    padding: 1.3rem;
+    overflow-y: auto;
+}
+
+.fa-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding: 1rem 1.3rem;
+    border-top: 2px solid var(--fa-border);
+}
+
+/* ============================= Badges ============================= */
+
+.fa-badge {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: var(--fa-radius-pill);
+    background: var(--fa-gold);
+    color: var(--fa-text);
+}
+
+.fa-badge-success { background: var(--fa-accent); color: var(--fa-text-on-primary); }
+.fa-badge-danger { background: var(--fa-ember); color: var(--fa-text-on-primary); }
+.fa-badge-primary { background: var(--fa-primary); color: var(--fa-text-on-primary); }
+
+/* ============================= Alerts ============================= */
+
+.fa-alert {
+    border-radius: var(--fa-radius-md);
+    padding: 0.75rem 1.1rem;
+    border: 2px solid var(--fa-border);
+    box-shadow: var(--fa-border-glow);
+    font-weight: 600;
+}
+
+.fa-alert-danger { border-color: var(--fa-ember); color: var(--fa-ember); background: var(--fa-alert-danger-bg); }
+.fa-alert-success { border-color: var(--fa-accent); color: var(--fa-accent); background: var(--fa-alert-success-bg); }
+.fa-alert-info { border-color: var(--fa-primary); color: var(--fa-primary-dark); background: var(--fa-alert-info-bg); }
+
+/* ============================= Avatar ============================= */
+
+.fa-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: var(--fa-primary-light);
+    color: var(--fa-text);
+    box-shadow: 0 0 0 2px var(--fa-text-on-primary), 0 0 8px rgba(232, 135, 61, 0.6);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+    .fa-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+/* ============================= Icons ============================= */
+/* Hand-drawn SVG set (FaIcon.razor) instead of a third-party icon font/library —
+   every path fills with currentColor, and these two classes are the only place
+   an icon's actual color is decided. */
+
+.fa-icon {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+    .fa-icon path, .fa-icon rect, .fa-icon circle {
+        fill: currentColor;
+    }
+
+.fa-icon-white {
+    color: #ffffff;
+}
+
+.fa-icon-black {
+    color: var(--fa-fir);
+}
+
+.fa-nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+}
+
+/* ============================= Dashboard tiles & trend chart ============================= */
+/* Used by DashboardView.razor's budget-progress tiles and the monthly-spend SVG bar chart —
+   previously inline `style="..."` attributes hardcoding Bootstrap-blue/red; now palette-driven
+   like everything else. */
+
+.fa-dashboard-tile {
+    width: 220px;
+}
+
+.fa-dashboard-progress-track {
+    background: var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    height: 10px;
+    margin-top: 0.4rem;
+    overflow: hidden;
+}
+
+.fa-dashboard-progress-fill {
+    height: 100%;
+    background: var(--fa-primary);
+}
+
+    .fa-dashboard-progress-fill.fa-over-budget {
+        background: var(--fa-ember);
+    }
+
+.fa-dashboard-over-budget-label {
+    color: var(--fa-ember);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.fa-trend-bar {
+    fill: var(--fa-primary);
+    cursor: pointer;
+    transition: fill 0.15s ease;
+}
+
+    .fa-trend-bar:hover {
+        fill: var(--fa-primary-dark);
+    }
+
+.fa-trend-label, .fa-trend-value {
+    font-family: var(--fa-font);
+    fill: var(--fa-text-muted);
+}
+
+/* ============================= Blazor template chrome ============================= */
+/* The bits every default Blazor WASM template ships (error UI, loading spinner,
+   validation outlines) — retinted to the fall palette instead of the template defaults.
+   The Bootstrap-classname rules this section used to carry (.btn-primary, .form-control,
+   .form-floating, etc.) are gone along with Bootstrap itself — nothing in the app's
+   markup uses those class names anymore, so styling them would just be dead CSS. */
+
+h1:focus {
+    outline: none;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid var(--fa-accent);
+}
+
+.invalid {
+    outline: 1px solid var(--fa-ember);
+}
+
+.validation-message {
+    color: var(--fa-ember);
+}
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.blazor-error-boundary {
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, var(--fa-ember);
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+    .blazor-error-boundary::after {
+        content: "An error has occurred."
+    }
+
+.loading-progress {
+    position: absolute;
+    display: block;
+    width: 8rem;
+    height: 8rem;
+    inset: 20vh 0 auto 0;
+    margin: 0 auto 0 auto;
+}
+
+    .loading-progress circle {
+        fill: none;
+        stroke: var(--fa-border);
+        stroke-width: 0.6rem;
+        transform-origin: 50% 50%;
+        transform: rotate(-90deg);
+    }
+
+        .loading-progress circle:last-child {
+            stroke: var(--fa-primary);
+            stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
+            transition: stroke-dasharray 0.05s ease-in-out;
+        }
+
+.loading-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+}
+
+    .loading-progress-text:after {
+        content: var(--blazor-load-percentage-text, "Loading");
+    }
+
+code {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    background: var(--fa-footer);
+    color: var(--fa-primary-dark);
+    padding: 0.1em 0.4em;
+    border-radius: var(--fa-radius-sm);
+}
+
+/* ============================= Layout & spacing utilities ============================= */
+/* A small, deliberately minimal utility layer — not a full grid framework. Only what the
+   app's own pages actually use (a simple wrapping row, a gap, a margin, text alignment). */
+
+.fa-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.fa-col-auto {
+    flex: 0 0 auto;
+}
+
+.fa-flex {
+    display: flex;
+    align-items: center;
+}
+
+.fa-flex-between {
+    justify-content: space-between;
+}
+
+.fa-gap-2 { gap: 0.5rem; }
+.fa-gap-3 { gap: 1rem; }
+
+.fa-mb-3 { margin-bottom: 1rem; }
+.fa-mb-4 { margin-bottom: 1.5rem; }
+.fa-mt-2 { margin-top: 0.5rem; }
+.fa-mt-3 { margin-top: 1rem; }
+.fa-mt-5 { margin-top: 3rem; }
+.fa-my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.fa-me-1 { margin-right: 0.25rem; }
+.fa-me-2 { margin-right: 0.5rem; }
+
+.fa-text-end { text-align: right; }
+.fa-text-center { text-align: center; }
+.fa-text-danger { color: var(--fa-ember); }
+
+.fa-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+/* ============================= Small screens ============================= */
+
+@media (max-width: 720px) {
+    .fa-shell-sidebar .fa-shell-body {
+        flex-direction: column;
+    }
+
+    /* Collapse/expand is a desktop affordance — the mobile layout is already a compact
+       icon+label row, so force expanded and hide the toggle rather than letting the two
+       layout modes combine. */
+    .fa-sidebar,
+    html.fa-sidebar-collapsed .fa-sidebar {
+        width: 100%;
+        flex: 0 0 auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0.75rem;
+        box-shadow: 0 2px 0 var(--fa-glow), 0 4px 14px rgba(140, 67, 27, 0.25);
+    }
+
+    .fa-sidebar-toggle {
+        display: none;
+    }
+
+    /* Mobile ignores the collapse state entirely — undo the desktop-collapsed
+       tightened gap/padding/centering along with the text's max-width. */
+    html.fa-sidebar-collapsed .fa-sidebar-link,
+    html.fa-sidebar-collapsed-settled .fa-sidebar-link {
+        justify-content: flex-start;
+        gap: 0.6rem;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+
+    html.fa-sidebar-collapsed .fa-sidebar-link-text {
+        max-width: none;
+    }
+
+    html.fa-sidebar-collapsed .fa-sidebar-link::after {
+        content: none;
+    }
+
+    .fa-header-username {
+        display: none;
+    }
+
+    /* .fa-table card mode — each row becomes its own bordered card, each cell a
+       label/value pair sourced from the cell's data-label attribute. FaTable.cs
+       emits data-label on every generated <td> automatically; hand-written
+       <table class="fa-table"> markup opts in by adding data-label itself. */
+    .fa-table thead {
+        /* Same clip technique as .fa-sr-only above, inlined here since a class
+           can't be applied conditionally per breakpoint without JS. */
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .fa-table {
+        display: block;
+        width: 100%;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .fa-table tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .fa-table tr {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background: var(--fa-surface);
+        border: 2px solid var(--fa-border);
+        border-radius: var(--fa-radius-md);
+        box-shadow: var(--fa-border-glow);
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+    }
+
+    .fa-table tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .fa-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 0.9rem;
+        text-align: right;
+        border-bottom: 1px solid var(--fa-border);
+    }
+
+    /* Assumes the actions column is the last <td> in markup, matching the
+       desktop convention — see .fa-table-actions below. */
+    .fa-table td:last-child {
+        border-bottom: none;
+    }
+
+    .fa-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--fa-primary-dark);
+        text-align: left;
+    }
+
+    /* Action column: no label, right-aligned, pinned above the data fields
+       instead of appearing as just another labeled row. */
+    .fa-table-actions {
+        order: -1;
+        width: auto;
+        justify-content: flex-end;
+    }
+
+    .fa-table-actions::before {
+        content: none;
+    }
+}

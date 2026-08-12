@@ -1,0 +1,71 @@
+name: Publish Blazor to GitHub Packages
+
+# One workflow file per library (publish-<library>.yml) — this one only ever
+# publishes Blazor/. Adding a new library means adding its own
+# publish-<library>.yml from this template, never editing this one.
+#
+# Every push to main that touches Blazor/ packs and pushes it to GitHub Packages.
+# GitHub Packages rejects re-publishing an already-existing version, so a push that
+# doesn't bump <Version> in Blazor/FactoryAspects.csproj will fail this step — bump
+# it first when you actually want to ship a new version, not just merge a change.
+#
+# After a successful publish, also stamps a "vX.Y.Z" git tag (matching <Version>) on
+# the commit that shipped it. That tag is the pinnable target for anything consuming
+# this repo as source (e.g. a git submodule) — check out the tag instead of tracking
+# main's moving tip, and "vX.Y.Z" always means exactly the code that produced that
+# package version, never silently drifts. Skipped (not re-tagged) if the tag already
+# exists.
+#
+# Trigger is path-filtered to Blazor/** (plus this workflow file) — safe to do at
+# the trigger level here because this workflow is NOT a required status check (unlike
+# ci-blazor.yml's build-and-pack-blazor job), so a push to main that doesn't touch
+# Blazor/ simply not firing this workflow can't block anything.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Blazor/**"
+      - ".github/workflows/publish-blazor.yml"
+  workflow_dispatch: {}
+
+permissions:
+  packages: write
+  contents: write
+
+jobs:
+  publish-blazor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore Blazor/FactoryAspects.csproj
+
+      - name: Pack
+        run: dotnet pack Blazor/FactoryAspects.csproj --configuration Release -o ./artifacts
+
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --source https://nuget.pkg.github.com/bencalvin/index.json \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate
+
+      - name: Tag release
+        run: |
+          VERSION=$(grep -oP '(?<=<Version>)[^<]+(?=</Version>)' Blazor/FactoryAspects.csproj)
+          TAG="v$VERSION"
+          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "refs/tags/$TAG$"; then
+            echo "Tag $TAG already exists on origin — skipping (tags are immutable, not re-pointed)."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
