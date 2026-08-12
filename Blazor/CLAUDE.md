@@ -92,7 +92,8 @@ rides unchanged through the `dev → test → main` promotion; don't bump it aga
 rejects re-publishing an existing version), so leaving `<Version>` unchanged across
 several commits doesn't queue those changes up for consumers — it just means none of
 them are reachable until the next bump. See the root `CLAUDE.md` for the branching
-model and how `.github/workflows/publish.yml`/`ci.yml` build this project.
+model and how `.github/workflows/publish-blazor.yml`/`ci-blazor.yml` build this
+project.
 
 ## Themes
 
