@@ -2,14 +2,18 @@ name: Publish to GitHub Packages
 
 # Every push to main packs and pushes to GitHub Packages. GitHub Packages rejects
 # re-publishing an already-existing version, so a push that doesn't bump <Version> in
-# FactoryAspects.csproj will fail this step — bump it first when you actually want to
-# ship a new version, not just merge a change.
+# Blazor/FactoryAspects.csproj will fail this step — bump it first when you actually
+# want to ship a new version, not just merge a change.
 #
 # After a successful publish, also stamps a "vX.Y.Z" git tag (matching <Version>) on the
 # commit that shipped it. That tag is the pinnable target for anything consuming this repo
 # as source (e.g. a git submodule) — check out the tag instead of tracking main's moving
 # tip, and "vX.Y.Z" always means exactly the code that produced that package version,
 # never silently drifts. Skipped (not re-tagged) if the tag already exists.
+#
+# Only publishes the Blazor library today. Once a second style library exists here,
+# this workflow needs to become per-library (its own version/tag, only triggered by
+# changes under its own folder) instead of firing for any push to main.
 on:
   push:
     branches: [main]
@@ -32,10 +36,10 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore
-        run: dotnet restore FactoryAspects.csproj
+        run: dotnet restore Blazor/FactoryAspects.csproj
 
       - name: Pack
-        run: dotnet pack FactoryAspects.csproj --configuration Release -o ./artifacts
+        run: dotnet pack Blazor/FactoryAspects.csproj --configuration Release -o ./artifacts
 
       - name: Push to GitHub Packages
         run: |
@@ -46,7 +50,7 @@ jobs:
 
       - name: Tag release
         run: |
-          VERSION=$(grep -oP '(?<=<Version>)[^<]+(?=</Version>)' FactoryAspects.csproj)
+          VERSION=$(grep -oP '(?<=<Version>)[^<]+(?=</Version>)' Blazor/FactoryAspects.csproj)
           TAG="v$VERSION"
           if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "refs/tags/$TAG$"; then
             echo "Tag $TAG already exists on origin — skipping (tags are immutable, not re-pointed)."

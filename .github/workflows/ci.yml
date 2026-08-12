@@ -19,10 +19,10 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore
-        run: dotnet restore FactoryAspects.csproj
+        run: dotnet restore Blazor/FactoryAspects.csproj
 
       - name: Build
-        run: dotnet build FactoryAspects.csproj --no-restore --configuration Release
+        run: dotnet build Blazor/FactoryAspects.csproj --no-restore --configuration Release
 
       - name: Pack (sanity check only — publish.yml does the real push)
-        run: dotnet pack FactoryAspects.csproj --no-build --configuration Release -o ./artifacts
+        run: dotnet pack Blazor/FactoryAspects.csproj --no-build --configuration Release -o ./artifacts
