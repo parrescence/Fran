@@ -56,11 +56,26 @@
 
 .fa-dropdown-input {
     width: 100%;
+    /* Room for .fa-dropdown-arrow so the chevron never overlaps typed/selected text. */
+    padding-right: 2.2rem;
 }
 
     .fa-dropdown-input[readonly] {
         cursor: pointer;
     }
+
+/* Always-visible chevron, floated over the input's end rather than laid out beside
+   it — flips to point up while the dropdown is open. pointer-events: none lets
+   clicks/typing pass straight through to the input underneath, so it never steals
+   the search-field's click-to-open or type-to-search interaction. */
+.fa-dropdown-arrow {
+    position: absolute;
+    top: 50%;
+    right: 0.7rem;
+    transform: translateY(-50%);
+    display: flex;
+    pointer-events: none;
+}
 
 .fa-dropdown-dropdown {
     position: absolute;
