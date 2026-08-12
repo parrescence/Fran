@@ -5,6 +5,10 @@ inputs, layout shells, a theme switcher, and an icon set. No dependency on any o
 project, database, or web API — it renders whatever state/callbacks you pass it and
 nothing else.
 
+Blazor is a C#/.NET UI framework — this library only works in a .NET project (Blazor
+Server or WebAssembly). It is not usable from JavaScript/TypeScript, React, Vue, or
+any non-.NET frontend.
+
 Every component keeps its original `Fa`-prefixed name (`FaButton`, `FaCard`,
 `FaToggle<TValue>`, `FaIcon`, ...) — only the package/namespace/repo identity is
 `FactoryAspects`. Every component is a plain C# class (`ComponentBase`/
