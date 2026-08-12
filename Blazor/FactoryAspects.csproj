@@ -49,6 +49,27 @@
     <Content Remove="wwwroot/css/scss/**/*.scss" />
   </ItemGroup>
 
+  <!-- fa-styles.css is gitignored, so on a clean checkout it doesn't exist on disk
+       yet when MSBuild evaluates the project's wildcard wwwroot/** Content-item glob
+       (item globs are captured once, at evaluation time, before any target runs) —
+       it's DartSassBuilder's own build-time target, running later during Build, that
+       writes the file. Without this, the generated file never joins @(Content)/
+       @(StaticWebAsset) for that build, and the packed .nupkg silently ships no CSS
+       at all (confirmed by reproducing a from-clean `dotnet restore` + `dotnet pack`
+       0.4.1 as CI runs it: DartSassBuilder logged "Sass files compiled" and the file
+       existed on disk afterward, but staticwebassets/ in the .nupkg had no css/
+       folder — only the checked-in js/*.js, which existed at glob-evaluation time).
+       Re-adding it here, in a target hooked to BeforeTargets="AssignTargetPaths" —
+       the standard MSBuild fix point for generated content in an RCL, since item
+       additions inside a target run at execution time rather than evaluation time —
+       lets it join the same static-web-assets pipeline as every checked-in wwwroot
+       file, for both `dotnet build` and `dotnet pack`. -->
+  <Target Name="IncludeGeneratedSassOutput" BeforeTargets="AssignTargetPaths" Condition="Exists('wwwroot/css/fa-styles.css')">
+    <ItemGroup>
+      <Content Include="wwwroot/css/fa-styles.css" />
+    </ItemGroup>
+  </Target>
+
   <!-- ============================= NuGet packaging =============================
        Published to GitHub Packages (https://nuget.pkg.github.com/bencalvin/index.json)
        via .github/workflows/publish.yml on every push to main — not NuGet.org, for now.
@@ -64,7 +85,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>FactoryAspects</PackageId>
-    <Version>0.4.1</Version>
+    <Version>0.4.2</Version>
     <Authors>Ben Calvin</Authors>
     <Description>Self-contained Blazor UI component library — buttons, cards, alerts, badges, modals, a generic N-option toggle, form inputs, page-shell layouts, a theme switcher, and a hand-drawn SVG icon set (all "Fa"-prefixed: FaButton, FaCard, FaToggle, FaIcon, ...). No dependency on any specific app's project or type; built to be reusable as-is in other Blazor apps.</Description>
     <PackageTags>blazor;razor;razorclasslibrary;ui;components</PackageTags>
