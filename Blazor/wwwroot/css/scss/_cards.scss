@@ -1,0 +1,26 @@
+/* ============================= Cards ============================= */
+
+.fa-card {
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-lg);
+    box-shadow: var(--fa-border-glow);
+    padding: 1.1rem 1.3rem;
+    transition: border-color var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    .fa-card:focus-within, .fa-card.fa-card-active {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    .fa-card[tabindex] {
+        cursor: pointer;
+    }
+
+    .fa-card[tabindex]:focus-visible {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+

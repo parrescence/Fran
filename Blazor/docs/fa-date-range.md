@@ -34,6 +34,7 @@ read both off the same bound field, no need to bind each end separately.
 | `Label` | `string?` | |
 | `FromLabel` / `ToLabel` | `string?` | default `"From"`/`"To"` |
 | `Min` / `Max` | `DateOnly?` | applies to both ends |
+| `ReadOnly` | `bool` | flattens both ends to "From – To" as plain text with a bottom border |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

@@ -71,7 +71,7 @@ they are **not** auto-injected into your host page — this is standard Blazor R
 behavior, not something specific to this package. Add these tags yourself:
 
 ```html
-<link rel="stylesheet" href="_content/FactoryAspects/css/theme.css" />
+<link rel="stylesheet" href="_content/FactoryAspects/css/fa-styles.css" />
 ...
 <script src="_content/FactoryAspects/js/theme.js"></script>
 <script src="_content/FactoryAspects/js/sidebar.js"></script>
@@ -81,13 +81,13 @@ behavior, not something specific to this package. Add these tags yourself:
   dependencies) backing the theme switcher and the sidebar's collapse toggle — both
   persist to `localStorage` and stamp classes on `<html>`, so no Blazor component
   state needs to stay in sync with them.
-- `theme.css` pulls one Google Font over `@import` (`Baloo 2`) from
+- `fa-styles.css` pulls one Google Font over `@import` (`Baloo 2`) from
   `fonts.googleapis.com` — a public CDN URL that works from any host, but if your app
   needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.
 
 ## 5. Pick a color palette (optional)
 
-Fourteen seasonal/regional/country color palettes ship in the one `theme.css`, picked
+Fourteen seasonal/regional/country color palettes ship in the one `fa-styles.css`, picked
 via a `data-fa-palette` attribute on `<html>` — a second, independent axis from the
 light/dark/colorblind mode (`data-theme`); any palette combines with any mode. Default
 is `northwest-fall` (no attribute needed) if you skip this step.
@@ -122,7 +122,7 @@ Either way, this persists the choice to `localStorage` under `fa-palette` and st
 `data-fa-palette` on `<html>`.
 
 **Either way**, add this inline snippet to your host page's `<head>`, **before** the
-`theme.css` `<link>` from step 4, so a returning visitor's saved mode/palette applies
+`fa-styles.css` `<link>` from step 4, so a returning visitor's saved mode/palette applies
 before first paint instead of flashing the default and then jumping:
 
 ```html

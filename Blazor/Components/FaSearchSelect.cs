@@ -43,6 +43,12 @@ public sealed class FaSearchSelect<TItem> : ComponentBase
     [Parameter] public int MinQueryLength { get; set; } = 1;
     [Parameter] public int DebounceMilliseconds { get; set; } = 250;
     [Parameter] public string? ContainerCssClass { get; set; }
+    /// <summary>
+    /// Flattens the field to the selected item's label as plain text with a bottom
+    /// border — the shared "other fa styles" readonly look (see FaInput/FaSelect/etc.
+    /// for the boxed-muted style used by native inputs).
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private readonly string _id = $"fa-searchselect-{Guid.NewGuid():N}";
 
@@ -179,6 +185,16 @@ public sealed class FaSearchSelect<TItem> : ComponentBase
             builder.AddAttribute(4, "for", _id);
             builder.AddContent(5, Label);
             builder.CloseElement();
+        }
+
+        if (ReadOnly)
+        {
+            builder.OpenElement(6, "div");
+            builder.AddAttribute(7, "class", "fa-readonly-flat");
+            builder.AddContent(8, Value is not null ? ItemLabel(Value) : SearchText);
+            builder.CloseElement();
+            builder.CloseElement();
+            return;
         }
 
         builder.OpenElement(6, "div");

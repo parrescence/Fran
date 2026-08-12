@@ -1,0 +1,44 @@
+// FactoryAspects — root stylesheet. Deliberately not named "theme" — that name is
+// reserved for the palette/mode partial (scss/_palettes.scss) it @uses below; this
+// file is the all-encompassing entry point that pulls in every component's styles,
+// palettes included.
+//
+// Compiled to fa-styles.css by DartSassBuilder at build/pack time (see the
+// <SassFile>/<PackageReference> wiring in FactoryAspects.csproj) — every consumer's
+// index.html links the compiled file as _content/FactoryAspects/css/fa-styles.css
+// (see Blazor/CLAUDE.md). Edit the partials under scss/, not a checked-in
+// fa-styles.css directly; there isn't one, it's gitignored/generated.
+//
+// Partials are plain CSS content (no Sass variables/mixins/nesting) split one-per-
+// component so each component's full style — color, border, layout, spacing — lives
+// in one file instead of being scattered across property-based files. Order here
+// matches source order in the original pre-split theme.css: palettes first (every
+// component reads color through their custom properties), then base/reset, then
+// each component, then cross-cutting utilities and the responsive overrides last.
+
+@use "scss/palettes";
+@use "scss/base";
+@use "scss/layout";
+@use "scss/buttons";
+@use "scss/inputs";
+@use "scss/date-picker";
+@use "scss/toggle";
+@use "scss/textarea";
+@use "scss/checkbox-radio";
+@use "scss/file-currency";
+@use "scss/table";
+@use "scss/date-range";
+@use "scss/dropdown";
+@use "scss/grid";
+@use "scss/list-group";
+@use "scss/progress";
+@use "scss/cards";
+@use "scss/modal";
+@use "scss/badges";
+@use "scss/alerts";
+@use "scss/avatar";
+@use "scss/icons";
+@use "scss/dashboard";
+@use "scss/blazor-chrome";
+@use "scss/utilities";
+@use "scss/responsive";

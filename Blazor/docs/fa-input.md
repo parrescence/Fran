@@ -46,6 +46,7 @@ Generic text/number field. `InputBase<TValue>`-derived, so it only works inside 
 | `Placeholder` | `string?` | |
 | `Type` | `string` | HTML `type`, default `"text"` |
 | `Step` | `string?` | for `type="number"` |
+| `ReadOnly` | `bool` | same boxed look, muted and non-interactive |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

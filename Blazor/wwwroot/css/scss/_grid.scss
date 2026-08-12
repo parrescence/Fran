@@ -1,0 +1,88 @@
+/* ============================= Grid (paging/filters) ============================= */
+
+.fa-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.fa-grid-empty {
+    text-align: center;
+    color: var(--fa-text-muted);
+    padding: 1.4rem 0.9rem !important;
+}
+
+.fa-grid-filter-row th {
+    background: var(--fa-surface);
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+}
+
+.fa-grid-filter-select {
+    width: 100%;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.fa-grid-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 700;
+    color: inherit;
+    cursor: pointer;
+}
+
+.fa-grid-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-grid-pagination-size {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+    .fa-grid-pagination-size select {
+        width: auto;
+        padding: 0.3rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+.fa-grid-pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.fa-grid-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    width: 1.9rem;
+    height: 1.9rem;
+    cursor: pointer;
+}
+
+    .fa-grid-pagination-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .fa-grid-pagination-btn:not(:disabled):hover {
+        border-color: var(--fa-border-focus);
+    }
+

@@ -1,0 +1,30 @@
+/* ============================= Icons ============================= */
+/* Hand-drawn SVG set (FaIcon.razor) instead of a third-party icon font/library —
+   every path fills with currentColor, and these two classes are the only place
+   an icon's actual color is decided. */
+
+.fa-icon {
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+    .fa-icon path, .fa-icon rect, .fa-icon circle {
+        fill: currentColor;
+    }
+
+.fa-icon-white {
+    color: #ffffff;
+}
+
+.fa-icon-black {
+    color: var(--fa-fir);
+}
+
+.fa-nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+}
+

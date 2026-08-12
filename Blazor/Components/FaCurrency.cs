@@ -22,6 +22,8 @@ public sealed class FaCurrency : InputBase<decimal?>
     [Parameter] public decimal? Min { get; set; }
     [Parameter] public decimal? Max { get; set; }
     [Parameter] public string CurrencySymbol { get; set; } = "$";
+    /// <summary>Same boxed look as normal, just muted and non-interactive.</summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private readonly string _id = $"fa-currency-{Guid.NewGuid():N}";
     private bool _isEditing;
@@ -64,7 +66,13 @@ public sealed class FaCurrency : InputBase<decimal?>
         }
     }
 
-    private void HandleFocus() => _isEditing = true;
+    private void HandleFocus()
+    {
+        if (!ReadOnly)
+        {
+            _isEditing = true;
+        }
+    }
     private void HandleBlur() => _isEditing = false;
 
     private string DisplayText => Value is { } value
@@ -94,10 +102,11 @@ public sealed class FaCurrency : InputBase<decimal?>
         builder.AddAttribute(12, "min", Min);
         builder.AddAttribute(13, "max", Max);
         builder.AddAttribute(14, "value", _isEditing ? CurrentValueAsString : DisplayText);
-        builder.AddMultipleAttributes(15, AdditionalAttributes);
-        builder.AddAttribute(16, "onfocus", EventCallback.Factory.Create<FocusEventArgs>(this, HandleFocus));
-        builder.AddAttribute(17, "onblur", EventCallback.Factory.Create<FocusEventArgs>(this, HandleBlur));
-        builder.AddAttribute(18, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, HandleInput));
+        builder.AddAttribute(15, "readonly", ReadOnly);
+        builder.AddMultipleAttributes(16, AdditionalAttributes);
+        builder.AddAttribute(17, "onfocus", EventCallback.Factory.Create<FocusEventArgs>(this, HandleFocus));
+        builder.AddAttribute(18, "onblur", EventCallback.Factory.Create<FocusEventArgs>(this, HandleBlur));
+        builder.AddAttribute(19, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, HandleInput));
         builder.CloseElement();
 
         builder.CloseElement();

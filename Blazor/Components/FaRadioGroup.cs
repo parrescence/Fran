@@ -21,6 +21,12 @@ public sealed class FaRadioGroup<TValue> : ComponentBase
     [Parameter] public string? Label { get; set; }
     [Parameter] public string? CssClass { get; set; }
     [Parameter] public bool Disabled { get; set; }
+    /// <summary>
+    /// Flattens the radio buttons to the selected option's title as plain text with
+    /// a bottom border — the shared "other fa styles" readonly look (see
+    /// FaInput/FaSelect/etc. for the boxed-muted style used by native inputs).
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private readonly string _groupName = $"fa-radio-group-{Guid.NewGuid():N}";
 
@@ -49,6 +55,17 @@ public sealed class FaRadioGroup<TValue> : ComponentBase
             builder.AddAttribute(3, "class", "fa-label");
             builder.AddContent(4, Label);
             builder.CloseElement();
+        }
+
+        if (ReadOnly)
+        {
+            var activeTitle = Options.FirstOrDefault(o => EqualityComparer<TValue?>.Default.Equals(o.Value, Value)).Title;
+            builder.OpenElement(5, "div");
+            builder.AddAttribute(6, "class", "fa-readonly-flat");
+            builder.AddContent(7, activeTitle);
+            builder.CloseElement();
+            builder.CloseElement();
+            return;
         }
 
         builder.OpenElement(5, "div");

@@ -20,6 +20,35 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
+  <!-- ============================= Sass build (fa-styles.css) =============================
+       fa-styles.css is generated, not checked in — DartSassBuilder compiles
+       wwwroot/css/fa-styles.scss (which @uses every partial under wwwroot/css/scss/,
+       "theme"/palettes included — fa-styles.scss is deliberately not itself named
+       theme.scss, since that name is reserved for the palette/mode partial it pulls
+       in, not the all-encompassing root) to wwwroot/css/fa-styles.css on every
+       `dotnet build`/`dotnet pack`, no separate tool-install/CI step needed (it's a
+       plain build-time PackageReference, not a global CLI tool). EnableDefaultSassItems
+       is off and fa-styles.scss is the only explicit <SassFile> so the scss/ partials
+       (Sass-partial-convention underscore-prefixed, never compiled standalone) are
+       only ever pulled in via fa-styles.scss's @use chain, never compiled to their
+       own .css. See Blazor/CLAUDE.md's "Themes" section for the partial layout. -->
+  <PropertyGroup>
+    <EnableDefaultSassItems>false</EnableDefaultSassItems>
+    <DartSassOutputStyle>expanded</DartSassOutputStyle>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SassFile Include="wwwroot/css/fa-styles.scss" />
+    <PackageReference Include="DartSassBuilder" Version="1.1.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- The .scss sources themselves aren't a static web asset a consumer needs —
+       only the compiled fa-styles.css DartSassBuilder produces alongside them is. -->
+  <ItemGroup>
+    <Content Remove="wwwroot/css/fa-styles.scss" />
+    <Content Remove="wwwroot/css/scss/**/*.scss" />
+  </ItemGroup>
+
   <!-- ============================= NuGet packaging =============================
        Published to GitHub Packages (https://nuget.pkg.github.com/bencalvin/index.json)
        via .github/workflows/publish.yml on every push to main — not NuGet.org, for now.
@@ -35,7 +64,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>FactoryAspects</PackageId>
-    <Version>0.3.5</Version>
+    <Version>0.4.1</Version>
     <Authors>Ben Calvin</Authors>
     <Description>Self-contained Blazor UI component library — buttons, cards, alerts, badges, modals, a generic N-option toggle, form inputs, page-shell layouts, a theme switcher, and a hand-drawn SVG icon set (all "Fa"-prefixed: FaButton, FaCard, FaToggle, FaIcon, ...). No dependency on any specific app's project or type; built to be reusable as-is in other Blazor apps.</Description>
     <PackageTags>blazor;razor;razorclasslibrary;ui;components</PackageTags>

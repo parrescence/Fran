@@ -1,0 +1,150 @@
+/* ============================= Buttons ============================= */
+
+.fa-btn {
+    font-family: var(--fa-font);
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: var(--fa-radius-pill);
+    padding: 0.55rem 1.4rem;
+    border: var(--fa-border-width) solid transparent;
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast), border-color var(--fa-transition-fast), color var(--fa-transition-fast), transform 0.05s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+    .fa-btn:active {
+        transform: translateY(1px);
+    }
+
+    .fa-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+.fa-btn-primary {
+    background: var(--fa-primary);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-primary);
+}
+
+    .fa-btn-primary:hover:not(:disabled) {
+        background: var(--fa-primary-dark);
+        border-color: var(--fa-primary-dark);
+    }
+
+    .fa-btn-primary:focus-visible {
+        background: var(--fa-glow);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-secondary {
+    background: var(--fa-surface);
+    color: var(--fa-primary-dark);
+    border-color: var(--fa-border);
+}
+
+    .fa-btn-secondary:hover:not(:disabled) {
+        background: var(--fa-footer);
+        border-color: var(--fa-glow);
+    }
+
+    .fa-btn-secondary:focus-visible {
+        border-color: var(--fa-border-focus);
+        color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-outline {
+    background: transparent;
+    color: var(--fa-primary-dark);
+    border-color: var(--fa-primary);
+}
+
+    .fa-btn-outline:hover:not(:disabled) {
+        background: var(--fa-primary);
+        color: var(--fa-text-on-primary);
+    }
+
+    .fa-btn-outline:focus-visible {
+        background: var(--fa-primary-dark);
+        color: var(--fa-text-on-primary);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-danger {
+    background: var(--fa-ember);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-ember);
+}
+
+    .fa-btn-danger:hover:not(:disabled) {
+        background: var(--fa-wine);
+        border-color: var(--fa-wine);
+    }
+
+    .fa-btn-danger:focus-visible {
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-outline-danger {
+    background: transparent;
+    color: var(--fa-ember);
+    border-color: var(--fa-ember);
+}
+
+    .fa-btn-outline-danger:hover:not(:disabled) {
+        background: var(--fa-ember);
+        color: var(--fa-text-on-primary);
+    }
+
+    .fa-btn-outline-danger:focus-visible {
+        background: var(--fa-wine);
+        color: var(--fa-text-on-primary);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-accent {
+    background: var(--fa-accent);
+    color: var(--fa-text-on-primary);
+    border-color: var(--fa-accent);
+}
+
+    .fa-btn-accent:hover:not(:disabled) {
+        background: var(--fa-accent-dark);
+        border-color: var(--fa-accent-dark);
+    }
+
+    .fa-btn-accent:focus-visible {
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-outline-accent {
+    background: transparent;
+    color: var(--fa-accent-dark);
+    border-color: var(--fa-accent);
+}
+
+    .fa-btn-outline-accent:hover:not(:disabled) {
+        background: var(--fa-accent);
+        color: var(--fa-text-on-primary);
+    }
+
+    .fa-btn-outline-accent:focus-visible {
+        background: var(--fa-accent-dark);
+        color: var(--fa-text-on-primary);
+        border-color: var(--fa-border-focus);
+        outline: none;
+    }
+
+.fa-btn-sm {
+    padding: 0.32rem 0.9rem;
+    font-size: 0.82rem;
+}
+
