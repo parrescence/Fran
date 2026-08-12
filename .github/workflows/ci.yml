@@ -1,5 +1,12 @@
 name: CI
 
+# Trigger stays unconditional (not path-filtered) on purpose: build-and-pack is a
+# REQUIRED status check on test/main branch protection. If the trigger itself were
+# scoped to Blazor/**, a PR touching only root-level files would never fire this
+# workflow at all, and GitHub leaves a required-but-never-reported check permanently
+# blocking merge. Instead, the job always runs and always reports a status, but the
+# actual build/pack steps below are skipped (job still succeeds) unless something
+# under Blazor/ (or this workflow file) actually changed.
 on:
   pull_request:
     branches: [dev, test, main]
@@ -13,16 +20,29 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Check for Blazor changes
+        uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            blazor:
+              - "Blazor/**"
+              - ".github/workflows/ci.yml"
+
       - name: Setup .NET
+        if: steps.changes.outputs.blazor == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "10.0.x"
 
       - name: Restore
+        if: steps.changes.outputs.blazor == 'true'
         run: dotnet restore Blazor/FactoryAspects.csproj
 
       - name: Build
+        if: steps.changes.outputs.blazor == 'true'
         run: dotnet build Blazor/FactoryAspects.csproj --no-restore --configuration Release
 
       - name: Pack (sanity check only — publish.yml does the real push)
+        if: steps.changes.outputs.blazor == 'true'
         run: dotnet pack Blazor/FactoryAspects.csproj --no-build --configuration Release -o ./artifacts

@@ -41,6 +41,15 @@ Required approving reviews are set to 0 (solo maintainer today) — so a green C
 is what actually gates the merge, not a second pair of eyes. If collaborators join,
 raise `required_approving_review_count` on both branches' protection rules.
 
+`build-and-pack` is a **required** status check, so `ci.yml`'s trigger itself is
+deliberately *not* path-filtered to `Blazor/**` — a PR touching only root-level files
+would then never fire the workflow, and GitHub leaves a required-but-never-reported
+check permanently blocking merge. Instead the job always runs (satisfying the
+required check), but its build/pack steps are individually gated on a
+`dorny/paths-filter` check and skip (job still reports success) unless something
+under `Blazor/` actually changed. If a second library's CI needs adding, extend the
+same filter step rather than adding a second path-filtered trigger.
+
 ## Publishing
 
 `.github/workflows/publish.yml` packs and pushes to GitHub Packages, but **only on
@@ -53,8 +62,10 @@ consuming this repo as source (a git submodule, say) instead of tracking `main`'
 moving tip.
 
 Both workflows currently only build/publish `Blazor/FactoryAspects.csproj` — see that
-library's own `CLAUDE.md` for its version-bump policy. Once a second library exists
-here, these workflows need to become per-library (independent version/tag, triggered
-only by changes under that library's own folder) instead of firing for any push to
-`main` regardless of which library changed — don't assume today's single-package
-behavior generalizes without updating them first.
+library's own `CLAUDE.md` for its version-bump policy. `publish.yml`'s trigger *is*
+path-filtered to `Blazor/**` (it isn't a required status check, so no landmine there)
+— a push to `main` that doesn't touch `Blazor/` simply doesn't publish. Once a second
+library exists here, both workflows need to become properly per-library (independent
+version/tag per library, each publish trigger scoped to its own folder, each CI job's
+build steps gated the same `paths-filter` way `ci.yml` already does) — don't assume
+today's single-package behavior generalizes without updating them first.
