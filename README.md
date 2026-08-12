@@ -31,19 +31,25 @@ feed as a NuGet source, then reference the package normally:
 dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
   --name github-bencalvin \
   --username <your-github-username> \
-  --password <a GitHub PAT with read:packages> \
-  --store-password-in-clear-text
+  --password <a GitHub PAT with read:packages>
 
 dotnet add package FactoryAspects
 ```
 
+On Windows, leave `--store-password-in-clear-text` off — `dotnet nuget` encrypts the
+password at rest (via the Windows DPAPI-backed credential store) by default. On
+Linux/macOS there's no equivalent OS credential store, so `dotnet nuget` will refuse
+the command without either `--store-password-in-clear-text` (writes the PAT in plain
+text into `NuGet.Config`) or a credential provider configured — if you're on one of
+those platforms and don't have a credential provider set up, add the flag back in and
+treat `NuGet.Config` as sensitive (don't commit it, restrict its file permissions).
+
 > **⚠️ Don't run the `dotnet nuget add source` command above through an AI coding
-> assistant's terminal/tool-use (Claude Code, Copilot's agent mode, Cursor, etc.).**
-> `--store-password-in-clear-text` writes your PAT in plain text into `NuGet.Config`,
-> and running the command itself means the token passes through that tool's context —
-> depending on the tool, it may end up logged, transcripted, or sent to a model
-> provider. Run it yourself in a plain terminal (your own shell, not one an AI agent is
-> driving) — the PAT never needs to touch anything AI-adjacent to work.
+> assistant's terminal/tool-use.** Running it yourself means the token passes through
+> that tool's context — depending on the tool, it may end up logged, transcripted, or
+> sent to a model provider. Run it yourself in a plain terminal (your own shell, not
+> one an AI agent is driving) — the PAT never needs to touch anything AI-adjacent to
+> work.
 
 (A repo consuming this via CI can skip the manual PAT — see "CI consumers" below.)
 
@@ -80,7 +86,7 @@ to run fully offline/air-gapped, you'll need to account for or self-host that fo
 
 ### Choosing a theme
 
-One `theme.css`, five seasonal/regional color palettes, picked via a
+One `theme.css`, fourteen seasonal/regional/country color palettes, picked via a
 `data-fa-palette` attribute on `<html>` — same pattern as the existing
 light/dark/colorblind mode (`data-theme`), and fully independent of it: any palette
 combines with any mode.
@@ -90,6 +96,15 @@ combines with any mode.
 - `northeast-spring`
 - `midwest-winter`
 - `southeast-beach`
+- `greece-aegean`
+- `spain-flamenco`
+- `ireland-emerald`
+- `jamaica-blue-mountain`
+- `japan-indigo`
+- `korea-celadon`
+- `china-cinnabar`
+- `india-peacock`
+- `cameroon-rainforest`
 
 **Pick one at build time** by hardcoding the attribute in your host page:
 
