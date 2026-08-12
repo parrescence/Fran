@@ -53,7 +53,10 @@
 /* Two independent axes, both applied via data attributes on <html>:
 
    1. Palette — which seasonal/regional color story is active. data-fa-palette=
-      "southwest-summer" | "northeast-spring" | "midwest-winter" | "southeast-beach".
+      "southwest-summer" | "northeast-spring" | "midwest-winter" | "southeast-beach" |
+      "greece-aegean" | "spain-flamenco" | "ireland-emerald" | "jamaica-blue-mountain" |
+      "japan-indigo" | "korea-celadon" | "china-cinnabar" | "india-peacock" |
+      "cameroon-rainforest".
       No attribute (or data-fa-palette="northwest-fall") means the :root defaults
       above. Toggle with window.faSetPalette(name) (js/theme.js — reads/writes
       localStorage the same way faSetTheme does).
@@ -176,6 +179,231 @@
     --fa-alert-info-bg: #e3f0ee;
 }
 
+:root[data-fa-palette="greece-aegean"] {
+    /* --- Greece — Aegean whitewash-and-sea blue, olive groves, limestone gold, terracotta danger. --- */
+    --fa-primary: #1568a8; /* Aegean Blue */
+    --fa-primary-dark: #0d4570;
+    --fa-primary-light: #5fa8d9;
+    --fa-footer: #e6eef1; /* Sea Foam */
+    --fa-glow: #2e8fc9; /* Aegean Glow */
+    --fa-gold: #d9a53c; /* Limestone Sun */
+    --fa-accent: #6f7f3f; /* Olive Grove */
+    --fa-accent-dark: #4d5a2b;
+    --fa-ember: #c1552f; /* Terracotta Roof */
+    --fa-wine: #7a2f22;
+    --fa-fir: #2c3a2e; /* Cypress Shadow */
+    --fa-cream: #f7f5ef;
+    --fa-surface: #fffefb;
+    --fa-text: #2b2a26;
+    --fa-text-muted: #7d7a6e;
+    --fa-text-on-primary: #f5faff;
+    --fa-border: #d3e3ec;
+    --fa-border-focus: #0d4570;
+    --fa-alert-danger-bg: #f7e1da;
+    --fa-alert-success-bg: #eaf0e0;
+    --fa-alert-info-bg: #e1eef5;
+}
+
+:root[data-fa-palette="spain-flamenco"] {
+    /* --- Spain — flamenco red, Andalusian gold, Manzanilla olive, Rioja wine danger. --- */
+    --fa-primary: #a02830; /* Flamenco Red */
+    --fa-primary-dark: #701b21;
+    --fa-primary-light: #d1707a;
+    --fa-footer: #f7ece1; /* Almond Blossom */
+    --fa-glow: #c23e46;
+    --fa-gold: #d9a13c; /* La Mancha Gold */
+    --fa-accent: #7c8a4a; /* Manzanilla Olive */
+    --fa-accent-dark: #59642f;
+    --fa-ember: #8a3a22; /* Sierra Clay */
+    --fa-wine: #5c1f2c;
+    --fa-fir: #33302c; /* Sierra Shadow */
+    --fa-cream: #faf3ea;
+    --fa-surface: #fffaf3;
+    --fa-text: #362320;
+    --fa-text-muted: #83706a;
+    --fa-text-on-primary: #fff6f3;
+    --fa-border: #e6c9b0;
+    --fa-border-focus: #701b21;
+    --fa-alert-danger-bg: #f7e0da;
+    --fa-alert-success-bg: #eef0df;
+    --fa-alert-info-bg: #f5e7da;
+}
+
+:root[data-fa-palette="ireland-emerald"] {
+    /* --- Ireland — emerald green, Celtic gold, heather-purple accent, peat-fire danger. --- */
+    --fa-primary: #1f7a4d; /* Emerald Green */
+    --fa-primary-dark: #144f32;
+    --fa-primary-light: #5fb888;
+    --fa-footer: #e9f0e6; /* Misty Meadow */
+    --fa-glow: #2c9c63;
+    --fa-gold: #c9a13a; /* Celtic Gold */
+    --fa-accent: #7a5a8f; /* Heather Purple */
+    --fa-accent-dark: #563f66;
+    --fa-ember: #a1432c; /* Peat Fire */
+    --fa-wine: #5c2a24;
+    --fa-fir: #2b3a3a; /* Cliff Shadow */
+    --fa-cream: #f3f6f1;
+    --fa-surface: #fbfdf9;
+    --fa-text: #23302a;
+    --fa-text-muted: #728077;
+    --fa-text-on-primary: #f2fbf6;
+    --fa-border: #c8ddc9;
+    --fa-border-focus: #144f32;
+    --fa-alert-danger-bg: #f6e0da;
+    --fa-alert-success-bg: #e2efe3;
+    --fa-alert-info-bg: #eae3f0;
+}
+
+:root[data-fa-palette="jamaica-blue-mountain"] {
+    /* --- Jamaica — Blue Mountain mist teal, reggae gold, rainforest accent, hibiscus danger. --- */
+    --fa-primary: #1f6e6b; /* Blue Mountain Teal */
+    --fa-primary-dark: #144a48;
+    --fa-primary-light: #5fa8a3;
+    --fa-footer: #eaf1ec; /* Coconut Cream */
+    --fa-glow: #2c8f8a;
+    --fa-gold: #dba428; /* Reggae Sun Gold */
+    --fa-accent: #4f8a3f; /* Rainforest Green */
+    --fa-accent-dark: #35602a;
+    --fa-ember: #b23348; /* Hibiscus Red */
+    --fa-wine: #661f2e;
+    --fa-fir: #26302a; /* Volcanic Rock */
+    --fa-cream: #faf6ec;
+    --fa-surface: #fffdf6;
+    --fa-text: #2a2620;
+    --fa-text-muted: #7c7466;
+    --fa-text-on-primary: #f3fbf9;
+    --fa-border: #cfe0da;
+    --fa-border-focus: #144a48;
+    --fa-alert-danger-bg: #f8e0e2;
+    --fa-alert-success-bg: #e5efdf;
+    --fa-alert-info-bg: #dcece9;
+}
+
+:root[data-fa-palette="japan-indigo"] {
+    /* --- Japan — Ai indigo, sakura-blush footer, bamboo accent, torii vermillion danger. --- */
+    --fa-primary: #223a70; /* Ai Indigo */
+    --fa-primary-dark: #152548;
+    --fa-primary-light: #6a80ac;
+    --fa-footer: #f4e3e8; /* Sakura Blush */
+    --fa-glow: #33518f;
+    --fa-gold: #c9a23e; /* Katsura Gold */
+    --fa-accent: #5b7a4f; /* Bamboo Green */
+    --fa-accent-dark: #3d5636;
+    --fa-ember: #c23b2e; /* Torii Vermillion */
+    --fa-wine: #6b1f22;
+    --fa-fir: #2a2622; /* Sumi Ink */
+    --fa-cream: #f7f3ea;
+    --fa-surface: #fffdf7;
+    --fa-text: #2a2622;
+    --fa-text-muted: #7d7668;
+    --fa-text-on-primary: #f3f6fc;
+    --fa-border: #d6dced;
+    --fa-border-focus: #152548;
+    --fa-alert-danger-bg: #f7dfda;
+    --fa-alert-success-bg: #e6ecdf;
+    --fa-alert-info-bg: #e1e5f2;
+}
+
+:root[data-fa-palette="korea-celadon"] {
+    /* --- Korea — Goryeo celadon jade, dancheong blue accent, dancheong red danger, hanji paper bg. --- */
+    --fa-primary: #4f8a7a; /* Celadon Jade */
+    --fa-primary-dark: #2f5c4e;
+    --fa-primary-light: #8fc0af;
+    --fa-footer: #e7efe6; /* Celadon Mist */
+    --fa-glow: #5fa08d;
+    --fa-gold: #d1a83c; /* Dancheong Gold */
+    --fa-accent: #3c6e9e; /* Dancheong Blue */
+    --fa-accent-dark: #2a4d70;
+    --fa-ember: #b23b30; /* Dancheong Red */
+    --fa-wine: #6b201f;
+    --fa-fir: #2b3530; /* Ink Mountain Shadow */
+    --fa-cream: #f6f2e7;
+    --fa-surface: #fffdf6;
+    --fa-text: #2a2c26;
+    --fa-text-muted: #7a7d70;
+    --fa-text-on-primary: #f2f8f5;
+    --fa-border: #cfe0d4;
+    --fa-border-focus: #2f5c4e;
+    --fa-alert-danger-bg: #f7e0dc;
+    --fa-alert-success-bg: #e2efe6;
+    --fa-alert-info-bg: #dde8f0;
+}
+
+:root[data-fa-palette="china-cinnabar"] {
+    /* --- China — Forbidden City cinnabar, imperial gold, Guilin jade accent, rice-paper bg. --- */
+    --fa-primary: #b8342a; /* Cinnabar Red */
+    --fa-primary-dark: #832318;
+    --fa-primary-light: #d97c6f;
+    --fa-footer: #f2e4c4; /* Gilded Parchment */
+    --fa-glow: #cf4a35;
+    --fa-gold: #d4a92f; /* Imperial Gold */
+    --fa-accent: #3f8a6f; /* Guilin Jade */
+    --fa-accent-dark: #2b6050;
+    --fa-ember: #8a2a1e; /* Burnt Vermillion */
+    --fa-wine: #591b17;
+    --fa-fir: #262421; /* Ink Stone */
+    --fa-cream: #f7f1e4;
+    --fa-surface: #fffbf1;
+    --fa-text: #2c2521;
+    --fa-text-muted: #7d7268;
+    --fa-text-on-primary: #fff5f0;
+    --fa-border: #e8cd9e;
+    --fa-border-focus: #832318;
+    --fa-alert-danger-bg: #f6ddd6;
+    --fa-alert-success-bg: #e0efe6;
+    --fa-alert-info-bg: #f5ecd7;
+}
+
+:root[data-fa-palette="india-peacock"] {
+    /* --- India — peacock teal, marigold gold, monsoon-green accent, Rajasthan rose danger. --- */
+    --fa-primary: #146b73; /* Peacock Teal */
+    --fa-primary-dark: #0d4a50;
+    --fa-primary-light: #4fa3ab;
+    --fa-footer: #f4e6cf; /* Marigold Cream */
+    --fa-glow: #1f8b95;
+    --fa-gold: #dd8f2c; /* Marigold Orange */
+    --fa-accent: #4c8a3f; /* Monsoon Green */
+    --fa-accent-dark: #345f2b;
+    --fa-ember: #b23458; /* Rajasthan Rose */
+    --fa-wine: #6b1f38;
+    --fa-fir: #262c3a; /* Monsoon Night */
+    --fa-cream: #f7f4ec;
+    --fa-surface: #fffdf7;
+    --fa-text: #2a2723;
+    --fa-text-muted: #7c7568;
+    --fa-text-on-primary: #f2fbfa;
+    --fa-border: #cfe4dd;
+    --fa-border-focus: #0d4a50;
+    --fa-alert-danger-bg: #f7dee6;
+    --fa-alert-success-bg: #e3efdd;
+    --fa-alert-info-bg: #d9eceb;
+}
+
+:root[data-fa-palette="cameroon-rainforest"] {
+    /* --- Cameroon — rainforest green, savanna gold, river-blue accent, laterite danger. --- */
+    --fa-primary: #256b3f; /* Rainforest Green */
+    --fa-primary-dark: #17492b;
+    --fa-primary-light: #5fa878;
+    --fa-footer: #f0e2bd; /* Savanna Dust */
+    --fa-glow: #338a54;
+    --fa-gold: #d9a83c; /* Savanna Gold */
+    --fa-accent: #2f6e8a; /* River Blue */
+    --fa-accent-dark: #204d61;
+    --fa-ember: #a63b28; /* Laterite Red */
+    --fa-wine: #5c2018;
+    --fa-fir: #262620; /* Volcanic Basalt */
+    --fa-cream: #f7f2e6;
+    --fa-surface: #fffcf5;
+    --fa-text: #2b2620;
+    --fa-text-muted: #7d7568;
+    --fa-text-on-primary: #f2faf5;
+    --fa-border: #d8c99e;
+    --fa-border-focus: #17492b;
+    --fa-alert-danger-bg: #f6ddd6;
+    --fa-alert-success-bg: #e1efe4;
+    --fa-alert-info-bg: #dbe9ee;
+}
+
 /* --- Dark mode, per palette. Northwest Fall's dark block (no data-fa-palette
    attribute needed — it's the default) stays a single-attribute selector; every
    other palette needs data-fa-palette AND data-theme="dark" together so it wins
@@ -261,6 +489,141 @@
     --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
 }
 
+:root[data-fa-palette="greece-aegean"][data-theme="dark"] {
+    --fa-cream: #0d151b;
+    --fa-surface: #142029;
+    --fa-text: #eef3f6;
+    --fa-text-muted: #a9b8c2;
+    --fa-border: #294555;
+    --fa-border-focus: #2e8fc9;
+    --fa-footer: #182430;
+    --fa-primary-dark: #5fa8d9;
+    --fa-accent-dark: #a1ac82;
+    --fa-alert-danger-bg: rgba(193, 85, 47, 0.22);
+    --fa-alert-success-bg: rgba(111, 127, 63, 0.22);
+    --fa-alert-info-bg: rgba(21, 104, 168, 0.22);
+}
+
+:root[data-fa-palette="spain-flamenco"][data-theme="dark"] {
+    --fa-cream: #170f0d;
+    --fa-surface: #221614;
+    --fa-text: #f3e6df;
+    --fa-text-muted: #c2a99e;
+    --fa-border: #4a2f28;
+    --fa-border-focus: #c23e46;
+    --fa-footer: #241512;
+    --fa-primary-dark: #d1707a;
+    --fa-accent-dark: #aab389;
+    --fa-alert-danger-bg: rgba(138, 58, 34, 0.22);
+    --fa-alert-success-bg: rgba(124, 138, 74, 0.22);
+    --fa-alert-info-bg: rgba(217, 161, 60, 0.22);
+}
+
+:root[data-fa-palette="ireland-emerald"][data-theme="dark"] {
+    --fa-cream: #0d1512;
+    --fa-surface: #14201a;
+    --fa-text: #e9f1ec;
+    --fa-text-muted: #a7bcae;
+    --fa-border: #2c4536;
+    --fa-border-focus: #2c9c63;
+    --fa-footer: #182720;
+    --fa-primary-dark: #5fb888;
+    --fa-accent-dark: #a994b6;
+    --fa-alert-danger-bg: rgba(161, 67, 44, 0.22);
+    --fa-alert-success-bg: rgba(44, 156, 99, 0.22);
+    --fa-alert-info-bg: rgba(122, 90, 143, 0.22);
+}
+
+:root[data-fa-palette="jamaica-blue-mountain"][data-theme="dark"] {
+    --fa-cream: #0d1310;
+    --fa-surface: #141d18;
+    --fa-text: #edf2ee;
+    --fa-text-muted: #a9b8ae;
+    --fa-border: #2a4540;
+    --fa-border-focus: #2c8f8a;
+    --fa-footer: #182420;
+    --fa-primary-dark: #5fa8a3;
+    --fa-accent-dark: #8db382;
+    --fa-alert-danger-bg: rgba(178, 51, 72, 0.22);
+    --fa-alert-success-bg: rgba(79, 138, 63, 0.22);
+    --fa-alert-info-bg: rgba(31, 110, 107, 0.22);
+}
+
+:root[data-fa-palette="japan-indigo"][data-theme="dark"] {
+    --fa-cream: #10131c;
+    --fa-surface: #171b26;
+    --fa-text: #ecedf2;
+    --fa-text-muted: #a8adba;
+    --fa-border: #2e3550;
+    --fa-border-focus: #33518f;
+    --fa-footer: #1b202e;
+    --fa-primary-dark: #6a80ac;
+    --fa-accent-dark: #94a98d;
+    --fa-alert-danger-bg: rgba(194, 59, 46, 0.22);
+    --fa-alert-success-bg: rgba(91, 122, 79, 0.22);
+    --fa-alert-info-bg: rgba(51, 81, 143, 0.22);
+}
+
+:root[data-fa-palette="korea-celadon"][data-theme="dark"] {
+    --fa-cream: #0f1512;
+    --fa-surface: #172019;
+    --fa-text: #eaf0ec;
+    --fa-text-muted: #a7b7ac;
+    --fa-border: #2c453a;
+    --fa-border-focus: #5fa08d;
+    --fa-footer: #182420;
+    --fa-primary-dark: #8fc0af;
+    --fa-accent-dark: #80a1c0;
+    --fa-alert-danger-bg: rgba(178, 59, 48, 0.22);
+    --fa-alert-success-bg: rgba(79, 138, 113, 0.22);
+    --fa-alert-info-bg: rgba(60, 110, 158, 0.22);
+}
+
+:root[data-fa-palette="china-cinnabar"][data-theme="dark"] {
+    --fa-cream: #160f0c;
+    --fa-surface: #221712;
+    --fa-text: #f2e6da;
+    --fa-text-muted: #c0a996;
+    --fa-border: #4a3524;
+    --fa-border-focus: #cf4a35;
+    --fa-footer: #241813;
+    --fa-primary-dark: #d97c6f;
+    --fa-accent-dark: #82b3a1;
+    --fa-alert-danger-bg: rgba(138, 42, 30, 0.22);
+    --fa-alert-success-bg: rgba(63, 138, 111, 0.22);
+    --fa-alert-info-bg: rgba(212, 169, 47, 0.22);
+}
+
+:root[data-fa-palette="india-peacock"][data-theme="dark"] {
+    --fa-cream: #0d1312;
+    --fa-surface: #141d1c;
+    --fa-text: #e9f0ee;
+    --fa-text-muted: #a4b7b2;
+    --fa-border: #2a453f;
+    --fa-border-focus: #1f8b95;
+    --fa-footer: #182420;
+    --fa-primary-dark: #4fa3ab;
+    --fa-accent-dark: #8bb382;
+    --fa-alert-danger-bg: rgba(178, 52, 88, 0.22);
+    --fa-alert-success-bg: rgba(76, 138, 63, 0.22);
+    --fa-alert-info-bg: rgba(31, 139, 149, 0.22);
+}
+
+:root[data-fa-palette="cameroon-rainforest"][data-theme="dark"] {
+    --fa-cream: #0f130c;
+    --fa-surface: #171e12;
+    --fa-text: #edf1e6;
+    --fa-text-muted: #a8b39a;
+    --fa-border: #3a4a2c;
+    --fa-border-focus: #338a54;
+    --fa-footer: #1c2415;
+    --fa-primary-dark: #5fa878;
+    --fa-accent-dark: #78a1b3;
+    --fa-alert-danger-bg: rgba(166, 59, 40, 0.22);
+    --fa-alert-success-bg: rgba(51, 138, 84, 0.22);
+    --fa-alert-info-bg: rgba(47, 110, 138, 0.22);
+}
+
 /* --- Same dark values again, gated on prefers-color-scheme instead of an explicit
    data-theme="dark" — the OS-level fallback before any explicit mode choice. --- */
 
@@ -338,6 +701,141 @@
         --fa-alert-danger-bg: rgba(217, 99, 74, 0.22);
         --fa-alert-success-bg: rgba(122, 148, 87, 0.22);
         --fa-alert-info-bg: rgba(44, 140, 138, 0.22);
+    }
+
+    :root[data-fa-palette="greece-aegean"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d151b;
+        --fa-surface: #142029;
+        --fa-text: #eef3f6;
+        --fa-text-muted: #a9b8c2;
+        --fa-border: #294555;
+        --fa-border-focus: #2e8fc9;
+        --fa-footer: #182430;
+        --fa-primary-dark: #5fa8d9;
+        --fa-accent-dark: #a1ac82;
+        --fa-alert-danger-bg: rgba(193, 85, 47, 0.22);
+        --fa-alert-success-bg: rgba(111, 127, 63, 0.22);
+        --fa-alert-info-bg: rgba(21, 104, 168, 0.22);
+    }
+
+    :root[data-fa-palette="spain-flamenco"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #170f0d;
+        --fa-surface: #221614;
+        --fa-text: #f3e6df;
+        --fa-text-muted: #c2a99e;
+        --fa-border: #4a2f28;
+        --fa-border-focus: #c23e46;
+        --fa-footer: #241512;
+        --fa-primary-dark: #d1707a;
+        --fa-accent-dark: #aab389;
+        --fa-alert-danger-bg: rgba(138, 58, 34, 0.22);
+        --fa-alert-success-bg: rgba(124, 138, 74, 0.22);
+        --fa-alert-info-bg: rgba(217, 161, 60, 0.22);
+    }
+
+    :root[data-fa-palette="ireland-emerald"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d1512;
+        --fa-surface: #14201a;
+        --fa-text: #e9f1ec;
+        --fa-text-muted: #a7bcae;
+        --fa-border: #2c4536;
+        --fa-border-focus: #2c9c63;
+        --fa-footer: #182720;
+        --fa-primary-dark: #5fb888;
+        --fa-accent-dark: #a994b6;
+        --fa-alert-danger-bg: rgba(161, 67, 44, 0.22);
+        --fa-alert-success-bg: rgba(44, 156, 99, 0.22);
+        --fa-alert-info-bg: rgba(122, 90, 143, 0.22);
+    }
+
+    :root[data-fa-palette="jamaica-blue-mountain"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d1310;
+        --fa-surface: #141d18;
+        --fa-text: #edf2ee;
+        --fa-text-muted: #a9b8ae;
+        --fa-border: #2a4540;
+        --fa-border-focus: #2c8f8a;
+        --fa-footer: #182420;
+        --fa-primary-dark: #5fa8a3;
+        --fa-accent-dark: #8db382;
+        --fa-alert-danger-bg: rgba(178, 51, 72, 0.22);
+        --fa-alert-success-bg: rgba(79, 138, 63, 0.22);
+        --fa-alert-info-bg: rgba(31, 110, 107, 0.22);
+    }
+
+    :root[data-fa-palette="japan-indigo"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #10131c;
+        --fa-surface: #171b26;
+        --fa-text: #ecedf2;
+        --fa-text-muted: #a8adba;
+        --fa-border: #2e3550;
+        --fa-border-focus: #33518f;
+        --fa-footer: #1b202e;
+        --fa-primary-dark: #6a80ac;
+        --fa-accent-dark: #94a98d;
+        --fa-alert-danger-bg: rgba(194, 59, 46, 0.22);
+        --fa-alert-success-bg: rgba(91, 122, 79, 0.22);
+        --fa-alert-info-bg: rgba(51, 81, 143, 0.22);
+    }
+
+    :root[data-fa-palette="korea-celadon"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f1512;
+        --fa-surface: #172019;
+        --fa-text: #eaf0ec;
+        --fa-text-muted: #a7b7ac;
+        --fa-border: #2c453a;
+        --fa-border-focus: #5fa08d;
+        --fa-footer: #182420;
+        --fa-primary-dark: #8fc0af;
+        --fa-accent-dark: #80a1c0;
+        --fa-alert-danger-bg: rgba(178, 59, 48, 0.22);
+        --fa-alert-success-bg: rgba(79, 138, 113, 0.22);
+        --fa-alert-info-bg: rgba(60, 110, 158, 0.22);
+    }
+
+    :root[data-fa-palette="china-cinnabar"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #160f0c;
+        --fa-surface: #221712;
+        --fa-text: #f2e6da;
+        --fa-text-muted: #c0a996;
+        --fa-border: #4a3524;
+        --fa-border-focus: #cf4a35;
+        --fa-footer: #241813;
+        --fa-primary-dark: #d97c6f;
+        --fa-accent-dark: #82b3a1;
+        --fa-alert-danger-bg: rgba(138, 42, 30, 0.22);
+        --fa-alert-success-bg: rgba(63, 138, 111, 0.22);
+        --fa-alert-info-bg: rgba(212, 169, 47, 0.22);
+    }
+
+    :root[data-fa-palette="india-peacock"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d1312;
+        --fa-surface: #141d1c;
+        --fa-text: #e9f0ee;
+        --fa-text-muted: #a4b7b2;
+        --fa-border: #2a453f;
+        --fa-border-focus: #1f8b95;
+        --fa-footer: #182420;
+        --fa-primary-dark: #4fa3ab;
+        --fa-accent-dark: #8bb382;
+        --fa-alert-danger-bg: rgba(178, 52, 88, 0.22);
+        --fa-alert-success-bg: rgba(76, 138, 63, 0.22);
+        --fa-alert-info-bg: rgba(31, 139, 149, 0.22);
+    }
+
+    :root[data-fa-palette="cameroon-rainforest"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f130c;
+        --fa-surface: #171e12;
+        --fa-text: #edf1e6;
+        --fa-text-muted: #a8b39a;
+        --fa-border: #3a4a2c;
+        --fa-border-focus: #338a54;
+        --fa-footer: #1c2415;
+        --fa-primary-dark: #5fa878;
+        --fa-accent-dark: #78a1b3;
+        --fa-alert-danger-bg: rgba(166, 59, 40, 0.22);
+        --fa-alert-success-bg: rgba(51, 138, 84, 0.22);
+        --fa-alert-info-bg: rgba(47, 110, 138, 0.22);
     }
 }
 
