@@ -16,11 +16,18 @@ NuGet.org), or imported as source. See `README.md` for the consumer-facing high-
 overview (what it is, quick-start install, category-level features list) — that file
 is packed into the `.nupkg` itself (`<None Include="README.md" Pack="true" .../>` in
 `FactoryAspects.csproj`), so keep it accurate, not just this CLAUDE.md. `docs/` is
-**not** packed into the `.nupkg` (only `README.md` is) — so any link from README.md
-into `docs/install.md`/`docs/index.md`/`docs/site.html` must be an absolute
-`https://github.com/bencalvin/FactoryAspects/blob/main/...` URL, never a relative
-`docs/...` path, or it renders as a dead link on the GitHub Packages package page
-(relative links only resolve when README is viewed inside the repo itself).
+**not** packed into the `.nupkg` (only `README.md` is) — links from README.md into
+`docs/install.md`/`docs/index.md`/`docs/site.html` are plain relative paths
+(`docs/...`), deliberately **not** absolute `github.com/.../blob/main/...` URLs. Two
+different audiences read this file and they pull in opposite directions on that
+choice: relative links resolve correctly on GitHub no matter which branch you're
+viewing (`dev`'s README points at `dev`'s docs, `main`'s at `main`'s — self-contained
+per branch), which absolute-to-`main` links don't (they 404 on `dev`/`test` until
+promoted to `main`, which is what happened the one time this was tried). The
+trade-off: relative links don't resolve at all from the README as rendered on the
+GitHub Packages package page, since `docs/` was never packed there either way — that
+reader has to go browse the repo on GitHub regardless of link style, so relative
+links lose nothing there while fixing the more common case.
 
 Consequences for any change here:
 
