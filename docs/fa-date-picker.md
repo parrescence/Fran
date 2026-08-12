@@ -12,17 +12,17 @@ are plain Blazor state.
 ```razor
 <EditForm Model="_model">
     <FaDatePicker @bind-Value="_model.Date"
-                  Label="Transaction date"
+                  Label="Start date"
                   Max="DateOnly.FromDateTime(DateTime.Today)" />
 </EditForm>
 
 @code {
-    private class TransactionModel
+    private class ItemModel
     {
         public DateOnly? Date { get; set; }
     }
 
-    private TransactionModel _model = new();
+    private ItemModel _model = new();
 }
 ```
 

@@ -9,18 +9,18 @@ native select. `InputBase<TValue>`-derived, so it only works inside an `<EditFor
 
 ```razor
 <EditForm Model="_model">
-    <FaSelect TValue="string" @bind-Value="_model.Category" Label="Category">
+    <FaSelect TValue="string" @bind-Value="_model.Type" Label="Type">
         <option value="">Choose…</option>
-        <option value="groceries">Groceries</option>
-        <option value="rent">Rent</option>
-        <option value="utilities">Utilities</option>
+        <option value="general">General</option>
+        <option value="urgent">Urgent</option>
+        <option value="archived">Archived</option>
     </FaSelect>
 </EditForm>
 
 @code {
     private class FilterModel
     {
-        public string Category { get; set; } = "";
+        public string Type { get; set; } = "";
     }
 
     private FilterModel _model = new();
@@ -29,7 +29,7 @@ native select. `InputBase<TValue>`-derived, so it only works inside an `<EditFor
 
 ## Getting the value
 
-`@bind-Value` keeps `_model.Category` in sync with the selected `<option value>` on
+`@bind-Value` keeps `_model.Type` in sync with the selected `<option value>` on
 every change.
 
 ## Parameters

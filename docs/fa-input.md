@@ -16,13 +16,13 @@ Generic text/number field. `InputBase<TValue>`-derived, so it only works inside 
 </EditForm>
 
 @code {
-    private class TransactionModel
+    private class ItemModel
     {
         public string Name { get; set; } = "";
         public decimal Amount { get; set; }
     }
 
-    private TransactionModel _model = new();
+    private ItemModel _model = new();
 
     private Task SaveAsync()
     {

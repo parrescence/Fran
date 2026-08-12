@@ -10,10 +10,10 @@ flipping `Show` back to `false`.
 ## Usage
 
 ```razor
-<FaButton OnClick="() => _showDeleteModal = true">Delete budget</FaButton>
+<FaButton OnClick="() => _showDeleteModal = true">Delete item</FaButton>
 
 <FaModal Show="_showDeleteModal" Title="Confirm delete" OnClose="() => _showDeleteModal = false">
-    <p>Are you sure you want to delete this budget? This can't be undone.</p>
+    <p>Are you sure you want to delete this item? This can't be undone.</p>
 
     <FooterContent>
         <FaButton Variant="FaButtonVariant.Secondary" OnClick="() => _showDeleteModal = false">
@@ -30,7 +30,7 @@ flipping `Show` back to `false`.
 
     private async Task ConfirmDeleteAsync(MouseEventArgs e)
     {
-        await _budgetService.DeleteAsync(_budgetId);
+        await _itemService.DeleteAsync(_itemId);
         _showDeleteModal = false;
     }
 }

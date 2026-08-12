@@ -19,14 +19,14 @@ those.
 
     protected override void OnInitialized()
     {
-        foreach (var tx in _transactions)
+        foreach (var order in _orders)
         {
             _rows.Add(new Dictionary<string, RenderFragment>
             {
-                ["Name"] = @<span>@tx.Name</span>,
-                ["Amount"] = @<span>@tx.Amount.ToString("C")</span>,
-                ["Status"] = @<FaBadge Variant="@(tx.IsPaid ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
-                                 @(tx.IsPaid ? "Paid" : "Overdue")
+                ["Name"] = @<span>@order.Name</span>,
+                ["Amount"] = @<span>@order.Amount.ToString("C")</span>,
+                ["Status"] = @<FaBadge Variant="@(order.IsPaid ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
+                                 @(order.IsPaid ? "Paid" : "Overdue")
                              </FaBadge>
             });
         }
@@ -66,7 +66,7 @@ automatically from `Columns` — nothing to change in your markup. Hand-written
   </thead>
   <tbody>
     <tr>
-      <td data-label="Name">Rent</td>
+      <td data-label="Name">Order #1024</td>
       <td data-label="Amount">$1,200.00</td>
       <td class="fa-table-actions">
         <button class="fa-btn fa-btn-sm">Edit</button>

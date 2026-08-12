@@ -14,12 +14,12 @@ inside an `<EditForm>`. No JS interop.
 </EditForm>
 
 @code {
-    private class TransactionModel
+    private class ItemModel
     {
         public decimal? Amount { get; set; }
     }
 
-    private TransactionModel _model = new();
+    private ItemModel _model = new();
 }
 ```
 

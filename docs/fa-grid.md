@@ -18,39 +18,39 @@ parameter you set — mixing both or setting neither throws at runtime.
 ## Usage — `Items` (in-memory)
 
 ```razor
-<FaGrid TItem="Transaction" Items="_transactions" Columns="_columns" PageSize="10" />
+<FaGrid TItem="Order" Items="_orders" Columns="_columns" PageSize="10" />
 
 @code {
-    private List<Transaction> _transactions = new(); // your full, unpaged dataset
+    private List<Order> _orders = new(); // your full, unpaged dataset
 
-    private IReadOnlyList<FaGridColumn<Transaction>> _columns = new[]
+    private IReadOnlyList<FaGridColumn<Order>> _columns = new[]
     {
-        new FaGridColumn<Transaction>
+        new FaGridColumn<Order>
         {
             Header = "Date",
             Sortable = true,
-            SortKey = tx => tx.Date,
-            CellContent = tx => @<span>@tx.Date.ToString("MMM d")</span>
+            SortKey = order => order.Date,
+            CellContent = order => @<span>@order.Date.ToString("MMM d")</span>
         },
-        new FaGridColumn<Transaction>
+        new FaGridColumn<Order>
         {
             Header = "Name",
-            CellContent = tx => @<span>@tx.Name</span>
+            CellContent = order => @<span>@order.Name</span>
         },
-        new FaGridColumn<Transaction>
+        new FaGridColumn<Order>
         {
             Header = "Amount",
             Sortable = true,
-            SortKey = tx => tx.Amount,
-            CellContent = tx => @<span>@tx.Amount.ToString("C")</span>
+            SortKey = order => order.Amount,
+            CellContent = order => @<span>@order.Amount.ToString("C")</span>
         },
-        new FaGridColumn<Transaction>
+        new FaGridColumn<Order>
         {
             Header = "Status",
             FilterOptions = new[] { ("paid", "Paid"), ("overdue", "Overdue") },
-            FilterPredicate = (tx, key) => key == "paid" ? tx.IsPaid : !tx.IsPaid,
-            CellContent = tx => @<FaBadge Variant="@(tx.IsPaid ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
-                                     @(tx.IsPaid ? "Paid" : "Overdue")
+            FilterPredicate = (order, key) => key == "paid" ? order.IsPaid : !order.IsPaid,
+            CellContent = order => @<FaBadge Variant="@(order.IsPaid ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
+                                     @(order.IsPaid ? "Paid" : "Overdue")
                                  </FaBadge>
         }
     };
@@ -60,22 +60,22 @@ parameter you set — mixing both or setting neither throws at runtime.
 ## Usage — `ItemsProvider` (paged query)
 
 ```razor
-<FaGrid TItem="Transaction" ItemsProvider="LoadPageAsync" Columns="_columns" PageSize="25" />
+<FaGrid TItem="Order" ItemsProvider="LoadPageAsync" Columns="_columns" PageSize="25" />
 
 @code {
-    private async Task<FaGridResult<Transaction>> LoadPageAsync(FaGridRequest request)
+    private async Task<FaGridResult<Order>> LoadPageAsync(FaGridRequest request)
     {
         // request.PageIndex, request.PageSize, request.SortKey, request.SortAscending,
         // request.Filters (columnKey -> selected filter key) all come from the grid —
         // push them into your real query.
-        var (rows, total) = await _transactionService.QueryAsync(
+        var (rows, total) = await _orderService.QueryAsync(
             skip: request.PageIndex * request.PageSize,
             take: request.PageSize,
             sortBy: request.SortKey,
             ascending: request.SortAscending,
             statusFilter: request.Filters.GetValueOrDefault("Status"));
 
-        return new FaGridResult<Transaction>
+        return new FaGridResult<Order>
         {
             Items = rows,       // just this page
             TotalCount = total  // across every page

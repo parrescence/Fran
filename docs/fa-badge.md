@@ -2,13 +2,13 @@
 
 # FaBadge
 
-Small pill label — invite status, budget over/under, etc.
+Small pill label — invite status, order paid/overdue, etc.
 
 ## Usage
 
 ```razor
-<FaBadge Variant="@(tx.IsPaid ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
-    @(tx.IsPaid ? "Paid" : "Overdue")
+<FaBadge Variant="@(order.IsPaid ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
+    @(order.IsPaid ? "Paid" : "Overdue")
 </FaBadge>
 ```
 

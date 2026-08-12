@@ -15,12 +15,12 @@ scrollable textarea.
 </EditForm>
 
 @code {
-    private class TransactionModel
+    private class ItemModel
     {
         public string? Notes { get; set; }
     }
 
-    private TransactionModel _model = new();
+    private ItemModel _model = new();
 }
 ```
 

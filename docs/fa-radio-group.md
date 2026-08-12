@@ -15,12 +15,12 @@ without an `EditForm`.
               @bind-Value="_model.Frequency" />
 
 @code {
-    private class BudgetModel
+    private class ScheduleModel
     {
         public string Frequency { get; set; } = "monthly";
     }
 
-    private BudgetModel _model = new();
+    private ScheduleModel _model = new();
 
     private IReadOnlyList<(string Title, string Value)> _frequencyOptions = new[]
     {

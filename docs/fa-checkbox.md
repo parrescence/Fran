@@ -10,16 +10,16 @@ so it only works inside an `<EditForm>`.
 
 ```razor
 <EditForm Model="_model">
-    <FaCheckbox @bind-Value="_model.IsRecurring" Label="Recurring transaction" />
+    <FaCheckbox @bind-Value="_model.IsRecurring" Label="Recurring" />
 </EditForm>
 
 @code {
-    private class TransactionModel
+    private class ItemModel
     {
         public bool IsRecurring { get; set; }
     }
 
-    private TransactionModel _model = new();
+    private ItemModel _model = new();
 }
 ```
 

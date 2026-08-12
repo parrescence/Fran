@@ -2,7 +2,7 @@
 
 # FaDateRange
 
-Linked From/To date fields for range filters (e.g. "show transactions between X and
+Linked From/To date fields for range filters (e.g. "show orders between X and
 Y"). Editing one end past the other pushes the other to match instead of rejecting
 the edit. Not `InputBase`-based — plain `@bind-Value` of an `FaDateRangeValue`, works
 with or without an `EditForm`.
@@ -12,7 +12,7 @@ with or without an `EditForm`.
 ```razor
 <FaDateRange Label="Date range" @bind-Value="_range" />
 
-<p>Showing transactions from @_range.From?.ToString("MMM d") to @_range.To?.ToString("MMM d")</p>
+<p>Showing orders from @_range.From?.ToString("MMM d") to @_range.To?.ToString("MMM d")</p>
 
 @code {
     private FaDateRangeValue _range = new(

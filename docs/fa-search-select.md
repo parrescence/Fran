@@ -11,19 +11,19 @@ value is an arbitrary `TItem`, not a string), so it works with or without an
 ## Usage
 
 ```razor
-<FaSearchSelect TItem="Payer"
-                Label="Payer"
+<FaSearchSelect TItem="Person"
+                Label="Person"
                 Placeholder="Type a name…"
-                QueryAsync="SearchPayersAsync"
+                QueryAsync="SearchPeopleAsync"
                 ItemLabel="p => p.Name"
-                @bind-Value="_selectedPayer" />
+                @bind-Value="_selectedPerson" />
 
 @code {
-    private Payer? _selectedPayer;
+    private Person? _selectedPerson;
 
-    private async Task<IReadOnlyList<Payer>> SearchPayersAsync(string query)
+    private async Task<IReadOnlyList<Person>> SearchPeopleAsync(string query)
     {
-        return await _payerService.SearchAsync(query); // your own lookup
+        return await _peopleService.SearchAsync(query); // your own lookup
     }
 }
 ```
@@ -31,12 +31,12 @@ value is an arbitrary `TItem`, not a string), so it works with or without an
 ### Custom row rendering
 
 ```razor
-<FaSearchSelect TItem="Payer"
-                QueryAsync="SearchPayersAsync"
+<FaSearchSelect TItem="Person"
+                QueryAsync="SearchPeopleAsync"
                 ItemLabel="p => p.Name"
-                @bind-Value="_selectedPayer">
-    <ItemTemplate Context="payer">
-        <strong>@payer.Name</strong> <span class="fa-text-muted">@payer.Email</span>
+                @bind-Value="_selectedPerson">
+    <ItemTemplate Context="person">
+        <strong>@person.Name</strong> <span class="fa-text-muted">@person.Email</span>
     </ItemTemplate>
 </FaSearchSelect>
 ```
