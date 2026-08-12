@@ -1,3 +1,4 @@
+using FactoryAspects.Icons;
 using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -394,6 +395,21 @@ public sealed class FaDropdown<TItem> : ComponentBase
         {
             builder.AddAttribute(22, "readonly", true);
         }
+        builder.CloseElement();
+
+        // Floats over the input's end without stealing its click/type target — the
+        // input itself still spans the full width underneath (see
+        // .fa-dropdown-arrow's pointer-events: none), so typing to search is
+        // unaffected. Flips chevron direction with _isOpen but otherwise always shows
+        // one, closed or open.
+        builder.OpenElement(23, "span");
+        builder.AddAttribute(24, "class", "fa-dropdown-arrow");
+        builder.AddAttribute(25, "aria-hidden", "true");
+        builder.OpenComponent<FaIcon>(26);
+        builder.AddComponentParameter(27, nameof(FaIcon.Name), _isOpen ? FaIconName.ChevronUp : FaIconName.ChevronDown);
+        builder.AddComponentParameter(28, nameof(FaIcon.Color), FaIconColor.Black);
+        builder.AddComponentParameter(29, nameof(FaIcon.Size), 16);
+        builder.CloseComponent();
         builder.CloseElement();
 
         if (_isOpen)
