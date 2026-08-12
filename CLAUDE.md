@@ -178,9 +178,10 @@ there, and don't treat its absence as a sign a palette isn't real — check `the
 
 ## Components inventory
 
-See `README.md`'s "What's in here" section — keep both in sync when adding/removing a
-component (this file for contributor-facing rules, the README for consumer-facing
-docs).
+See `docs/index.md` — keep it in sync when adding/removing a component (this file for
+contributor-facing rules, `docs/index.md` for the consumer-facing component list, each
+entry linking to its own usage-example page under `docs/`). The README no longer
+duplicates the component list itself — it just points to `docs/index.md`.
 
 `FaToggle<TValue>` (`Components/FaToggle.cs`) is the one component with real runtime
 validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two

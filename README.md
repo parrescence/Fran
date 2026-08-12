@@ -15,12 +15,13 @@ markup — see `CLAUDE.md` if you're contributing.
 
 ## Docs
 
-Per-component usage examples (a minimal `.razor` snippet + how to read the value back
-out) live in [`docs/`](docs/index.md) — start at
-[`docs/index.md`](docs/index.md) to browse by category, or open
-[`docs/site.html`](docs/site.html) directly in a browser for the same content as one
-scrollable, searchable-by-scrolling page (no server needed — it's a plain static
-file).
+**Start here: [`docs/index.md`](docs/index.md)** — the full component inventory,
+organized by category, each entry linking to its own page with a minimal usage example
+and how to read the value back out.
+
+Prefer one scrollable page instead? Open [`docs/site.html`](docs/site.html) directly in
+a browser for the same content with a sidebar nav and copy buttons — no server needed,
+it's a plain static file.
 
 ## Install
 
@@ -142,36 +143,3 @@ workflow, add a `nuget.config` pointing at
 `https://nuget.pkg.github.com/bencalvin/index.json`, and the workflow's own
 `GITHUB_TOKEN` is sufficient (this repo is private, but same-account workflows can
 still read it once granted that permission).
-
-## What's in here
-
-- **Components**: `FaButton` (set `Href` to render an anchor styled as a button),
-  `FaCard`, `FaAlert`, `FaBadge`, `FaAvatar`, `FaModal`, `FaTable` (typed
-  `Columns`/`Rows`, renders a real `<table>`; collapses to a card-per-row layout at
-  the same ≤720px breakpoint the sidebar collapses at — see
-  [docs/fa-table.md](docs/fa-table.md)), `FaGrid<TItem>` (a table that owns its
-  own paging/rows-per-page and per-column sorting/filtering — pass `Columns` as
-  `FaGridColumn<TItem>`, each optionally `Sortable` or given `FilterOptions` as
-  `(string Key, string Label)` pairs. Two mutually exclusive data modes: `Items`, the
-  whole dataset in memory, paged/sorted/filtered client-side; or `ItemsProvider`, a
-  `Func<FaGridRequest, Task<FaGridResult<TItem>>>` FaGrid calls on every page/size/
-  sort/filter change — it hands back just that page's rows plus a total count, so
-  FaGrid never holds more than one page in memory at once, letting a real paged
-  query/API back it instead of a fully-loaded list), `FaSearchSelect<TItem>`
-  (type-to-search combobox — debounced `QueryAsync` lookup, dropdown of results, no JS
-  interop), `FaDateRange` (linked From/To date fields, bound as one
-  `FaDateRangeValue`), `FaToggle<TValue>` (pass 2+ `(string Title, TValue Value)`
-  options — see its doc comment).
-- **Form fields** (all `InputBase<TValue>`-derived, for use inside an `EditForm`):
-  `FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea` (optional maxlength counter /
-  read-only display mode), `FaCheckbox`, `FaRadioGroup<TValue>` (same Options-tuple
-  shape as `FaToggle<TValue>`), `FaDatePicker` (split day/month/year fields + a
-  calendar popup, `Min`/`Max`, optional floating label — no JS interop), `FaFile`
-  (optional `AsButton` styled picker), `FaCurrency` (formatted display / raw entry on
-  focus, no JS interop).
-- **`ThemeSwitcher`**.
-- **Layout**: `AppHeader`, `AppFooter`, `AppSidebar`, `SidebarShell` (header + sidebar
-  + content + footer), `StandardShell` (header + content + footer, no sidebar).
-- **Icons**: `FaIcon` + `FaIconName` — a small hand-drawn SVG set (no icon font/
-  external dependency), rendered as inline `<svg>` so `currentColor` picks up
-  `FaIconColor`.
