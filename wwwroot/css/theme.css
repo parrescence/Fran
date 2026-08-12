@@ -994,6 +994,42 @@ table {
         box-shadow: 0 0 0 2px var(--fa-text-on-primary);
     }
 
+/* Same inset-pill treatment as .fa-theme-switcher, but a native <select> instead of a
+   button row — fourteen palette options don't fit a pill row the way three theme
+   modes do. Sits in the header alongside ThemeSwitcher, so it wears the same
+   always-white-on-burnt-orange styling regardless of the active theme mode. */
+.fa-palette-switcher {
+    appearance: none;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--fa-text-on-primary);
+    background: rgba(0, 0, 0, 0.14);
+    border: none;
+    border-radius: var(--fa-radius-pill);
+    padding: 0.35rem 1.7rem 0.35rem 0.75rem;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 6 8 10 12 6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.55rem center;
+    background-size: 0.7rem;
+    transition: background-color 0.15s ease;
+}
+
+    .fa-palette-switcher:hover {
+        background-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .fa-palette-switcher:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+    }
+
+    .fa-palette-switcher option {
+        color: var(--fa-text);
+        background: var(--fa-surface);
+    }
+
 /* ============================= Footer ============================= */
 
 .fa-footer {

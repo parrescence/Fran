@@ -5,9 +5,10 @@ browser (double-click it, or via a `file://` link) — same content as this fold
 laid out with a sidebar nav and copy buttons, no server required.
 
 One page per component: a minimal usage example and how to read the value back out.
-This assumes you've already done the install steps in the root
-[README](../README.md#install) (package reference + the `theme.css`/`theme.js`/
-`sidebar.js` `<link>`/`<script>` tags in your host page).
+This assumes you've already done the install/wiring steps in
+[**`install.md`**](install.md) (package reference, namespace imports, the
+`theme.css`/`theme.js`/`sidebar.js` `<link>`/`<script>` tags in your host page, and
+picking a color palette).
 
 Every example is a `.razor` file — the components themselves are authored as plain C#
 (see [CLAUDE.md](../CLAUDE.md#component-authoring-c-builder-not-markup)), but you
@@ -21,6 +22,11 @@ Two binding shapes show up repeatedly:
 - **Everything else that's bindable** (`FaToggle`, `FaRadioGroup`, `FaSearchSelect`,
   `FaDateRange`) uses a plain `Value`/`ValueChanged` pair, so `@bind-Value` works with
   or without an `EditForm` around it.
+
+## Start here
+
+- [Install & setup](install.md) — GitHub Packages feed, package reference, namespace
+  imports, host-page wiring, and picking a color palette
 
 ## Buttons & feedback
 
@@ -54,4 +60,5 @@ Two binding shapes show up repeatedly:
 
 - [Layout shells](layout-shells.md) — `StandardShell`/`SidebarShell` + `AppHeader`/`AppFooter`/`AppSidebar`
 - [ThemeSwitcher](theme-switcher.md) — Light/Dark/Colorblind-safe buttons
+- [PaletteSwitcher](palette-switcher.md) — dropdown over all 14 color palettes
 - [FaIcon](fa-icon.md) — the hand-drawn SVG icon set

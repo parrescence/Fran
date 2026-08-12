@@ -389,7 +389,10 @@
   <nav class="sidenav" id="sidenav">
     <div class="nav-group">
       <div class="nav-group-title">Start here</div>
-      <ul><li><a href="#overview">Overview</a></li></ul>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#install">Install &amp; setup</a></li>
+      </ul>
     </div>
     <div class="nav-group">
       <div class="nav-group-title">Buttons &amp; feedback</div>
@@ -430,6 +433,7 @@
       <ul>
         <li><a href="#layout-shells">Layout shells</a></li>
         <li><a href="#theme-switcher">ThemeSwitcher</a></li>
+        <li><a href="#palette-switcher">PaletteSwitcher</a></li>
         <li><a href="#fa-icon">FaIcon</a></li>
       </ul>
     </div>
@@ -438,7 +442,7 @@
   <main class="content">
 
     <section class="intro" id="overview">
-      <p class="lede">One page per component: a minimal usage example and how to read the value back out. This assumes the install steps from the root README are already done — the package reference, plus the <code>theme.css</code>/<code>theme.js</code>/<code>sidebar.js</code> tags in your host page.</p>
+      <p class="lede">One page per component: a minimal usage example and how to read the value back out. This assumes the <a href="#install">install &amp; setup</a> steps are already done — the package reference, namespace imports, plus the <code>theme.css</code>/<code>theme.js</code>/<code>sidebar.js</code> tags in your host page.</p>
       <p>Every component is authored as plain C# (a <code>ComponentBase</code>/<code>InputBase&lt;TValue&gt;</code> subclass), but you consume it the normal Blazor way — tags, attributes, <code>@bind-*</code>, all of it.</p>
 
       <div class="binding-note">
@@ -451,6 +455,81 @@
           <p><code>FaToggle</code>, <code>FaRadioGroup</code>, <code>FaSearchSelect</code>, <code>FaDateRange</code> use a plain <code>Value</code>/<code>ValueChanged</code> pair, so <code>@bind-Value</code> works with or without an <code>EditForm</code> around it.</p>
         </div>
       </div>
+    </section>
+
+    <!-- ============================= Install & setup ============================= -->
+    <section class="component" id="install">
+      <span class="kicker">Start here</span>
+      <h2>Install &amp; setup</h2>
+      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>bencalvin</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
+
+      <h3>1. Add the GitHub Packages feed as a NuGet source</h3>
+      <p>Pick whichever matches where you're installing from — local dev (one-time, per machine) or CI (a GitHub Actions workflow in the same account/org, no PAT needed).</p>
+
+      <h4>Local dev</h4>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
+  --name github-bencalvin \
+  --username &lt;your-github-username&gt; \
+  --password &lt;a GitHub PAT with read:packages&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>⚠️ Run this yourself in a plain terminal — never through an AI coding assistant's terminal/tool-use.</strong> The token passes through that tool's context and, depending on the tool, may end up logged, transcripted, or sent to a model provider.</p>
+
+      <p>On Windows, leave <code>--store-password-in-clear-text</code> off — <code>dotnet nuget</code> encrypts the password at rest by default (Windows DPAPI-backed credential store). Only add that flag back on Linux/macOS if you don't have a credential provider configured (there's no OS credential store to fall back on there); if you do, treat <code>NuGet.Config</code> as sensitive — don't commit it, restrict its file permissions.</p>
+
+      <h4>CI (same GitHub account/org as this repo)</h4>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>permissions:
+  packages: read</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;!-- nuget.config --&gt;
+&lt;configuration&gt;
+  &lt;packageSources&gt;
+    &lt;add key="github-bencalvin" value="https://nuget.pkg.github.com/bencalvin/index.json" /&gt;
+  &lt;/packageSources&gt;
+&lt;/configuration&gt;</code></pre></div>
+      <p>The workflow's own <code>GITHUB_TOKEN</code> is sufficient — no PAT needed (this repo is private, but same-account workflows can still read it once granted the permission above).</p>
+
+      <h3>2. Reference the package</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package FactoryAspects</code></pre></div>
+
+      <h3>3. Import the namespaces</h3>
+      <p>Add to <code>_Imports.razor</code>:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@using FactoryAspects.Components
+@using FactoryAspects.Icons
+@using FactoryAspects.Layout</code></pre></div>
+
+      <h3>4. Wire the static assets into your host page</h3>
+      <p>Razor Class Libraries ship their static assets under <code>_content/{PackageId}/...</code>, but they are <strong>not</strong> auto-injected into your host page — this is standard Blazor RCL behavior, not something specific to this package. Add these tags yourself:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FactoryAspects/css/theme.css" /&gt;
+...
+&lt;script src="_content/FactoryAspects/js/theme.js"&gt;&lt;/script&gt;
+&lt;script src="_content/FactoryAspects/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
+      <p><code>theme.js</code>/<code>sidebar.js</code> are plain vanilla-JS IIFEs (no Blazor JS interop, no external dependencies) backing the theme switcher and the sidebar's collapse toggle — both persist to <code>localStorage</code> and stamp classes on <code>&lt;html&gt;</code>, so no Blazor component state needs to stay in sync with them.</p>
+      <p><code>theme.css</code> pulls one Google Font over <code>@import</code> (<code>Baloo 2</code>) from <code>fonts.googleapis.com</code> — a public CDN URL that works from any host, but if your app needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.</p>
+
+      <h3>5. Pick a color palette (optional)</h3>
+      <p>Fourteen seasonal/regional/country color palettes ship in the one <code>theme.css</code>, picked via a <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> — a second, independent axis from the light/dark/colorblind mode (<code>data-theme</code>); any palette combines with any mode. Default is <code>northwest-fall</code> (no attribute needed) if you skip this step.</p>
+      <p>Available names: <code>northwest-fall</code>, <code>southwest-summer</code>, <code>northeast-spring</code>, <code>midwest-winter</code>, <code>southeast-beach</code>, <code>greece-aegean</code>, <code>spain-flamenco</code>, <code>ireland-emerald</code>, <code>jamaica-blue-mountain</code>, <code>japan-indigo</code>, <code>korea-celadon</code>, <code>china-cinnabar</code>, <code>india-peacock</code>, <code>cameroon-rainforest</code>.</p>
+
+      <h4>Option A — pick one at build time</h4>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;html lang="en" data-fa-palette="southeast-beach"&gt;</code></pre></div>
+
+      <h4>Option B — switch palettes at runtime</h4>
+      <p>Drop in the bundled dropdown:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;PaletteSwitcher /&gt;</code></pre></div>
+      <p>See <a href="#palette-switcher">PaletteSwitcher</a> for details. Or call the underlying function yourself, the same way <code>&lt;ThemeSwitcher&gt;</code> calls <code>window.faSetTheme(...)</code>:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>window.faSetPalette('southeast-beach');
+// or window.faSetPalette('northwest-fall') / window.faSetPalette(null) to reset</code></pre></div>
+      <p>Either way, this persists the choice to <code>localStorage</code> under <code>fa-palette</code> and stamps <code>data-fa-palette</code> on <code>&lt;html&gt;</code>.</p>
+
+      <h4>Either way</h4>
+      <p>Add this inline snippet to your host page's <code>&lt;head&gt;</code>, before the <code>theme.css</code> <code>&lt;link&gt;</code> from step 4, so a returning visitor's saved mode/palette applies before first paint instead of flashing the default and then jumping:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;script&gt;
+  (function () {
+    var theme = localStorage.getItem('fa-theme');
+    if (theme) document.documentElement.setAttribute('data-theme', theme);
+    var palette = localStorage.getItem('fa-palette');
+    if (palette) document.documentElement.setAttribute('data-fa-palette', palette);
+  })();
+&lt;/script&gt;</code></pre></div>
     </section>
 
     <!-- ============================= FaButton ============================= -->
@@ -1306,6 +1385,18 @@
       <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current theme lives in <code>localStorage</code> (<code>fa-theme</code> key) and the <code>data-theme</code> attribute on <code>&lt;html&gt;</code>, both managed by theme.js. Read <code>localStorage.getItem('fa-theme')</code> yourself if your own code needs it.</p>
     </section>
 
+    <!-- ============================= PaletteSwitcher ============================= -->
+    <section class="component" id="palette-switcher">
+      <span class="kicker">Layout &amp; chrome</span>
+      <h2>PaletteSwitcher</h2>
+      <p class="dek">A single dropdown covering all fourteen <a href="#install">color palettes</a>. No parameters, no Blazor state: picking an option calls <code>window.faSetPalette(...)</code> from theme.js directly, client-side only — every <code>&lt;PaletteSwitcher&gt;</code> on the page stays in sync with whichever palette is actually active, including the one restored from <code>localStorage</code> on first paint. A separate, independent axis from ThemeSwitcher's light/dark/colorblind mode — any palette combines with any mode.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;PaletteSwitcher /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current palette lives in <code>localStorage</code> (<code>fa-palette</code> key) and the <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> (absent for the northwest-fall default), both managed by theme.js. Read <code>localStorage.getItem('fa-palette')</code> yourself if your own code needs it.</p>
+    </section>
+
     <!-- ============================= FaIcon ============================= -->
     <section class="component" id="fa-icon">
       <span class="kicker">Layout &amp; chrome</span>
@@ -1334,7 +1425,7 @@
     </section>
 
     <footer class="page-end">
-      FactoryAspects is a self-contained Blazor Razor Class Library — see the repo's README for install steps and CLAUDE.md for contributor guidelines.
+      FactoryAspects is a self-contained Blazor Razor Class Library — see <a href="#install">Install &amp; setup</a> above for the full step-by-step, the repo's README for a high-level overview, and CLAUDE.md for contributor guidelines.
     </footer>
 
   </main>

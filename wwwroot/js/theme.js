@@ -5,7 +5,8 @@
 // attributes are independent axes) — both persisted to localStorage, read back by
 // an inline snippet in index.html <head> before first paint so there's no flash of
 // the wrong theme/palette. <ThemeSwitcher> calls window.faSetTheme(...) directly
-// via a plain onclick attribute — see its .cs file for why that's fine here.
+// via a plain onclick attribute, and <PaletteSwitcher> calls window.faSetPalette(...)
+// via a plain onchange attribute — see each .cs file for why that's fine here.
 (function () {
     var THEME_STORAGE_KEY = 'fa-theme';
     var PALETTE_STORAGE_KEY = 'fa-palette';
@@ -35,6 +36,17 @@
         markActive(theme);
     };
 
+    // Keeps every <select data-palette-select> (PaletteSwitcher.cs) showing the
+    // palette actually in effect — needed both on first paint and after faSetPalette
+    // runs, since a plain onchange attribute doesn't update the <select> for you when
+    // the value was set programmatically (only user interaction does that natively).
+    function syncPaletteSelects(palette) {
+        var selects = document.querySelectorAll('[data-palette-select]');
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].value = palette || '';
+        }
+    }
+
     // Palette has no "unset means follow the OS" concept the way mode does — there's
     // no OS-level signal for "Southwest Summer" — so unlike faSetTheme this always
     // just stamps (or removes, for the "northwest-fall" default) the attribute.
@@ -46,6 +58,7 @@
             document.documentElement.setAttribute('data-fa-palette', palette);
             localStorage.setItem(PALETTE_STORAGE_KEY, palette);
         }
+        syncPaletteSelects(palette);
     };
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -55,5 +68,6 @@
         if (storedPalette) {
             document.documentElement.setAttribute('data-fa-palette', storedPalette);
         }
+        syncPaletteSelects(storedPalette);
     });
 })();

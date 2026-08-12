@@ -12,10 +12,15 @@ CLAUDE.md above this one to read first; this file is the whole picture.
 
 Built on the assumption it's consumed outside any one app — as a package (currently
 via **GitHub Packages**, `https://nuget.pkg.github.com/bencalvin/index.json`, not
-NuGet.org), or imported as source. See `README.md` for the consumer-facing docs
-(install steps, required manual asset wiring, component inventory) — that file is
-packed into the `.nupkg` itself (`PackageReadmeFile`), so keep it accurate, not just
-this CLAUDE.md.
+NuGet.org), or imported as source. See `README.md` for the consumer-facing high-level
+overview (what it is, quick-start install, category-level features list) — that file
+is packed into the `.nupkg` itself (`<None Include="README.md" Pack="true" .../>` in
+`FactoryAspects.csproj`), so keep it accurate, not just this CLAUDE.md. `docs/` is
+**not** packed into the `.nupkg` (only `README.md` is) — so any link from README.md
+into `docs/install.md`/`docs/index.md`/`docs/site.html` must be an absolute
+`https://github.com/bencalvin/FactoryAspects/blob/main/...` URL, never a relative
+`docs/...` path, or it renders as a dead link on the GitHub Packages package page
+(relative links only resolve when README is viewed inside the repo itself).
 
 Consequences for any change here:
 
@@ -162,10 +167,22 @@ palette-agnostic on purpose (see its comment in `theme.css`) — one known-safe
 accent/danger substitution reused across every palette, not fourteen separate ones.
 
 `js/theme.js`'s `window.faSetPalette(name)` mirrors `window.faSetTheme(...)`:
-persists to `localStorage` (`fa-palette` key) and stamps/removes the attribute. No
-bundled `<PaletteSwitcher>` component exists yet — README's "Choosing a theme" covers
-both the build-time (hardcode the attribute) and runtime (call `faSetPalette`) paths a
-consumer has today.
+persists to `localStorage` (`fa-palette` key) and stamps/removes the attribute.
+`PaletteSwitcher` (`Components/PaletteSwitcher.cs`) is the bundled runtime-switching
+UI for it — a `<select>` over all fourteen names, not a button row like
+`ThemeSwitcher` (fourteen options don't fit a pill row the way three modes do).
+`theme.js`'s `syncPaletteSelects` keeps every `<select data-palette-select>` on the
+page showing the palette actually in effect, both on first paint (from
+`localStorage`) and after any `faSetPalette` call — a plain `onchange` attribute
+doesn't update a `<select>`'s displayed value for you when the value changes
+programmatically, only on user interaction. `docs/install.md`'s "Pick a color
+palette" step and `docs/palette-switcher.md` cover both the build-time (hardcode the
+attribute) and runtime (`<PaletteSwitcher>` or call `faSetPalette` directly) paths a
+consumer has today. The README itself stays high-level (what/why, a quick-start
+install snippet, a category-level features list) and links out to
+`docs/install.md`/`docs/index.md`/`docs/site.html` for the step-by-step and
+per-component detail — don't let install/theme/component detail creep back into the
+README itself.
 
 Each palette's color choices are worked out first in `.themes/` at the repo root — a
 **gitignored**, local-only folder of Markdown design docs (one file per theme, a
