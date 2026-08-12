@@ -39,6 +39,7 @@ every change.
 | `Value` / `ValueChanged` | `TValue` | `@bind-Value` |
 | `Label` | `string?` | |
 | `ChildContent` | `RenderFragment?` | `<option>` elements |
+| `ReadOnly` | `bool` | renders `disabled` (no native `readonly` on `<select>`), same boxed look, muted |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

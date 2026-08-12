@@ -1,0 +1,72 @@
+/* ============================= Modal ============================= */
+
+.fa-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+}
+
+/* Applied instead of unmounting when FaModal's ResetOnClose="false" (the default) keeps
+   ChildContent mounted across a close/reopen cycle so its values persist. */
+.fa-modal-backdrop-hidden {
+    display: none;
+}
+
+.fa-modal {
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-lg);
+    box-shadow: var(--fa-border-glow-focus);
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.fa-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.3rem;
+    border-bottom: var(--fa-border-width) solid var(--fa-border);
+}
+
+.fa-modal-title {
+    margin: 0;
+    color: var(--fa-text);
+}
+
+.fa-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--fa-text-muted);
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+}
+
+    .fa-modal-close:hover {
+        color: var(--fa-text);
+    }
+
+.fa-modal-body {
+    padding: 1.3rem;
+    overflow-y: auto;
+}
+
+.fa-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    padding: 1rem 1.3rem;
+    border-top: var(--fa-border-width) solid var(--fa-border);
+}
+

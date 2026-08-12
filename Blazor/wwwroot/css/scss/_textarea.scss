@@ -1,0 +1,36 @@
+/* ============================= Textarea ============================= */
+
+.fa-textarea {
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.5rem 0.9rem;
+    box-shadow: var(--fa-border-glow);
+    resize: vertical;
+    min-height: 6rem;
+    transition: border-color var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    .fa-textarea:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-textarea-readonly {
+    white-space: pre-wrap;
+    border-color: transparent;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+}
+
+.fa-textarea-counter {
+    align-self: flex-end;
+    font-size: 0.75rem;
+    color: var(--fa-text-muted);
+}
+

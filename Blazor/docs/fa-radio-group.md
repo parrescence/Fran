@@ -43,5 +43,6 @@ without an `EditForm`.
 | `Value` / `ValueChanged` | `TValue?` | `@bind-Value` |
 | `Label` | `string?` | |
 | `Disabled` | `bool` | |
+| `ReadOnly` | `bool` | flattens the radio buttons to the selected option's title as plain text with a bottom border |
 
 [← Back to index](index.md)

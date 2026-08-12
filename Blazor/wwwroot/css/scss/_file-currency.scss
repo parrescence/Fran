@@ -1,0 +1,19 @@
+/* ============================= File & currency ============================= */
+
+.fa-file-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.fa-file-input {
+    font-family: var(--fa-font);
+    color: var(--fa-text);
+}
+
+.fa-currency-input {
+    text-align: right;
+}
+

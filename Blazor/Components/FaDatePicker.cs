@@ -25,6 +25,13 @@ public sealed class FaDatePicker : InputBase<DateOnly?>
     [Parameter] public DateOnly? Min { get; set; }
     [Parameter] public DateOnly? Max { get; set; }
     [Parameter] public string? ContainerCssClass { get; set; }
+    /// <summary>
+    /// Flattens the day/month/year fields, calendar toggle, and popup down to the
+    /// formatted date as plain text with a bottom border — the shared "other fa
+    /// styles" readonly look (see FaInput/FaSelect/etc. for the boxed-muted style
+    /// used by native inputs).
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private enum DateField { Day, Month, Year }
 
@@ -284,6 +291,16 @@ public sealed class FaDatePicker : InputBase<DateOnly?>
             builder.AddAttribute(3, "class", "fa-label");
             builder.AddContent(4, Label);
             builder.CloseElement();
+        }
+
+        if (ReadOnly)
+        {
+            builder.OpenElement(5, "div");
+            builder.AddAttribute(6, "class", "fa-readonly-flat");
+            builder.AddContent(7, Value?.ToString("MMMM d, yyyy") ?? "");
+            builder.CloseElement();
+            builder.CloseElement();
+            return;
         }
 
         builder.OpenElement(5, "div");

@@ -1,0 +1,47 @@
+/* ============================= Dashboard tiles & trend chart ============================= */
+/* Used by DashboardView.razor's budget-progress tiles and the monthly-spend SVG bar chart —
+   previously inline `style="..."` attributes hardcoding Bootstrap-blue/red; now palette-driven
+   like everything else. */
+
+.fa-dashboard-tile {
+    width: 220px;
+}
+
+.fa-dashboard-progress-track {
+    background: var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    height: 10px;
+    margin-top: 0.4rem;
+    overflow: hidden;
+}
+
+.fa-dashboard-progress-fill {
+    height: 100%;
+    background: var(--fa-primary);
+}
+
+    .fa-dashboard-progress-fill.fa-over-budget {
+        background: var(--fa-ember);
+    }
+
+.fa-dashboard-over-budget-label {
+    color: var(--fa-ember);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.fa-trend-bar {
+    fill: var(--fa-primary);
+    cursor: pointer;
+    transition: fill var(--fa-transition-fast);
+}
+
+    .fa-trend-bar:hover {
+        fill: var(--fa-primary-dark);
+    }
+
+.fa-trend-label, .fa-trend-value {
+    font-family: var(--fa-font);
+    fill: var(--fa-text-muted);
+}
+

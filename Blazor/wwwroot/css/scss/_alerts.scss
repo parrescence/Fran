@@ -1,0 +1,14 @@
+/* ============================= Alerts ============================= */
+
+.fa-alert {
+    border-radius: var(--fa-radius-md);
+    padding: 0.75rem 1.1rem;
+    border: var(--fa-border-width) solid var(--fa-border);
+    box-shadow: var(--fa-border-glow);
+    font-weight: 600;
+}
+
+.fa-alert-danger { border-color: var(--fa-ember); color: var(--fa-ember); background: var(--fa-alert-danger-bg); }
+.fa-alert-success { border-color: var(--fa-accent); color: var(--fa-accent); background: var(--fa-alert-success-bg); }
+.fa-alert-info { border-color: var(--fa-primary); color: var(--fa-primary-dark); background: var(--fa-alert-info-bg); }
+

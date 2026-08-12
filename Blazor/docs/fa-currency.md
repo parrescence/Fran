@@ -36,6 +36,7 @@ and clamped to `Min`/`Max` as they're typed.
 | `Label` | `string?` | |
 | `Min` / `Max` | `decimal?` | |
 | `CurrencySymbol` | `string` | default `"$"` |
+| `ReadOnly` | `bool` | same boxed look, muted and non-interactive |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

@@ -14,9 +14,25 @@ public sealed class FaCheckbox : InputCheckbox
 {
     [Parameter] public string? Label { get; set; }
     [Parameter] public string? ContainerCssClass { get; set; }
+    /// <summary>
+    /// Flattens to a plain checked/unchecked indicator with a bottom border instead
+    /// of a clickable checkbox — the shared "other fa styles" readonly look (see
+    /// FaInput/FaSelect/etc. for the boxed-muted style used by native inputs).
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
+        if (ReadOnly)
+        {
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", CssClassNames.Combine("fa-checkbox-readonly", "fa-readonly-flat", ContainerCssClass));
+            builder.AddContent(2, CurrentValue ? "☑ " : "☐ ");
+            builder.AddContent(3, Label);
+            builder.CloseElement();
+            return;
+        }
+
         builder.OpenElement(0, "label");
         builder.AddAttribute(1, "class", CssClassNames.Combine("fa-checkbox", ContainerCssClass));
 

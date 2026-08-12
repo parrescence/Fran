@@ -39,6 +39,12 @@ public sealed class FaToggle<TValue> : ComponentBase
     [Parameter] public string? Label { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? CssClass { get; set; }
+    /// <summary>
+    /// Flattens the segmented pill row to the active option's title as plain text
+    /// with a bottom border — the shared "other fa styles" readonly look (see
+    /// FaInput/FaSelect/etc. for the boxed-muted style used by native inputs).
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private ElementReference[] _buttonRefs = Array.Empty<ElementReference>();
 
@@ -129,6 +135,17 @@ public sealed class FaToggle<TValue> : ComponentBase
             builder.AddAttribute(3, "class", "fa-label");
             builder.AddContent(4, Label);
             builder.CloseElement();
+        }
+
+        if (ReadOnly)
+        {
+            var activeTitle = Options.FirstOrDefault(o => EqualityComparer<TValue>.Default.Equals(o.Value, Value)).Title;
+            builder.OpenElement(5, "div");
+            builder.AddAttribute(6, "class", "fa-readonly-flat");
+            builder.AddContent(7, ShowInput && !string.IsNullOrEmpty(InputValue) ? $"{activeTitle} — {InputValue}" : activeTitle);
+            builder.CloseElement();
+            builder.CloseElement();
+            return;
         }
 
         builder.OpenElement(5, "div");

@@ -39,6 +39,7 @@ keys, or picking a day on the calendar all commit through the same path.
 | `Label` | `string?` | |
 | `FloatingLabel` | `bool` | label overlaps the field instead of sitting above it |
 | `Min` / `Max` | `DateOnly?` | |
+| `ReadOnly` | `bool` | flattens the day/month/year fields, toggle, and popup to the formatted date as plain text with a bottom border |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

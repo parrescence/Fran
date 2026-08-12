@@ -1,0 +1,45 @@
+/* ============================= Layout & spacing utilities ============================= */
+/* A small, deliberately minimal utility layer — not a full grid framework. Only what the
+   app's own pages actually use (a simple wrapping row, a gap, a margin, text alignment). */
+
+.fa-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.fa-col-auto {
+    flex: 0 0 auto;
+}
+
+.fa-flex {
+    display: flex;
+    align-items: center;
+}
+
+.fa-flex-between {
+    justify-content: space-between;
+}
+
+.fa-gap-2 { gap: 0.5rem; }
+.fa-gap-3 { gap: 1rem; }
+
+.fa-mb-3 { margin-bottom: 1rem; }
+.fa-mb-4 { margin-bottom: 1.5rem; }
+.fa-mt-2 { margin-top: 0.5rem; }
+.fa-mt-3 { margin-top: 1rem; }
+.fa-mt-5 { margin-top: 3rem; }
+.fa-my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.fa-me-1 { margin-right: 0.25rem; }
+.fa-me-2 { margin-right: 0.5rem; }
+
+.fa-text-end { text-align: right; }
+.fa-text-center { text-align: center; }
+.fa-text-danger { color: var(--fa-ember); }
+
+.fa-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+

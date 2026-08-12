@@ -18,6 +18,8 @@ public sealed class FaInput<TValue> : InputBase<TValue>
     [Parameter] public string Type { get; set; } = "text";
     [Parameter] public string? Step { get; set; }
     [Parameter] public string? ContainerCssClass { get; set; }
+    /// <summary>Same boxed look as normal, just muted and non-interactive — the shared "input type" readonly style (see FaCheckbox/FaToggle/etc. for the flattened style used by non-native-input components).</summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private readonly string _id = $"fa-input-{Guid.NewGuid():N}";
 
@@ -52,8 +54,9 @@ public sealed class FaInput<TValue> : InputBase<TValue>
         builder.AddAttribute(10, "step", Step);
         builder.AddAttribute(11, "placeholder", Placeholder);
         builder.AddAttribute(12, "value", CurrentValueAsString);
-        builder.AddMultipleAttributes(13, AdditionalAttributes);
-        builder.AddAttribute(14, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, OnInput));
+        builder.AddAttribute(13, "readonly", ReadOnly);
+        builder.AddMultipleAttributes(14, AdditionalAttributes);
+        builder.AddAttribute(15, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, OnInput));
         builder.CloseElement();
 
         builder.CloseElement();

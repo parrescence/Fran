@@ -15,6 +15,12 @@ public sealed class FaSelect<TValue> : InputBase<TValue>
     [Parameter] public string? Label { get; set; }
     [Parameter] public string? ContainerCssClass { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>
+    /// Same boxed look as normal, just muted and non-interactive. &lt;select&gt; has no
+    /// native "readonly" (unlike a text input, it'd still be focusable/openable), so
+    /// this renders as <c>disabled</c> instead — the closest native equivalent.
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     private readonly string _id = $"fa-select-{Guid.NewGuid():N}";
 
@@ -46,8 +52,9 @@ public sealed class FaSelect<TValue> : InputBase<TValue>
         builder.AddAttribute(7, "id", _id);
         builder.AddAttribute(8, "class", "fa-select");
         builder.AddAttribute(9, "value", CurrentValueAsString);
-        builder.AddMultipleAttributes(10, AdditionalAttributes);
-        builder.AddAttribute(11, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, OnChange));
+        builder.AddAttribute(10, "disabled", ReadOnly);
+        builder.AddMultipleAttributes(11, AdditionalAttributes);
+        builder.AddAttribute(12, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, OnChange));
         builder.AddContent(12, ChildContent);
         builder.CloseElement();
 

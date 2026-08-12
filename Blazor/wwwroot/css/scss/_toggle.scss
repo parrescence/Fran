@@ -1,0 +1,112 @@
+/* ============================= Toggle ============================= */
+
+/* One shared border around the toggle button and, when it's showing, its companion
+   input — not two separately-bordered controls sitting next to each other. Compact
+   (just the two option buttons) by default; .fa-field is a flex column, whose items
+   stretch to its full width by default, so this has to opt back out of that to stay
+   hugged to its content instead of spanning the whole form like the inputs above it. */
+.fa-toggle-group {
+    display: inline-flex;
+    align-items: stretch;
+    align-self: flex-start;
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-pill);
+    background: var(--fa-surface);
+    box-shadow: var(--fa-border-glow);
+    overflow: hidden;
+    transition: border-color var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    .fa-toggle-group:focus-within {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    /* Once the companion input is showing, span the field's full width — the input
+       (flex: 1 1 auto below) absorbs the extra space; the option buttons stay put. */
+    .fa-toggle-group.fa-toggle-group-expanded {
+        align-self: stretch;
+        width: 100%;
+    }
+
+/* The two options are always both visible, active one highlighted — same pattern as
+   .fa-theme-switcher/.fa-theme-btn: an inset row of pill-shaped buttons (not edge-to-
+   edge segments with dividers between them), and instead of a hard fill, the active
+   one gets a shaded moss (accent) capsule behind its label. */
+.fa-toggle-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    flex: 0 0 auto;
+    padding: 0.2rem;
+}
+
+.fa-toggle-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.3rem;
+    height: 1.9rem;
+    padding: 0 0.75rem;
+    border: none;
+    border-radius: var(--fa-radius-pill);
+    background: transparent;
+    color: var(--fa-text-muted);
+    cursor: pointer;
+    font-family: var(--fa-font);
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0.7;
+    transition: background-color var(--fa-transition-fast), opacity var(--fa-transition-fast), color var(--fa-transition-fast);
+}
+
+    .fa-toggle-option:hover {
+        opacity: 1;
+        background: rgba(107, 122, 62, 0.14);
+    }
+
+    .fa-toggle-option:disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+        background: transparent;
+    }
+
+    .fa-toggle-option:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-border-focus);
+    }
+
+    .fa-toggle-option.fa-toggle-option-active {
+        opacity: 1;
+        background: var(--fa-accent);
+        color: var(--fa-text-on-primary);
+        box-shadow: 0 0 0 2px var(--fa-accent-dark);
+    }
+
+.fa-toggle-input {
+    flex: 1 1 auto;
+    min-width: 100px;
+    border: none;
+    border-left: var(--fa-border-width) solid var(--fa-border);
+    background: transparent;
+    color: var(--fa-text);
+    font-family: var(--fa-font);
+    font-size: 0.9rem;
+    padding: 0.45rem 0.8rem;
+}
+
+    .fa-toggle-input.fa-toggle-input-before {
+        border-left: none;
+        border-right: var(--fa-border-width) solid var(--fa-border);
+    }
+
+    .fa-toggle-input:focus {
+        outline: none;
+    }
+
+    .fa-toggle-input::placeholder {
+        color: var(--fa-text-muted);
+        opacity: 0.7;
+    }
+

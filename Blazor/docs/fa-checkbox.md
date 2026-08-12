@@ -33,6 +33,7 @@ so it only works inside an `<EditForm>`.
 |---|---|---|
 | `Value` / `ValueChanged` | `bool` | `@bind-Value` |
 | `Label` | `string?` | clickable label text |
+| `ReadOnly` | `bool` | flattens to a plain ☑/☐ + label with a bottom border instead of a clickable checkbox |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

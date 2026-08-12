@@ -1,0 +1,129 @@
+/* ============================= Small screens ============================= */
+
+@media (max-width: 720px) {
+    .fa-shell-sidebar .fa-shell-body {
+        flex-direction: column;
+    }
+
+    /* Collapse/expand is a desktop affordance — the mobile layout is already a compact
+       icon+label row, so force expanded and hide the toggle rather than letting the two
+       layout modes combine. */
+    .fa-sidebar,
+    html.fa-sidebar-collapsed .fa-sidebar {
+        width: 100%;
+        flex: 0 0 auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0.75rem;
+        box-shadow: 0 2px 0 var(--fa-glow), 0 4px 14px rgba(140, 67, 27, 0.25);
+    }
+
+    .fa-sidebar-toggle {
+        display: none;
+    }
+
+    /* Mobile ignores the collapse state entirely — undo the desktop-collapsed
+       tightened gap/padding/centering along with the text's max-width. */
+    html.fa-sidebar-collapsed .fa-sidebar-link,
+    html.fa-sidebar-collapsed-settled .fa-sidebar-link {
+        justify-content: flex-start;
+        gap: 0.6rem;
+        padding-left: 0.9rem;
+        padding-right: 0.9rem;
+    }
+
+    html.fa-sidebar-collapsed .fa-sidebar-link-text {
+        max-width: none;
+    }
+
+    html.fa-sidebar-collapsed .fa-sidebar-link::after {
+        content: none;
+    }
+
+    .fa-header-username {
+        display: none;
+    }
+
+    /* .fa-table card mode — each row becomes its own bordered card, each cell a
+       label/value pair sourced from the cell's data-label attribute. FaTable.cs
+       emits data-label on every generated <td> automatically; hand-written
+       <table class="fa-table"> markup opts in by adding data-label itself. */
+    .fa-table thead {
+        /* Same clip technique as .fa-sr-only above, inlined here since a class
+           can't be applied conditionally per breakpoint without JS. */
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .fa-table {
+        display: block;
+        width: 100%;
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        overflow: visible;
+    }
+
+    .fa-table tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .fa-table tr {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background: var(--fa-surface);
+        border: var(--fa-border-width) solid var(--fa-border);
+        border-radius: var(--fa-radius-md);
+        box-shadow: var(--fa-border-glow);
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+    }
+
+    .fa-table tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .fa-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 0.9rem;
+        text-align: right;
+        border-bottom: 1px solid var(--fa-border);
+    }
+
+    /* Assumes the actions column is the last <td> in markup, matching the
+       desktop convention — see .fa-table-actions below. */
+    .fa-table td:last-child {
+        border-bottom: none;
+    }
+
+    .fa-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--fa-primary-dark);
+        text-align: left;
+    }
+
+    /* Action column: no label, right-aligned, pinned above the data fields
+       instead of appearing as just another labeled row. */
+    .fa-table-actions {
+        order: -1;
+        width: auto;
+        justify-content: flex-end;
+    }
+
+    .fa-table-actions::before {
+        content: none;
+    }
+}

@@ -28,7 +28,7 @@ Consequences for any change here:
   parameter that would otherwise bake in one consumer's branding/copy.
 - **`PackageId` (`FactoryAspects.csproj`) is pinned to `FactoryAspects`, and
   `RootNamespace`/`AssemblyName` match it too.** Razor Class Library static assets are
-  served at `_content/{PackageId}/...` — `theme.css`/`theme.js`/`sidebar.js` are
+  served at `_content/{PackageId}/...` — `fa-styles.css`/`theme.js`/`sidebar.js` are
   referenced that way from every consumer's `index.html`. Renaming `PackageId`
   without updating every one of those references (in every consumer) silently 404s
   the CSS/JS. Component/type names (`FaButton`, `FaCard`, `FaToggle<TValue>`,
@@ -117,24 +117,84 @@ style consistent:
 ## Publishing this library
 
 Bump `<Version>` in `FactoryAspects.csproj` as part of normal `dev` work (semantic
-`major.minor.hotfix`), on every change that reaches `main` — the patch (`z`) number by
-default, `minor`/`major` only when a consumer explicitly calls for it. That version
-rides unchanged through the `dev → test → main` promotion; don't bump it again at the
-`test → main` step. Package versions are immutable once published (GitHub Packages
-rejects re-publishing an existing version), so leaving `<Version>` unchanged across
-several commits doesn't queue those changes up for consumers — it just means none of
-them are reachable until the next bump. See the root `CLAUDE.md` for the branching
+`major.minor.patch`), on every change that reaches `main` — the patch (`z`) number by
+default, `minor`/`major` only when a consumer explicitly calls for it. Each segment's
+range: `major` counts from `1` upward with no ceiling (today's `0.x` line is the
+conventional "pre-1.0, not yet stable" signal — stays `0.x` until a `1.0.0` is
+deliberately decided, not bumped just to satisfy this range); `minor` and `patch`
+each run `0`–`9999` before the next tier rolls over (`x.9999.9999` → `(x+1).0.0`,
+`x.y.9999` → `x.(y+1).0`) — plenty of headroom that a version number is never the
+reason to skip a real minor/major bump. That version rides unchanged through the
+`dev → test → main` promotion; don't bump it again at the `test → main` step.
+Package versions are immutable once published (GitHub Packages rejects
+re-publishing an existing version), so leaving `<Version>` unchanged across several
+commits doesn't queue those changes up for consumers — it just means none of them
+are reachable until the next bump. See the root `CLAUDE.md` for the branching
 model and how `.github/workflows/publish-blazor.yml`/`ci-blazor.yml` build this
 project.
 
 ## Themes
 
-Fourteen color palettes ship in the one `theme.css`, picked via `data-fa-palette` on
+`fa-styles.css` is **generated, not checked in** — edit
+`wwwroot/css/fa-styles.scss`/`wwwroot/css/scss/*.scss` instead, never
+`fa-styles.css` directly (it's gitignored; a stale hand-edit there just gets
+silently overwritten on the next build). `DartSassBuilder` (a build-time
+`PackageReference` in `FactoryAspects.csproj`, not a global CLI tool — nothing extra
+to install in CI) compiles `fa-styles.scss` to `fa-styles.css` on every `dotnet
+build`/`dotnet pack`, so the compiled file always ends up at
+`_content/FactoryAspects/css/fa-styles.css` for consumers to link. That compiled
+*filename* is the thing that can't change again without breaking every consumer's
+`<link>` — it was deliberately renamed once already (from an earlier `theme.css`,
+before this file was split into partials) specifically so it wouldn't need to be
+"theme" just because a theme/palette partial lives inside it; don't rename it again
+without a matching migration note in the docs.
+
+`wwwroot/css/scss/` holds one partial per component (`_buttons.scss`,
+`_date-picker.scss`, `_dropdown.scss`, ...), each named after — and scoped to — the
+same section boundaries the pre-split stylesheet used to have as comment headers,
+plus `_palettes.scss` (all fourteen palettes' color tokens — the actual "theme"
+partial), `_base.scss`, `_layout.scss` (page shells/header/footer/sidebar/theme-
+switcher chrome), `_utilities.scss`, and `_responsive.scss`. Partials are plain CSS
+content split by component, not by CSS property (no separate "all borders" or "all
+flexbox" file) — a component's full style stays in one file. They follow the
+standard Sass partial convention (underscore-prefixed, never compiled to their own
+`.css`); `fa-styles.scss` at the `wwwroot/css/` root `@use`s each one in source
+order and is the only file `FactoryAspects.csproj`'s explicit `<SassFile>` lists, so
+a partial can never accidentally get compiled standalone. Adding a new component's
+styles means adding its own `_name.scss` partial and one `@use` line in
+`fa-styles.scss`, not appending to an existing partial.
+
+**Splitting one file into many partials only stays safe if two things keep holding:**
+
+- **No selector is ever defined in more than one partial**, except `_responsive.scss`'s
+  `@media (max-width: 720px)` block intentionally re-declaring a handful of
+  selectors to override specific properties on small screens — that's normal
+  responsive cascading, not a conflict. Anything else with the same selector in two
+  files means whichever partial `fa-styles.scss` `@use`s last silently wins, and the
+  other partial's rule is dead code nobody will notice went stale. Before adding a
+  selector, check it doesn't already exist elsewhere (`grep -rn ".fa-whatever {"
+  wwwroot/css/scss/`).
+- **A value that's genuinely a cross-component standard — not a per-component
+  design choice — lives in exactly one `--fa-*` custom property, referenced with
+  `var(...)` everywhere it's used, never repeated as a literal.** Colors, radii, and
+  font already worked this way from the start (`_palettes.scss`'s `:root` block);
+  `--fa-border-width` (`2px`), `--fa-transition-fast` (`0.15s ease`, hover/focus
+  color changes), and `--fa-transition-medium` (`0.2s ease`, size/layout changes)
+  were added the same way after an audit found those three literal values repeated
+  verbatim 20+ times each across partials — changing "the standard border weight"
+  now means editing one line in `_palettes.scss`, not hunting down every occurrence.
+  **Padding/margin/gap values are deliberately NOT part of this** — every
+  component's spacing is hand-tuned to that component, not drawn from a shared
+  scale, so two components using different padding isn't drift to fix, it's the
+  design. Only add a token for a value that's supposed to be identical everywhere
+  it appears, not for reuse's own sake.
+
+Fourteen color palettes live in `_palettes.scss`, picked via `data-fa-palette` on
 `<html>` — a second, independent axis from the existing light/dark/colorblind
 `data-theme` mode switch, so every palette × mode combination needs its own dark-mode
 block (`:root[data-fa-palette="X"][data-theme="dark"]`, plus the
 `prefers-color-scheme` equivalent) rather than just a light-mode override. Colorblind
-mode stays palette-agnostic on purpose (see its comment in `theme.css`) — one
+mode stays palette-agnostic on purpose (see its comment in `_palettes.scss`) — one
 known-safe accent/danger substitution reused across every palette, not fourteen
 separate ones. The full palette list, and how a consumer picks one
 (`<PaletteSwitcher>`, `window.faSetPalette(...)`, or a build-time attribute), is
@@ -144,9 +204,9 @@ both mode blocks, and colorblind mode never gets a palette-specific variant.
 
 Each palette's color choices are worked out first in `.themes/` in this folder — a
 **gitignored**, local-only folder of Markdown design docs, not shipped in the package
-and not committed. Once a palette is wired into `theme.css`, `.themes/`'s copy of it
-is just historical design rationale, not the source of truth — `theme.css` is. Don't
-assume `.themes/` exists when cloning fresh elsewhere.
+and not committed. Once a palette is wired into `_palettes.scss`, `.themes/`'s copy
+of it is just historical design rationale, not the source of truth —
+`_palettes.scss` is. Don't assume `.themes/` exists when cloning fresh elsewhere.
 
 ## Components inventory
 
