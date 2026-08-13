@@ -42,6 +42,28 @@ No bound value — it's a container. `OnClose` fires when the backdrop or the he
 close button is clicked; it's up to you to flip `Show` back to `false` in response
 (or not, if you want to block the close).
 
+## Position, size, and closing
+
+```razor
+<FaModal Show="_show" Title="Filters" OnClose="() => _show = false"
+         Position="FaModalPosition.Right" Size="FaModalSize.Small"
+         ShowCloseButton="false" CloseOnBackdropClick="false">
+    ...
+    <FooterContent>
+        <FaButton OnClick="() => _show = false">Close</FaButton>
+    </FooterContent>
+</FaModal>
+```
+
+`ShowCloseButton="false"` + `CloseOnBackdropClick="false"` together means the only
+way out is whatever explicit action you put in `FooterContent` — useful for a form
+the user shouldn't be able to dismiss by an accidental outside click or the header ×.
+
+`FooterAlign` controls the footer button row's `justify-content` — `End` (the
+default, right-aligned) reads as the usual "Cancel / Confirm" placement; `Between`
+puts a destructive action on the left and Cancel/Confirm on the right without a
+manual spacer.
+
 ## Parameters
 
 | Parameter | Type | Notes |
@@ -51,5 +73,11 @@ close button is clicked; it's up to you to flip `Show` back to `false` in respon
 | `OnClose` | `EventCallback` | backdrop click or close button |
 | `ChildContent` | `RenderFragment?` | body |
 | `FooterContent` | `RenderFragment?` | optional footer (buttons, usually) |
+| `Position` | `FaModalPosition` | `Center` (default) \| `Top` \| `Bottom` \| `Left` \| `Right` |
+| `Size` | `FaModalSize` | `Small` \| `Medium` (default) \| `Large` |
+| `FooterAlign` | `FaAlign` | `Start` \| `Center` \| `End` (default) \| `Between` \| `Around` \| `Evenly` |
+| `ShowCloseButton` | `bool` | header × button, defaults to `true` |
+| `CloseOnBackdropClick` | `bool` | defaults to `true` |
+| `ResetOnClose` | `bool` | tear down/recreate ChildContent on every open instead of just hiding it, defaults to `false` |
 
 [← Back to index](index.md)

@@ -1,15 +1,60 @@
 /* ============================= Progress ============================= */
+/* Four fill directions, all sharing the same .fa-progress track + .fa-progress-bar
+   fill pair. Right/Down grow from the track's natural top-left origin, so the fill
+   just needs its own width/height (set inline per-instance by FaProgress). Left/Up
+   grow from the opposite edge instead, so the track becomes a flex container that
+   anchors the fill to that far edge — the fill's width/height still comes from the
+   same inline style, only which edge it's pinned to changes. */
 
 .fa-progress {
     background: var(--fa-border);
     border-radius: var(--fa-radius-sm);
-    height: 6px;
     overflow: hidden;
 }
 
 .fa-progress-bar {
-    height: 100%;
     background: var(--fa-accent);
-    transition: width var(--fa-transition-medium);
+    transition: width var(--fa-transition-medium), height var(--fa-transition-medium);
 }
 
+/* --- Horizontal: Right (default) fills left→right, Left fills right→left. --- */
+.fa-progress-right,
+.fa-progress-left {
+    height: 6px;
+    width: 100%;
+}
+
+.fa-progress-right .fa-progress-bar,
+.fa-progress-left .fa-progress-bar {
+    height: 100%;
+}
+
+.fa-progress-left {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* --- Vertical: Down (default direction of gravity) fills top→bottom, Up fills
+   bottom→top. Given no explicit height, a vertical track needs one to have
+   anything to grow inside — 120px is a reasonable default, override via CssClass. --- */
+.fa-progress-up,
+.fa-progress-down {
+    width: 6px;
+    height: 120px;
+}
+
+.fa-progress-up .fa-progress-bar,
+.fa-progress-down .fa-progress-bar {
+    width: 100%;
+}
+
+.fa-progress-up {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* --- Color variants, shared with the spinner/helix/pong loaders (_loaders.scss). --- */
+.fa-loader-primary .fa-progress-bar { background: var(--fa-primary); }
+.fa-loader-gold .fa-progress-bar { background: var(--fa-gold); }
+.fa-loader-danger .fa-progress-bar { background: var(--fa-ember); }

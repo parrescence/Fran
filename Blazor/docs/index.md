@@ -56,6 +56,21 @@ Two binding shapes show up repeatedly:
 
 - [FaTable](fa-table.md) — plain typed `<table>`, you own paging/filtering
 - [FaGrid](fa-grid.md) — a table with its own paging/rows-per-page/sort/filter, in-memory or provider-backed
+- [FaCarousel](fa-carousel.md) — one-slide-at-a-time slideshow, in-memory or provider-backed
+
+## Self-contained forms
+
+- [FaForm](fa-form.md) — wraps EditForm around your own field markup, returns the populated model on submit; `Mode` (Create/Edit) covers "new" vs "update"
+- [FaLoginForm](fa-login-form.md) — username/password + remember-me, emits an `FaLoginRequest`
+- [FaLogoutForm](fa-logout-form.md) — "are you sure?" confirm/cancel
+
+## Progress & loaders
+
+- [FaProgress](fa-progress.md) — filled track, 4 fill directions (Right/Left/Up/Down)
+- [FaSpinner](fa-spinner.md) — classic rotating ring
+- [FaLoadingDots](fa-loading-dots.md) — "Loading" with a growing/resetting ellipsis
+- [FaHelixLoader](fa-helix-loader.md) — twisting, breathing DNA-helix dots
+- [FaPongLoader](fa-pong-loader.md) — bouncing-ball Pong loader
 
 ## Layout & chrome
 

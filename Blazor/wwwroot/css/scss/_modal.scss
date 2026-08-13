@@ -17,6 +17,13 @@
     display: none;
 }
 
+/* --- FaModal.Position: which edge of the backdrop the dialog sits against, instead
+   of the default centered both axes. --- */
+.fa-modal-backdrop-top { align-items: flex-start; }
+.fa-modal-backdrop-bottom { align-items: flex-end; }
+.fa-modal-backdrop-left { justify-content: flex-start; }
+.fa-modal-backdrop-right { justify-content: flex-end; }
+
 .fa-modal {
     background: var(--fa-surface);
     border: var(--fa-border-width) solid var(--fa-border);
@@ -29,6 +36,10 @@
     flex-direction: column;
     overflow: hidden;
 }
+
+/* --- FaModal.Size: overrides the 520px default max-width above. --- */
+.fa-modal-sm { max-width: 360px; }
+.fa-modal-lg { max-width: 760px; }
 
 .fa-modal-header {
     display: flex;
@@ -62,9 +73,10 @@
     overflow-y: auto;
 }
 
+/* justify-content comes from the always-present .fa-align-* class (_utilities.scss,
+   FaModal.FooterAlign) rather than a hardcoded value here. */
 .fa-modal-footer {
     display: flex;
-    justify-content: flex-end;
     gap: 0.6rem;
     padding: 1rem 1.3rem;
     border-top: var(--fa-border-width) solid var(--fa-border);

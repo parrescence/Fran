@@ -427,6 +427,25 @@
       <ul>
         <li><a href="#fa-table">FaTable</a></li>
         <li><a href="#fa-grid">FaGrid</a></li>
+        <li><a href="#fa-carousel">FaCarousel</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Self-contained forms</div>
+      <ul>
+        <li><a href="#fa-form">FaForm</a></li>
+        <li><a href="#fa-login-form">FaLoginForm</a></li>
+        <li><a href="#fa-logout-form">FaLogoutForm</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Progress &amp; loaders</div>
+      <ul>
+        <li><a href="#fa-progress">FaProgress</a></li>
+        <li><a href="#fa-spinner">FaSpinner</a></li>
+        <li><a href="#fa-loading-dots">FaLoadingDots</a></li>
+        <li><a href="#fa-helix-loader">FaHelixLoader</a></li>
+        <li><a href="#fa-pong-loader">FaPongLoader</a></li>
       </ul>
     </div>
     <div class="nav-group">
@@ -726,6 +745,18 @@
 
       <p class="getting-value"><strong>Getting the value:</strong> no bound value. <code>OnClose</code> fires on backdrop click or the header's close button — you decide whether to actually flip <code>Show</code> back to false.</p>
 
+      <h3>Position, size, and closing</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaModal Show="_show" Title="Filters" OnClose="() =&gt; _show = false"
+         Position="FaModalPosition.Right" Size="FaModalSize.Small"
+         ShowCloseButton="false" CloseOnBackdropClick="false"&gt;
+    ...
+    &lt;FooterContent&gt;
+        &lt;FaButton OnClick="() =&gt; _show = false"&gt;Close&lt;/FaButton&gt;
+    &lt;/FooterContent&gt;
+&lt;/FaModal&gt;</code></pre></div>
+
+      <p class="getting-value"><code>ShowCloseButton="false"</code> + <code>CloseOnBackdropClick="false"</code> together means the only way out is an explicit action in <code>FooterContent</code>. <code>FooterAlign</code> controls the footer button row's justify-content — <code>Between</code> puts a destructive action on the left and Cancel/Confirm on the right without a manual spacer.</p>
+
       <h4>Parameters</h4>
       <div class="table-wrap">
         <table class="params">
@@ -735,6 +766,12 @@
           <tr><td><code>OnClose</code></td><td><code>EventCallback</code></td><td>backdrop click or close button</td></tr>
           <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>body</td></tr>
           <tr><td><code>FooterContent</code></td><td><code>RenderFragment?</code></td><td>optional footer</td></tr>
+          <tr><td><code>Position</code></td><td><code>FaModalPosition</code></td><td>Center (default) · Top · Bottom · Left · Right</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaModalSize</code></td><td>Small · Medium (default) · Large</td></tr>
+          <tr><td><code>FooterAlign</code></td><td><code>FaAlign</code></td><td>Start · Center · End (default) · Between · Around · Evenly</td></tr>
+          <tr><td><code>ShowCloseButton</code></td><td><code>bool</code></td><td>default true</td></tr>
+          <tr><td><code>CloseOnBackdropClick</code></td><td><code>bool</code></td><td>default true</td></tr>
+          <tr><td><code>ResetOnClose</code></td><td><code>bool</code></td><td>default false</td></tr>
         </table>
       </div>
     </section>
@@ -1380,6 +1417,305 @@
           <tr><td><code>SortKey</code></td><td><code>Func&lt;TItem, IComparable&gt;?</code></td><td>required if Sortable in Items mode; unused in provider mode</td></tr>
           <tr><td><code>FilterOptions</code></td><td><code>IReadOnlyList&lt;(string Key, string Label)&gt;?</code></td><td>"All" added automatically</td></tr>
           <tr><td><code>FilterPredicate</code></td><td><code>Func&lt;TItem, string, bool&gt;?</code></td><td>required if FilterOptions is set in Items mode; unused in provider mode</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaCarousel ============================= -->
+    <section class="component" id="fa-carousel">
+      <span class="kicker">Data display</span>
+      <h2>FaCarousel&lt;TItem&gt;</h2>
+      <p class="dek">One-slide-at-a-time slideshow with prev/next arrows and dot navigation. Same Items/ItemsProvider data-source split as FaGrid, just without paging.</p>
+
+      <h3>Usage — in-memory list</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaCarousel TItem="Product" Items="_products"&gt;
+    &lt;ItemTemplate Context="product"&gt;
+        &lt;img src="@product.PhotoUrl" alt="@product.Name" /&gt;
+        &lt;h4&gt;@product.Name&lt;/h4&gt;
+    &lt;/ItemTemplate&gt;
+&lt;/FaCarousel&gt;</code></pre></div>
+
+      <h3>Usage — async-fetched (a database/API call)</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaCarousel TItem="Product" ItemsProvider="LoadProductsAsync"&gt;
+    &lt;ItemTemplate Context="product"&gt;
+        &lt;img src="@product.PhotoUrl" alt="@product.Name" /&gt;
+    &lt;/ItemTemplate&gt;
+&lt;/FaCarousel&gt;
+
+@code {
+    private Task&lt;IReadOnlyList&lt;Product&gt;&gt; LoadProductsAsync() =&gt;
+        _productService.GetFeaturedAsync();
+}</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — it's a display component. For hand-authored slides not backed by a data object, use <code>IReadOnlyList&lt;RenderFragment&gt;</code> as TItem with <code>ItemTemplate="frag =&gt; frag"</code>.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Items</code></td><td><code>IReadOnlyList&lt;TItem&gt;?</code></td><td>exactly one of Items/ItemsProvider required</td></tr>
+          <tr><td><code>ItemsProvider</code></td><td><code>Func&lt;Task&lt;IReadOnlyList&lt;TItem&gt;&gt;&gt;?</code></td><td>exactly one of Items/ItemsProvider required</td></tr>
+          <tr><td><code>ItemTemplate</code></td><td><code>RenderFragment&lt;TItem&gt;</code></td><td class="req">required</td></tr>
+          <tr><td><code>ShowArrows</code></td><td><code>bool</code></td><td>default true</td></tr>
+          <tr><td><code>ShowDots</code></td><td><code>bool</code></td><td>default true</td></tr>
+          <tr><td><code>AutoPlay</code></td><td><code>bool</code></td><td>default false</td></tr>
+          <tr><td><code>AutoPlayIntervalMs</code></td><td><code>int</code></td><td>default 4000</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaForm ============================= -->
+    <section class="component" id="fa-form">
+      <span class="kicker">Self-contained forms</span>
+      <h2>FaForm&lt;TModel&gt;</h2>
+      <p class="dek">A self-contained wrapper around EditForm: hand it a model and your own field markup, it hands the populated model back via OnSubmit once validation passes.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaForm TModel="ProductModel" Model="_model" Mode="_mode"
+        OnSubmit="SaveAsync" OnCancel="() =&gt; _showModal = false" OnDelete="DeleteAsync"&gt;
+    &lt;FaInput TValue="string" @bind-Value="_model.Name" Label="Name" /&gt;
+    &lt;FaInput TValue="decimal" @bind-Value="_model.Price" Type="number" Step="0.01" Label="Price" /&gt;
+&lt;/FaForm&gt;
+
+@code {
+    private ProductModel _model = new();
+    private FaFormMode _mode = FaFormMode.Create;
+
+    private async Task SaveAsync(ProductModel model)
+    {
+        await _productService.SaveAsync(model);
+        _showModal = false;
+    }
+}</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> OnSubmit hands back the same TModel instance passed as Model — already populated, already past validation. No separate new-form/update-form component — Mode only changes the default submit-button text and whether Delete shows.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Model</code></td><td><code>TModel</code></td><td class="req">required</td></tr>
+          <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>your field markup</td></tr>
+          <tr><td><code>OnSubmit</code></td><td><code>EventCallback&lt;TModel&gt;</code></td><td>fires after validation passes</td></tr>
+          <tr><td><code>OnCancel</code></td><td><code>EventCallback</code></td><td>Cancel button only shows if this has a delegate</td></tr>
+          <tr><td><code>OnDelete</code></td><td><code>EventCallback</code></td><td>Delete button only shows with a delegate AND Mode is Edit</td></tr>
+          <tr><td><code>Mode</code></td><td><code>FaFormMode</code></td><td>Create (default) · Edit</td></tr>
+          <tr><td><code>SubmitText</code></td><td><code>string?</code></td><td>overrides the Mode-derived default</td></tr>
+          <tr><td><code>CancelText</code></td><td><code>string</code></td><td>default "Cancel"</td></tr>
+          <tr><td><code>DeleteText</code></td><td><code>string</code></td><td>default "Delete"</td></tr>
+          <tr><td><code>Busy</code></td><td><code>bool</code></td><td>disables Submit, "Saving…" text</td></tr>
+          <tr><td><code>ShowValidationSummary</code></td><td><code>bool</code></td><td>default true</td></tr>
+          <tr><td><code>ButtonAlign</code></td><td><code>FaAlign</code></td><td>Start · Center · End (default) · Between · Around · Evenly</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaLoginForm ============================= -->
+    <section class="component" id="fa-login-form">
+      <span class="kicker">Self-contained forms</span>
+      <h2>FaLoginForm</h2>
+      <p class="dek">A ready-made username/password login form. Owns its own credentials state, hands them to OnSubmit once submitted — it never calls an auth endpoint itself.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaLoginForm OnSubmit="LoginAsync" Busy="_busy" ErrorText="_errorText" /&gt;
+
+@code {
+    private bool _busy;
+    private string? _errorText;
+
+    private async Task LoginAsync(FaLoginRequest request)
+    {
+        _busy = true;
+        _errorText = null;
+        var result = await _authService.LoginAsync(request.Username, request.Password, request.RememberMe);
+        _busy = false;
+        if (!result.Success)
+        {
+            _errorText = "Incorrect username or password.";
+        }
+    }
+}</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> OnSubmit hands back an FaLoginRequest (Username, Password, RememberMe).</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>OnSubmit</code></td><td><code>EventCallback&lt;FaLoginRequest&gt;</code></td><td class="req">required</td></tr>
+          <tr><td><code>ShowRememberMe</code></td><td><code>bool</code></td><td>default true</td></tr>
+          <tr><td><code>Busy</code></td><td><code>bool</code></td><td>disables Submit, "Logging in…" text</td></tr>
+          <tr><td><code>ErrorText</code></td><td><code>string?</code></td><td>shows an FaAlert above the fields when set</td></tr>
+          <tr><td><code>UsernameLabel</code></td><td><code>string</code></td><td>default "Username"</td></tr>
+          <tr><td><code>PasswordLabel</code></td><td><code>string</code></td><td>default "Password"</td></tr>
+          <tr><td><code>SubmitText</code></td><td><code>string</code></td><td>default "Log in"</td></tr>
+          <tr><td><code>FooterContent</code></td><td><code>RenderFragment?</code></td><td>between fields and Submit — "Forgot password?", etc.</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaLogoutForm ============================= -->
+    <section class="component" id="fa-logout-form">
+      <span class="kicker">Self-contained forms</span>
+      <h2>FaLogoutForm</h2>
+      <p class="dek">A ready-made "are you sure you want to log out?" confirmation — a message and Confirm/Cancel buttons, nothing to fill in.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaModal Show="_showLogoutConfirm" Title="Log out" OnClose="() =&gt; _showLogoutConfirm = false"&gt;
+    &lt;FaLogoutForm OnConfirm="LogoutAsync" OnCancel="() =&gt; _showLogoutConfirm = false" Busy="_busy" /&gt;
+&lt;/FaModal&gt;
+
+@code {
+    private async Task LogoutAsync()
+    {
+        _busy = true;
+        await _authService.LogoutAsync();
+        _busy = false;
+        _showLogoutConfirm = false;
+    }
+}</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — OnConfirm is the signal to actually log out, OnCancel to back out.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>OnConfirm</code></td><td><code>EventCallback</code></td><td class="req">required</td></tr>
+          <tr><td><code>OnCancel</code></td><td><code>EventCallback</code></td><td>Cancel button only shows if this has a delegate</td></tr>
+          <tr><td><code>Message</code></td><td><code>string</code></td><td>default "Are you sure you want to log out?"</td></tr>
+          <tr><td><code>ConfirmText</code></td><td><code>string</code></td><td>default "Log out"</td></tr>
+          <tr><td><code>CancelText</code></td><td><code>string</code></td><td>default "Cancel"</td></tr>
+          <tr><td><code>Busy</code></td><td><code>bool</code></td><td>disables Confirm, "Logging out…" text</td></tr>
+          <tr><td><code>ButtonAlign</code></td><td><code>FaAlign</code></td><td>Start · Center · End (default) · Between · Around · Evenly</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaProgress ============================= -->
+    <section class="component" id="fa-progress">
+      <span class="kicker">Progress &amp; loaders</span>
+      <h2>FaProgress</h2>
+      <p class="dek">A filled track reporting how far along something is. <code>Direction</code> picks which edge the fill grows from — Right/Left horizontal, Up/Down vertical.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaProgress Value="@_uploadedBytes" Max="@_totalBytes" /&gt;
+
+&lt;FaProgress Value="65" Direction="FaProgressDirection.Up" /&gt;
+
+&lt;FaProgress Value="@_budgetSpent" Max="@_budgetLimit"
+            Variant="@(_budgetSpent &gt; _budgetLimit ? FaLoaderVariant.Danger : FaLoaderVariant.Accent)" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — it's a plain display of whatever <code>Value</code>/<code>Max</code> you pass in.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Value</code></td><td><code>double</code></td><td></td></tr>
+          <tr><td><code>Max</code></td><td><code>double</code></td><td>defaults to 100</td></tr>
+          <tr><td><code>Direction</code></td><td><code>FaProgressDirection</code></td><td>Right (default) · Left · Up · Down</td></tr>
+          <tr><td><code>Variant</code></td><td><code>FaLoaderVariant</code></td><td>Accent (default) · Primary · Gold · Danger</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td>vertical tracks default to 120px tall</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaSpinner ============================= -->
+    <section class="component" id="fa-spinner">
+      <span class="kicker">Progress &amp; loaders</span>
+      <h2>FaSpinner</h2>
+      <p class="dek">The classic rotating-ring spinner — a button's busy state, a panel waiting on data.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaSpinner /&gt;
+
+&lt;FaSpinner Size="16px" Variant="FaLoaderVariant.Primary" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> purely presentational — nothing to read back.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Size</code></td><td><code>string</code></td><td>any CSS size, defaults to "24px"</td></tr>
+          <tr><td><code>Variant</code></td><td><code>FaLoaderVariant</code></td><td>Accent (default) · Primary · Gold · Danger</td></tr>
+          <tr><td><code>Label</code></td><td><code>string</code></td><td>aria-label, defaults to "Loading"</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaLoadingDots ============================= -->
+    <section class="component" id="fa-loading-dots">
+      <span class="kicker">Progress &amp; loaders</span>
+      <h2>FaLoadingDots</h2>
+      <p class="dek">"Loading" with a trailing ellipsis that grows one dot at a time then snaps back and repeats — for places a spinner would feel too heavy.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaLoadingDots /&gt;
+
+&lt;FaLoadingDots Text="Saving" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> purely presentational — nothing to read back.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Text</code></td><td><code>string</code></td><td>defaults to "Loading"</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaHelixLoader ============================= -->
+    <section class="component" id="fa-helix-loader">
+      <span class="kicker">Progress &amp; loaders</span>
+      <h2>FaHelixLoader</h2>
+      <p class="dek">A DNA-helix-style loader: dot-pair "rungs" that twist in opposite phase, staggered down the row, while the whole loader breathes in and out.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaHelixLoader /&gt;
+
+&lt;FaHelixLoader RungCount="3" Variant="FaLoaderVariant.Primary" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> purely presentational — nothing to read back.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>RungCount</code></td><td><code>int</code></td><td>defaults to 5, clamped to 1–6</td></tr>
+          <tr><td><code>Variant</code></td><td><code>FaLoaderVariant</code></td><td>Accent (default) · Primary · Gold · Danger</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================= FaPongLoader ============================= -->
+    <section class="component" id="fa-pong-loader">
+      <span class="kicker">Progress &amp; loaders</span>
+      <h2>FaPongLoader</h2>
+      <p class="dek">A miniature game of Pong as a loading indicator — a ball bounces around the court while the two paddles bob up and down, out of phase.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPongLoader /&gt;
+
+&lt;FaPongLoader Variant="FaLoaderVariant.Gold" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> purely presentational — nothing to read back.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Variant</code></td><td><code>FaLoaderVariant</code></td><td>Accent (default) · Primary · Gold · Danger</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
     </section>

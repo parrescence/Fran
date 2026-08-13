@@ -37,6 +37,16 @@
 .fa-text-center { text-align: center; }
 .fa-text-danger { color: var(--fa-ember); }
 
+/* --- justify-content alignment for a flex button row — FaAlign, shared by
+   FaModal's footer and FaForm/FaLogoutForm's action bar (Rendering/FaAlignClassNames.cs
+   maps the enum to these). --- */
+.fa-align-start { justify-content: flex-start; }
+.fa-align-center { justify-content: center; }
+.fa-align-end { justify-content: flex-end; }
+.fa-align-between { justify-content: space-between; }
+.fa-align-around { justify-content: space-around; }
+.fa-align-evenly { justify-content: space-evenly; }
+
 .fa-display {
     font-size: 2.5rem;
     font-weight: 700;
