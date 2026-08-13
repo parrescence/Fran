@@ -1,0 +1,61 @@
+﻿@page "/"
+
+<PageTitle>FactoryAspects Showcase</PageTitle>
+
+<h1>FactoryAspects Showcase</h1>
+<p class="fa-mb-4">
+    A live, in-repo demo of the <code>Blazor/</code> style library — every component,
+    rendered for real, with the actual markup used to produce it. This app isn't
+    published anywhere yet; you're looking at it by pulling this branch and running
+    it locally (see <code>Showcase/README.md</code>).
+</p>
+
+<FaCard CssClass="fa-mb-3">
+    <h3>How this app is wired up</h3>
+    <p>
+        This client references <code>Blazor/FactoryAspects.csproj</code> directly via
+        <code>&lt;ProjectReference&gt;</code> — not the published GitHub Packages
+        package — so it always shows whatever's currently on this branch, including
+        in-progress work. A real consumer app outside this repo installs the package
+        instead; see <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/install.md" target="_blank">Blazor/docs/install.md</a>
+        for that path.
+    </p>
+    <p>
+        <code>Showcase.Web.Api</code> is a small local-only API (in-memory sample
+        data, no auth, no database) that backs the "pulled from the database" demos —
+        <code>FaGrid</code>'s <code>ItemsProvider</code>, <code>FaCarousel</code>'s
+        <code>ItemsProvider</code>, and <code>FaLoginForm</code>'s <code>OnSubmit</code>.
+        Everything else on these pages runs entirely client-side.
+    </p>
+</FaCard>
+
+<div class="fa-row fa-gap-3">
+    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/buttons-feedback"))">
+        <h4>Buttons &amp; feedback</h4>
+        <p>FaButton, FaCard, FaAlert, FaBadge, FaAvatar, FaModal</p>
+    </FaCard>
+    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/form-fields"))">
+        <h4>Form fields</h4>
+        <p>FaInput, FaSelect, FaSearchSelect, FaDropdown, FaTextarea, FaCheckbox, FaRadioGroup, FaToggle, FaDatePicker, FaDateRange, FaCurrency, FaFile</p>
+    </FaCard>
+    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/data-display"))">
+        <h4>Data display</h4>
+        <p>FaTable, FaGrid, FaCarousel — in-memory and provider-backed</p>
+    </FaCard>
+    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/forms"))">
+        <h4>Self-contained forms</h4>
+        <p>FaForm, FaLoginForm, FaLogoutForm</p>
+    </FaCard>
+    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/progress-loaders"))">
+        <h4>Progress &amp; loaders</h4>
+        <p>FaProgress, FaSpinner, FaLoadingDots, FaHelixLoader, FaPongLoader</p>
+    </FaCard>
+    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/layout-chrome"))">
+        <h4>Layout, chrome &amp; icons</h4>
+        <p>Layout shells, ThemeSwitcher, PaletteSwitcher, the full FaIcon set</p>
+    </FaCard>
+</div>
+
+@code {
+    [Inject] private Microsoft.AspNetCore.Components.NavigationManager Nav { get; set; } = default!;
+}

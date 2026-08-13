@@ -1,0 +1,129 @@
+﻿@page "/data-display"
+@inject HttpClient Http
+
+<PageTitle>Data display — FactoryAspects Showcase</PageTitle>
+
+<h1>Data display</h1>
+
+<h2>FaTable</h2>
+<p>Plain display — no paging/sorting/filtering.</p>
+<FaTable Columns="_tableColumns" Rows="_tableRows" />
+
+<h2 class="fa-mt-5">FaGrid — <code>Items</code> (in-memory)</h2>
+<p>Client-side paging/sort/filter over a local list.</p>
+<FaGrid TItem="Product" Items="_localProducts" Columns="_gridColumns" PageSize="5" />
+
+<h2 class="fa-mt-5">FaGrid — <code>ItemsProvider</code> (from the database)</h2>
+<p>
+    Every page/sort/filter change calls <code>GET /api/products/page</code> on
+    <code>Showcase.Web.Api</code> — a real HTTP round trip, not a local list.
+</p>
+<FaGrid TItem="Product" ItemsProvider="LoadProductPageAsync" Columns="_gridColumns" PageSize="5" />
+
+<h2 class="fa-mt-5">FaCarousel — <code>Items</code> (in-memory)</h2>
+<FaCarousel TItem="Product" Items="_localProducts">
+    <ItemTemplate Context="product">
+        <div style="padding: 1rem;">
+            <h3>@product.Name</h3>
+            <p>@product.Category · @product.Price.ToString("C")</p>
+            <FaBadge Variant="@(product.InStock ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
+                @(product.InStock ? "In stock" : "Out of stock")
+            </FaBadge>
+        </div>
+    </ItemTemplate>
+</FaCarousel>
+
+<h2 class="fa-mt-5">FaCarousel — <code>ItemsProvider</code> (from the database)</h2>
+<p>Fetched once from <code>GET /api/products</code> when the carousel first renders.</p>
+<FaCarousel TItem="Product" ItemsProvider="LoadAllProductsAsync" AutoPlay="true">
+    <ItemTemplate Context="product">
+        <div style="padding: 1rem;">
+            <h3>@product.Name</h3>
+            <p>@product.Category · @product.Price.ToString("C")</p>
+        </div>
+    </ItemTemplate>
+</FaCarousel>
+
+@code {
+    private sealed record Product(int Id, string Name, string Category, decimal Price, bool InStock);
+
+    private readonly List<Product> _localProducts = new()
+    {
+        new(1, "Trail Runner Jacket", "Apparel", 129.99m, true),
+        new(2, "Cedar Camp Mug", "Outdoor", 18.50m, true),
+        new(3, "Alpine Wool Socks", "Apparel", 14.00m, true),
+        new(4, "Folding Camp Stool", "Outdoor", 42.00m, false),
+        new(5, "Rain Shell, Packable", "Apparel", 89.00m, true),
+        new(6, "Titanium Spork", "Outdoor", 9.99m, true),
+        new(7, "Wool Beanie", "Apparel", 22.00m, true),
+    };
+
+    private List<string> _tableColumns = new() { "Name", "Category", "Status" };
+    private List<IReadOnlyDictionary<string, RenderFragment>> _tableRows = new();
+
+    private IReadOnlyList<FaGridColumn<Product>> _gridColumns = null!;
+
+    protected override void OnInitialized()
+    {
+        foreach (var product in _localProducts)
+        {
+            _tableRows.Add(new Dictionary<string, RenderFragment>
+            {
+                ["Name"] = @<span>@product.Name</span>,
+                ["Category"] = @<span>@product.Category</span>,
+                ["Status"] = @<FaBadge Variant="@(product.InStock ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
+                                 @(product.InStock ? "In stock" : "Out of stock")
+                             </FaBadge>
+            });
+        }
+
+        _gridColumns = new[]
+        {
+            new FaGridColumn<Product>
+            {
+                Header = "Name",
+                Sortable = true,
+                SortKey = p => p.Name,
+                CellContent = p => @<span>@p.Name</span>
+            },
+            new FaGridColumn<Product>
+            {
+                Header = "Price",
+                Sortable = true,
+                SortKey = p => p.Price,
+                CellContent = p => @<span>@p.Price.ToString("C")</span>
+            },
+            new FaGridColumn<Product>
+            {
+                Header = "Status",
+                FilterOptions = new[] { ("in-stock", "In stock"), ("out-of-stock", "Out of stock") },
+                FilterPredicate = (p, key) => key == "in-stock" ? p.InStock : !p.InStock,
+                CellContent = p => @<FaBadge Variant="@(p.InStock ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
+                                       @(p.InStock ? "In stock" : "Out of stock")
+                                   </FaBadge>
+            }
+        };
+    }
+
+    private async Task<FaGridResult<Product>> LoadProductPageAsync(FaGridRequest request)
+    {
+        var statusFilter = request.Filters.GetValueOrDefault("Status");
+        var url = $"/api/products/page?pageIndex={request.PageIndex}&pageSize={request.PageSize}" +
+                   $"&sortKey={request.SortKey}&sortAscending={request.SortAscending}&statusFilter={statusFilter}";
+
+        var result = await Http.GetFromJsonAsync<ProductPageResult>(url);
+        return new FaGridResult<Product>
+        {
+            Items = result!.Items,
+            TotalCount = result.TotalCount
+        };
+    }
+
+    private async Task<IReadOnlyList<Product>> LoadAllProductsAsync()
+    {
+        var products = await Http.GetFromJsonAsync<List<Product>>("/api/products");
+        return products ?? new List<Product>();
+    }
+
+    private sealed record ProductPageResult(List<Product> Items, int TotalCount);
+}
