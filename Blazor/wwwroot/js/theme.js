@@ -12,8 +12,10 @@
     var PALETTE_STORAGE_KEY = 'fa-palette';
 
     function markActive(theme) {
-        // No stored theme means "following the OS", not "Light" specifically — leave
-        // every button unhighlighted rather than falsely claiming Light was chosen.
+        // No stored/attribute theme means "following the OS", not "Light"
+        // specifically — leave every button unhighlighted rather than falsely
+        // claiming Light was chosen. (Called with the already-resolved value —
+        // see the DOMContentLoaded handler below for where "resolved" comes from.)
         var buttons = document.querySelectorAll('[data-theme-btn]');
         for (var i = 0; i < buttons.length; i++) {
             var btn = buttons[i];
@@ -61,13 +63,35 @@
         syncPaletteSelects(palette);
     };
 
-    document.addEventListener('DOMContentLoaded', function () {
-        markActive(localStorage.getItem(THEME_STORAGE_KEY));
+    function syncAll() {
+        // Same fallback shape both times: a stored choice wins; failing that, an
+        // explicit attribute already on <html> (a consumer hardcoding
+        // "light"/"dark"/"colorblind", or a palette, at build time — install.md's
+        // palette "Option A") is real information and should be reflected too.
+        // Only genuinely absent-both — nothing stored, nothing on the attribute,
+        // CSS quietly following prefers-color-scheme on its own — stays ambiguous/
+        // unhighlighted for theme (palette has no such "follow the OS" concept).
+        markActive(localStorage.getItem(THEME_STORAGE_KEY) || document.documentElement.getAttribute('data-theme'));
 
         var storedPalette = localStorage.getItem(PALETTE_STORAGE_KEY);
         if (storedPalette) {
             document.documentElement.setAttribute('data-fa-palette', storedPalette);
         }
-        syncPaletteSelects(storedPalette);
-    });
+        syncPaletteSelects(storedPalette || document.documentElement.getAttribute('data-fa-palette'));
+    }
+
+    document.addEventListener('DOMContentLoaded', syncAll);
+
+    // Blazor (WASM or Server) mounts AppHeader's/PaletteSwitcher's actual DOM
+    // elements asynchronously — after the .NET runtime finishes booting and the
+    // component tree first renders, which is well after DOMContentLoaded already
+    // fired. The call above typically finds zero [data-theme-btn]/
+    // [data-palette-select] elements yet, since nothing's rendered them into the
+    // page at that point. This observer re-runs the same sync as Blazor's initial
+    // render actually lands, and stops itself after 10s regardless — plenty for
+    // even a slow WASM boot, and bounds the cost for a page that (unusually) never
+    // renders either component at all.
+    var initialMountObserver = new MutationObserver(syncAll);
+    initialMountObserver.observe(document.body, { childList: true, subtree: true });
+    setTimeout(function () { initialMountObserver.disconnect(); }, 10000);
 })();
