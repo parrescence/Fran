@@ -1,0 +1,70 @@
+/* ============================= Carousel ============================= */
+
+.fa-carousel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.fa-carousel-viewport {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--fa-radius-lg);
+    border: var(--fa-border-width) solid var(--fa-border);
+    background: var(--fa-surface);
+}
+
+.fa-carousel-slide {
+    animation: fa-carousel-fade 0.35s ease;
+}
+
+@keyframes fa-carousel-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Arrows are siblings of .fa-carousel-viewport (not children of it) so they sit on
+   top of the clipped viewport instead of being clipped by its overflow:hidden. */
+.fa-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    box-shadow: var(--fa-border-glow);
+    cursor: pointer;
+}
+
+    .fa-carousel-arrow:hover {
+        border-color: var(--fa-border-focus);
+    }
+
+.fa-carousel-arrow-prev { left: 0.6rem; }
+.fa-carousel-arrow-next { right: 0.6rem; }
+
+.fa-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.fa-carousel-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--fa-border);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.fa-carousel-dot-active {
+    background: var(--fa-accent);
+}
