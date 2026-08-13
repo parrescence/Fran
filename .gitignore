@@ -4,6 +4,13 @@ obj/
 *.user
 .vs/
 
+# Local-only editor/tooling config — machine-specific, not meant to be shared/
+# committed. Unanchored on purpose: matches at the repo root and inside every
+# project folder (Blazor/, Showcase/*, and any future one), not just the root.
+.claude/
+.vscode/
+.docs/
+
 # Packed output from local `dotnet pack` testing
 artifacts/
 *.nupkg
@@ -18,3 +25,30 @@ artifacts/
 # on every build/pack — edit the .scss sources, not this file. See Blazor/CLAUDE.md's
 # "Themes" section.
 Blazor/wwwroot/css/fa-styles.css
+
+# Secrets/credentials — none of these should ever be committed, wherever in the repo
+# they show up (root or any project folder). None currently exist tracked in this
+# repo; this is here so a real one never lands by accident, including future infra
+# (the planned Azure Static Web App deployment and whatever local/CI credentials
+# that ends up needing).
+.env
+.env.*
+*.pfx
+*.p12
+*.pem
+*.key
+*.publishsettings
+secrets.json
+appsettings.*.local.json
+appsettings.local.json
+local.settings.json
+
+# Azure/Terraform local state and CLI cache — credentials and environment-specific
+# state, never meant to be shared. No infra-as-code exists in this repo yet, but the
+# planned Azure Static Web App deployment (see Showcase/README.md) will likely add
+# some of this.
+.azure/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars

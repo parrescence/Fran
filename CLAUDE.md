@@ -24,6 +24,22 @@ folder owns everything specific to it: its own `README.md` (packed into that
 library's published artifact), `docs/`, `CLAUDE.md`, build/package config, and any
 local-only design-reference folders.
 
+## `Showcase/` — a demo consumer, not a library
+
+`Showcase/` holds `Showcase.Web.Client` (a standalone Blazor WebAssembly app) and
+`Showcase.Web.Api` (a small local-only ASP.NET Core Web API backing its
+"pulled from the database" demos) — an in-repo, live demo of every style library's
+components, referencing `Blazor/FactoryAspects.csproj` via `<ProjectReference>`
+rather than the published package, so it always reflects whatever's currently on
+the branch. See [`Showcase/README.md`](Showcase/README.md) for how to run it.
+
+It's a **consumer** of the libraries above, not one itself — it doesn't get its own
+`ci-<library>.yml`/`publish-<library>.yml` pair (nothing in it is published as a
+package) and isn't subject to a library's "no app-specific coupling" rule (the whole
+point of `Showcase.Web.Client` is to be a real, opinionated consumer app). Not
+deployed anywhere yet — no Azure Static Web App workflow, no hosting config — so for
+now it only runs by pulling the branch and running both projects locally.
+
 ## Branching: dev → test → main
 
 Three long-lived branches, one direction of flow, shared across every library in this
