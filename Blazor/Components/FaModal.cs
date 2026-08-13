@@ -20,6 +20,25 @@ public sealed class FaModal : ComponentBase
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public RenderFragment? FooterContent { get; set; }
 
+    /// <summary>Where the dialog sits within the backdrop. Defaults to centered.</summary>
+    [Parameter] public FaModalPosition Position { get; set; } = FaModalPosition.Center;
+
+    /// <summary>The dialog's max-width. Defaults to Medium — FaModal's original, only size before this parameter existed.</summary>
+    [Parameter] public FaModalSize Size { get; set; } = FaModalSize.Medium;
+
+    /// <summary>justify-content for the footer's button row. Defaults to End (flex-end) — FaModal's original, only alignment before this parameter existed.</summary>
+    [Parameter] public FaAlign FooterAlign { get; set; } = FaAlign.End;
+
+    /// <summary>
+    /// Whether the header's × button shows. Defaults to <c>true</c>. Set <c>false</c>
+    /// for a modal that can only be closed via a button inside <see
+    /// cref="FooterContent"/> invoking <see cref="OnClose"/> itself (or, if <see
+    /// cref="CloseOnBackdropClick"/> is also left <c>true</c>, by clicking outside it)
+    /// — e.g. when the header's real estate is better spent on something else and the
+    /// footer already has an explicit "Cancel"/"Close" action.
+    /// </summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
     /// <summary>
     /// Whether clicking the backdrop (outside the dialog) invokes <see cref="OnClose"/>.
     /// Defaults to <c>true</c>. Set <c>false</c> for flows that must stay open until the
@@ -41,6 +60,22 @@ public sealed class FaModal : ComponentBase
     private Task HandleBackdropClick() =>
         CloseOnBackdropClick ? OnClose.InvokeAsync() : Task.CompletedTask;
 
+    private string? PositionClass => Position switch
+    {
+        FaModalPosition.Top => "fa-modal-backdrop-top",
+        FaModalPosition.Bottom => "fa-modal-backdrop-bottom",
+        FaModalPosition.Left => "fa-modal-backdrop-left",
+        FaModalPosition.Right => "fa-modal-backdrop-right",
+        _ => null
+    };
+
+    private string? SizeClass => Size switch
+    {
+        FaModalSize.Small => "fa-modal-sm",
+        FaModalSize.Large => "fa-modal-lg",
+        _ => null
+    };
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         if (!Show && ResetOnClose)
@@ -49,7 +84,7 @@ public sealed class FaModal : ComponentBase
         }
 
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-modal-backdrop", Show ? null : "fa-modal-backdrop-hidden"));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-modal-backdrop", PositionClass, Show ? null : "fa-modal-backdrop-hidden"));
         builder.AddAttribute(2, "onclick", EventCallback.Factory.Create(this, HandleBackdropClick));
         if (!Show)
         {
@@ -57,7 +92,7 @@ public sealed class FaModal : ComponentBase
         }
 
         builder.OpenElement(4, "div");
-        builder.AddAttribute(5, "class", "fa-modal");
+        builder.AddAttribute(5, "class", CssClassNames.Combine("fa-modal", SizeClass));
         builder.AddEventStopPropagationAttribute(6, "onclick", true);
         builder.AddAttribute(8, "role", "dialog");
         builder.AddAttribute(9, "aria-modal", "true");
@@ -68,13 +103,16 @@ public sealed class FaModal : ComponentBase
         builder.AddAttribute(13, "class", "fa-modal-title");
         builder.AddContent(14, Title);
         builder.CloseElement();
-        builder.OpenElement(15, "button");
-        builder.AddAttribute(16, "type", "button");
-        builder.AddAttribute(17, "class", "fa-modal-close");
-        builder.AddAttribute(18, "aria-label", "Close");
-        builder.AddAttribute(19, "onclick", EventCallback.Factory.Create(this, () => OnClose.InvokeAsync()));
-        builder.AddContent(20, "×");
-        builder.CloseElement();
+        if (ShowCloseButton)
+        {
+            builder.OpenElement(15, "button");
+            builder.AddAttribute(16, "type", "button");
+            builder.AddAttribute(17, "class", "fa-modal-close");
+            builder.AddAttribute(18, "aria-label", "Close");
+            builder.AddAttribute(19, "onclick", EventCallback.Factory.Create(this, () => OnClose.InvokeAsync()));
+            builder.AddContent(20, "×");
+            builder.CloseElement();
+        }
         builder.CloseElement();
 
         builder.OpenElement(21, "div");
@@ -85,7 +123,7 @@ public sealed class FaModal : ComponentBase
         if (FooterContent is not null)
         {
             builder.OpenElement(24, "div");
-            builder.AddAttribute(25, "class", "fa-modal-footer");
+            builder.AddAttribute(25, "class", CssClassNames.Combine("fa-modal-footer", FaAlignClassNames.ToClass(FooterAlign)));
             builder.AddContent(26, FooterContent);
             builder.CloseElement();
         }
