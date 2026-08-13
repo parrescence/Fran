@@ -1,0 +1,58 @@
+﻿@page "/progress-loaders"
+
+<PageTitle>Progress & loaders — FactoryAspects Showcase</PageTitle>
+
+<h1>Progress &amp; loaders</h1>
+
+<h2>FaProgress</h2>
+<p>Four fill directions — drag the slider to see all of them move together.</p>
+<input type="range" min="0" max="100" @bind="_progressValue" @bind:event="oninput" class="fa-mb-3" />
+<div class="fa-row fa-gap-3" style="align-items: flex-end;">
+    <div>
+        <p>Right (default)</p>
+        <FaProgress Value="_progressValue" />
+    </div>
+    <div>
+        <p>Left</p>
+        <FaProgress Value="_progressValue" Direction="FaProgressDirection.Left" />
+    </div>
+    <div>
+        <p>Up</p>
+        <FaProgress Value="_progressValue" Direction="FaProgressDirection.Up" />
+    </div>
+    <div>
+        <p>Down</p>
+        <FaProgress Value="_progressValue" Direction="FaProgressDirection.Down" />
+    </div>
+    <div>
+        <p>Danger variant</p>
+        <FaProgress Value="_progressValue" Variant="FaLoaderVariant.Danger" />
+    </div>
+</div>
+
+<h2 class="fa-mt-5">FaSpinner</h2>
+<div class="fa-row fa-gap-3">
+    <FaSpinner />
+    <FaSpinner Size="16px" Variant="FaLoaderVariant.Primary" />
+    <FaSpinner Size="40px" Variant="FaLoaderVariant.Gold" />
+</div>
+
+<h2 class="fa-mt-5">FaLoadingDots</h2>
+<FaLoadingDots />
+<FaLoadingDots Text="Saving" />
+
+<h2 class="fa-mt-5">FaHelixLoader</h2>
+<div class="fa-row fa-gap-3">
+    <FaHelixLoader />
+    <FaHelixLoader RungCount="3" Variant="FaLoaderVariant.Primary" />
+</div>
+
+<h2 class="fa-mt-5">FaPongLoader</h2>
+<div class="fa-row fa-gap-3">
+    <FaPongLoader />
+    <FaPongLoader Variant="FaLoaderVariant.Gold" />
+</div>
+
+@code {
+    private double _progressValue = 45;
+}

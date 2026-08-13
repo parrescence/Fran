@@ -50,9 +50,18 @@ Same idea, plus a `Sidebar` render fragment — your app supplies its own nav me
     <Sidebar>
         <NavMenu /> @* your own nav links component *@
     </Sidebar>
-    @Body
+    <ChildContent>
+        @Body
+    </ChildContent>
 </SidebarShell>
 ```
+
+`<ChildContent>` has to be explicit here, not bare `@Body` — Razor only auto-maps
+unwrapped content to a component's `ChildContent` when that's the *only*
+`RenderFragment` parameter being used at that call site. `SidebarShell` also has
+`Sidebar` (and optionally `FooterContent`), so once `Sidebar` is in use, `ChildContent`
+needs its own tag too or the compiler rejects it (`RZ9996`). `StandardShell` (below)
+doesn't have this problem — it only has `ChildContent`, so bare content works fine.
 
 ## Using the pieces directly
 

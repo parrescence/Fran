@@ -15,7 +15,11 @@
     background: var(--fa-surface);
 }
 
+/* Horizontal padding clears the absolutely-positioned arrows (2.2rem wide, 0.6rem
+   from each edge — see .fa-carousel-arrow below) so slide content never sits under
+   them, whether or not a given carousel actually has ShowArrows on. */
 .fa-carousel-slide {
+    padding: 1.25rem 3.25rem;
     animation: fa-carousel-fade 0.35s ease;
 }
 
