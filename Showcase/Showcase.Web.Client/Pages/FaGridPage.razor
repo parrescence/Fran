@@ -51,6 +51,19 @@
     }
 }</code></div>
 
+<h2 class="fa-mt-5">Custom <code>LoadingContent</code></h2>
+<p>
+    The overlay shown while an <code>ItemsProvider</code> request is in flight
+    defaults to <code>FaLoadingDots</code> — pass <code>LoadingContent</code> to swap
+    in anything else, here an <code>FaSpinner</code>.
+</p>
+<FaGrid TItem="Product" ItemsProvider="LoadProductPageAsync" Columns="_gridColumns" PageSize="5">
+    <LoadingContent><FaSpinner /></LoadingContent>
+</FaGrid>
+<div class="fa-code-block"><code>&lt;FaGrid TItem="Product" ItemsProvider="LoadProductPageAsync" Columns="_columns" PageSize="5"&gt;
+    &lt;LoadingContent&gt;&lt;FaSpinner /&gt;&lt;/LoadingContent&gt;
+&lt;/FaGrid&gt;</code></div>
+
 @code {
     private sealed record Product(int Id, string Name, string Category, decimal Price, bool InStock);
 

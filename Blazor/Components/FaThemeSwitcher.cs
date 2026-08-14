@@ -13,7 +13,7 @@ namespace FactoryAspects.Components;
 /// anything this component tracks — there's nothing here for a re-render to get out of
 /// sync with.
 /// </summary>
-public sealed class ThemeSwitcher : ComponentBase
+public sealed class FaThemeSwitcher : ComponentBase
 {
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {

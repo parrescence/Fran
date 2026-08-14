@@ -63,7 +63,7 @@ live-app equivalent of `Blazor/.themes/` (gitignored, local-only design docs the
 one card per palette), and each `Pages/Palette<Name>.razor` mirrors its
 `<slug>.html` (every `--fa-*` token as a labeled swatch, light mode then dark-mode
 overrides). Purely a static reference display — it does not switch the app's own
-palette; that's what the sidebar's `<PaletteSwitcher>` is for. `PaletteCatalog.cs`
+palette; that's what the sidebar's `<FaPaletteSwitcher>` is for. `PaletteCatalog.cs`
 holds every palette's `Light`/`Dark` token dictionaries as literal hex copies of
 `_palettes.scss` (a live `var(--fa-*)` read only ever reflects whichever ONE palette
 is active on `<html>`, so previewing all of them side by side needs its own copy).
