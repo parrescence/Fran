@@ -1,16 +1,18 @@
-﻿@page "/"
+@page "/"
 
 <PageTitle>FactoryAspects Showcase</PageTitle>
 
 <h1>FactoryAspects Showcase</h1>
 <p class="fa-mb-4">
     A live, in-repo demo of the <code>Blazor/</code> style library — every component,
-    rendered for real, with the actual markup used to produce it. This app isn't
-    published anywhere yet; you're looking at it by pulling this branch and running
-    it locally (see <code>Showcase/README.md</code>).
+    rendered for real, with the actual markup used to produce it. One page per
+    component, grouped the same way as
+    <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/index.md" target="_blank">Blazor/docs/index.md</a>.
+    This app isn't published anywhere yet; you're looking at it by pulling this
+    branch and running it locally (see <code>Showcase/README.md</code>).
 </p>
 
-<FaCard CssClass="fa-mb-3">
+<FaCard CssClass="fa-mb-4">
     <h3>How this app is wired up</h3>
     <p>
         This client references <code>Blazor/FactoryAspects.csproj</code> directly via
@@ -29,33 +31,64 @@
     </p>
 </FaCard>
 
-<div class="fa-row fa-gap-3">
-    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/buttons-feedback"))">
-        <h4>Buttons &amp; feedback</h4>
-        <p>FaButton, FaCard, FaAlert, FaBadge, FaAvatar, FaModal</p>
-    </FaCard>
-    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/form-fields"))">
-        <h4>Form fields</h4>
-        <p>FaInput, FaSelect, FaSearchSelect, FaDropdown, FaTextarea, FaCheckbox, FaRadioGroup, FaToggle, FaDatePicker, FaDateRange, FaCurrency, FaFile</p>
-    </FaCard>
-    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/data-display"))">
-        <h4>Data display</h4>
-        <p>FaTable, FaGrid, FaCarousel — in-memory and provider-backed</p>
-    </FaCard>
-    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/forms"))">
-        <h4>Self-contained forms</h4>
-        <p>FaForm, FaLoginForm, FaLogoutForm</p>
-    </FaCard>
-    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/progress-loaders"))">
-        <h4>Progress &amp; loaders</h4>
-        <p>FaProgress, FaSpinner, FaLoadingDots, FaHelixLoader, FaPongLoader</p>
-    </FaCard>
-    <FaCard CssClass="fa-col-auto" Clickable="true" OnClick="@(() => Nav.NavigateTo("/layout-chrome"))">
-        <h4>Layout, chrome &amp; icons</h4>
-        <p>Layout shells, ThemeSwitcher, PaletteSwitcher, the full FaIcon set</p>
-    </FaCard>
-</div>
+<h2>Buttons &amp; feedback</h2>
+<ul class="fa-mb-4">
+    <li><a href="/fa-button">Buttons</a> <code>FaButton</code> — the standard button/link, 7 color variants</li>
+    <li><a href="/fa-card">Cards</a> <code>FaCard</code> — bordered, optionally clickable tile</li>
+    <li><a href="/fa-alert">Alerts</a> <code>FaAlert</code> — info/success/danger banner</li>
+    <li><a href="/fa-badge">Badges</a> <code>FaBadge</code> — small pill label</li>
+    <li><a href="/fa-avatar">Avatars</a> <code>FaAvatar</code> — photo or initials circle</li>
+    <li><a href="/fa-modal">Modals</a> <code>FaModal</code> — backdrop dialog, caller owns open/closed state</li>
+</ul>
 
-@code {
-    [Inject] private Microsoft.AspNetCore.Components.NavigationManager Nav { get; set; } = default!;
-}
+<h2>Form fields</h2>
+<ul class="fa-mb-4">
+    <li><a href="/fa-input">Text Input</a> <code>FaInput</code> — generic text/number field</li>
+    <li><a href="/fa-select">Select</a> <code>FaSelect</code> — plain <code>&lt;select&gt;</code>, options as child content</li>
+    <li><a href="/fa-search-select">Search Select</a> <code>FaSearchSelect</code> — type-to-search combobox over your own query function</li>
+    <li><a href="/fa-dropdown">Dropdown</a> <code>FaDropdown</code> — type-to-filter combobox over a local list, windowed to N visible rows</li>
+    <li><a href="/fa-textarea">Textarea</a> <code>FaTextarea</code> — multi-line text, optional maxlength counter</li>
+    <li><a href="/fa-checkbox">Checkbox</a> <code>FaCheckbox</code> — checkbox with a clickable label</li>
+    <li><a href="/fa-radio-group">Radio Group</a> <code>FaRadioGroup</code> — a group of radio buttons from a tuple list</li>
+    <li><a href="/fa-toggle">Toggle</a> <code>FaToggle</code> — segmented N-option switch, with an optional companion input</li>
+    <li><a href="/fa-date-picker">Date Picker</a> <code>FaDatePicker</code> — day/month/year fields + calendar popup</li>
+    <li><a href="/fa-date-range">Date Range</a> <code>FaDateRange</code> — linked From/To date fields</li>
+    <li><a href="/fa-currency">Currency Input</a> <code>FaCurrency</code> — formatted amount field</li>
+    <li><a href="/fa-file">File Upload</a> <code>FaFile</code> — file picker, optionally styled as a button</li>
+</ul>
+
+<h2>Data display</h2>
+<ul class="fa-mb-4">
+    <li><a href="/fa-table">Table</a> <code>FaTable</code> — plain typed <code>&lt;table&gt;</code>, you own paging/filtering</li>
+    <li><a href="/fa-grid">Data Grid</a> <code>FaGrid</code> — a table with its own paging/rows-per-page/sort/filter, in-memory or provider-backed</li>
+    <li><a href="/fa-carousel">Carousel</a> <code>FaCarousel</code> — one-slide-at-a-time slideshow, in-memory or provider-backed</li>
+</ul>
+
+<h2>Self-contained forms</h2>
+<ul class="fa-mb-4">
+    <li><a href="/fa-form">Form</a> <code>FaForm</code> — wraps EditForm around your own field markup, returns the populated model on submit</li>
+    <li><a href="/fa-login-form">Login Form</a> <code>FaLoginForm</code> — username/password + remember-me, emits an <code>FaLoginRequest</code></li>
+    <li><a href="/fa-logout-form">Logout Form</a> <code>FaLogoutForm</code> — "are you sure?" confirm/cancel</li>
+</ul>
+
+<h2>Progress &amp; loaders</h2>
+<ul class="fa-mb-4">
+    <li><a href="/fa-progress">Progress Bar</a> <code>FaProgress</code> — filled track, 4 fill directions</li>
+    <li><a href="/fa-spinner">Spinner</a> <code>FaSpinner</code> — classic rotating ring</li>
+    <li><a href="/fa-loading-dots">Loading Dots</a> <code>FaLoadingDots</code> — "Loading" with a growing/resetting ellipsis</li>
+    <li><a href="/fa-helix-loader">Helix Loader</a> <code>FaHelixLoader</code> — twisting, breathing DNA-helix dots</li>
+    <li><a href="/fa-pong-loader">Pong Loader</a> <code>FaPongLoader</code> — bouncing-ball Pong loader</li>
+</ul>
+
+<h2>Layout &amp; chrome</h2>
+<ul class="fa-mb-4">
+    <li><a href="/layout-shells">Layout Shells</a> — <code>StandardShell</code>/<code>SidebarShell</code> + <code>AppHeader</code>/<code>AppFooter</code>/<code>AppSidebar</code> (this whole app is the live demo)</li>
+    <li><a href="/theme-switcher">Theme Switcher</a> <code>ThemeSwitcher</code> — Light/Dark/Colorblind-safe buttons</li>
+    <li><a href="/palette-switcher">Palette Switcher</a> <code>PaletteSwitcher</code> — dropdown over all 23 color palettes</li>
+    <li><a href="/fa-icon">Icons</a> <code>FaIcon</code> — the hand-drawn SVG icon set</li>
+</ul>
+
+<h2>Palette</h2>
+<ul>
+    <li><a href="/palette">Palette</a> — every color token as a swatch per palette, light mode and dark-mode overrides both</li>
+</ul>

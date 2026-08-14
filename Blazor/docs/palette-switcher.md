@@ -2,7 +2,7 @@
 
 # PaletteSwitcher
 
-A single dropdown covering all fourteen color palettes. No parameters, no Blazor
+A single dropdown covering all twenty-three color palettes. No parameters, no Blazor
 state: picking an option calls `window.faSetPalette(...)` from `theme.js` directly
 (client-side only), and every `<PaletteSwitcher>` on the page stays in sync with
 whichever palette is actually active — including the one restored from

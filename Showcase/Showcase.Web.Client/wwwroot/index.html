@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- data-theme="light" is explicit on purpose, not left unset — unset falls back to
+     the OS's prefers-color-scheme (see theme.js), which would silently start this
+     showcase in dark mode on a dark-OS machine even though the whole point of
+     greece-aegean + the black-text override below is a light, airy default. The
+     early-restore script below still overrides both attributes once a returning
+     visitor has an actual saved preference. -->
+<html lang="en" data-fa-palette="greece-aegean" data-theme="light">
 
 <head>
     <meta charset="utf-8" />
@@ -24,6 +30,31 @@
          auto-injected by the RCL — every consumer adds these tags by hand. -->
     <link rel="stylesheet" href="_content/FactoryAspects/css/fa-styles.css" />
 
+    <!-- This app's own Blazor CSS-isolation bundle (every *.razor.css file's
+         scoped styles, e.g. Pages/Palette.razor.css) — like fa-styles.css above,
+         this isn't auto-injected into wwwroot/index.html by the build, it has to
+         be linked by hand. After fa-styles.css so this app's own page-level
+         styles can win at equal specificity. -->
+    <link rel="stylesheet" href="Showcase.Web.Client.styles.css" />
+
+    <!-- Showcase-only doc-page chrome (variant demos, class-name legends, code
+         blocks) shared across every component page — see wwwroot/css/showcase.css. -->
+    <link rel="stylesheet" href="css/showcase.css" />
+
+    <!-- Showcase-only override: greece-aegean's own --fa-text (#2b2a26) is already
+         a near-black warm gray, but this app specifically wants true black body
+         text. Same single-attribute selector as the library's own light-mode rule
+         (_palettes.scss), so it only overrides light/colorblind mode — coming
+         after fa-styles.css in the cascade is what lets it win at equal
+         specificity. Dark mode is untouched: its own two-attribute selector
+         (:root[data-fa-palette="greece-aegean"][data-theme="dark"]) already wins
+         on specificity and keeps its own light-on-dark text color. -->
+    <style>
+      :root[data-fa-palette="greece-aegean"] {
+        --fa-text: #000000;
+      }
+    </style>
+
     <link rel="preload" id="webassembly" />
     <script type="importmap"></script>
 </head>
@@ -45,6 +76,7 @@
 
     <script src="_content/FactoryAspects/js/theme.js"></script>
     <script src="_content/FactoryAspects/js/sidebar.js"></script>
+    <script src="js/palette-preview.js"></script>
     <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
 </body>
 

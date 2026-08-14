@@ -1,0 +1,140 @@
+@* Reused by each Palette/<slug>.razor thin page — the live-app equivalent of one
+   Blazor/.themes/<slug>.html swatch sheet: every --fa-* token for this palette,
+   grouped and labeled the same way, light mode then dark-mode overrides. Purely a
+   static reference display — it does NOT switch the app to this palette (that's
+   what the sidebar's <PaletteSwitcher> is for); this page exists so you can see
+   every color option a palette has without having to select it first. *@
+
+<PageTitle>@_entry.Title — FactoryAspects Showcase</PageTitle>
+
+<p><a href="/palette">← Back to all palettes</a></p>
+
+<h1>@_entry.Title</h1>
+<p class="fa-mb-4">@_entry.Blurb</p>
+
+<h2>Light mode</h2>
+@foreach (var group in _lightGroups)
+{
+    <section class="palette-group">
+        <h3>@group.Title</h3>
+        <div class="palette-row">
+            @foreach (var swatch in group.Swatches)
+            {
+                <div class="palette-swatch" style="background:@swatch.Hex; color:@ContrastColor(swatch.Hex)">
+                    <div class="palette-swatch-label">@swatch.Label</div>
+                    <div class="palette-swatch-var">--fa-@swatch.Var</div>
+                    <div class="palette-swatch-hex">@swatch.Hex</div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+<h2 class="fa-mt-5">Dark mode overrides</h2>
+<p class="fa-mb-3">Only the tokens dark mode actually redefines — everything else carries over from light mode above.</p>
+@foreach (var group in _darkGroups)
+{
+    <section class="palette-group">
+        <h3>@group.Title</h3>
+        <div class="palette-row">
+            @foreach (var swatch in group.Swatches)
+            {
+                <div class="palette-swatch" style="background:@swatch.Hex; color:@ContrastColor(swatch.Hex)">
+                    <div class="palette-swatch-var">--fa-@swatch.Var</div>
+                    <div class="palette-swatch-hex">@swatch.Hex</div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@code {
+    [Parameter, EditorRequired] public string Slug { get; set; } = "";
+
+    private PaletteCatalog.Entry _entry = null!;
+
+    private sealed record Swatch(string Label, string Var, string Hex);
+    private sealed record SwatchGroup(string Title, Swatch[] Swatches);
+
+    private SwatchGroup[] _lightGroups = Array.Empty<SwatchGroup>();
+    private SwatchGroup[] _darkGroups = Array.Empty<SwatchGroup>();
+
+    // Readable labels for each --fa-* token, matching Blazor/.themes/<slug>.html's
+    // generic (non-poetic) categories — Primary/Gold/Accent/Danger's own per-palette
+    // color names live in _palettes.scss's inline comments, not duplicated here.
+    private static readonly IReadOnlyDictionary<string, string> Labels = new Dictionary<string, string>
+    {
+        ["primary"] = "Primary",
+        ["primary-dark"] = "Primary, darker",
+        ["primary-light"] = "Primary, lighter",
+        ["glow"] = "Glow",
+        ["gold"] = "Gold",
+        ["accent"] = "Accent",
+        ["accent-dark"] = "Accent, darker",
+        ["ember"] = "Danger",
+        ["wine"] = "Danger, darker",
+        ["fir"] = "Deep neutral anchor",
+        ["cream"] = "Page background",
+        ["surface"] = "Card/input surface",
+        ["footer"] = "Footer",
+        ["text"] = "Body text",
+        ["text-muted"] = "Muted text",
+        ["text-on-primary"] = "Text on primary",
+        ["border"] = "Default border",
+        ["border-focus"] = "Border on focus",
+        ["alert-danger-bg"] = "Danger alert bg",
+        ["alert-success-bg"] = "Success alert bg",
+        ["alert-info-bg"] = "Info alert bg",
+    };
+
+    protected override void OnParametersSet()
+    {
+        _entry = PaletteCatalog.Get(Slug);
+
+        Swatch Sw(string key) => new(Labels[key], key, _entry.Light[key]);
+        Swatch DarkSw(string key) => new(Labels[key], key, _entry.Dark[key]);
+
+        _lightGroups = new[]
+        {
+            new SwatchGroup("Primary", new[] { Sw("primary"), Sw("primary-dark"), Sw("primary-light"), Sw("glow") }),
+            new SwatchGroup("Gold", new[] { Sw("gold") }),
+            new SwatchGroup("Accent", new[] { Sw("accent"), Sw("accent-dark") }),
+            new SwatchGroup("Danger", new[] { Sw("ember"), Sw("wine") }),
+            new SwatchGroup("Neutral / dark anchor", new[] { Sw("fir") }),
+            new SwatchGroup("Backgrounds", new[] { Sw("cream"), Sw("surface"), Sw("footer") }),
+            new SwatchGroup("Text", new[] { Sw("text"), Sw("text-muted"), Sw("text-on-primary") }),
+            new SwatchGroup("Borders", new[] { Sw("border"), Sw("border-focus") }),
+            new SwatchGroup("Alert backgrounds", new[] { Sw("alert-danger-bg"), Sw("alert-success-bg"), Sw("alert-info-bg") }),
+        };
+
+        _darkGroups = new[]
+        {
+            new SwatchGroup("Primary", new[] { DarkSw("primary-dark") }),
+            new SwatchGroup("Accent", new[] { DarkSw("accent-dark") }),
+            new SwatchGroup("Backgrounds", new[] { DarkSw("cream"), DarkSw("surface"), DarkSw("footer") }),
+            new SwatchGroup("Text", new[] { DarkSw("text"), DarkSw("text-muted") }),
+            new SwatchGroup("Borders", new[] { DarkSw("border"), DarkSw("border-focus") }),
+            new SwatchGroup("Alert backgrounds", new[] { DarkSw("alert-danger-bg"), DarkSw("alert-success-bg"), DarkSw("alert-info-bg") }),
+        };
+    }
+
+    // Simple relative-luminance threshold so each swatch's own label/var/hex text
+    // stays readable regardless of how light or dark that particular color is —
+    // same purpose as Blazor/.themes/*.html's hand-picked per-swatch text color,
+    // just computed instead of hand-picked. rgba(...) alert-bg values (dark mode)
+    // are semi-transparent over a dark page, so those always read light text.
+    private static string ContrastColor(string hex)
+    {
+        if (!hex.StartsWith("#") || hex.Length < 7)
+        {
+            return "#ffffff";
+        }
+
+        var r = Convert.ToInt32(hex.Substring(1, 2), 16);
+        var g = Convert.ToInt32(hex.Substring(3, 2), 16);
+        var b = Convert.ToInt32(hex.Substring(5, 2), 16);
+        var luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+        return luminance > 0.6 ? "#1a1a1a" : "#ffffff";
+    }
+}

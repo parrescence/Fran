@@ -1,0 +1,76 @@
+@page "/fa-modal"
+
+<PageTitle>Modals — FactoryAspects Showcase</PageTitle>
+
+<h1>Modals</h1>
+<p class="fa-mb-4">
+    <code>FaModal</code>. Full parameter reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/fa-modal.md" target="_blank">Blazor/docs/fa-modal.md</a>.
+    Caller owns the open/closed state via <code>Show</code> — there's no internal visibility state to fight with.
+</p>
+
+<h2>Position &amp; size</h2>
+<div class="fa-demo-preview">
+    <FaButton OnClick="@(() => _showCenterModal = true)">Center · Medium</FaButton>
+    <FaButton OnClick="@(() => _showRightModal = true)">Right · Small · no backdrop close</FaButton>
+    <FaButton OnClick="@(() => _showLargeModal = true)">Large · Between-aligned footer</FaButton>
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Backdrop (default)</span><code>.fa-modal-backdrop</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Position="Right"</span><code>.fa-modal-backdrop.fa-modal-backdrop-right</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Size="Small"</span><code>.fa-modal.fa-modal-sm</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Size="Large"</span><code>.fa-modal.fa-modal-lg</code></div>
+</div>
+
+<FaModal Show="_showCenterModal" Title="Confirm delete" OnClose="@(() => _showCenterModal = false)">
+    <ChildContent>
+        <p>Are you sure you want to delete this item? This can't be undone.</p>
+    </ChildContent>
+    <FooterContent>
+        <FaButton Variant="FaButtonVariant.Outline" OnClick="@(() => _showCenterModal = false)">Cancel</FaButton>
+        <FaButton Variant="FaButtonVariant.Danger" OnClick="@(() => _showCenterModal = false)">Delete</FaButton>
+    </FooterContent>
+</FaModal>
+
+<FaModal Show="_showRightModal" Title="Filters" OnClose="@(() => _showRightModal = false)"
+         Position="FaModalPosition.Right" Size="FaModalSize.Small"
+         ShowCloseButton="false" CloseOnBackdropClick="false">
+    <ChildContent>
+        <p>This modal can only be closed from its own footer button — the header × is
+           hidden and clicking the backdrop does nothing.</p>
+    </ChildContent>
+    <FooterContent>
+        <FaButton OnClick="@(() => _showRightModal = false)">Close</FaButton>
+    </FooterContent>
+</FaModal>
+
+<FaModal Show="_showLargeModal" Title="Archive item" OnClose="@(() => _showLargeModal = false)"
+         Size="FaModalSize.Large" FooterAlign="FaAlign.Between">
+    <ChildContent>
+        <p>FooterAlign="Between" puts a destructive action on the left and Cancel/Confirm on the right, no manual spacer needed.</p>
+    </ChildContent>
+    <FooterContent>
+        <FaButton Variant="FaButtonVariant.OutlineDanger" OnClick="@(() => _showLargeModal = false)">Delete instead</FaButton>
+        <div class="fa-row fa-gap-2">
+            <FaButton Variant="FaButtonVariant.Outline" OnClick="@(() => _showLargeModal = false)">Cancel</FaButton>
+            <FaButton OnClick="@(() => _showLargeModal = false)">Archive</FaButton>
+        </div>
+    </FooterContent>
+</FaModal>
+
+<div class="fa-code-block"><code>&lt;FaButton OnClick="@@(() => _showModal = true)"&gt;Delete&lt;/FaButton&gt;
+
+&lt;FaModal Show="_showModal" Title="Confirm delete" OnClose="@@(() => _showModal = false)"
+         Position="FaModalPosition.Right" Size="FaModalSize.Small"&gt;
+    &lt;ChildContent&gt;
+        &lt;p&gt;Are you sure?&lt;/p&gt;
+    &lt;/ChildContent&gt;
+    &lt;FooterContent&gt;
+        &lt;FaButton Variant="FaButtonVariant.Danger" OnClick="@@(() => _showModal = false)"&gt;Delete&lt;/FaButton&gt;
+    &lt;/FooterContent&gt;
+&lt;/FaModal&gt;</code></div>
+
+@code {
+    private bool _showCenterModal;
+    private bool _showRightModal;
+    private bool _showLargeModal;
+}

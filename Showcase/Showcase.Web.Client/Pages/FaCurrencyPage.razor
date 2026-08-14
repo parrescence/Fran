@@ -1,0 +1,30 @@
+@page "/fa-currency"
+
+<PageTitle>Currency Input — FactoryAspects Showcase</PageTitle>
+
+<h1>Currency Input</h1>
+<p class="fa-mb-4">
+    <code>FaCurrency</code>. Full parameter reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/fa-currency.md" target="_blank">Blazor/docs/fa-currency.md</a>.
+    <code>InputBase&lt;TValue&gt;</code>-derived — only works inside an <code>&lt;EditForm&gt;</code>.
+</p>
+
+<EditForm Model="_model" class="fa-form">
+    <FaCurrency @bind-Value="_model.Budget" Label="Budget" Min="0" />
+</EditForm>
+<p>Value: <FaBadge>@(_model.Budget?.ToString("C") ?? "(none)")</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-field</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Input</span><code>.fa-input.fa-currency-input</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;EditForm Model="_model"&gt;
+    &lt;FaCurrency @@bind-Value="_model.Budget" Label="Budget" Min="0" /&gt;
+&lt;/EditForm&gt;</code></div>
+
+@code {
+    private class DemoModel
+    {
+        public decimal? Budget { get; set; }
+    }
+
+    private DemoModel _model = new();
+}
