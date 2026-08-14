@@ -1,4 +1,8 @@
-﻿<div class="fa-my-2">
+@* One link per component, grouped the same way Blazor/docs/index.md groups its
+   one-page-per-component docs — <details>/<summary> disclosure groups, plain HTML,
+   no JS needed. *@
+
+<div class="fa-my-2">
     <PaletteSwitcher />
 </div>
 
@@ -7,37 +11,95 @@
     <span class="fa-sidebar-link-text">Overview</span>
 </NavLink>
 
-<NavLink class="fa-sidebar-link" href="/buttons-feedback" data-tooltip="Buttons & feedback">
-    <FaIcon Name="FaIconName.Tag" CssClass="fa-nav-icon" />
-    <span class="fa-sidebar-link-text">Buttons &amp; feedback</span>
-</NavLink>
+<details class="fa-nav-group" open>
+    <summary>Buttons &amp; feedback</summary>
+    <NavLink class="fa-sidebar-link" href="/fa-button">Buttons</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-card">Cards</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-alert">Alerts</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-badge">Badges</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-avatar">Avatars</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-modal">Modals</NavLink>
+</details>
 
-<NavLink class="fa-sidebar-link" href="/form-fields" data-tooltip="Form fields">
-    <FaIcon Name="FaIconName.Edit" CssClass="fa-nav-icon" />
-    <span class="fa-sidebar-link-text">Form fields</span>
-</NavLink>
+<details class="fa-nav-group">
+    <summary>Form fields</summary>
+    <NavLink class="fa-sidebar-link" href="/fa-input">Text Input</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-select">Select</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-search-select">Search Select</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-dropdown">Dropdown</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-textarea">Textarea</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-checkbox">Checkbox</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-radio-group">Radio Group</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-toggle">Toggle</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-date-picker">Date Picker</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-date-range">Date Range</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-currency">Currency Input</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-file">File Upload</NavLink>
+</details>
 
-<NavLink class="fa-sidebar-link" href="/data-display" data-tooltip="Data display">
-    <FaIcon Name="FaIconName.Dashboard" CssClass="fa-nav-icon" />
-    <span class="fa-sidebar-link-text">Data display</span>
-</NavLink>
+<details class="fa-nav-group">
+    <summary>Data display</summary>
+    <NavLink class="fa-sidebar-link" href="/fa-table">Table</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-grid">Data Grid</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-carousel">Carousel</NavLink>
+</details>
 
-<NavLink class="fa-sidebar-link" href="/forms" data-tooltip="Self-contained forms">
-    <FaIcon Name="FaIconName.Confirm" CssClass="fa-nav-icon" />
-    <span class="fa-sidebar-link-text">Self-contained forms</span>
-</NavLink>
+<details class="fa-nav-group">
+    <summary>Self-contained forms</summary>
+    <NavLink class="fa-sidebar-link" href="/fa-form">Form</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-login-form">Login Form</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-logout-form">Logout Form</NavLink>
+</details>
 
-<NavLink class="fa-sidebar-link" href="/progress-loaders" data-tooltip="Progress & loaders">
-    <FaIcon Name="FaIconName.Refresh" CssClass="fa-nav-icon" />
-    <span class="fa-sidebar-link-text">Progress &amp; loaders</span>
-</NavLink>
+<details class="fa-nav-group">
+    <summary>Progress &amp; loaders</summary>
+    <NavLink class="fa-sidebar-link" href="/fa-progress">Progress Bar</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-spinner">Spinner</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-loading-dots">Loading Dots</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-helix-loader">Helix Loader</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-pong-loader">Pong Loader</NavLink>
+</details>
 
-<NavLink class="fa-sidebar-link" href="/layout-chrome" data-tooltip="Layout, chrome & icons">
-    <FaIcon Name="FaIconName.Settings" CssClass="fa-nav-icon" />
-    <span class="fa-sidebar-link-text">Layout, chrome &amp; icons</span>
-</NavLink>
+<details class="fa-nav-group">
+    <summary>Layout &amp; chrome</summary>
+    <NavLink class="fa-sidebar-link" href="/layout-shells">Layout Shells</NavLink>
+    <NavLink class="fa-sidebar-link" href="/theme-switcher">Theme Switcher</NavLink>
+    <NavLink class="fa-sidebar-link" href="/palette-switcher">Palette Switcher</NavLink>
+    <NavLink class="fa-sidebar-link" href="/fa-icon">Icons</NavLink>
+</details>
 
 <NavLink class="fa-sidebar-link" href="/palette" data-tooltip="Palette">
     <FaIcon Name="FaIconName.Eye" CssClass="fa-nav-icon" />
     <span class="fa-sidebar-link-text">Palette</span>
 </NavLink>
+
+<style>
+    .fa-nav-group summary {
+        cursor: pointer;
+        padding: 0.4rem 0.6rem;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--fa-text-muted);
+        list-style: none;
+    }
+
+        .fa-nav-group summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .fa-nav-group summary::before {
+            content: "▸";
+            display: inline-block;
+            width: 1em;
+            transition: transform var(--fa-transition-fast);
+        }
+
+    .fa-nav-group[open] summary::before {
+        transform: rotate(90deg);
+    }
+
+    .fa-nav-group .fa-sidebar-link {
+        padding-left: 1.6rem;
+        font-size: 0.9rem;
+    }
+</style>

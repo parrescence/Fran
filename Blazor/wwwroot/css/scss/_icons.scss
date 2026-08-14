@@ -18,7 +18,13 @@
 }
 
 .fa-icon-black {
-    color: var(--fa-fir);
+    /* var(--fa-text), not var(--fa-fir) — --fa-fir is a fixed "deep neutral" hex
+       that no palette's dark-mode block ever redefines, so an icon colored from it
+       stayed a dark color even against a dark --fa-surface in dark mode and went
+       effectively invisible. --fa-text already flips light/dark correctly per
+       palette (every dark-mode block redefines it), so "black" icons now track
+       the theme instead of going dark-on-dark when the mode switches. */
+    color: var(--fa-text);
 }
 
 .fa-nav-icon {

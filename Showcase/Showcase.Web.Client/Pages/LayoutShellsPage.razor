@@ -1,0 +1,34 @@
+@page "/layout-shells"
+
+<PageTitle>Layout Shells — FactoryAspects Showcase</PageTitle>
+
+<h1>Layout Shells</h1>
+<p class="fa-mb-4">
+    <code>StandardShell</code> / <code>SidebarShell</code>. Full reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/layout-shells.md" target="_blank">Blazor/docs/layout-shells.md</a>.
+</p>
+
+<FaCard>
+    <p>
+        This whole app is already the live demo — <code>Layout/MainLayout.razor</code>
+        wraps every page in <code>&lt;SidebarShell&gt;</code>, with <code>Layout/NavMenu.razor</code>
+        as its <code>Sidebar</code> content. The header's theme switcher and the
+        sidebar's collapse toggle are the same <code>AppHeader</code>/<code>AppFooter</code>/
+        <code>AppSidebar</code> pieces a real consumer wires up via
+        <code>StandardShell</code>/<code>SidebarShell</code>.
+    </p>
+</FaCard>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Standard shell</span><code>.fa-shell.fa-shell-standard</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Sidebar shell</span><code>.fa-shell.fa-shell-sidebar</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Header</span><code>.fa-header</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Sidebar</span><code>.fa-sidebar</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Footer</span><code>.fa-footer</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;SidebarShell BrandText="My App" BrandHref="/"&gt;
+    &lt;Sidebar&gt;
+        &lt;NavMenu /&gt;
+    &lt;/Sidebar&gt;
+    &lt;ChildContent&gt;
+        @@Body
+    &lt;/ChildContent&gt;
+&lt;/SidebarShell&gt;</code></div>

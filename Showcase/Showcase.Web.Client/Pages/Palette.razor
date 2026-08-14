@@ -1,246 +1,37 @@
-﻿@page "/palette"
-@inject IJSRuntime JS
+@page "/palette"
+@using Showcase.Web.Client
 
 <PageTitle>Palette — FactoryAspects Showcase</PageTitle>
 
 <h1>Palette</h1>
 <p class="fa-mb-4">
-    Every color below is read live off the active <code>data-fa-palette</code> +
-    <code>data-theme</code> combination via <code>getComputedStyle</code> — switch
-    palette (sidebar) or mode (header) and both the swatches and the sample page
-    below update immediately, no reload. This showcase defaults to the
-    <code>greece-aegean</code> palette (light, airy — whitewash blue, sea foam,
-    limestone gold) with an app-level override forcing <code>--fa-text</code> to
-    true black in light/colorblind mode; see the comment in
-    <code>wwwroot/index.html</code>. Pick any of the other thirteen from the
-    sidebar's <code>&lt;PaletteSwitcher /&gt;</code> — the override is scoped to
-    <code>greece-aegean</code> only, so switching away from it shows that
-    palette's own default text color instead.
+    Twenty-three color palettes — the running-app equivalent of
+    <code>Blazor/.themes/</code>'s static <code>index.html</code>/<code>&lt;slug&gt;.html</code>
+    pair per palette (that folder is gitignored, local-only design reference).
+    Switching the app's actual palette is what the sidebar's
+    <code>&lt;PaletteSwitcher /&gt;</code> is for — this page just lets you preview
+    every palette's full set of colors first. Click a card to see every
+    <code>--fa-*</code> token it defines, light mode and dark-mode overrides both.
 </p>
 
-<h2>Color tokens</h2>
-<div class="palette-swatch-grid">
-    @foreach (var group in _swatchGroups)
+<div class="palette-index-grid">
+    @foreach (var entry in PaletteCatalog.All)
     {
-        <div class="palette-swatch-group">
-            <h3>@group.Title</h3>
-            <div class="palette-swatch-row">
-                @foreach (var (label, varName) in group.Swatches)
-                {
-                    <div class="palette-swatch" data-swatch="@varName">
-                        <div class="palette-swatch-block" style="background: var(@varName);"></div>
-                        <div class="palette-swatch-label">@label</div>
-                        <div class="palette-swatch-var">@varName</div>
-                        <div class="swatch-hex">…</div>
-                    </div>
-                }
+        <FaCard CssClass="palette-index-card" Clickable="true" OnClick="@(() => Nav.NavigateTo($"/palette/{entry.Slug}"))">
+            <div class="palette-index-strip">
+                <span style="background:@(entry.Light["primary"])"></span>
+                <span style="background:@(entry.Light["accent"])"></span>
+                <span style="background:@(entry.Light["ember"])"></span>
+                <span class="palette-index-strip-cream" style="background:@(entry.Light["cream"])"></span>
             </div>
-        </div>
+            <div class="palette-index-body">
+                <h3>@entry.Title</h3>
+                <p>@entry.Blurb</p>
+            </div>
+        </FaCard>
     }
 </div>
-
-<h2 class="fa-mt-5">Sample page</h2>
-<p>A small mocked-up page — not a real route — built entirely from FaButton/FaCard/FaAlert/FaBadge, so it's exactly what a consumer's own page looks like in this palette.</p>
-
-<div class="palette-sample-frame">
-    <div class="palette-sample-titlebar">
-        <span class="palette-sample-dot"></span>
-        <span class="palette-sample-dot"></span>
-        <span class="palette-sample-dot"></span>
-        <div class="palette-sample-url">https://example.com</div>
-    </div>
-
-    <div class="palette-sample-body">
-        <div class="palette-sample-header">
-            <strong>Acme Trailhead Co.</strong>
-            <nav class="palette-sample-nav">
-                <a href="#sample">Home</a>
-                <a href="#sample">Products</a>
-                <a href="#sample">About</a>
-                <a href="#sample">Contact</a>
-            </nav>
-            <FaButton Small="true">Sign up</FaButton>
-        </div>
-
-        <h2>Gear for wherever you're headed</h2>
-        <p>Trail-tested apparel and camp gear, built to last a few hundred miles past when it should've worn out.</p>
-        <div class="fa-row fa-gap-2 fa-mb-3">
-            <FaButton>Shop now</FaButton>
-            <FaButton Variant="FaButtonVariant.Outline">Learn more</FaButton>
-        </div>
-
-        <div class="fa-row fa-gap-3 fa-mb-3">
-            <FaCard CssClass="fa-col-auto">
-                <h4>Trail Runner Jacket</h4>
-                <p>$129.99</p>
-                <FaBadge Variant="FaBadgeVariant.Success">In stock</FaBadge>
-            </FaCard>
-            <FaCard CssClass="fa-col-auto">
-                <h4>Alpine Wool Socks</h4>
-                <p>$14.00</p>
-                <FaBadge Variant="FaBadgeVariant.Danger">Out of stock</FaBadge>
-            </FaCard>
-        </div>
-
-        <FaAlert Variant="FaAlertVariant.Info">Free shipping on orders over $75.</FaAlert>
-    </div>
-</div>
-
-<style>
-    .palette-swatch-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .palette-swatch-group h3 {
-        margin-bottom: 0.6rem;
-    }
-
-    .palette-swatch-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    .palette-swatch {
-        width: 130px;
-    }
-
-    .palette-swatch-block {
-        height: 60px;
-        border-radius: var(--fa-radius-md);
-        border: var(--fa-border-width) solid var(--fa-border);
-    }
-
-    .palette-swatch-label {
-        margin-top: 0.4rem;
-        font-weight: 600;
-        font-size: 0.85rem;
-    }
-
-    .palette-swatch-var,
-    .swatch-hex {
-        font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-        font-size: 0.72rem;
-        color: var(--fa-text-muted);
-    }
-
-    .palette-sample-frame {
-        border: var(--fa-border-width) solid var(--fa-border);
-        border-radius: var(--fa-radius-lg);
-        overflow: hidden;
-        box-shadow: var(--fa-border-glow);
-    }
-
-    .palette-sample-titlebar {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.6rem 0.9rem;
-        background: var(--fa-footer);
-        border-bottom: var(--fa-border-width) solid var(--fa-border);
-    }
-
-    .palette-sample-dot {
-        width: 0.6rem;
-        height: 0.6rem;
-        border-radius: 50%;
-        background: var(--fa-border);
-    }
-
-    .palette-sample-url {
-        margin-left: 0.6rem;
-        padding: 0.15rem 0.7rem;
-        border-radius: var(--fa-radius-pill);
-        background: var(--fa-surface);
-        color: var(--fa-text-muted);
-        font-size: 0.78rem;
-    }
-
-    .palette-sample-body {
-        padding: 1.5rem;
-        background: var(--fa-cream);
-        color: var(--fa-text);
-    }
-
-    .palette-sample-header {
-        display: flex;
-        align-items: center;
-        gap: 1.2rem;
-        padding-bottom: 1rem;
-        margin-bottom: 1.2rem;
-        border-bottom: var(--fa-border-width) solid var(--fa-border);
-    }
-
-    .palette-sample-nav {
-        display: flex;
-        gap: 1rem;
-        flex: 1;
-    }
-
-        .palette-sample-nav a {
-            color: var(--fa-text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-            .palette-sample-nav a:hover {
-                color: var(--fa-text);
-            }
-</style>
 
 @code {
-    private sealed record SwatchGroup(string Title, (string Label, string Var)[] Swatches);
-
-    private readonly SwatchGroup[] _swatchGroups =
-    {
-        new("Brand", new[]
-        {
-            ("Primary", "--fa-primary"),
-            ("Primary dark", "--fa-primary-dark"),
-            ("Primary light", "--fa-primary-light")
-        }),
-        new("Accent & gold", new[]
-        {
-            ("Accent", "--fa-accent"),
-            ("Accent dark", "--fa-accent-dark"),
-            ("Gold", "--fa-gold")
-        }),
-        new("Danger", new[]
-        {
-            ("Ember", "--fa-ember"),
-            ("Wine", "--fa-wine")
-        }),
-        new("Surfaces", new[]
-        {
-            ("Cream (page bg)", "--fa-cream"),
-            ("Surface (card/input bg)", "--fa-surface"),
-            ("Footer", "--fa-footer"),
-            ("Fir (deep neutral)", "--fa-fir")
-        }),
-        new("Text", new[]
-        {
-            ("Text", "--fa-text"),
-            ("Text muted", "--fa-text-muted"),
-            ("Text on primary", "--fa-text-on-primary")
-        }),
-        new("Borders", new[]
-        {
-            ("Border", "--fa-border"),
-            ("Border focus", "--fa-border-focus")
-        }),
-        new("Alert backgrounds", new[]
-        {
-            ("Danger bg", "--fa-alert-danger-bg"),
-            ("Success bg", "--fa-alert-success-bg"),
-            ("Info bg", "--fa-alert-info-bg")
-        })
-    };
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await JS.InvokeVoidAsync("showcasePalettePreview.fillSwatches");
-    }
+    [Inject] private Microsoft.AspNetCore.Components.NavigationManager Nav { get; set; } = default!;
 }

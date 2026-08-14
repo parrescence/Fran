@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Components.Rendering;
 namespace FactoryAspects.Components;
 
 /// <summary>
-/// A single dropdown covering all fourteen <c>data-fa-palette</c> values (see
+/// A single dropdown covering all twenty-three <c>data-fa-palette</c> values (see
 /// <c>theme.css</c>'s "Theme variants" section). A `&lt;select&gt;`, not a button row like
-/// <see cref="ThemeSwitcher"/> — fourteen options don't fit a pill row the way three modes
+/// <see cref="ThemeSwitcher"/> — twenty-three options don't fit a pill row the way three modes
 /// do. Deliberately no Blazor state or IJSRuntime here, same reasoning as
 /// <see cref="ThemeSwitcher"/>: <c>onchange</c> (lowercase, not <c>@onchange</c>) is a raw
 /// HTML attribute Blazor passes straight through, so picking an option calls the global
@@ -33,6 +33,15 @@ public sealed class PaletteSwitcher : ComponentBase
         ("china-cinnabar", "China — Cinnabar"),
         ("india-peacock", "India — Peacock"),
         ("cameroon-rainforest", "Cameroon — Rainforest"),
+        ("sahara-desert", "Sahara Desert"),
+        ("brazil-rainforest", "Brazil — Rainforest"),
+        ("brazil-favela", "Brazil — Favela"),
+        ("portugal-tiles", "Portugal — Tiles"),
+        ("spain-bullfighting", "Spain — Bullfighting"),
+        ("mexico-day-of-the-dead", "Mexico — Day of the Dead"),
+        ("london-life", "London Life"),
+        ("new-york-nightlife", "New York Nightlife"),
+        ("india-henna", "India — Henna"),
     ];
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)

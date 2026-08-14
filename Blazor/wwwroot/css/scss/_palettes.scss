@@ -66,7 +66,9 @@
       "southwest-summer" | "northeast-spring" | "midwest-winter" | "southeast-beach" |
       "greece-aegean" | "spain-flamenco" | "ireland-emerald" | "jamaica-blue-mountain" |
       "japan-indigo" | "korea-celadon" | "china-cinnabar" | "india-peacock" |
-      "cameroon-rainforest".
+      "cameroon-rainforest" | "sahara-desert" | "brazil-rainforest" | "brazil-favela" |
+      "portugal-tiles" | "spain-bullfighting" | "mexico-day-of-the-dead" |
+      "london-life" | "new-york-nightlife" | "india-henna".
       No attribute (or data-fa-palette="northwest-fall") means the :root defaults
       above. Toggle with window.faSetPalette(name) (js/theme.js — reads/writes
       localStorage the same way faSetTheme does).
@@ -414,6 +416,231 @@
     --fa-alert-info-bg: #dbe9ee;
 }
 
+:root[data-fa-palette="sahara-desert"] {
+    /* --- Sahara — dune ochre, desert-sun gold, sparse acacia-green accent, sirocco-dust danger. --- */
+    --fa-primary: #c17f2e; /* Sahara Dune Ochre */
+    --fa-primary-dark: #8a5920;
+    --fa-primary-light: #d9a866;
+    --fa-footer: #f0dfb8; /* Pale Dune Sand */
+    --fa-glow: #e0973a;
+    --fa-gold: #dba13a; /* Desert Sun Gold */
+    --fa-accent: #5c7a3a; /* Acacia Green */
+    --fa-accent-dark: #3f5527;
+    --fa-ember: #a8452e; /* Sirocco Dust Red */
+    --fa-wine: #5c2318;
+    --fa-fir: #2b2a3a; /* Desert Night Indigo */
+    --fa-cream: #f8f0e0;
+    --fa-surface: #fffaf0;
+    --fa-text: #332a1e;
+    --fa-text-muted: #7d7060;
+    --fa-text-on-primary: #fdf6ea;
+    --fa-border: #dfc89a;
+    --fa-border-focus: #8a5920;
+    --fa-alert-danger-bg: #f7e1da;
+    --fa-alert-success-bg: #ecefe0;
+    --fa-alert-info-bg: #f7ecd9;
+}
+
+:root[data-fa-palette="brazil-rainforest"] {
+    /* --- Brazil — Amazon canopy green, ipê-yellow gold, toucan-orange accent, macaw-red danger. --- */
+    --fa-primary: #1f6b4f; /* Amazon Canopy Green */
+    --fa-primary-dark: #144a36;
+    --fa-primary-light: #5fa887;
+    --fa-footer: #eef0d8; /* Canopy Dapple */
+    --fa-glow: #2f8a63;
+    --fa-gold: #e0b23a; /* Ipê Amarelo */
+    --fa-accent: #d9722c; /* Toucan Orange */
+    --fa-accent-dark: #a8531e;
+    --fa-ember: #b23328; /* Macaw Red */
+    --fa-wine: #5c1a1a;
+    --fa-fir: #1f2420; /* Rio Negro Black */
+    --fa-cream: #f2f5ea;
+    --fa-surface: #fbfdf7;
+    --fa-text: #232a20;
+    --fa-text-muted: #74806c;
+    --fa-text-on-primary: #f2fbf6;
+    --fa-border: #cfe0c2;
+    --fa-border-focus: #144a36;
+    --fa-alert-danger-bg: #f6ddd6;
+    --fa-alert-success-bg: #dfece4;
+    --fa-alert-info-bg: #f3e6d8;
+}
+
+:root[data-fa-palette="brazil-favela"] {
+    /* --- Brazil — favela hillside houses: Guanabara-blue accent, carnival gold, samba-red danger. --- */
+    --fa-primary: #c81e78; /* Favela Fuchsia */
+    --fa-primary-dark: #8f1454;
+    --fa-primary-light: #e069a3;
+    --fa-footer: #f0e6da; /* Warm Hillside Stucco */
+    --fa-glow: #d9367e;
+    --fa-gold: #e8b52e; /* Carnival Yellow */
+    --fa-accent: #1f7ab2; /* Guanabara Bay Blue */
+    --fa-accent-dark: #164f70;
+    --fa-ember: #c2362b; /* Samba Red */
+    --fa-wine: #6b1f24;
+    --fa-fir: #232733; /* Corcovado Night */
+    --fa-cream: #fdf3ea;
+    --fa-surface: #fffaf3;
+    --fa-text: #2b241d;
+    --fa-text-muted: #7d7168;
+    --fa-text-on-primary: #fdf2f8;
+    --fa-border: #e6cfd8;
+    --fa-border-focus: #8f1454;
+    --fa-alert-danger-bg: #f8e0dc;
+    --fa-alert-success-bg: #e6efe0;
+    --fa-alert-info-bg: #dde9f2;
+}
+
+:root[data-fa-palette="portugal-tiles"] {
+    /* --- Portugal — azulejo cobalt blue, Sintra gold, terracotta-roof accent, Porto-wine danger. --- */
+    --fa-primary: #2a5f8f; /* Azulejo Cobalt */
+    --fa-primary-dark: #1c4463;
+    --fa-primary-light: #6ea3c9;
+    --fa-footer: #f0e8d8; /* Limewash Cream */
+    --fa-glow: #3a7ab0;
+    --fa-gold: #d9a53c; /* Sintra Gold */
+    --fa-accent: #c06a3a; /* Terracotta Roof */
+    --fa-accent-dark: #8f4a26;
+    --fa-ember: #a8342f; /* Douro Red */
+    --fa-wine: #5c1620; /* Porto Wine */
+    --fa-fir: #1f2d3a; /* Lisbon Night Cobalt */
+    --fa-cream: #f5f2ea;
+    --fa-surface: #fffdf9;
+    --fa-text: #262420;
+    --fa-text-muted: #79705f;
+    --fa-text-on-primary: #f2f8fc;
+    --fa-border: #d6cbb2;
+    --fa-border-focus: #1c4463;
+    --fa-alert-danger-bg: #f7e0d9;
+    --fa-alert-success-bg: #e2ede0;
+    --fa-alert-info-bg: #dde9f2;
+}
+
+:root[data-fa-palette="spain-bullfighting"] {
+    /* --- Spain — corrida: capote magenta-purple, traje-de-luces gold, muleta-red danger. --- */
+    --fa-primary: #8a2a5c; /* Capote Magenta-Purple */
+    --fa-primary-dark: #5c1c3d;
+    --fa-primary-light: #b96a95;
+    --fa-footer: #f0e2c9; /* Arena Sand Tint */
+    --fa-glow: #a83a74;
+    --fa-gold: #c9982e; /* Traje de Luces Gold */
+    --fa-accent: #3f6b3a; /* Verde Torero */
+    --fa-accent-dark: #2a4a27;
+    --fa-ember: #a8272c; /* Muleta Red */
+    --fa-wine: #5c1418; /* Sangre de Toro */
+    --fa-fir: #241f26; /* Ruedo Night */
+    --fa-cream: #f2e6d0; /* Arena Sand */
+    --fa-surface: #fffbf3;
+    --fa-text: #2b2318;
+    --fa-text-muted: #7d7160;
+    --fa-text-on-primary: #faf2f7;
+    --fa-border: #dcc79a;
+    --fa-border-focus: #5c1c3d;
+    --fa-alert-danger-bg: #f7dcdd;
+    --fa-alert-success-bg: #e6ece0;
+    --fa-alert-info-bg: #e6e0ea;
+}
+
+:root[data-fa-palette="mexico-day-of-the-dead"] {
+    /* --- Mexico — Día de los Muertos: obsidian purple, marigold accent, papel-picado gold, calavera-red danger. --- */
+    --fa-primary: #6b2d6e; /* Obsidian Purple */
+    --fa-primary-dark: #45204a;
+    --fa-primary-light: #9c66a0;
+    --fa-footer: #f4e0c2; /* Marigold Cream */
+    --fa-glow: #8a3d8f;
+    --fa-gold: #e8c23a; /* Papel Picado Gold */
+    --fa-accent: #dd8a2e; /* Marigold Orange */
+    --fa-accent-dark: #a8621e;
+    --fa-ember: #a8342e; /* Calavera Red */
+    --fa-wine: #5c1a22;
+    --fa-fir: #241f2e; /* Obsidian Night */
+    --fa-cream: #f7ede0;
+    --fa-surface: #fffaf2;
+    --fa-text: #2e2318;
+    --fa-text-muted: #85735d;
+    --fa-text-on-primary: #faf2fb;
+    --fa-border: #e0c7a0;
+    --fa-border-focus: #45204a;
+    --fa-alert-danger-bg: #f7dcda;
+    --fa-alert-success-bg: #eef0dc;
+    --fa-alert-info-bg: #e9e0ee;
+}
+
+:root[data-fa-palette="london-life"] {
+    /* --- London — Underground roundel blue, telephone-box red accent, Big-Ben brass, Thames-fog neutral. --- */
+    --fa-primary: #17417a; /* Underground Roundel Blue */
+    --fa-primary-dark: #0f2d57;
+    --fa-primary-light: #5a83b3;
+    --fa-footer: #e6e4de; /* Foggy Grey-Cream */
+    --fa-glow: #2f5f9e;
+    --fa-gold: #b6923c; /* Big Ben Brass */
+    --fa-accent: #b3272c; /* Telephone Box Red */
+    --fa-accent-dark: #7a1a1e;
+    --fa-ember: #8f1f28; /* Poppy Red */
+    --fa-wine: #4a1319;
+    --fa-fir: #2a2d33; /* Thames Fog Charcoal */
+    --fa-cream: #f2f0ec;
+    --fa-surface: #fbfaf7;
+    --fa-text: #26282b;
+    --fa-text-muted: #6f7378;
+    --fa-text-on-primary: #f0f6fc;
+    --fa-border: #d7d5cf;
+    --fa-border-focus: #0f2d57;
+    --fa-alert-danger-bg: #f4dcdd;
+    --fa-alert-success-bg: #e2e8de;
+    --fa-alert-info-bg: #dde6f0;
+}
+
+:root[data-fa-palette="new-york-nightlife"] {
+    /* --- New York — Times Square electric violet, taxi-cab gold, electric-cyan accent, siren-red danger. --- */
+    --fa-primary: #5a3fb0; /* Times Square Electric Violet */
+    --fa-primary-dark: #3c2a78;
+    --fa-primary-light: #9683d4;
+    --fa-footer: #ece6ee; /* Dusky Violet-Grey */
+    --fa-glow: #7454d6;
+    --fa-gold: #e8b13a; /* Taxi Cab Yellow */
+    --fa-accent: #1596b0; /* Electric Cyan */
+    --fa-accent-dark: #0e6b80;
+    --fa-ember: #c2272e; /* Siren Red */
+    --fa-wine: #6b151a;
+    --fa-fir: #1c1f2e; /* Midnight Skyline */
+    --fa-cream: #f5f0f2;
+    --fa-surface: #fffbfa;
+    --fa-text: #241f26;
+    --fa-text-muted: #786f78;
+    --fa-text-on-primary: #f6f2fc;
+    --fa-border: #ddd0d8;
+    --fa-border-focus: #3c2a78;
+    --fa-alert-danger-bg: #f7dcdd;
+    --fa-alert-success-bg: #e0ece0;
+    --fa-alert-info-bg: #dbe8ea;
+}
+
+:root[data-fa-palette="india-henna"] {
+    /* --- India — mehndi henna red-brown, turmeric gold, leaf-green accent, kumkum-vermillion danger. --- */
+    --fa-primary: #8a3a24; /* Henna Red-Brown */
+    --fa-primary-dark: #5c2617;
+    --fa-primary-light: #c07050;
+    --fa-footer: #f0dfc0; /* Henna-Paper Tan */
+    --fa-glow: #a8532f;
+    --fa-gold: #e0a13c; /* Turmeric Gold */
+    --fa-accent: #5c7a3a; /* Mehndi Leaf Green */
+    --fa-accent-dark: #3f5527;
+    --fa-ember: #b23428; /* Kumkum Vermillion */
+    --fa-wine: #5c1a1c;
+    --fa-fir: #232a3a; /* Indigo Night */
+    --fa-cream: #f7ede0;
+    --fa-surface: #fffaf2;
+    --fa-text: #2e2318;
+    --fa-text-muted: #85735d;
+    --fa-text-on-primary: #faf1ec;
+    --fa-border: #e0c7a0;
+    --fa-border-focus: #5c2617;
+    --fa-alert-danger-bg: #f7dcd6;
+    --fa-alert-success-bg: #e9efdc;
+    --fa-alert-info-bg: #dde6ee;
+}
+
 /* --- Dark mode, per palette. Northwest Fall's dark block (no data-fa-palette
    attribute needed — it's the default) stays a single-attribute selector; every
    other palette needs data-fa-palette AND data-theme="dark" together so it wins
@@ -634,6 +861,141 @@
     --fa-alert-info-bg: rgba(47, 110, 138, 0.22);
 }
 
+:root[data-fa-palette="sahara-desert"][data-theme="dark"] {
+    --fa-cream: #17130d;
+    --fa-surface: #221c13;
+    --fa-text: #f0e6d4;
+    --fa-text-muted: #b8a98d;
+    --fa-border: #4a3c24;
+    --fa-border-focus: #e0973a;
+    --fa-footer: #241d13;
+    --fa-primary-dark: #d9a866;
+    --fa-accent-dark: #8ba66a;
+    --fa-alert-danger-bg: rgba(168, 69, 46, 0.22);
+    --fa-alert-success-bg: rgba(92, 122, 58, 0.22);
+    --fa-alert-info-bg: rgba(224, 151, 58, 0.22);
+}
+
+:root[data-fa-palette="brazil-rainforest"][data-theme="dark"] {
+    --fa-cream: #0d130f;
+    --fa-surface: #141d17;
+    --fa-text: #e9f0e6;
+    --fa-text-muted: #a4b79f;
+    --fa-border: #2a452f;
+    --fa-border-focus: #2f8a63;
+    --fa-footer: #182016;
+    --fa-primary-dark: #5fa887;
+    --fa-accent-dark: #e89a5c;
+    --fa-alert-danger-bg: rgba(178, 51, 40, 0.22);
+    --fa-alert-success-bg: rgba(31, 107, 79, 0.22);
+    --fa-alert-info-bg: rgba(217, 114, 44, 0.22);
+}
+
+:root[data-fa-palette="brazil-favela"][data-theme="dark"] {
+    --fa-cream: #150d12;
+    --fa-surface: #1f141b;
+    --fa-text: #f0e2ea;
+    --fa-text-muted: #b596a5;
+    --fa-border: #45242f;
+    --fa-border-focus: #d9367e;
+    --fa-footer: #24141c;
+    --fa-primary-dark: #e069a3;
+    --fa-accent-dark: #5aa8d1;
+    --fa-alert-danger-bg: rgba(194, 54, 43, 0.22);
+    --fa-alert-success-bg: rgba(232, 181, 46, 0.22);
+    --fa-alert-info-bg: rgba(31, 122, 178, 0.22);
+}
+
+:root[data-fa-palette="portugal-tiles"][data-theme="dark"] {
+    --fa-cream: #0f1418;
+    --fa-surface: #171f26;
+    --fa-text: #e6edf2;
+    --fa-text-muted: #a0acb5;
+    --fa-border: #2a3a45;
+    --fa-border-focus: #3a7ab0;
+    --fa-footer: #1c2731;
+    --fa-primary-dark: #6ea3c9;
+    --fa-accent-dark: #d9926a;
+    --fa-alert-danger-bg: rgba(168, 52, 47, 0.22);
+    --fa-alert-success-bg: rgba(217, 165, 60, 0.22);
+    --fa-alert-info-bg: rgba(58, 122, 176, 0.22);
+}
+
+:root[data-fa-palette="spain-bullfighting"][data-theme="dark"] {
+    --fa-cream: #140d12;
+    --fa-surface: #1e141b;
+    --fa-text: #ede0e6;
+    --fa-text-muted: #b39aa8;
+    --fa-border: #3f2a38;
+    --fa-border-focus: #a83a74;
+    --fa-footer: #20141b;
+    --fa-primary-dark: #b96a95;
+    --fa-accent-dark: #6a9a64;
+    --fa-alert-danger-bg: rgba(168, 39, 44, 0.22);
+    --fa-alert-success-bg: rgba(63, 107, 58, 0.22);
+    --fa-alert-info-bg: rgba(201, 152, 46, 0.22);
+}
+
+:root[data-fa-palette="mexico-day-of-the-dead"][data-theme="dark"] {
+    --fa-cream: #130d17;
+    --fa-surface: #1c1420;
+    --fa-text: #ede0f0;
+    --fa-text-muted: #b09ab8;
+    --fa-border: #3a2a45;
+    --fa-border-focus: #8a3d8f;
+    --fa-footer: #1a1420;
+    --fa-primary-dark: #9c66a0;
+    --fa-accent-dark: #e8a75c;
+    --fa-alert-danger-bg: rgba(168, 52, 46, 0.22);
+    --fa-alert-success-bg: rgba(232, 194, 58, 0.22);
+    --fa-alert-info-bg: rgba(138, 61, 143, 0.22);
+}
+
+:root[data-fa-palette="london-life"][data-theme="dark"] {
+    --fa-cream: #14161a;
+    --fa-surface: #1c1f24;
+    --fa-text: #e8eaec;
+    --fa-text-muted: #a0a5ab;
+    --fa-border: #30363d;
+    --fa-border-focus: #2f5f9e;
+    --fa-footer: #1a1d22;
+    --fa-primary-dark: #5a83b3;
+    --fa-accent-dark: #d9636a;
+    --fa-alert-danger-bg: rgba(143, 31, 40, 0.22);
+    --fa-alert-success-bg: rgba(182, 146, 60, 0.22);
+    --fa-alert-info-bg: rgba(47, 95, 158, 0.22);
+}
+
+:root[data-fa-palette="new-york-nightlife"][data-theme="dark"] {
+    --fa-cream: #130f18;
+    --fa-surface: #1c1622;
+    --fa-text: #ede6f0;
+    --fa-text-muted: #a89ab5;
+    --fa-border: #352a45;
+    --fa-border-focus: #7454d6;
+    --fa-footer: #191320;
+    --fa-primary-dark: #9683d4;
+    --fa-accent-dark: #4ec4de;
+    --fa-alert-danger-bg: rgba(194, 39, 46, 0.22);
+    --fa-alert-success-bg: rgba(21, 150, 176, 0.22);
+    --fa-alert-info-bg: rgba(232, 177, 58, 0.22);
+}
+
+:root[data-fa-palette="india-henna"][data-theme="dark"] {
+    --fa-cream: #130e0c;
+    --fa-surface: #1e1712;
+    --fa-text: #f0e6da;
+    --fa-text-muted: #b5a58d;
+    --fa-border: #45351f;
+    --fa-border-focus: #a8532f;
+    --fa-footer: #201810;
+    --fa-primary-dark: #c07050;
+    --fa-accent-dark: #8ba668;
+    --fa-alert-danger-bg: rgba(178, 52, 40, 0.22);
+    --fa-alert-success-bg: rgba(92, 122, 58, 0.22);
+    --fa-alert-info-bg: rgba(224, 161, 60, 0.22);
+}
+
 /* --- Same dark values again, gated on prefers-color-scheme instead of an explicit
    data-theme="dark" — the OS-level fallback before any explicit mode choice. --- */
 
@@ -846,6 +1208,141 @@
         --fa-alert-danger-bg: rgba(166, 59, 40, 0.22);
         --fa-alert-success-bg: rgba(51, 138, 84, 0.22);
         --fa-alert-info-bg: rgba(47, 110, 138, 0.22);
+    }
+
+    :root[data-fa-palette="sahara-desert"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #17130d;
+        --fa-surface: #221c13;
+        --fa-text: #f0e6d4;
+        --fa-text-muted: #b8a98d;
+        --fa-border: #4a3c24;
+        --fa-border-focus: #e0973a;
+        --fa-footer: #241d13;
+        --fa-primary-dark: #d9a866;
+        --fa-accent-dark: #8ba66a;
+        --fa-alert-danger-bg: rgba(168, 69, 46, 0.22);
+        --fa-alert-success-bg: rgba(92, 122, 58, 0.22);
+        --fa-alert-info-bg: rgba(224, 151, 58, 0.22);
+    }
+
+    :root[data-fa-palette="brazil-rainforest"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0d130f;
+        --fa-surface: #141d17;
+        --fa-text: #e9f0e6;
+        --fa-text-muted: #a4b79f;
+        --fa-border: #2a452f;
+        --fa-border-focus: #2f8a63;
+        --fa-footer: #182016;
+        --fa-primary-dark: #5fa887;
+        --fa-accent-dark: #e89a5c;
+        --fa-alert-danger-bg: rgba(178, 51, 40, 0.22);
+        --fa-alert-success-bg: rgba(31, 107, 79, 0.22);
+        --fa-alert-info-bg: rgba(217, 114, 44, 0.22);
+    }
+
+    :root[data-fa-palette="brazil-favela"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #150d12;
+        --fa-surface: #1f141b;
+        --fa-text: #f0e2ea;
+        --fa-text-muted: #b596a5;
+        --fa-border: #45242f;
+        --fa-border-focus: #d9367e;
+        --fa-footer: #24141c;
+        --fa-primary-dark: #e069a3;
+        --fa-accent-dark: #5aa8d1;
+        --fa-alert-danger-bg: rgba(194, 54, 43, 0.22);
+        --fa-alert-success-bg: rgba(232, 181, 46, 0.22);
+        --fa-alert-info-bg: rgba(31, 122, 178, 0.22);
+    }
+
+    :root[data-fa-palette="portugal-tiles"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0f1418;
+        --fa-surface: #171f26;
+        --fa-text: #e6edf2;
+        --fa-text-muted: #a0acb5;
+        --fa-border: #2a3a45;
+        --fa-border-focus: #3a7ab0;
+        --fa-footer: #1c2731;
+        --fa-primary-dark: #6ea3c9;
+        --fa-accent-dark: #d9926a;
+        --fa-alert-danger-bg: rgba(168, 52, 47, 0.22);
+        --fa-alert-success-bg: rgba(217, 165, 60, 0.22);
+        --fa-alert-info-bg: rgba(58, 122, 176, 0.22);
+    }
+
+    :root[data-fa-palette="spain-bullfighting"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #140d12;
+        --fa-surface: #1e141b;
+        --fa-text: #ede0e6;
+        --fa-text-muted: #b39aa8;
+        --fa-border: #3f2a38;
+        --fa-border-focus: #a83a74;
+        --fa-footer: #20141b;
+        --fa-primary-dark: #b96a95;
+        --fa-accent-dark: #6a9a64;
+        --fa-alert-danger-bg: rgba(168, 39, 44, 0.22);
+        --fa-alert-success-bg: rgba(63, 107, 58, 0.22);
+        --fa-alert-info-bg: rgba(201, 152, 46, 0.22);
+    }
+
+    :root[data-fa-palette="mexico-day-of-the-dead"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #130d17;
+        --fa-surface: #1c1420;
+        --fa-text: #ede0f0;
+        --fa-text-muted: #b09ab8;
+        --fa-border: #3a2a45;
+        --fa-border-focus: #8a3d8f;
+        --fa-footer: #1a1420;
+        --fa-primary-dark: #9c66a0;
+        --fa-accent-dark: #e8a75c;
+        --fa-alert-danger-bg: rgba(168, 52, 46, 0.22);
+        --fa-alert-success-bg: rgba(232, 194, 58, 0.22);
+        --fa-alert-info-bg: rgba(138, 61, 143, 0.22);
+    }
+
+    :root[data-fa-palette="london-life"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #14161a;
+        --fa-surface: #1c1f24;
+        --fa-text: #e8eaec;
+        --fa-text-muted: #a0a5ab;
+        --fa-border: #30363d;
+        --fa-border-focus: #2f5f9e;
+        --fa-footer: #1a1d22;
+        --fa-primary-dark: #5a83b3;
+        --fa-accent-dark: #d9636a;
+        --fa-alert-danger-bg: rgba(143, 31, 40, 0.22);
+        --fa-alert-success-bg: rgba(182, 146, 60, 0.22);
+        --fa-alert-info-bg: rgba(47, 95, 158, 0.22);
+    }
+
+    :root[data-fa-palette="new-york-nightlife"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #130f18;
+        --fa-surface: #1c1622;
+        --fa-text: #ede6f0;
+        --fa-text-muted: #a89ab5;
+        --fa-border: #352a45;
+        --fa-border-focus: #7454d6;
+        --fa-footer: #191320;
+        --fa-primary-dark: #9683d4;
+        --fa-accent-dark: #4ec4de;
+        --fa-alert-danger-bg: rgba(194, 39, 46, 0.22);
+        --fa-alert-success-bg: rgba(21, 150, 176, 0.22);
+        --fa-alert-info-bg: rgba(232, 177, 58, 0.22);
+    }
+
+    :root[data-fa-palette="india-henna"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #130e0c;
+        --fa-surface: #1e1712;
+        --fa-text: #f0e6da;
+        --fa-text-muted: #b5a58d;
+        --fa-border: #45351f;
+        --fa-border-focus: #a8532f;
+        --fa-footer: #201810;
+        --fa-primary-dark: #c07050;
+        --fa-accent-dark: #8ba668;
+        --fa-alert-danger-bg: rgba(178, 52, 40, 0.22);
+        --fa-alert-success-bg: rgba(92, 122, 58, 0.22);
+        --fa-alert-info-bg: rgba(224, 161, 60, 0.22);
     }
 }
 

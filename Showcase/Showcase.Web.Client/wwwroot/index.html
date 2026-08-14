@@ -30,6 +30,17 @@
          auto-injected by the RCL — every consumer adds these tags by hand. -->
     <link rel="stylesheet" href="_content/FactoryAspects/css/fa-styles.css" />
 
+    <!-- This app's own Blazor CSS-isolation bundle (every *.razor.css file's
+         scoped styles, e.g. Pages/Palette.razor.css) — like fa-styles.css above,
+         this isn't auto-injected into wwwroot/index.html by the build, it has to
+         be linked by hand. After fa-styles.css so this app's own page-level
+         styles can win at equal specificity. -->
+    <link rel="stylesheet" href="Showcase.Web.Client.styles.css" />
+
+    <!-- Showcase-only doc-page chrome (variant demos, class-name legends, code
+         blocks) shared across every component page — see wwwroot/css/showcase.css. -->
+    <link rel="stylesheet" href="css/showcase.css" />
+
     <!-- Showcase-only override: greece-aegean's own --fa-text (#2b2a26) is already
          a near-black warm gray, but this app specifically wants true black body
          text. Same single-attribute selector as the library's own light-mode rule
