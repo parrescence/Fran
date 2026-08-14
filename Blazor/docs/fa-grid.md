@@ -84,6 +84,23 @@ parameter you set — mixing both or setting neither throws at runtime.
 }
 ```
 
+## Loading state (`ItemsProvider` mode)
+
+While an `ItemsProvider` request is in flight — initial load, a page/sort/filter
+change — the previous page's rows stay visible underneath a semi-transparent
+overlay rather than the grid flashing empty. Nothing to opt into; this is automatic
+in provider mode and never happens in `Items` mode (there's no request to wait on).
+
+The overlay shows `FaLoadingDots` ("Loading..." with growing dots) by default. Pass
+`LoadingContent` to render something else instead — an `FaSpinner`, custom text,
+whatever fits your app:
+
+```razor
+<FaGrid TItem="Order" ItemsProvider="LoadPageAsync" Columns="_columns">
+    <LoadingContent><FaSpinner /></LoadingContent>
+</FaGrid>
+```
+
 ## Getting the value
 
 `FaGrid` doesn't hand back a "selected row" — like `FaTable`, put your own click
@@ -103,6 +120,7 @@ set the current rows-per-page from outside.
 | `PageSize` / `PageSizeChanged` | `int` | default `10`, `@bind-PageSize` |
 | `PageSizeOptions` | `IReadOnlyList<int>` | default `10, 25, 50, 100` |
 | `EmptyText` | `string?` | shown when there are no rows |
+| `LoadingContent` | `RenderFragment?` | overlay content while `ItemsProvider` is loading; defaults to `FaLoadingDots` |
 | `CssClass` | `string?` | |
 
 ### `FaGridColumn<TItem>`

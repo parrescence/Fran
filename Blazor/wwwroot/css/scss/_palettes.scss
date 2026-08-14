@@ -73,7 +73,7 @@
       above. Toggle with window.faSetPalette(name) (js/theme.js — reads/writes
       localStorage the same way faSetTheme does).
    2. Mode — light (default), dark, or colorblind-safe. data-theme="dark"/
-      "colorblind", toggled by window.faSetTheme(...) / <ThemeSwitcher>, with the
+      "colorblind", toggled by window.faSetTheme(...) / <FaThemeSwitcher>, with the
       OS's prefers-color-scheme as the fallback for dark before any explicit choice
       is made. Colorblind mode has no OS-level media-query equivalent, so it's
       opt-in only, never automatic.

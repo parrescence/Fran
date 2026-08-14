@@ -1,7 +1,7 @@
 // Sidebar collapse toggle — plain JS on purpose, same reasoning as theme.js: this is
 // pure client-side UI state (collapsed vs expanded), persisted to localStorage and
 // stamped as a class on <html> so CSS alone handles the width/tooltip/icon-rotation
-// changes. AppSidebar's toggle button calls window.faToggleSidebar() directly via a
+// changes. FaSidebar's toggle button calls window.faToggleSidebar() directly via a
 // plain onclick attribute — no Blazor state to keep in sync, nothing to re-render.
 (function () {
     var STORAGE_KEY = 'fa-sidebar-collapsed';

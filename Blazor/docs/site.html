@@ -452,8 +452,8 @@
       <div class="nav-group-title">Layout &amp; chrome</div>
       <ul>
         <li><a href="#layout-shells">Layout shells</a></li>
-        <li><a href="#theme-switcher">ThemeSwitcher</a></li>
-        <li><a href="#palette-switcher">PaletteSwitcher</a></li>
+        <li><a href="#theme-switcher">FaThemeSwitcher</a></li>
+        <li><a href="#palette-switcher">FaPaletteSwitcher</a></li>
         <li><a href="#fa-icon">FaIcon</a></li>
       </ul>
     </div>
@@ -534,8 +534,8 @@
 
       <h4>Option B — switch palettes at runtime</h4>
       <p>Drop in the bundled dropdown:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;PaletteSwitcher /&gt;</code></pre></div>
-      <p>See <a href="#palette-switcher">PaletteSwitcher</a> for details. Or call the underlying function yourself, the same way <code>&lt;ThemeSwitcher&gt;</code> calls <code>window.faSetTheme(...)</code>:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPaletteSwitcher /&gt;</code></pre></div>
+      <p>See <a href="#palette-switcher">FaPaletteSwitcher</a> for details. Or call the underlying function yourself, the same way <code>&lt;FaThemeSwitcher&gt;</code> calls <code>window.faSetTheme(...)</code>:</p>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>window.faSetPalette('southeast-beach');
 // or window.faSetPalette('northwest-fall') / window.faSetPalette(null) to reset</code></pre></div>
       <p>Either way, this persists the choice to <code>localStorage</code> under <code>fa-palette</code> and stamps <code>data-fa-palette</code> on <code>&lt;html&gt;</code>.</p>
@@ -1724,12 +1724,12 @@
     <section class="component" id="layout-shells">
       <span class="kicker">Layout &amp; chrome</span>
       <h2>Layout shells</h2>
-      <p class="dek"><code>AppHeader</code>, <code>AppFooter</code>, <code>AppSidebar</code> are the individual pieces; <code>StandardShell</code> and <code>SidebarShell</code> compose them into the two full-page templates. Most consumers only touch the two shells, from <code>MainLayout.razor</code>.</p>
+      <p class="dek"><code>FaHeader</code>, <code>FaFooter</code>, <code>FaSidebar</code> are the individual pieces; <code>FaStandardShell</code> and <code>FaSidebarShell</code> compose them into the two full-page templates. Most consumers only touch the two shells, from <code>MainLayout.razor</code>.</p>
 
-      <h3>StandardShell — header + content + footer, no sidebar</h3>
+      <h3>FaStandardShell — header + content + footer, no sidebar</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@inherits LayoutComponentBase
 
-&lt;StandardShell BrandText="MyApp"
+&lt;FaStandardShell BrandText="MyApp"
                BrandHref="/"
                IsAuthenticated="@_isAuthenticated"
                UserDisplayName="@_userName"
@@ -1737,7 +1737,7 @@
                OnLogin="HandleLoginAsync"
                OnLogout="HandleLogoutAsync"&gt;
     @Body
-&lt;/StandardShell&gt;
+&lt;/FaStandardShell&gt;
 
 @code {
     private bool _isAuthenticated;
@@ -1748,10 +1748,10 @@
     private Task HandleLogoutAsync() { /* sign out */ return Task.CompletedTask; }
 }</code></pre></div>
 
-      <h3>SidebarShell — header + left sidebar + content + footer</h3>
+      <h3>FaSidebarShell — header + left sidebar + content + footer</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@inherits LayoutComponentBase
 
-&lt;SidebarShell BrandText="MyApp"
+&lt;FaSidebarShell BrandText="MyApp"
               BrandHref="/"
               IsAuthenticated="@_isAuthenticated"
               UserDisplayName="@_userName"
@@ -1761,21 +1761,21 @@
         &lt;NavMenu /&gt; @* your own nav links component *@
     &lt;/Sidebar&gt;
     @Body
-&lt;/SidebarShell&gt;</code></pre></div>
+&lt;/FaSidebarShell&gt;</code></pre></div>
 
       <h3>Using the pieces directly</h3>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;AppHeader BrandText="MyApp" BrandHref="/" IsAuthenticated="@_isAuthenticated"
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaHeader BrandText="MyApp" BrandHref="/" IsAuthenticated="@_isAuthenticated"
            UserDisplayName="@_userName" OnLogin="HandleLoginAsync" OnLogout="HandleLogoutAsync" /&gt;
 
-&lt;AppSidebar&gt;
+&lt;FaSidebar&gt;
     &lt;NavMenu /&gt;
-&lt;/AppSidebar&gt;
+&lt;/FaSidebar&gt;
 
 &lt;main&gt;@Body&lt;/main&gt;
 
-&lt;AppFooter BrandText="MyApp" /&gt;</code></pre></div>
+&lt;FaFooter BrandText="MyApp" /&gt;</code></pre></div>
 
-      <p class="getting-value"><strong>Getting the value:</strong> pure layout, no bound value. <code>OnLogin</code>/<code>OnLogout</code> fire on click; your app owns authenticating and then setting <code>IsAuthenticated</code>/<code>UserDisplayName</code>/<code>UserImageUrl</code> on the next render. <code>ThemeSwitcher</code> is already baked into <code>AppHeader</code>.</p>
+      <p class="getting-value"><strong>Getting the value:</strong> pure layout, no bound value. <code>OnLogin</code>/<code>OnLogout</code> fire on click; your app owns authenticating and then setting <code>IsAuthenticated</code>/<code>UserDisplayName</code>/<code>UserImageUrl</code> on the next render. <code>FaThemeSwitcher</code> is already baked into <code>FaHeader</code>.</p>
 
       <h4>Parameters (shared by both shells)</h4>
       <div class="table-wrap">
@@ -1788,31 +1788,31 @@
           <tr><td><code>OnLogin</code> / <code>OnLogout</code></td><td><code>EventCallback</code></td><td></td></tr>
           <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>page content (@Body)</td></tr>
           <tr><td><code>FooterContent</code></td><td><code>RenderFragment?</code></td><td>overrides default footer text</td></tr>
-          <tr><td><code>Sidebar</code></td><td><code>RenderFragment?</code></td><td>SidebarShell only</td></tr>
+          <tr><td><code>Sidebar</code></td><td><code>RenderFragment?</code></td><td>FaSidebarShell only</td></tr>
         </table>
       </div>
     </section>
 
-    <!-- ============================= ThemeSwitcher ============================= -->
+    <!-- ============================= FaThemeSwitcher ============================= -->
     <section class="component" id="theme-switcher">
       <span class="kicker">Layout &amp; chrome</span>
-      <h2>ThemeSwitcher</h2>
+      <h2>FaThemeSwitcher</h2>
       <p class="dek">Three explicit theme buttons — Light / Dark / Colorblind-safe. No parameters, no Blazor state: clicking calls <code>window.faSetTheme(...)</code> from theme.js directly, client-side only.</p>
 
       <h3>Usage</h3>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;ThemeSwitcher /&gt;</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaThemeSwitcher /&gt;</code></pre></div>
 
       <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current theme lives in <code>localStorage</code> (<code>fa-theme</code> key) and the <code>data-theme</code> attribute on <code>&lt;html&gt;</code>, both managed by theme.js. Read <code>localStorage.getItem('fa-theme')</code> yourself if your own code needs it.</p>
     </section>
 
-    <!-- ============================= PaletteSwitcher ============================= -->
+    <!-- ============================= FaPaletteSwitcher ============================= -->
     <section class="component" id="palette-switcher">
       <span class="kicker">Layout &amp; chrome</span>
-      <h2>PaletteSwitcher</h2>
-      <p class="dek">A single dropdown covering all fourteen <a href="#install">color palettes</a>. No parameters, no Blazor state: picking an option calls <code>window.faSetPalette(...)</code> from theme.js directly, client-side only — every <code>&lt;PaletteSwitcher&gt;</code> on the page stays in sync with whichever palette is actually active, including the one restored from <code>localStorage</code> on first paint. A separate, independent axis from ThemeSwitcher's light/dark/colorblind mode — any palette combines with any mode.</p>
+      <h2>FaPaletteSwitcher</h2>
+      <p class="dek">A single dropdown covering all fourteen <a href="#install">color palettes</a>. No parameters, no Blazor state: picking an option calls <code>window.faSetPalette(...)</code> from theme.js directly, client-side only — every <code>&lt;FaPaletteSwitcher&gt;</code> on the page stays in sync with whichever palette is actually active, including the one restored from <code>localStorage</code> on first paint. A separate, independent axis from FaThemeSwitcher's light/dark/colorblind mode — any palette combines with any mode.</p>
 
       <h3>Usage</h3>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;PaletteSwitcher /&gt;</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPaletteSwitcher /&gt;</code></pre></div>
 
       <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current palette lives in <code>localStorage</code> (<code>fa-palette</code> key) and the <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> (absent for the northwest-fall default), both managed by theme.js. Read <code>localStorage.getItem('fa-palette')</code> yourself if your own code needs it.</p>
     </section>

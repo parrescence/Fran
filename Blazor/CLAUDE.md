@@ -22,8 +22,8 @@ Consequences for any change here:
   type, or domain model, no `ProjectReference` to anything outside this repo. If a
   component needs data or behavior, it comes in via a `[Parameter]`/`EventCallback`,
   full stop.
-- **No hardcoded brand/app defaults.** `BrandText` on `AppHeader`/`AppFooter`/
-  `SidebarShell`/`StandardShell` is `[Parameter, EditorRequired]` with an empty-string
+- **No hardcoded brand/app defaults.** `BrandText` on `FaHeader`/`FaFooter`/
+  `FaSidebarShell`/`FaStandardShell` is `[Parameter, EditorRequired]` with an empty-string
   default — every consumer supplies its own. Follow the same pattern for any new
   parameter that would otherwise bake in one consumer's branding/copy.
 - **`PackageId` (`FactoryAspects.csproj`) is pinned to `FactoryAspects`, and
@@ -36,8 +36,8 @@ Consequences for any change here:
   conflate "rename the package" with "rename a component."
 - **`theme.js`/`sidebar.js` are plain vanilla JS, not Blazor JS interop** — IIFEs using
   only `localStorage`/`document.documentElement`, invoked via plain `onclick="..."`/
-  `onchange="..."` HTML attributes (`ThemeSwitcher.cs`, `PaletteSwitcher.cs`,
-  `AppSidebar.cs`), not `IJSRuntime.InvokeVoidAsync`. Deliberate: this is pure
+  `onchange="..."` HTML attributes (`FaThemeSwitcher.cs`, `FaPaletteSwitcher.cs`,
+  `FaSidebar.cs`), not `IJSRuntime.InvokeVoidAsync`. Deliberate: this is pure
   client-side UI state with nothing to keep in sync on the Blazor side. Keep new
   purely-visual client state in this style rather than wiring up JS interop for it.
 - **RCL static assets aren't auto-injected into the host page.** Adding a new CSS/JS
@@ -52,7 +52,7 @@ Consequences for any change here:
 
 `Components/`, `Layout/`, and `Icons/` hold only actual renderable components —
 `ComponentBase`/`InputBase<TValue>` subclasses a consumer uses as a markup tag
-(`<FaButton>`, `<AppHeader>`, `<FaIcon>`, ...). Supporting types a consumer references
+(`<FaButton>`, `<FaHeader>`, `<FaIcon>`, ...). Supporting types a consumer references
 in their own C# (not as a tag) live in two separate folders instead:
 
 - **`Enums/`** — `FaButtonVariant`, `FaBadgeVariant`, `FaAlertVariant`,
@@ -197,7 +197,7 @@ block (`:root[data-fa-palette="X"][data-theme="dark"]`, plus the
 mode stays palette-agnostic on purpose (see its comment in `_palettes.scss`) — one
 known-safe accent/danger substitution reused across every palette, not twenty-three
 separate ones. The full palette list, and how a consumer picks one
-(`<PaletteSwitcher>`, `window.faSetPalette(...)`, or a build-time attribute), is
+(`<FaPaletteSwitcher>`, `window.faSetPalette(...)`, or a build-time attribute), is
 documented in `docs/install.md`/`docs/palette-switcher.md` — don't duplicate that
 detail here, just the two things a contributor actually needs: every palette needs
 both mode blocks, and colorblind mode never gets a palette-specific variant.

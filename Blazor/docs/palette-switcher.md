@@ -1,23 +1,23 @@
 [← Back to index](index.md)
 
-# PaletteSwitcher
+# FaPaletteSwitcher
 
 A single dropdown covering all twenty-three color palettes. No parameters, no Blazor
 state: picking an option calls `window.faSetPalette(...)` from `theme.js` directly
-(client-side only), and every `<PaletteSwitcher>` on the page stays in sync with
+(client-side only), and every `<FaPaletteSwitcher>` on the page stays in sync with
 whichever palette is actually active — including the one restored from
 `localStorage` on first paint.
 
-This is a separate, independent axis from [ThemeSwitcher](theme-switcher.md)'s
+This is a separate, independent axis from [FaThemeSwitcher](theme-switcher.md)'s
 light/dark/colorblind mode — any palette combines with any mode.
 
 ## Usage
 
 ```razor
-<PaletteSwitcher />
+<FaPaletteSwitcher />
 ```
 
-Typically dropped next to `<ThemeSwitcher>` in a header.
+Typically dropped next to `<FaThemeSwitcher>` in a header.
 
 ## Getting the value
 

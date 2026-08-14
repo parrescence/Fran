@@ -4,8 +4,8 @@
 // data-fa-palette on <html> (see fa-styles.css's palette partial — the two
 // attributes are independent axes) — both persisted to localStorage, read back by
 // an inline snippet in index.html <head> before first paint so there's no flash of
-// the wrong theme/palette. <ThemeSwitcher> calls window.faSetTheme(...) directly
-// via a plain onclick attribute, and <PaletteSwitcher> calls window.faSetPalette(...)
+// the wrong theme/palette. <FaThemeSwitcher> calls window.faSetTheme(...) directly
+// via a plain onclick attribute, and <FaPaletteSwitcher> calls window.faSetPalette(...)
 // via a plain onchange attribute — see each .cs file for why that's fine here.
 (function () {
     var THEME_STORAGE_KEY = 'fa-theme';
@@ -38,7 +38,7 @@
         markActive(theme);
     };
 
-    // Keeps every <select data-palette-select> (PaletteSwitcher.cs) showing the
+    // Keeps every <select data-palette-select> (FaPaletteSwitcher.cs) showing the
     // palette actually in effect — needed both on first paint and after faSetPalette
     // runs, since a plain onchange attribute doesn't update the <select> for you when
     // the value was set programmatically (only user interaction does that natively).
@@ -82,7 +82,7 @@
 
     document.addEventListener('DOMContentLoaded', syncAll);
 
-    // Blazor (WASM or Server) mounts AppHeader's/PaletteSwitcher's actual DOM
+    // Blazor (WASM or Server) mounts FaHeader's/FaPaletteSwitcher's actual DOM
     // elements asynchronously — after the .NET runtime finishes booting and the
     // component tree first renders, which is well after DOMContentLoaded already
     // fired. The call above typically finds zero [data-theme-btn]/

@@ -74,7 +74,7 @@ Two binding shapes show up repeatedly:
 
 ## Layout & chrome
 
-- [Layout shells](layout-shells.md) — `StandardShell`/`SidebarShell` + `AppHeader`/`AppFooter`/`AppSidebar`
-- [ThemeSwitcher](theme-switcher.md) — Light/Dark/Colorblind-safe buttons
-- [PaletteSwitcher](palette-switcher.md) — dropdown over all 14 color palettes
+- [Layout shells](layout-shells.md) — `FaStandardShell`/`FaSidebarShell` + `FaHeader`/`FaFooter`/`FaSidebar`
+- [FaThemeSwitcher](theme-switcher.md) — Light/Dark/Colorblind-safe buttons
+- [FaPaletteSwitcher](palette-switcher.md) — dropdown over all 14 color palettes
 - [FaIcon](fa-icon.md) — the hand-drawn SVG icon set

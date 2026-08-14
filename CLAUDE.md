@@ -40,6 +40,15 @@ point of `Showcase.Web.Client` is to be a real, opinionated consumer app). Not
 deployed anywhere yet — no Azure Static Web App workflow, no hosting config — so for
 now it only runs by pulling the branch and running both projects locally.
 
+**Keep Showcase in sync with every library change.** Any change to a library that's
+user-visible — a new component, a renamed component, a new/changed parameter, a
+behavior change worth seeing (e.g. a new loading state) — gets its demo page(s)
+under `Showcase.Web.Client/Pages/` updated in the same change, not as a follow-up.
+Showcase is the live reference for what each library actually does right now (via
+`<ProjectReference>`, not a pinned package version) — a change that lands in the
+library but not in Showcase's demo leaves that reference stale and defeats the
+point of having it.
+
 ## Branching: dev → test → main
 
 Three long-lived branches, one direction of flow, shared across every library in this
