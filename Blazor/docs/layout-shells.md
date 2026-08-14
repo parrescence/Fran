@@ -2,11 +2,11 @@
 
 # Layout shells
 
-`AppHeader`, `AppFooter`, and `AppSidebar` are the individual pieces; `StandardShell`
-and `SidebarShell` compose them into the two full-page templates. Most consumers only
+`FaHeader`, `FaFooter`, and `FaSidebar` are the individual pieces; `FaStandardShell`
+and `FaSidebarShell` compose them into the two full-page templates. Most consumers only
 ever touch the two shells, from `MainLayout.razor`.
 
-## StandardShell — header + content + footer, no sidebar
+## FaStandardShell — header + content + footer, no sidebar
 
 For pages that don't need app navigation alongside them (landing/marketing pages,
 standalone flows).
@@ -14,7 +14,7 @@ standalone flows).
 ```razor
 @inherits LayoutComponentBase
 
-<StandardShell BrandText="MyApp"
+<FaStandardShell BrandText="MyApp"
                BrandHref="/"
                IsAuthenticated="@_isAuthenticated"
                UserDisplayName="@_userName"
@@ -22,7 +22,7 @@ standalone flows).
                OnLogin="HandleLoginAsync"
                OnLogout="HandleLogoutAsync">
     @Body
-</StandardShell>
+</FaStandardShell>
 
 @code {
     private bool _isAuthenticated;
@@ -34,14 +34,14 @@ standalone flows).
 }
 ```
 
-## SidebarShell — header + left sidebar + content + footer
+## FaSidebarShell — header + left sidebar + content + footer
 
 Same idea, plus a `Sidebar` render fragment — your app supplies its own nav menu.
 
 ```razor
 @inherits LayoutComponentBase
 
-<SidebarShell BrandText="MyApp"
+<FaSidebarShell BrandText="MyApp"
               BrandHref="/"
               IsAuthenticated="@_isAuthenticated"
               UserDisplayName="@_userName"
@@ -53,40 +53,40 @@ Same idea, plus a `Sidebar` render fragment — your app supplies its own nav me
     <ChildContent>
         @Body
     </ChildContent>
-</SidebarShell>
+</FaSidebarShell>
 ```
 
 `<ChildContent>` has to be explicit here, not bare `@Body` — Razor only auto-maps
 unwrapped content to a component's `ChildContent` when that's the *only*
-`RenderFragment` parameter being used at that call site. `SidebarShell` also has
+`RenderFragment` parameter being used at that call site. `FaSidebarShell` also has
 `Sidebar` (and optionally `FooterContent`), so once `Sidebar` is in use, `ChildContent`
-needs its own tag too or the compiler rejects it (`RZ9996`). `StandardShell` (below)
+needs its own tag too or the compiler rejects it (`RZ9996`). `FaStandardShell` (below)
 doesn't have this problem — it only has `ChildContent`, so bare content works fine.
 
 ## Using the pieces directly
 
-If neither shell fits (a custom page structure), compose `AppHeader`/`AppSidebar`/
-`AppFooter` yourself — this is exactly what the two shells do internally.
+If neither shell fits (a custom page structure), compose `FaHeader`/`FaSidebar`/
+`FaFooter` yourself — this is exactly what the two shells do internally.
 
 ```razor
-<AppHeader BrandText="MyApp" BrandHref="/" IsAuthenticated="@_isAuthenticated"
+<FaHeader BrandText="MyApp" BrandHref="/" IsAuthenticated="@_isAuthenticated"
            UserDisplayName="@_userName" OnLogin="HandleLoginAsync" OnLogout="HandleLogoutAsync" />
 
-<AppSidebar>
+<FaSidebar>
     <NavMenu />
-</AppSidebar>
+</FaSidebar>
 
 <main>@Body</main>
 
-<AppFooter BrandText="MyApp" />
+<FaFooter BrandText="MyApp" />
 ```
 
 ## Getting the value
 
 These are pure layout — no bound value. `OnLogin`/`OnLogout` fire on button click;
 your app owns actually authenticating and then setting `IsAuthenticated`/
-`UserDisplayName`/`UserImageUrl` on the next render. `ThemeSwitcher` is already baked
-into `AppHeader` (see [its page](theme-switcher.md) for how theme state itself
+`UserDisplayName`/`UserImageUrl` on the next render. `FaThemeSwitcher` is already baked
+into `FaHeader` (see [its page](theme-switcher.md) for how theme state itself
 works) — nothing to wire up for it.
 
 ## Parameters (shared by both shells)
@@ -100,6 +100,6 @@ works) — nothing to wire up for it.
 | `OnLogin` / `OnLogout` | `EventCallback` | |
 | `ChildContent` | `RenderFragment?` | page content (`@Body` in a layout) |
 | `FooterContent` | `RenderFragment?` | overrides the default `© year BrandText` footer text |
-| `Sidebar` | `RenderFragment?` | **`SidebarShell` only** — your nav content |
+| `Sidebar` | `RenderFragment?` | **`FaSidebarShell` only** — your nav content |
 
 [← Back to index](index.md)

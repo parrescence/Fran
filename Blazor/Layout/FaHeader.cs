@@ -11,7 +11,7 @@ namespace FactoryAspects.Layout;
 /// login/logout callbacks (e.g. FinanceApp.Web's MainLayout, an example consumer, for
 /// real wiring).
 /// </summary>
-public sealed class AppHeader : ComponentBase
+public sealed class FaHeader : ComponentBase
 {
     [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public string BrandHref { get; set; } = "";
@@ -35,7 +35,7 @@ public sealed class AppHeader : ComponentBase
         builder.OpenElement(6, "div");
         builder.AddAttribute(7, "class", "fa-header-user");
 
-        builder.OpenComponent<ThemeSwitcher>(8);
+        builder.OpenComponent<FaThemeSwitcher>(8);
         builder.CloseComponent();
 
         if (IsAuthenticated)

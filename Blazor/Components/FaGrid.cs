@@ -47,6 +47,14 @@ public sealed class FaGrid<TItem> : ComponentBase
     [Parameter] public string? EmptyText { get; set; } = "No rows to show.";
     [Parameter] public string? CssClass { get; set; }
 
+    /// <summary>
+    /// What to render inside the loading overlay while an <see cref="ItemsProvider"/>
+    /// request is in flight. Defaults to <see cref="FaLoadingDots"/> ("Loading..." with
+    /// growing dots) when left unset — pass this to swap in an <see cref="FaSpinner"/>,
+    /// custom text, or anything else.
+    /// </summary>
+    [Parameter] public RenderFragment? LoadingContent { get; set; }
+
     private bool IsProviderMode => ItemsProvider is not null;
 
     // Keyed by column index rather than Header text — two columns can share a header
@@ -192,8 +200,11 @@ public sealed class FaGrid<TItem> : ComponentBase
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", CssClassNames.Combine("fa-grid", CssClass));
 
-        builder.OpenElement(2, "table");
-        builder.AddAttribute(3, "class", "fa-table");
+        builder.OpenElement(2, "div");
+        builder.AddAttribute(3, "class", "fa-grid-table-wrap");
+
+        builder.OpenElement(4, "table");
+        builder.AddAttribute(5, "class", "fa-table");
 
         RenderHeader(builder, 10);
 
@@ -204,7 +215,7 @@ public sealed class FaGrid<TItem> : ComponentBase
             builder.OpenElement(1002, "td");
             builder.AddAttribute(1003, "colspan", Columns.Count);
             builder.AddAttribute(1004, "class", "fa-grid-empty");
-            builder.AddContent(1005, _isLoading ? "Loading…" : EmptyText);
+            builder.AddContent(1005, EmptyText);
             builder.CloseElement();
             builder.CloseElement();
         }
@@ -228,6 +239,28 @@ public sealed class FaGrid<TItem> : ComponentBase
             }
         }
         builder.CloseElement();
+
+        builder.CloseElement();
+
+        // Overlay sits on top of the table (not swapped in for it), so a page/sort/
+        // filter change on an already-populated grid keeps the previous rows visible
+        // underneath instead of flashing empty — same "still-showing-stale-data
+        // while refetching" behavior ItemsProvider mode already promises elsewhere.
+        if (_isLoading)
+        {
+            builder.OpenElement(90000, "div");
+            builder.AddAttribute(90001, "class", "fa-grid-loading-overlay");
+            if (LoadingContent is not null)
+            {
+                builder.AddContent(90002, LoadingContent);
+            }
+            else
+            {
+                builder.OpenComponent<FaLoadingDots>(90003);
+                builder.CloseComponent();
+            }
+            builder.CloseElement();
+        }
 
         builder.CloseElement();
 
@@ -262,6 +295,7 @@ public sealed class FaGrid<TItem> : ComponentBase
                 {
                     builder.OpenComponent<FaIcon>(seq++);
                     builder.AddComponentParameter(seq++, nameof(FaIcon.Name), _sortAscending ? FaIconName.ChevronRight : FaIconName.ChevronLeft);
+                    builder.AddComponentParameter(seq++, nameof(FaIcon.Color), FaIconColor.Black);
                     builder.AddComponentParameter(seq++, nameof(FaIcon.Size), 10);
                     builder.CloseComponent();
                 }
@@ -364,6 +398,7 @@ public sealed class FaGrid<TItem> : ComponentBase
         builder.AddAttribute(seq++, "onclick", EventCallback.Factory.Create(this, () => GoToPageAsync(Math.Max(0, _page - 1))));
         builder.OpenComponent<FaIcon>(seq++);
         builder.AddComponentParameter(seq++, nameof(FaIcon.Name), FaIconName.ChevronLeft);
+        builder.AddComponentParameter(seq++, nameof(FaIcon.Color), FaIconColor.Black);
         builder.AddComponentParameter(seq++, nameof(FaIcon.Size), 12);
         builder.CloseComponent();
         builder.CloseElement();
@@ -381,6 +416,7 @@ public sealed class FaGrid<TItem> : ComponentBase
         builder.AddAttribute(seq++, "onclick", EventCallback.Factory.Create(this, () => GoToPageAsync(Math.Min(pageCount - 1, _page + 1))));
         builder.OpenComponent<FaIcon>(seq++);
         builder.AddComponentParameter(seq++, nameof(FaIcon.Name), FaIconName.ChevronRight);
+        builder.AddComponentParameter(seq++, nameof(FaIcon.Color), FaIconColor.Black);
         builder.AddComponentParameter(seq++, nameof(FaIcon.Size), 12);
         builder.CloseComponent();
         builder.CloseElement();

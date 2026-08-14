@@ -95,7 +95,7 @@
 
 /* Same inset-pill treatment as .fa-theme-switcher, but a native <select> instead of a
    button row — fourteen palette options don't fit a pill row the way three theme
-   modes do. Sits in the header alongside ThemeSwitcher, so it wears the same
+   modes do. Sits in the header alongside FaThemeSwitcher, so it wears the same
    always-white-on-burnt-orange styling regardless of the active theme mode. */
 .fa-palette-switcher {
     appearance: none;

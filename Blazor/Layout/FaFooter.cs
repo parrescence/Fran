@@ -6,7 +6,7 @@ namespace FactoryAspects.Layout;
 /// <summary>
 /// Lighter footer band, closes out both page templates.
 /// </summary>
-public sealed class AppFooter : ComponentBase
+public sealed class FaFooter : ComponentBase
 {
     [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }

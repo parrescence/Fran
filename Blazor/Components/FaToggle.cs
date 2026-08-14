@@ -7,7 +7,7 @@ namespace FactoryAspects.Components;
 
 /// <summary>
 /// Generic segmented toggle/switch — pass 2+ (Title, Value) options; the active one is
-/// highlighted, same visual idea as ThemeSwitcher's row of buttons (not a boolean-only
+/// highlighted, same visual idea as FaThemeSwitcher's row of buttons (not a boolean-only
 /// on/off knob). Options are plain System.ValueTuple, not a custom DTO type, so this
 /// stays self-contained enough to ship standalone as a NuGet package later without
 /// dragging in an app-specific model. An optional companion input can show inline only

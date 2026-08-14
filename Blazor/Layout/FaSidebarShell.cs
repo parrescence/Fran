@@ -8,7 +8,7 @@ namespace FactoryAspects.Layout;
 /// FinanceApp.Web's MainLayout uses this template — Sidebar receives the app's own
 /// NavMenu as content.
 /// </summary>
-public sealed class SidebarShell : ComponentBase
+public sealed class FaSidebarShell : ComponentBase
 {
     [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public string BrandHref { get; set; } = "";
@@ -26,21 +26,21 @@ public sealed class SidebarShell : ComponentBase
         builder.OpenElement(0, "div");
         builder.AddAttribute(1, "class", "fa-shell fa-shell-sidebar");
 
-        builder.OpenComponent<AppHeader>(2);
-        builder.AddComponentParameter(3, nameof(AppHeader.BrandText), BrandText);
-        builder.AddComponentParameter(4, nameof(AppHeader.BrandHref), BrandHref);
-        builder.AddComponentParameter(5, nameof(AppHeader.IsAuthenticated), IsAuthenticated);
-        builder.AddComponentParameter(6, nameof(AppHeader.UserDisplayName), UserDisplayName);
-        builder.AddComponentParameter(7, nameof(AppHeader.UserImageUrl), UserImageUrl);
-        builder.AddComponentParameter(8, nameof(AppHeader.OnLogin), OnLogin);
-        builder.AddComponentParameter(9, nameof(AppHeader.OnLogout), OnLogout);
+        builder.OpenComponent<FaHeader>(2);
+        builder.AddComponentParameter(3, nameof(FaHeader.BrandText), BrandText);
+        builder.AddComponentParameter(4, nameof(FaHeader.BrandHref), BrandHref);
+        builder.AddComponentParameter(5, nameof(FaHeader.IsAuthenticated), IsAuthenticated);
+        builder.AddComponentParameter(6, nameof(FaHeader.UserDisplayName), UserDisplayName);
+        builder.AddComponentParameter(7, nameof(FaHeader.UserImageUrl), UserImageUrl);
+        builder.AddComponentParameter(8, nameof(FaHeader.OnLogin), OnLogin);
+        builder.AddComponentParameter(9, nameof(FaHeader.OnLogout), OnLogout);
         builder.CloseComponent();
 
         builder.OpenElement(10, "div");
         builder.AddAttribute(11, "class", "fa-shell-body");
 
-        builder.OpenComponent<AppSidebar>(12);
-        builder.AddComponentParameter(13, nameof(AppSidebar.ChildContent), Sidebar);
+        builder.OpenComponent<FaSidebar>(12);
+        builder.AddComponentParameter(13, nameof(FaSidebar.ChildContent), Sidebar);
         builder.CloseComponent();
 
         builder.OpenElement(14, "main");
@@ -50,9 +50,9 @@ public sealed class SidebarShell : ComponentBase
 
         builder.CloseElement();
 
-        builder.OpenComponent<AppFooter>(17);
-        builder.AddComponentParameter(18, nameof(AppFooter.BrandText), BrandText);
-        builder.AddComponentParameter(19, nameof(AppFooter.ChildContent), FooterContent);
+        builder.OpenComponent<FaFooter>(17);
+        builder.AddComponentParameter(18, nameof(FaFooter.BrandText), BrandText);
+        builder.AddComponentParameter(19, nameof(FaFooter.ChildContent), FooterContent);
         builder.CloseComponent();
 
         builder.CloseElement();

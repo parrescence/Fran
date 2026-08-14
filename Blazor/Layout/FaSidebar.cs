@@ -10,10 +10,10 @@ namespace FactoryAspects.Layout;
 /// NavMenu.razor, an example consumer, for real links + auth-aware admin check).
 ///
 /// The collapse toggle is deliberately plain JS (onclick -> window.faToggleSidebar,
-/// see js/sidebar.js), same reasoning as ThemeSwitcher: collapsed/expanded is pure
+/// see js/sidebar.js), same reasoning as FaThemeSwitcher: collapsed/expanded is pure
 /// client-side UI state stamped on &lt;html&gt;, with no Blazor state to keep in sync.
 /// </summary>
-public sealed class AppSidebar : ComponentBase
+public sealed class FaSidebar : ComponentBase
 {
     [Parameter] public string? CssClass { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }

@@ -6,16 +6,16 @@ namespace FactoryAspects.Components;
 /// <summary>
 /// A single dropdown covering all twenty-three <c>data-fa-palette</c> values (see
 /// <c>theme.css</c>'s "Theme variants" section). A `&lt;select&gt;`, not a button row like
-/// <see cref="ThemeSwitcher"/> — twenty-three options don't fit a pill row the way three modes
+/// <see cref="FaThemeSwitcher"/> — twenty-three options don't fit a pill row the way three modes
 /// do. Deliberately no Blazor state or IJSRuntime here, same reasoning as
-/// <see cref="ThemeSwitcher"/>: <c>onchange</c> (lowercase, not <c>@onchange</c>) is a raw
+/// <see cref="FaThemeSwitcher"/>: <c>onchange</c> (lowercase, not <c>@onchange</c>) is a raw
 /// HTML attribute Blazor passes straight through, so picking an option calls the global
 /// <c>window.faSetPalette(...)</c> from js/theme.js directly, client-side only. Which
 /// option shows as selected on page load is handled by that script (see
 /// <c>syncPaletteSelects</c> there), not by anything this component tracks — there's
 /// nothing here for a re-render to get out of sync with.
 /// </summary>
-public sealed class PaletteSwitcher : ComponentBase
+public sealed class FaPaletteSwitcher : ComponentBase
 {
     private static readonly (string Value, string Label)[] Palettes =
     [

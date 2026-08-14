@@ -109,11 +109,11 @@ Available names: `northwest-fall`, `southwest-summer`, `northeast-spring`,
 dropdown:
 
 ```razor
-<PaletteSwitcher />
+<FaPaletteSwitcher />
 ```
 
-See [PaletteSwitcher](palette-switcher.md) for details. Or call the underlying
-function yourself, the same way `<ThemeSwitcher>` calls `window.faSetTheme(...)`:
+See [FaPaletteSwitcher](palette-switcher.md) for details. Or call the underlying
+function yourself, the same way `<FaThemeSwitcher>` calls `window.faSetTheme(...)`:
 
 ```js
 window.faSetPalette('southeast-beach');
