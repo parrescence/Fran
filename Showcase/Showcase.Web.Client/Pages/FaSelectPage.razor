@@ -1,0 +1,39 @@
+@page "/fa-select"
+
+<PageTitle>Select — FactoryAspects Showcase</PageTitle>
+
+<h1>Select</h1>
+<p class="fa-mb-4">
+    <code>FaSelect</code>. Full parameter reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/fa-select.md" target="_blank">Blazor/docs/fa-select.md</a>.
+    <code>InputBase&lt;TValue&gt;</code>-derived — only works inside an <code>&lt;EditForm&gt;</code>. Plain
+    <code>&lt;select&gt;</code>, options as child content.
+</p>
+
+<EditForm Model="_model" class="fa-form">
+    <FaSelect TValue="string" @bind-Value="_model.Type" Label="Type">
+        <option value="">Choose…</option>
+        <option value="general">General</option>
+        <option value="urgent">Urgent</option>
+    </FaSelect>
+</EditForm>
+<p>Selected: <FaBadge>@(string.IsNullOrEmpty(_model.Type) ? "(none)" : _model.Type)</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-field</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Select</span><code>.fa-select</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;EditForm Model="_model"&gt;
+    &lt;FaSelect TValue="string" @@bind-Value="_model.Type" Label="Type"&gt;
+        &lt;option value=""&gt;Choose…&lt;/option&gt;
+        &lt;option value="general"&gt;General&lt;/option&gt;
+        &lt;option value="urgent"&gt;Urgent&lt;/option&gt;
+    &lt;/FaSelect&gt;
+&lt;/EditForm&gt;</code></div>
+
+@code {
+    private class DemoModel
+    {
+        public string Type { get; set; } = "";
+    }
+
+    private DemoModel _model = new();
+}

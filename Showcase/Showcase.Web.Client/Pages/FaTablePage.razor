@@ -1,0 +1,60 @@
+@page "/fa-table"
+
+<PageTitle>Table — FactoryAspects Showcase</PageTitle>
+
+<h1>Table</h1>
+<p class="fa-mb-4">
+    <code>FaTable</code>. Full parameter reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/fa-table.md" target="_blank">Blazor/docs/fa-table.md</a>.
+    Plain display — no paging/sorting/filtering, you own that yourself. See <a href="/fa-grid">Data Grid</a>
+    for the version with paging/sort/filter built in.
+</p>
+
+<FaTable Columns="_tableColumns" Rows="_tableRows" />
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Table</span><code>.fa-table</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaTable Columns="_columns" Rows="_rows" /&gt;
+
+@@code {
+    private List&lt;string&gt; _columns = new() { "Name", "Category", "Status" };
+    private List&lt;IReadOnlyDictionary&lt;string, RenderFragment&gt;&gt; _rows = new()
+    {
+        new Dictionary&lt;string, RenderFragment&gt;
+        {
+            ["Name"] = @@&lt;span&gt;Trail Runner Jacket&lt;/span&gt;,
+            ["Category"] = @@&lt;span&gt;Apparel&lt;/span&gt;,
+            ["Status"] = @@&lt;FaBadge Variant="FaBadgeVariant.Success"&gt;In stock&lt;/FaBadge&gt;
+        }
+    };
+}</code></div>
+
+@code {
+    private sealed record Product(int Id, string Name, string Category, decimal Price, bool InStock);
+
+    private readonly List<Product> _localProducts = new()
+    {
+        new(1, "Trail Runner Jacket", "Apparel", 129.99m, true),
+        new(2, "Cedar Camp Mug", "Outdoor", 18.50m, true),
+        new(3, "Alpine Wool Socks", "Apparel", 14.00m, true),
+        new(4, "Folding Camp Stool", "Outdoor", 42.00m, false),
+        new(5, "Rain Shell, Packable", "Apparel", 89.00m, true),
+    };
+
+    private List<string> _tableColumns = new() { "Name", "Category", "Status" };
+    private List<IReadOnlyDictionary<string, RenderFragment>> _tableRows = new();
+
+    protected override void OnInitialized()
+    {
+        foreach (var product in _localProducts)
+        {
+            _tableRows.Add(new Dictionary<string, RenderFragment>
+            {
+                ["Name"] = @<span>@product.Name</span>,
+                ["Category"] = @<span>@product.Category</span>,
+                ["Status"] = @<FaBadge Variant="@(product.InStock ? FaBadgeVariant.Success : FaBadgeVariant.Danger)">
+                                 @(product.InStock ? "In stock" : "Out of stock")
+                             </FaBadge>
+            });
+        }
+    }
+}

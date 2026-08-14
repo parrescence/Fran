@@ -87,15 +87,17 @@ behavior, not something specific to this package. Add these tags yourself:
 
 ## 5. Pick a color palette (optional)
 
-Fourteen seasonal/regional/country color palettes ship in the one `fa-styles.css`, picked
-via a `data-fa-palette` attribute on `<html>` — a second, independent axis from the
-light/dark/colorblind mode (`data-theme`); any palette combines with any mode. Default
-is `northwest-fall` (no attribute needed) if you skip this step.
+Twenty-three seasonal/regional/country color palettes ship in the one `fa-styles.css`,
+picked via a `data-fa-palette` attribute on `<html>` — a second, independent axis from
+the light/dark/colorblind mode (`data-theme`); any palette combines with any mode.
+Default is `northwest-fall` (no attribute needed) if you skip this step.
 
 Available names: `northwest-fall`, `southwest-summer`, `northeast-spring`,
 `midwest-winter`, `southeast-beach`, `greece-aegean`, `spain-flamenco`,
 `ireland-emerald`, `jamaica-blue-mountain`, `japan-indigo`, `korea-celadon`,
-`china-cinnabar`, `india-peacock`, `cameroon-rainforest`.
+`china-cinnabar`, `india-peacock`, `cameroon-rainforest`, `sahara-desert`,
+`brazil-rainforest`, `brazil-favela`, `portugal-tiles`, `spain-bullfighting`,
+`mexico-day-of-the-dead`, `london-life`, `new-york-nightlife`, `india-henna`.
 
 **Option A — pick one at build time**, hardcoded in your host page:
 

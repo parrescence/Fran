@@ -1,0 +1,49 @@
+@page "/fa-progress"
+
+<PageTitle>Progress Bar — FactoryAspects Showcase</PageTitle>
+
+<h1>Progress Bar</h1>
+<p class="fa-mb-4">
+    <code>FaProgress</code>. Full parameter reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/fa-progress.md" target="_blank">Blazor/docs/fa-progress.md</a>.
+</p>
+
+<h2>Fill directions</h2>
+<p>Drag the slider to see all of them move together.</p>
+<input type="range" min="0" max="100" @bind="_progressValue" @bind:event="oninput" class="fa-mb-3" />
+<div class="fa-demo-preview" style="align-items: flex-end;">
+    <div>
+        <p>Right (default)</p>
+        <FaProgress Value="_progressValue" />
+    </div>
+    <div>
+        <p>Left</p>
+        <FaProgress Value="_progressValue" Direction="FaProgressDirection.Left" />
+    </div>
+    <div>
+        <p>Up</p>
+        <FaProgress Value="_progressValue" Direction="FaProgressDirection.Up" />
+    </div>
+    <div>
+        <p>Down</p>
+        <FaProgress Value="_progressValue" Direction="FaProgressDirection.Down" />
+    </div>
+    <div>
+        <p>Danger variant</p>
+        <FaProgress Value="_progressValue" Variant="FaLoaderVariant.Danger" />
+    </div>
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Track (right, default)</span><code>.fa-progress</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Direction="Left"</span><code>.fa-progress.fa-progress-left</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Direction="Up"</span><code>.fa-progress.fa-progress-up</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Direction="Down"</span><code>.fa-progress.fa-progress-down</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Variant="Danger"</span><code>.fa-progress.fa-loader-danger</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Filled bar</span><code>.fa-progress-bar</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaProgress Value="65" /&gt;
+&lt;FaProgress Value="65" Direction="FaProgressDirection.Up" /&gt;
+&lt;FaProgress Value="65" Variant="FaLoaderVariant.Danger" /&gt;</code></div>
+
+@code {
+    private double _progressValue = 45;
+}

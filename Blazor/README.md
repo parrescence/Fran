@@ -28,7 +28,7 @@ dotnet add package FactoryAspects
 ```
 
 That's the package reference. The library also ships CSS/JS static assets that Blazor
-doesn't auto-wire into your host page, plus 14 optional color palettes — full
+doesn't auto-wire into your host page, plus 23 optional color palettes — full
 step-by-step (including the CI-friendly no-PAT path, and the exact host-page tags to
 add) is in **[`docs/install.md`](docs/install.md)**.
 

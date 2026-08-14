@@ -1,0 +1,32 @@
+@page "/fa-date-picker"
+
+<PageTitle>Date Picker — FactoryAspects Showcase</PageTitle>
+
+<h1>Date Picker</h1>
+<p class="fa-mb-4">
+    <code>FaDatePicker</code>. Full parameter reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/fa-date-picker.md" target="_blank">Blazor/docs/fa-date-picker.md</a>.
+    <code>InputBase&lt;TValue&gt;</code>-derived — only works inside an <code>&lt;EditForm&gt;</code>.
+</p>
+
+<EditForm Model="_model" class="fa-form">
+    <FaDatePicker @bind-Value="_model.Date" Label="Start date" Max="DateOnly.FromDateTime(DateTime.Today)" />
+</EditForm>
+<p>Selected: <FaBadge>@(_model.Date?.ToString("MMM d, yyyy") ?? "(none)")</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-datepicker</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Day/month/year fields</span><code>.fa-datepicker-fields</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Calendar toggle</span><code>.fa-datepicker-toggle</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;EditForm Model="_model"&gt;
+    &lt;FaDatePicker @@bind-Value="_model.Date" Label="Start date"
+                  Max="DateOnly.FromDateTime(DateTime.Today)" /&gt;
+&lt;/EditForm&gt;</code></div>
+
+@code {
+    private class DemoModel
+    {
+        public DateOnly? Date { get; set; }
+    }
+
+    private DemoModel _model = new();
+}

@@ -1,0 +1,52 @@
+/* Showcase-only doc-page chrome — not part of the Blazor/ style library itself,
+   just the scaffolding every component page uses to show its variants labeled by
+   the actual CSS class each one renders, plus a copyable code block. */
+
+.fa-demo-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0.75rem 0;
+}
+
+.fa-class-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin: 0.5rem 0 1.25rem;
+    font-size: 0.85rem;
+}
+
+.fa-class-legend-row {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+}
+
+.fa-class-legend-row .fa-class-legend-label {
+    min-width: 9rem;
+    color: var(--fa-text-muted);
+}
+
+.fa-class-legend-row code {
+    font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.82rem;
+}
+
+.fa-code-block {
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.9rem 1.1rem;
+    overflow-x: auto;
+    margin: 0.5rem 0 1.75rem;
+}
+
+    .fa-code-block code {
+        font-family: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+        font-size: 0.85rem;
+        line-height: 1.55;
+        color: var(--fa-text);
+        white-space: pre;
+    }
