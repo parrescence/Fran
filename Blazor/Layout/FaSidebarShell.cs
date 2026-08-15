@@ -47,6 +47,7 @@ public sealed class FaSidebarShell : ComponentBase
         builder.AddComponentParameter(8, nameof(FaHeader.OnLogin), OnLogin);
         builder.AddComponentParameter(9, nameof(FaHeader.OnLogout), OnLogout);
         builder.AddComponentParameter(20, nameof(FaHeader.Position), HeaderPosition);
+        builder.AddComponentParameter(26, nameof(FaHeader.ShowSidebarToggle), true);
         builder.CloseComponent();
 
         builder.OpenElement(10, "div");

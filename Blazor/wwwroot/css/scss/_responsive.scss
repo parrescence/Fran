@@ -5,6 +5,24 @@
         flex-direction: column;
     }
 
+    /* FaHeader.ShowSidebarToggle's hamburger — hidden at desktop widths
+       (_layout.scss), shown here alongside the sidebar going off-canvas below. */
+    .fa-header-menu-toggle {
+        display: inline-flex;
+    }
+
+    /* Off-canvas below this breakpoint, regardless of FaSidebar.Collapsible (that's a
+       separate, desktop-only icon-rail affordance) — closed by default and shown only
+       once html carries .fa-sidebar-mobile-open (js/sidebar.js's faToggleSidebarMobile,
+       wired to the header's hamburger button above). */
+    .fa-sidebar {
+        display: none;
+    }
+
+    html.fa-sidebar-mobile-open .fa-sidebar {
+        display: flex;
+    }
+
     /* Collapse/expand is a desktop affordance — the mobile layout is already a compact
        icon+label row, so force expanded and hide the toggle rather than letting the two
        layout modes combine. Scoped to .fa-sidebar-collapsible same as _layout.scss's own

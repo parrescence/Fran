@@ -59,6 +59,12 @@
     border-radius: var(--fa-radius-lg);
 }
 
+.fa-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
 .fa-header-brand {
     font-family: var(--fa-font);
     font-weight: 800;
@@ -67,6 +73,35 @@
     color: var(--fa-text-on-primary);
     text-decoration: none;
 }
+
+/* FaHeader.ShowSidebarToggle — hidden here unconditionally; _responsive.scss's
+   small-screen breakpoint is what actually shows it (and hides .fa-sidebar
+   off-canvas until this is clicked). Always present in the markup so there's no
+   flash-of-missing-button while CSS loads, just display:none until the
+   breakpoint applies. */
+.fa-header-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    flex: none;
+    border-radius: var(--fa-radius-md);
+    border: none;
+    background: rgba(0, 0, 0, 0.14);
+    color: var(--fa-text-on-primary);
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast);
+}
+
+    .fa-header-menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.16);
+    }
+
+    .fa-header-menu-toggle:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+    }
 
 .fa-header-user {
     display: flex;

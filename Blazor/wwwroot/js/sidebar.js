@@ -51,6 +51,20 @@
         apply(next, false);
     };
 
+    // Mobile off-canvas open/closed — a separate axis from the desktop icon-rail
+    // collapse above (CLASS_NAME/apply()). Not persisted to localStorage: unlike
+    // the desktop rail, staying open across page loads on a small screen would
+    // just mean every new page starts covered by the menu.
+    var MOBILE_CLASS_NAME = 'fa-sidebar-mobile-open';
+
+    window.faToggleSidebarMobile = function () {
+        var open = document.documentElement.classList.toggle(MOBILE_CLASS_NAME);
+        var buttons = document.querySelectorAll('[data-sidebar-mobile-toggle]');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
         // Applying the saved state on page load should never animate — only the
         // interactive toggle click gets the delayed settle.
