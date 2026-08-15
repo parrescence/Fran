@@ -30,6 +30,43 @@
     flex-direction: column;
 }
 
+/* FaStandardShell.ContainScroll / FaSidebarShell.ContainScroll — opt-in, off by
+   default. Standard's own .fa-shell above only sets min-height: 100vh, so header,
+   sidebar, main, and footer all just grow the document past one viewport and the
+   whole page scrolls together — fine for most content, but wrong for a page that
+   wants header/sidebar/footer pinned to the viewport edges with only .fa-shell-main
+   scrolling internally (a dashboard-style layout). A separate class rather than
+   changing .fa-shell itself, so every existing whole-page-scroll consumer is
+   unaffected. min-height: 0 undoes the flex-item default of min-height: auto, which
+   would otherwise refuse to shrink below content height and never let the intended
+   child's overflow kick in. */
+.fa-shell-contained {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.fa-shell-contained .fa-shell-body,
+.fa-shell-contained .fa-shell-main-col {
+    min-height: 0;
+}
+
+.fa-shell-contained .fa-shell-main {
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* A Standard-position sidebar (Sticky/Floating already scroll independently via
+   .fa-sidebar-sticky/.fa-sidebar-floating further down) would otherwise just get
+   silently clipped by .fa-shell-contained's overflow: hidden once its content is
+   taller than the viewport, with no way to reach the rest of it. Scoped to
+   .fa-sidebar-scroll rather than .fa-sidebar itself, same reasoning as the
+   Sticky/Floating rules below — .fa-sidebar needs to stay overflow: visible so the
+   collapse toggle and collapsed-state tooltips can still spill past its edge. */
+.fa-shell-contained .fa-sidebar-scroll {
+    overflow-y: auto;
+    min-height: 0;
+}
+
 /* ============================= Header ============================= */
 
 .fa-header {

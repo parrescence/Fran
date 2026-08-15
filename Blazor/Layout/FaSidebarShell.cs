@@ -1,3 +1,4 @@
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -33,10 +34,21 @@ public sealed class FaSidebarShell : ComponentBase
     /// <summary>Passed straight through to <see cref="FaSidebar.Collapsible"/>.</summary>
     [Parameter] public bool SidebarCollapsible { get; set; }
 
+    /// <summary>
+    /// Opt-in, off by default. Pins the header, sidebar, and footer to the viewport
+    /// edges and lets only <see cref="ChildContent"/> (inside &lt;main&gt;) scroll
+    /// internally, instead of the whole page growing past one viewport and scrolling
+    /// as a single document (the default — fine for most content, but wrong for a
+    /// dashboard-style page that wants the chrome pinned). A too-tall Sidebar scrolls
+    /// independently too, same as it already does under Sticky/Floating. See
+    /// <c>_layout.scss</c>'s <c>.fa-shell-contained</c> for the mechanics.
+    /// </summary>
+    [Parameter] public bool ContainScroll { get; set; }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", "fa-shell fa-shell-sidebar");
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-shell", "fa-shell-sidebar", ContainScroll ? "fa-shell-contained" : null));
 
         builder.OpenComponent<FaHeader>(2);
         builder.AddComponentParameter(3, nameof(FaHeader.BrandText), BrandText);
