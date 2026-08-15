@@ -113,10 +113,9 @@ how both shells pair them — as in the example above. Using the pieces directly
 ## Collapsible sidebar
 
 `FaSidebar` also takes `Collapsible` — `false` by default, meaning no toggle button
-renders and the sidebar always shows expanded (small screens still auto-collapse to
-a compact icon+label row regardless, via `_responsive.scss`'s own breakpoint — that's
-unrelated to this parameter and can't be turned off). `FaSidebarShell` exposes the
-same choice as `SidebarCollapsible`:
+renders and the sidebar always shows expanded on desktop widths (small screens ignore
+this entirely — see "Sidebar on small screens" below, unrelated to this parameter and
+can't be turned off). `FaSidebarShell` exposes the same choice as `SidebarCollapsible`:
 
 ```razor
 <FaSidebarShell BrandText="MyApp" BrandHref="/" SidebarCollapsible="true">
@@ -135,6 +134,18 @@ an icon-less nav effectively hides most of your navigation once a user collapses
 This repo's own Showcase app leaves `SidebarCollapsible` at its `false` default for
 exactly that reason — its `NavMenu.razor` groups links under `<details>` disclosure
 sections that don't have individual icons.
+
+## Sidebar on small screens
+
+Below `_responsive.scss`'s breakpoint (720px), `FaSidebar` goes off-canvas — hidden
+until opened — regardless of `Collapsible`, which is a separate, desktop-only
+icon-rail affordance. `FaSidebarShell` automatically shows a hamburger button left of
+the brand in the header at that width (`FaHeader.ShowSidebarToggle`, which the shell
+sets for you — nothing to configure); tapping it reveals the sidebar as a full-width
+row below the header, tapping again hides it. State isn't persisted across page
+loads, unlike the desktop collapse above. Using `FaHeader`/`FaSidebar` directly
+instead of `FaSidebarShell`, set `ShowSidebarToggle="true"` on `FaHeader` yourself to
+get the same behavior.
 
 ## Getting the value
 

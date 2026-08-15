@@ -110,6 +110,16 @@
     </main>
 </div>
 
+<h2>Sidebar on small screens</h2>
+<p class="fa-mb-4">
+    Below 720px wide, <code>FaSidebar</code> goes off-canvas — hidden until opened —
+    regardless of <code>Collapsible</code>, which is a separate desktop-only
+    affordance. <code>FaSidebarShell</code> shows a hamburger button left of the brand
+    at that width (<code>FaHeader.ShowSidebarToggle</code>, set for you automatically)
+    that reveals the sidebar as a full-width row below the header. Shrink this browser
+    window — or this app's own header, above — to try it live.
+</p>
+
 @code {
     private FaNavPosition _demoPosition = FaNavPosition.Sticky;
     private bool _demoCollapsible;
