@@ -39,6 +39,35 @@
         box-shadow: 0 2px 0 var(--fa-glow), 0 4px 14px rgba(140, 67, 27, 0.25);
     }
 
+    /* FaSidebar.Position: Sticky/Floating's own position: sticky + fixed
+       height: calc(100vh - header-height) (_layout.scss) are desktop affordances —
+       "stay pinned while the page scrolls" only means something once the sidebar is
+       back to a normal in-flow column, and at this breakpoint every position variant
+       collapses into the same off-canvas row above regardless of Position. Left
+       unreset, a Sticky/Floating sidebar would open as a full-viewport-height pinned
+       panel instead of the compact row Standard gets — same bug this whole block
+       exists to avoid for Collapsible above, just for Position instead. Floating's
+       margin/border-radius are reset alongside its position for the same reason: they
+       exist to read as a detached inset bar against a full-height sidebar, and just
+       look like uneven padding once the sidebar is a normal-height row. */
+    .fa-sidebar-sticky,
+    .fa-sidebar-floating {
+        position: static;
+        top: auto;
+        height: auto;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    /* Scoped scrollbar/overflow styling (_layout.scss) only made sense while the
+       sidebar scrolled independently at full viewport height above — once it's back
+       to a normal-height row, its content should flow (and grow) with the page like
+       any other off-canvas panel, not clip to a stale fixed height. */
+    .fa-sidebar-sticky .fa-sidebar-scroll,
+    .fa-sidebar-floating .fa-sidebar-scroll {
+        overflow: visible;
+    }
+
     .fa-sidebar-toggle {
         display: none;
     }
