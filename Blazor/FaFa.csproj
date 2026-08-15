@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>FactoryAspects</RootNamespace>
-    <AssemblyName>FactoryAspects</AssemblyName>
+    <RootNamespace>FaFa</RootNamespace>
+    <AssemblyName>FaFa</AssemblyName>
     <!-- Declared explicitly (not inherited from a Directory.Build.props, which this
          standalone repo doesn't have) so the project builds/packs identically
          wherever it's cloned. -->
@@ -84,31 +84,31 @@
   </Target>
 
   <!-- ============================= NuGet packaging =============================
-       Published to GitHub Packages (https://nuget.pkg.github.com/bencalvin/index.json)
+       Published to GitHub Packages (https://nuget.pkg.github.com/benzaesintese/index.json)
        via .github/workflows/publish.yml on every push to main — not NuGet.org, for now.
        Component/type names keep their existing "Fa" identity (FaButton, FaCard,
        FaToggle<TValue>, FaIcon, ...) — only the package/namespace/repo identity is
-       "FactoryAspects"; nothing was renamed at the C# type level during the split
+       "FaFa"; nothing was renamed at the C# type level during the split
        out of FinanceApp.
        PackageId is pinned on purpose — any consumer's index.html references this
-       library's static assets via the RCL convention (_content/FactoryAspects/...),
+       library's static assets via the RCL convention (_content/FaFa/...),
        which is derived from PackageId at pack time, so changing PackageId without
-       updating every _content/FactoryAspects/... reference in every consumer would
+       updating every _content/FaFa/... reference in every consumer would
        silently 404 the CSS/JS. -->
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <PackageId>FactoryAspects</PackageId>
-    <Version>0.4.22</Version>
+    <PackageId>FaFa</PackageId>
+    <Version>0.4.24</Version>
     <Authors>Ben Calvin</Authors>
     <Description>Self-contained Blazor UI component library — buttons, cards, alerts, badges, modals, a generic N-option toggle, form inputs, page-shell layouts, a theme switcher, and a hand-drawn SVG icon set (all "Fa"-prefixed: FaButton, FaCard, FaToggle, FaIcon, ...). No dependency on any specific app's project or type; built to be reusable as-is in other Blazor apps.</Description>
     <PackageTags>blazor;razor;razorclasslibrary;ui;components</PackageTags>
-    <RepositoryUrl>https://github.com/bencalvin/FactoryAspects</RepositoryUrl>
+    <RepositoryUrl>https://github.com/benzaesintese/FaFa</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/bencalvin/FactoryAspects</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/benzaesintese/FaFa</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <!-- No PackageLicenseExpression yet — a license hasn't been chosen for this
          library specifically. Set one (e.g. MIT) before actually publishing anywhere
-         a consumer outside bencalvin's own accounts would rely on it. -->
+         a consumer outside benzaesintese's own accounts would rely on it. -->
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>

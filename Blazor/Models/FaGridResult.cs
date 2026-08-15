@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// What an <see cref="FaGrid{TItem}.ItemsProvider"/> hands back for a given <see

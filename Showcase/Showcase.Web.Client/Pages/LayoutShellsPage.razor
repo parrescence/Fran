@@ -1,10 +1,10 @@
 @page "/layout-shells"
 
-<PageTitle>Layout Shells — FactoryAspects Showcase</PageTitle>
+<PageTitle>Layout Shells — FaFa Showcase</PageTitle>
 
 <h1>Layout Shells</h1>
 <p class="fa-mb-4">
-    <code>FaStandardShell</code> / <code>FaSidebarShell</code>. Full reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/layout-shells.md" target="_blank">Blazor/docs/layout-shells.md</a>.
+    <code>FaStandardShell</code> / <code>FaSidebarShell</code>. Full reference: <a href="https://github.com/benzaesintese/FaFa/blob/dev/Blazor/docs/layout-shells.md" target="_blank">Blazor/docs/layout-shells.md</a>.
 </p>
 
 <FaCard>
@@ -53,7 +53,7 @@
     <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Sticky ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Sticky)">Sticky</FaButton>
     <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Floating ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Floating)">Floating</FaButton>
 </div>
-<div style="height: 360px; overflow-y: auto; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg);">
+<div class="fa-position-demo" style="height: 360px; overflow-y: auto; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg);">
     <div style="display: flex; flex-direction: column; min-height: 720px;">
         <FaHeader BrandText="Preview" BrandHref="#" Position="_demoPosition" />
         <div style="display: flex; flex: 1;">

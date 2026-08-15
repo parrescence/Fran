@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FactoryAspects — component docs</title>
+<title>FaFa — component docs</title>
 <style>
   /* ============================= Tokens ============================= */
-  /* Pulled directly from FactoryAspects' own wwwroot/css/fa-styles.css (Northwest Fall,
+  /* Pulled directly from FaFa' own wwwroot/css/fa-styles.css (Northwest Fall,
      the library's default palette) — this page documents that library, so it wears
      the library's own design system rather than inventing a separate one. */
   :root {
@@ -380,7 +380,7 @@
 <body>
 
 <div class="topbar">
-  <div class="topbar-brand">FactoryAspects <span class="version">v0.3.0 docs</span></div>
+  <div class="topbar-brand">FaFa <span class="version">v0.3.0 docs</span></div>
   <div class="topbar-tagline">Blazor UI components — no app, just the pieces</div>
   <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="sidenav">Menu</button>
 </div>
@@ -481,14 +481,14 @@
     <section class="component" id="install">
       <span class="kicker">Start here</span>
       <h2>Install &amp; setup</h2>
-      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>bencalvin</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
+      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>benzaesintese</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
 
       <h3>1. Add the GitHub Packages feed as a NuGet source</h3>
       <p>Pick whichever matches where you're installing from — local dev (one-time, per machine) or CI (a GitHub Actions workflow in the same account/org, no PAT needed).</p>
 
       <h4>Local dev</h4>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
-  --name github-bencalvin \
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet nuget add source https://nuget.pkg.github.com/benzaesintese/index.json \
+  --name github-benzaesintese \
   --username &lt;your-github-username&gt; \
   --password &lt;a GitHub PAT with read:packages&gt;</code></pre></div>
 
@@ -502,26 +502,26 @@
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;!-- nuget.config --&gt;
 &lt;configuration&gt;
   &lt;packageSources&gt;
-    &lt;add key="github-bencalvin" value="https://nuget.pkg.github.com/bencalvin/index.json" /&gt;
+    &lt;add key="github-benzaesintese" value="https://nuget.pkg.github.com/benzaesintese/index.json" /&gt;
   &lt;/packageSources&gt;
 &lt;/configuration&gt;</code></pre></div>
       <p>The workflow's own <code>GITHUB_TOKEN</code> is sufficient — no PAT needed. GitHub Packages' NuGet feeds require authentication to read even for a public repo like this one, but a same-account workflow's own token satisfies that once granted the permission above.</p>
 
       <h3>2. Reference the package</h3>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package FactoryAspects</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package FaFa</code></pre></div>
 
       <h3>3. Import the namespaces</h3>
       <p>Add to <code>_Imports.razor</code>:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@using FactoryAspects.Components
-@using FactoryAspects.Icons
-@using FactoryAspects.Layout</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@using FaFa.Components
+@using FaFa.Icons
+@using FaFa.Layout</code></pre></div>
 
       <h3>4. Wire the static assets into your host page</h3>
       <p>Razor Class Libraries ship their static assets under <code>_content/{PackageId}/...</code>, but they are <strong>not</strong> auto-injected into your host page — this is standard Blazor RCL behavior, not something specific to this package. Add these tags yourself:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FactoryAspects/css/fa-styles.css" /&gt;
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FaFa/css/fa-styles.css" /&gt;
 ...
-&lt;script src="_content/FactoryAspects/js/theme.js"&gt;&lt;/script&gt;
-&lt;script src="_content/FactoryAspects/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
+&lt;script src="_content/FaFa/js/theme.js"&gt;&lt;/script&gt;
+&lt;script src="_content/FaFa/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
       <p><code>theme.js</code>/<code>sidebar.js</code> are plain vanilla-JS IIFEs (no Blazor JS interop, no external dependencies) backing the theme switcher and the sidebar's collapse toggle — both persist to <code>localStorage</code> and stamp classes on <code>&lt;html&gt;</code>, so no Blazor component state needs to stay in sync with them.</p>
       <p><code>fa-styles.css</code> pulls one Google Font over <code>@import</code> (<code>Baloo 2</code>) from <code>fonts.googleapis.com</code> — a public CDN URL that works from any host, but if your app needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.</p>
 
@@ -1860,7 +1860,7 @@
     </section>
 
     <footer class="page-end">
-      FactoryAspects is a self-contained Blazor Razor Class Library — see <a href="#install">Install &amp; setup</a> above for the full step-by-step, the repo's README for a high-level overview, and CLAUDE.md for contributor guidelines.
+      FaFa is a self-contained Blazor Razor Class Library — see <a href="#install">Install &amp; setup</a> above for the full step-by-step, the repo's README for a high-level overview, and CLAUDE.md for contributor guidelines.
     </footer>
 
   </main>

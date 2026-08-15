@@ -1,4 +1,4 @@
-namespace FactoryAspects.Rendering;
+namespace FaFa.Rendering;
 
 /// <summary>
 /// Shared class-list join helper for components that build their <c>class</c> attribute

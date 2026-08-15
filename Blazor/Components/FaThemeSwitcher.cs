@@ -1,8 +1,8 @@
-using FactoryAspects.Icons;
+using FaFa.Icons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Three explicit theme buttons — Light / Dark / Colorblind-safe. Deliberately no

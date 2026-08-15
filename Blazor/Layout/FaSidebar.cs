@@ -1,9 +1,9 @@
-using FactoryAspects.Icons;
-using FactoryAspects.Rendering;
+using FaFa.Icons;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Layout;
+namespace FaFa.Layout;
 
 /// <summary>
 /// Left sidebar shell — same background color as the header by design. Nav links go

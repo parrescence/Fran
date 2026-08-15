@@ -1,10 +1,10 @@
-using FactoryAspects.Components;
-using FactoryAspects.Icons;
-using FactoryAspects.Rendering;
+using FaFa.Components;
+using FaFa.Icons;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Layout;
+namespace FaFa.Layout;
 
 /// <summary>
 /// Header bar — brand on the left, user name + avatar + login/logout at the far right.

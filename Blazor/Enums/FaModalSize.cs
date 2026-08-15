@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary><see cref="FaModal"/>'s max-width. Height always caps at 90vh and scrolls internally regardless of size.</summary>
 public enum FaModalSize
