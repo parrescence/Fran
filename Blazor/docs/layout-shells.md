@@ -81,6 +81,61 @@ If neither shell fits (a custom page structure), compose `FaHeader`/`FaSidebar`/
 <FaFooter BrandText="MyApp" />
 ```
 
+## Position: Standard, Sticky, or Floating
+
+`FaHeader`, `FaFooter`, and `FaSidebar` each take a `Position="FaNavPosition.___"`
+parameter — `Standard` (the default, scrolls away with the page), `Sticky` (pinned
+to its edge of the viewport once scrolled to), or `Floating` (same pinning, inset
+with margin/rounded corners so it reads as a detached bar over the content). The two
+shells expose the same choice per-bar as `HeaderPosition`/`FooterPosition`/
+`SidebarPosition`, passed straight through to the piece they wrap:
+
+```razor
+<FaSidebarShell BrandText="MyApp" BrandHref="/"
+              HeaderPosition="FaNavPosition.Sticky"
+              SidebarPosition="FaNavPosition.Sticky"
+              FooterPosition="FaNavPosition.Standard">
+    <Sidebar><NavMenu /></Sidebar>
+    <ChildContent>@Body</ChildContent>
+</FaSidebarShell>
+```
+
+Pinning the sidebar is different from pinning the header/footer: once it's stuck
+full-height, its own content has to scroll independently instead of scrolling away
+with the page, so `Sticky`/`Floating` also switch it to `overflow-y: auto`. It also
+settles in right below the header rather than sliding underneath it — its `top`/
+`height` are offset by `--fa-header-height` (a fixed `4rem`, also enforced as
+`FaHeader`'s own `min-height` so the two stay in sync; see `_layout.scss`) instead
+of `0`/`100vh`. That offset assumes a standard-height header sits above it, which is
+how both shells pair them — as in the example above. Using the pieces directly, set
+`Position` on `FaHeader`/`FaFooter`/`FaSidebar` themselves the same way.
+
+## Collapsible sidebar
+
+`FaSidebar` also takes `Collapsible` — `false` by default, meaning no toggle button
+renders and the sidebar always shows expanded (small screens still auto-collapse to
+a compact icon+label row regardless, via `_responsive.scss`'s own breakpoint — that's
+unrelated to this parameter and can't be turned off). `FaSidebarShell` exposes the
+same choice as `SidebarCollapsible`:
+
+```razor
+<FaSidebarShell BrandText="MyApp" BrandHref="/" SidebarCollapsible="true">
+    <Sidebar><NavMenu /></Sidebar>
+    <ChildContent>@Body</ChildContent>
+</FaSidebarShell>
+```
+
+Set `true` only once every link in your `Sidebar` content is set up to collapse to
+an icon — each one needs its own `FaIcon` + `<span class="fa-sidebar-link-text">`
+wrapper (see `FaSidebar`'s Overview/Palette links in this repo's own `NavMenu.razor`
+for the shape). A collapsed sidebar is an icon-only rail: any link without an icon
+of its own has nothing to show at 64px wide, so it's hidden while collapsed rather
+than left to wrap into an illegible sliver — which means `Collapsible="true"` with
+an icon-less nav effectively hides most of your navigation once a user collapses it.
+This repo's own Showcase app leaves `SidebarCollapsible` at its `false` default for
+exactly that reason — its `NavMenu.razor` groups links under `<details>` disclosure
+sections that don't have individual icons.
+
 ## Getting the value
 
 These are pure layout — no bound value. `OnLogin`/`OnLogout` fire on button click;
@@ -101,5 +156,9 @@ works) — nothing to wire up for it.
 | `ChildContent` | `RenderFragment?` | page content (`@Body` in a layout) |
 | `FooterContent` | `RenderFragment?` | overrides the default `© year BrandText` footer text |
 | `Sidebar` | `RenderFragment?` | **`FaSidebarShell` only** — your nav content |
+| `HeaderPosition` | `FaNavPosition` | `Standard` (default) \| `Sticky` \| `Floating` |
+| `FooterPosition` | `FaNavPosition` | `Standard` (default) \| `Sticky` \| `Floating` |
+| `SidebarPosition` | `FaNavPosition` | **`FaSidebarShell` only** — `Standard` (default) \| `Sticky` \| `Floating` |
+| `SidebarCollapsible` | `bool` | **`FaSidebarShell` only** — icon-only collapse toggle, defaults to `false` |
 
 [← Back to index](index.md)

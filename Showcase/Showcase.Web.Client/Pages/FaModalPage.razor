@@ -57,6 +57,24 @@
     </FooterContent>
 </FaModal>
 
+<h2>Loading overlay</h2>
+<div class="fa-demo-preview">
+    <FaButton OnClick="ShowLoadingModal">Archive item · IsLoading</FaButton>
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">IsLoading="true"</span><code>.fa-modal-loading-overlay</code> (defaults to <code>FaHelixLoader</code>)</div>
+</div>
+
+<FaModal Show="_showLoadingModal" Title="Archive item" OnClose="@(() => _showLoadingModal = false)" IsLoading="_isSaving">
+    <ChildContent>
+        <p>Archiving moves this item out of the active list. It can be restored later.</p>
+    </ChildContent>
+    <FooterContent>
+        <FaButton Variant="FaButtonVariant.Outline" OnClick="@(() => _showLoadingModal = false)" Disabled="_isSaving">Cancel</FaButton>
+        <FaButton OnClick="SimulateArchiveAsync" Disabled="_isSaving">Archive</FaButton>
+    </FooterContent>
+</FaModal>
+
 <div class="fa-code-block"><code>&lt;FaButton OnClick="@@(() => _showModal = true)"&gt;Delete&lt;/FaButton&gt;
 
 &lt;FaModal Show="_showModal" Title="Confirm delete" OnClose="@@(() => _showModal = false)"
@@ -73,4 +91,20 @@
     private bool _showCenterModal;
     private bool _showRightModal;
     private bool _showLargeModal;
+    private bool _showLoadingModal;
+    private bool _isSaving;
+
+    private void ShowLoadingModal()
+    {
+        _isSaving = false;
+        _showLoadingModal = true;
+    }
+
+    private async Task SimulateArchiveAsync()
+    {
+        _isSaving = true;
+        await Task.Delay(1500);
+        _isSaving = false;
+        _showLoadingModal = false;
+    }
 }

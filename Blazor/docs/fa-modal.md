@@ -76,6 +76,39 @@ default, right-aligned) reads as the usual "Cancel / Confirm" placement; `Betwee
 puts a destructive action on the left and Cancel/Confirm on the right without a
 manual spacer.
 
+## Loading overlay
+
+```razor
+<FaModal Show="_show" Title="Archive item" OnClose="() => _show = false" IsLoading="_isSaving">
+    <ChildContent>
+        <p>Archiving moves this item out of the active list. It can be restored later.</p>
+    </ChildContent>
+    <FooterContent>
+        <FaButton Variant="FaButtonVariant.Outline" OnClick="() => _show = false" Disabled="_isSaving">Cancel</FaButton>
+        <FaButton OnClick="ArchiveAsync" Disabled="_isSaving">Archive</FaButton>
+    </FooterContent>
+</FaModal>
+
+@code {
+    private bool _show;
+    private bool _isSaving;
+
+    private async Task ArchiveAsync()
+    {
+        _isSaving = true;
+        await _itemService.ArchiveAsync(_itemId);
+        _isSaving = false;
+        _show = false;
+    }
+}
+```
+
+`IsLoading` defaults to `false` — off unless you opt in, e.g. while an async submit
+triggered from `FooterContent` is in flight. When `true`, an overlay covers the
+whole dialog (header, body, and footer alike) with an `FaHelixLoader` centered on
+it, same "cover, don't replace" shape as `FaGrid`'s own loading overlay. Pass
+`LoadingContent` to swap in something else — an `FaSpinner`, custom text, anything.
+
 ## Parameters
 
 | Parameter | Type | Notes |
@@ -91,5 +124,7 @@ manual spacer.
 | `ShowCloseButton` | `bool` | header × button, defaults to `true` |
 | `CloseOnBackdropClick` | `bool` | defaults to `true` |
 | `ResetOnClose` | `bool` | tear down/recreate ChildContent on every open instead of just hiding it, defaults to `false` |
+| `IsLoading` | `bool` | shows the loading overlay over the whole dialog, defaults to `false` |
+| `LoadingContent` | `RenderFragment?` | overlay content while `IsLoading`, defaults to `FaHelixLoader` |
 
 [← Back to index](index.md)

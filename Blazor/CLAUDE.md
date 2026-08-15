@@ -215,6 +215,14 @@ contributor-facing rules, `docs/index.md` for the consumer-facing component list
 entry linking to its own usage-example page under `docs/`). The README doesn't
 duplicate the component list — it just points to `docs/index.md`.
 
+**Any code change that's user-visible — a rename, a new/changed parameter, a
+behavior change, a moved file — gets `docs/` (every page mentioning that component,
+`docs/index.md`, `docs/site.html`) and `Showcase/` updated in the same change, not as
+a follow-up.** A rename in particular touches more than the component's own doc page:
+grep `docs/` and `Showcase/` for the old name before considering the change done —
+stale examples/links that still reference it are as broken as a stale demo page (see
+root [`CLAUDE.md`](../CLAUDE.md)'s Showcase-sync rule, which this extends to `docs/`).
+
 `FaToggle<TValue>` (`Components/FaToggle.cs`) is the one component with real runtime
 validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two
 `Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
