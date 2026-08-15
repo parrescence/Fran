@@ -142,10 +142,12 @@ until opened — regardless of `Collapsible`, which is a separate, desktop-only
 icon-rail affordance. `FaSidebarShell` automatically shows a hamburger button left of
 the brand in the header at that width (`FaHeader.ShowSidebarToggle`, which the shell
 sets for you — nothing to configure); tapping it reveals the sidebar as a full-width
-row below the header, tapping again hides it. State isn't persisted across page
-loads, unlike the desktop collapse above. Using `FaHeader`/`FaSidebar` directly
-instead of `FaSidebarShell`, set `ShowSidebarToggle="true"` on `FaHeader` yourself to
-get the same behavior.
+row below the header, tapping again hides it. This is also independent of `Position` —
+`Sticky`/`Floating`'s pinned-full-height styling is reset at this breakpoint too, so
+every `Position` collapses into the same off-canvas row rather than only `Standard`
+behaving this way. State isn't persisted across page loads, unlike the desktop
+collapse above. Using `FaHeader`/`FaSidebar` directly instead of `FaSidebarShell`, set
+`ShowSidebarToggle="true"` on `FaHeader` yourself to get the same behavior.
 
 ## Getting the value
 
