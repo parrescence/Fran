@@ -18,6 +18,18 @@
     align-items: stretch;
 }
 
+/* Wraps <main> + FaFooter together as .fa-shell-body's second flex child (alongside
+   the sidebar) instead of the footer trailing after .fa-shell-body as a sibling —
+   see FaSidebarShell's own comment on why. min-width: 0 is the usual flex-item fix
+   so this column can actually shrink below its content's intrinsic width instead of
+   forcing the row wider than the viewport. */
+.fa-shell-main-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 /* ============================= Header ============================= */
 
 .fa-header {
@@ -27,7 +39,24 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1.5rem;
+    min-height: var(--fa-header-height);
     box-shadow: 0 2px 0 var(--fa-glow), 0 4px 14px rgba(140, 67, 27, 0.35);
+}
+
+/* --- FaHeader.Position: Standard (default, no class) scrolls away with the page.
+   Sticky/Floating both pin it to the top once scrolled to; Floating additionally
+   insets it with margin + rounded corners so it reads as a detached bar instead of
+   a full-bleed edge (the header's own box-shadow already gives it the "lifted"
+   look, so Floating doesn't need one of its own). --- */
+.fa-header-sticky, .fa-header-floating {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+
+.fa-header-floating {
+    margin: 0.75rem 1rem 0;
+    border-radius: var(--fa-radius-lg);
 }
 
 .fa-header-brand {
@@ -140,15 +169,50 @@
     border-top: 3px solid var(--fa-glow);
 }
 
+/* --- FaFooter.Position: same Standard/Sticky/Floating shape as .fa-header-*
+   above, mirrored to the bottom edge instead of the top. --- */
+.fa-footer-sticky, .fa-footer-floating {
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
+}
+
+.fa-footer-floating {
+    margin: 0 1rem 0.75rem;
+    border-radius: var(--fa-radius-lg);
+}
+
 /* ============================= Sidebar ============================= */
 /* Collapse/expand is plain-JS UI state (js/sidebar.js) stamped as .fa-sidebar-collapsed
    on <html>, same pattern as the light/dark/colorblind theme — everything below keys
-   off that one class, no Blazor state involved. */
+   off that one class, no Blazor state involved.
+
+   Every collapse-specific selector below is additionally scoped to .fa-sidebar-
+   collapsible (FaSidebar.Collapsible, off by default — no toggle renders unless a
+   consumer opts in). That scoping is load-bearing, not just descriptive: the
+   collapsed/expanded flag lives in localStorage and gets restamped onto <html> on
+   every page load regardless of what that page's own sidebar supports, so a
+   non-collapsible sidebar sharing a browser profile with a collapsible one
+   elsewhere in the app would otherwise still inherit width: 64px/hidden labels from
+   a toggle it doesn't even render — with no way for its own missing button to ever
+   set the class back. */
+
+/* FaPaletteSwitcher's own CSS (_layout.scss, above) sizes its <select> to the
+   header's inline pill — auto-width, sized to fit its longest option text with no
+   cap. That's fine in the header, which has room to spare, but the same element
+   dropped into a sidebar's ~176px content column (200px minus its own padding)
+   simply doesn't fit and got clipped by .fa-sidebar-scroll's overflow-x: hidden.
+   Scoped here rather than changing .fa-palette-switcher itself so the header's own
+   usage is untouched. */
+.fa-sidebar .fa-palette-switcher {
+    width: 100%;
+    max-width: 100%;
+}
 
 .fa-sidebar {
     background: var(--fa-primary);
-    width: 240px;
-    flex: 0 0 240px;
+    width: 200px;
+    flex: 0 0 200px;
     padding: 1.25rem 0.75rem;
     display: flex;
     flex-direction: column;
@@ -159,18 +223,115 @@
     transition: width var(--fa-transition-medium), flex-basis var(--fa-transition-medium);
 }
 
-html.fa-sidebar-collapsed .fa-sidebar {
+html.fa-sidebar-collapsed .fa-sidebar.fa-sidebar-collapsible {
     width: 64px;
     flex-basis: 64px;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
 
+/* FaSidebar's ChildContent lives in this wrapper rather than directly in .fa-sidebar
+   so that Sticky/Floating's own scrolling (below) can't clip the toggle button, which
+   stays a sibling of this div and needs .fa-sidebar's own overflow: visible intact.
+   flex: 1 + min-height: 0 (not the flex-item default auto, which would refuse to
+   shrink below its content's height and defeat the scrolling entirely) lets it fill
+   whatever height .fa-sidebar itself has — its natural content height in Standard,
+   or the fixed pinned height in Sticky/Floating below. */
+.fa-sidebar-scroll {
+    flex: 1;
+    min-height: 0;
+}
+
+/* --- FaSidebar.Position: unlike the header/footer, pinning the sidebar full-height
+   means its own content (nav links) needs to scroll independently once it's taller
+   than the viewport, since the sidebar itself no longer scrolls away with the rest
+   of the page — hence overflow-y on .fa-sidebar-scroll above once one of these
+   applies, rather than just position: sticky. align-self overrides .fa-shell-sidebar
+   .fa-shell-body's align-items: stretch, which would otherwise stretch the sidebar to
+   its sibling <main>'s (scrolling) height instead of the viewport's.
+
+   top/height are offset by --fa-header-height rather than 0/100vh so the sidebar
+   settles in right below the header instead of sliding underneath it — this assumes
+   a header of that same standard height sits above it (sticky/floating or not; see
+   FaHeader's own min-height), which is how both shells pair them in practice.
+
+   z-index: 41 (one above .fa-header-sticky/-floating's 40) is load-bearing, not
+   decorative: position: sticky + z-index here makes .fa-sidebar its own stacking
+   context, and everything inside it — including the toggle button below, whatever
+   z-index *it* carries — is painted within that context as a unit. A descendant's
+   z-index can only out-rank its own siblings; it can never escape its ancestor's
+   context to beat something outside it. With this context ranked *below* the
+   header's (as it was originally, at 30), the whole sidebar subtree — toggle
+   included, regardless of the toggle's own z-index — painted behind the header.
+   Since the sidebar's box never actually overlaps the header except at the toggle's
+   own negative-margin poke above it, ranking the sidebar's context above the
+   header's here doesn't cause the two to fight over any other shared pixels. --- */
+.fa-sidebar-sticky, .fa-sidebar-floating {
+    position: sticky;
+    top: var(--fa-header-height);
+    align-self: flex-start;
+    height: calc(100vh - var(--fa-header-height));
+    z-index: 41;
+}
+
+.fa-sidebar-floating {
+    top: calc(var(--fa-header-height) + 0.75rem);
+    margin: 0.75rem 0 0.75rem 1rem;
+    border-radius: var(--fa-radius-lg);
+    height: calc(100vh - var(--fa-header-height) - 1.5rem);
+}
+
+/* Scoped to .fa-sidebar-scroll, not .fa-sidebar itself — see the comment above it.
+   Thin, palette-colored scrollbar instead of the browser's chunky default; Firefox
+   via the standard property, Chromium/WebKit via the vendor pseudo-elements (no
+   standard equivalent yet, so both are needed to cover every browser).
+
+   overflow-x: hidden is explicit, not the default — leaving it unset meant the
+   browser silently force-converted it to auto too (the CSS overflow spec does this
+   whenever one axis is scrollable and the other is left as visible), and a nav link
+   sitting even a pixel wider than the sidebar's own content box — an icon + label
+   that just brushes the edge, a palette <select> at its intrinsic width — was enough
+   to pop open a second, horizontal scrollbar nobody wanted. */
+.fa-sidebar-sticky .fa-sidebar-scroll,
+.fa-sidebar-floating .fa-sidebar-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--fa-glow) transparent;
+}
+
+    .fa-sidebar-sticky .fa-sidebar-scroll::-webkit-scrollbar,
+    .fa-sidebar-floating .fa-sidebar-scroll::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    /* Without this, Chromium/WebKit still draws its native up/down arrow buttons at
+       the scrollbar's ends — chunky and out of place next to the thin thumb/track
+       above, which is the whole point of styling those in the first place. */
+    .fa-sidebar-sticky .fa-sidebar-scroll::-webkit-scrollbar-button,
+    .fa-sidebar-floating .fa-sidebar-scroll::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    .fa-sidebar-sticky .fa-sidebar-scroll::-webkit-scrollbar-thumb,
+    .fa-sidebar-floating .fa-sidebar-scroll::-webkit-scrollbar-thumb {
+        background: var(--fa-glow);
+        border-radius: var(--fa-radius-pill);
+    }
+
+    .fa-sidebar-sticky .fa-sidebar-scroll::-webkit-scrollbar-track,
+    .fa-sidebar-floating .fa-sidebar-scroll::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
 .fa-sidebar-toggle {
     position: absolute;
     /* Sits right at the sidebar's top edge and pokes up a little over the header
-       above it (.fa-header has no z-index/positioning of its own, so a positioned
-       descendant like this paints above it without needing a very high z-index). */
+       above it. This z-index is only ever compared against its own siblings inside
+       .fa-sidebar's stacking context (the collapsed-tooltip ::after at z-index: 30
+       is the only other one) — getting the toggle above the header itself is
+       .fa-sidebar-sticky/-floating's own z-index (see its comment above), not this
+       one. A larger number here wouldn't fix a header that outranks its ancestor. */
     top: -0.65rem;
     right: -0.85rem;
     width: 1.7rem;
@@ -184,7 +345,7 @@ html.fa-sidebar-collapsed .fa-sidebar {
     color: var(--fa-text-on-primary);
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    z-index: 20;
+    z-index: 31;
     transition: transform var(--fa-transition-medium), background-color var(--fa-transition-fast);
 }
 
@@ -242,7 +403,7 @@ html.fa-sidebar-collapsed .fa-sidebar-toggle svg {
     transition: max-width var(--fa-transition-medium);
 }
 
-html.fa-sidebar-collapsed .fa-sidebar-link {
+html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link {
     gap: 0;
     padding-left: 0.6rem;
     padding-right: 0.6rem;
@@ -253,18 +414,18 @@ html.fa-sidebar-collapsed .fa-sidebar-link {
    actually finished collapsing) instead of directly off .fa-sidebar-collapsed keeps
    that jump from happening at the same instant the collapse starts, which read as the
    icon recentering before the text had visually finished closing. */
-html.fa-sidebar-collapsed-settled .fa-sidebar-link {
+html.fa-sidebar-collapsed-settled .fa-sidebar-collapsible .fa-sidebar-link {
     justify-content: center;
 }
 
-html.fa-sidebar-collapsed .fa-sidebar-link-text {
+html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link-text {
     max-width: 0;
 }
 
 /* The "really cool" tooltip: a small pill in the app's own palette, not the browser's
    plain title tooltip. Built from data-tooltip (set alongside each label in
    NavMenu.razor) via a pseudo-element, so it costs nothing extra to render. */
-html.fa-sidebar-collapsed .fa-sidebar-link::after {
+html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link::after {
     content: attr(data-tooltip);
     position: absolute;
     left: calc(100% + 0.9rem);
@@ -284,8 +445,8 @@ html.fa-sidebar-collapsed .fa-sidebar-link::after {
     z-index: 30;
 }
 
-html.fa-sidebar-collapsed .fa-sidebar-link:hover::after,
-html.fa-sidebar-collapsed .fa-sidebar-link:focus-visible::after {
+html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link:hover::after,
+html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link:focus-visible::after {
     opacity: 1;
     transform: translateY(-50%) translateX(0) scale(1);
 }

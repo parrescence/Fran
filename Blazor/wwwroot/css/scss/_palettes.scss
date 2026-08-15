@@ -57,6 +57,11 @@
     --fa-border-width: 2px;
     --fa-transition-fast: 0.15s ease;   /* hover/focus color & shadow changes */
     --fa-transition-medium: 0.2s ease;  /* size/layout changes — sidebar collapse, toggle width */
+
+    /* FaHeader's rendered height — also enforced as its own min-height (_layout.scss)
+       so it's a reliable constant, not just a guess. A sticky/floating FaSidebar reads
+       this to offset itself below the header instead of underneath it. */
+    --fa-header-height: 4rem;
 }
 
 /* ============================= Theme variants ============================= */

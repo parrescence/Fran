@@ -7,9 +7,12 @@
 
     /* Collapse/expand is a desktop affordance — the mobile layout is already a compact
        icon+label row, so force expanded and hide the toggle rather than letting the two
-       layout modes combine. */
+       layout modes combine. Scoped to .fa-sidebar-collapsible same as _layout.scss's own
+       collapse rules (a non-collapsible sidebar never picks up width: 64px in the first
+       place, so it has nothing to undo here — but the selectors stay harmless either way
+       since they'd just re-state values already in effect). */
     .fa-sidebar,
-    html.fa-sidebar-collapsed .fa-sidebar {
+    html.fa-sidebar-collapsed .fa-sidebar.fa-sidebar-collapsible {
         width: 100%;
         flex: 0 0 auto;
         flex-direction: row;
@@ -24,19 +27,19 @@
 
     /* Mobile ignores the collapse state entirely — undo the desktop-collapsed
        tightened gap/padding/centering along with the text's max-width. */
-    html.fa-sidebar-collapsed .fa-sidebar-link,
-    html.fa-sidebar-collapsed-settled .fa-sidebar-link {
+    html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link,
+    html.fa-sidebar-collapsed-settled .fa-sidebar-collapsible .fa-sidebar-link {
         justify-content: flex-start;
         gap: 0.6rem;
         padding-left: 0.9rem;
         padding-right: 0.9rem;
     }
 
-    html.fa-sidebar-collapsed .fa-sidebar-link-text {
+    html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link-text {
         max-width: none;
     }
 
-    html.fa-sidebar-collapsed .fa-sidebar-link::after {
+    html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link::after {
         content: none;
     }
 

@@ -49,6 +49,21 @@ public sealed class FaModal : ComponentBase
     [Parameter] public bool CloseOnBackdropClick { get; set; } = true;
 
     /// <summary>
+    /// Whether a loading overlay covers the dialog (header/body/footer alike).
+    /// Defaults to <c>false</c> — off unless a caller opts in, e.g. while an async
+    /// submit is in flight. The caller owns the flag (no internal state), same as
+    /// <see cref="Show"/> itself.
+    /// </summary>
+    [Parameter] public bool IsLoading { get; set; }
+
+    /// <summary>
+    /// What to render inside the loading overlay when <see cref="IsLoading"/> is
+    /// <c>true</c>. Defaults to <see cref="FaHelixLoader"/> when left unset — pass
+    /// this to swap in an <see cref="FaSpinner"/>, custom text, or anything else.
+    /// </summary>
+    [Parameter] public RenderFragment? LoadingContent { get; set; }
+
+    /// <summary>
     /// Whether <see cref="ChildContent"/> is torn down and freshly re-created the next time
     /// the modal opens, discarding whatever state its elements picked up while it was open
     /// (uncontrolled input values, a form's local edit state, ...). Defaults to <c>false</c>
@@ -125,6 +140,25 @@ public sealed class FaModal : ComponentBase
             builder.OpenElement(24, "div");
             builder.AddAttribute(25, "class", CssClassNames.Combine("fa-modal-footer", FaAlignClassNames.ToClass(FooterAlign)));
             builder.AddContent(26, FooterContent);
+            builder.CloseElement();
+        }
+
+        // Overlay sits on top of the whole dialog (header/body/footer alike) rather
+        // than swapping in for it, same "cover, don't replace" behavior FaGrid's own
+        // loading overlay uses.
+        if (IsLoading)
+        {
+            builder.OpenElement(27, "div");
+            builder.AddAttribute(28, "class", "fa-modal-loading-overlay");
+            if (LoadingContent is not null)
+            {
+                builder.AddContent(29, LoadingContent);
+            }
+            else
+            {
+                builder.OpenComponent<FaHelixLoader>(30);
+                builder.CloseComponent();
+            }
             builder.CloseElement();
         }
 

@@ -1,5 +1,6 @@
 using FactoryAspects.Components;
 using FactoryAspects.Icons;
+using FactoryAspects.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -21,10 +22,20 @@ public sealed class FaHeader : ComponentBase
     [Parameter] public EventCallback OnLogin { get; set; }
     [Parameter] public EventCallback OnLogout { get; set; }
 
+    /// <summary>Whether the header scrolls away with the page (default) or stays pinned to the top.</summary>
+    [Parameter] public FaNavPosition Position { get; set; } = FaNavPosition.Standard;
+
+    private string? PositionClass => Position switch
+    {
+        FaNavPosition.Sticky => "fa-header-sticky",
+        FaNavPosition.Floating => "fa-header-floating",
+        _ => null
+    };
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "header");
-        builder.AddAttribute(1, "class", "fa-header");
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-header", PositionClass));
 
         builder.OpenElement(2, "a");
         builder.AddAttribute(3, "class", "fa-header-brand");

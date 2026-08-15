@@ -772,6 +772,8 @@
           <tr><td><code>ShowCloseButton</code></td><td><code>bool</code></td><td>default true</td></tr>
           <tr><td><code>CloseOnBackdropClick</code></td><td><code>bool</code></td><td>default true</td></tr>
           <tr><td><code>ResetOnClose</code></td><td><code>bool</code></td><td>default false</td></tr>
+          <tr><td><code>IsLoading</code></td><td><code>bool</code></td><td>loading overlay over the whole dialog, default false</td></tr>
+          <tr><td><code>LoadingContent</code></td><td><code>RenderFragment?</code></td><td>overlay content while IsLoading, defaults to FaHelixLoader</td></tr>
         </table>
       </div>
     </section>
@@ -1789,8 +1791,16 @@
           <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>page content (@Body)</td></tr>
           <tr><td><code>FooterContent</code></td><td><code>RenderFragment?</code></td><td>overrides default footer text</td></tr>
           <tr><td><code>Sidebar</code></td><td><code>RenderFragment?</code></td><td>FaSidebarShell only</td></tr>
+          <tr><td><code>HeaderPosition</code></td><td><code>FaNavPosition</code></td><td>Standard (default) · Sticky · Floating</td></tr>
+          <tr><td><code>FooterPosition</code></td><td><code>FaNavPosition</code></td><td>Standard (default) · Sticky · Floating</td></tr>
+          <tr><td><code>SidebarPosition</code></td><td><code>FaNavPosition</code></td><td>FaSidebarShell only — Standard (default) · Sticky · Floating</td></tr>
+          <tr><td><code>SidebarCollapsible</code></td><td><code>bool</code></td><td>FaSidebarShell only — icon-only collapse toggle, default false</td></tr>
         </table>
       </div>
+
+      <p class="getting-value"><code>FaHeader</code>/<code>FaFooter</code>/<code>FaSidebar</code> each also take their own <code>Position="FaNavPosition.___"</code> when used directly (not through a shell) — <code>Standard</code> scrolls away with the page, <code>Sticky</code> pins to that bar's edge of the viewport, <code>Floating</code> is the same pinning inset with margin/rounded corners. Pinning the sidebar additionally switches it to its own internal scroll (<code>overflow-y: auto</code>) and settles it in right below the header (offset by <code>--fa-header-height</code>, a fixed <code>4rem</code> also enforced as FaHeader's own <code>min-height</code>) instead of underneath it, since it no longer scrolls away with the rest of the page once stuck full-height.</p>
+
+      <p class="getting-value"><code>FaSidebar</code>'s own <code>Collapsible</code> (default <code>false</code>) controls whether its icon-only collapse toggle renders at all — small screens still auto-collapse to a compact row regardless, that's a separate breakpoint-driven behavior. Turn it on only once every link in the sidebar has its own <code>FaIcon</code> + <code>.fa-sidebar-link-text</code> wrapper; a link with no icon has nothing to show at 64px wide, so it's hidden while collapsed rather than left to wrap.</p>
     </section>
 
     <!-- ============================= FaThemeSwitcher ============================= -->

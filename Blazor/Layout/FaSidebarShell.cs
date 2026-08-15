@@ -21,6 +21,18 @@ public sealed class FaSidebarShell : ComponentBase
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public RenderFragment? FooterContent { get; set; }
 
+    /// <summary>Passed straight through to <see cref="FaHeader.Position"/>.</summary>
+    [Parameter] public FaNavPosition HeaderPosition { get; set; } = FaNavPosition.Standard;
+
+    /// <summary>Passed straight through to <see cref="FaFooter.Position"/>.</summary>
+    [Parameter] public FaNavPosition FooterPosition { get; set; } = FaNavPosition.Standard;
+
+    /// <summary>Passed straight through to <see cref="FaSidebar.Position"/>.</summary>
+    [Parameter] public FaNavPosition SidebarPosition { get; set; } = FaNavPosition.Standard;
+
+    /// <summary>Passed straight through to <see cref="FaSidebar.Collapsible"/>.</summary>
+    [Parameter] public bool SidebarCollapsible { get; set; }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
@@ -34,6 +46,7 @@ public sealed class FaSidebarShell : ComponentBase
         builder.AddComponentParameter(7, nameof(FaHeader.UserImageUrl), UserImageUrl);
         builder.AddComponentParameter(8, nameof(FaHeader.OnLogin), OnLogin);
         builder.AddComponentParameter(9, nameof(FaHeader.OnLogout), OnLogout);
+        builder.AddComponentParameter(20, nameof(FaHeader.Position), HeaderPosition);
         builder.CloseComponent();
 
         builder.OpenElement(10, "div");
@@ -41,19 +54,34 @@ public sealed class FaSidebarShell : ComponentBase
 
         builder.OpenComponent<FaSidebar>(12);
         builder.AddComponentParameter(13, nameof(FaSidebar.ChildContent), Sidebar);
+        builder.AddComponentParameter(21, nameof(FaSidebar.Position), SidebarPosition);
+        builder.AddComponentParameter(25, nameof(FaSidebar.Collapsible), SidebarCollapsible);
         builder.CloseComponent();
+
+        // main + footer share this column (rather than footer sitting after
+        // .fa-shell-body, as a sibling of it) so a Sticky/Floating sidebar's
+        // containing block spans both — its sticky containment ends at the bottom
+        // of the footer, not the moment <main>'s own content runs out. Without this,
+        // the sidebar got shoved upward the instant main content ended, well before
+        // the actual bottom of the page, on any page shorter than a couple of
+        // viewports tall.
+        builder.OpenElement(23, "div");
+        builder.AddAttribute(24, "class", "fa-shell-main-col");
 
         builder.OpenElement(14, "main");
         builder.AddAttribute(15, "class", "fa-shell-main");
         builder.AddContent(16, ChildContent);
         builder.CloseElement();
 
-        builder.CloseElement();
-
         builder.OpenComponent<FaFooter>(17);
         builder.AddComponentParameter(18, nameof(FaFooter.BrandText), BrandText);
         builder.AddComponentParameter(19, nameof(FaFooter.ChildContent), FooterContent);
+        builder.AddComponentParameter(22, nameof(FaFooter.Position), FooterPosition);
         builder.CloseComponent();
+
+        builder.CloseElement(); // .fa-shell-main-col
+
+        builder.CloseElement(); // .fa-shell-body
 
         builder.CloseElement();
     }
