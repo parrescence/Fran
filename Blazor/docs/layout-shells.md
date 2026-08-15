@@ -110,6 +110,28 @@ of `0`/`100vh`. That offset assumes a standard-height header sits above it, whic
 how both shells pair them — as in the example above. Using the pieces directly, set
 `Position` on `FaHeader`/`FaFooter`/`FaSidebar` themselves the same way.
 
+## Contained scroll
+
+By default (`ContainScroll="false"`), a shell's `.fa-shell` only sets `min-height:
+100vh` — header, sidebar, main content, and footer all just grow the page past one
+viewport, and the whole document scrolls together. That's the right default for most
+pages, but wrong for a dashboard-style page that wants the header/sidebar/footer
+pinned to the viewport edges with only the page's own content scrolling inside
+`<main>`. Set `ContainScroll="true"` on either shell to switch to that instead:
+
+```razor
+<FaSidebarShell BrandText="MyApp" BrandHref="/" ContainScroll="true">
+    <Sidebar><NavMenu /></Sidebar>
+    <ChildContent>@Body</ChildContent>
+</FaSidebarShell>
+```
+
+This is a separate opt-in class (`.fa-shell-contained` in `_layout.scss`) rather than
+a change to `.fa-shell` itself, so existing whole-page-scroll consumers are
+unaffected. A `Standard`-position `Sidebar` taller than the viewport scrolls
+independently under `ContainScroll` too, the same way `Sticky`/`Floating` already do
+(see above) — nothing extra to configure for that.
+
 ## Collapsible sidebar
 
 `FaSidebar` also takes `Collapsible` — `false` by default, meaning no toggle button
@@ -173,5 +195,6 @@ works) — nothing to wire up for it.
 | `FooterPosition` | `FaNavPosition` | `Standard` (default) \| `Sticky` \| `Floating` |
 | `SidebarPosition` | `FaNavPosition` | **`FaSidebarShell` only** — `Standard` (default) \| `Sticky` \| `Floating` |
 | `SidebarCollapsible` | `bool` | **`FaSidebarShell` only** — icon-only collapse toggle, defaults to `false` |
+| `ContainScroll` | `bool` | pins header/sidebar/footer to the viewport, only `<main>` scrolls internally, defaults to `false` |
 
 [← Back to index](index.md)
