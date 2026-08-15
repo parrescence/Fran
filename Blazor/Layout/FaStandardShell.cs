@@ -19,6 +19,12 @@ public sealed class FaStandardShell : ComponentBase
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public RenderFragment? FooterContent { get; set; }
 
+    /// <summary>Passed straight through to <see cref="FaHeader.Position"/>.</summary>
+    [Parameter] public FaNavPosition HeaderPosition { get; set; } = FaNavPosition.Standard;
+
+    /// <summary>Passed straight through to <see cref="FaFooter.Position"/>.</summary>
+    [Parameter] public FaNavPosition FooterPosition { get; set; } = FaNavPosition.Standard;
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
@@ -32,6 +38,7 @@ public sealed class FaStandardShell : ComponentBase
         builder.AddComponentParameter(7, nameof(FaHeader.UserImageUrl), UserImageUrl);
         builder.AddComponentParameter(8, nameof(FaHeader.OnLogin), OnLogin);
         builder.AddComponentParameter(9, nameof(FaHeader.OnLogout), OnLogout);
+        builder.AddComponentParameter(20, nameof(FaHeader.Position), HeaderPosition);
         builder.CloseComponent();
 
         builder.OpenElement(10, "main");
@@ -42,6 +49,7 @@ public sealed class FaStandardShell : ComponentBase
         builder.OpenComponent<FaFooter>(13);
         builder.AddComponentParameter(14, nameof(FaFooter.BrandText), BrandText);
         builder.AddComponentParameter(15, nameof(FaFooter.ChildContent), FooterContent);
+        builder.AddComponentParameter(21, nameof(FaFooter.Position), FooterPosition);
         builder.CloseComponent();
 
         builder.CloseElement();
