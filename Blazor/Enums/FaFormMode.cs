@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Whether an <see cref="FaForm{TModel}"/> is creating a new record or editing an

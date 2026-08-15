@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>Where on the viewport <see cref="FaModal"/>'s dialog sits within the backdrop.</summary>
 public enum FaModalPosition

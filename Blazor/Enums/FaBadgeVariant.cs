@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 public enum FaBadgeVariant
 {

@@ -1,4 +1,4 @@
-# FactoryAspects component docs
+# FaFa component docs
 
 Prefer one scrollable page instead? Open [`site.html`](site.html) directly in a
 browser (double-click it, or via a `file://` link) — same content as this folder,

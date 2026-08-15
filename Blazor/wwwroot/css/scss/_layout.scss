@@ -452,8 +452,16 @@ html.fa-sidebar-collapsed .fa-sidebar-toggle svg {
     transition: background-color var(--fa-transition-fast), opacity var(--fa-transition-fast), gap var(--fa-transition-medium), padding var(--fa-transition-medium);
 }
 
+    /* A white-tinted overlay here (as every other hover state in this file uses,
+       e.g. .fa-header-menu-toggle/.fa-theme-btn above) washes out against this link's
+       own color: var(--fa-text-on-primary), which every palette defines as a near-
+       white off-white (_palettes.scss) — lightening the background behind
+       already-light text on hover pushes both toward the same color instead of
+       apart. Darkening it instead (the same direction .active already goes, just a
+       lighter step before it) keeps the light text legible against every palette
+       rather than fading it out. */
     .fa-sidebar-link:hover {
-        background: rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.18);
         opacity: 1;
     }
 

@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// What <see cref="FaLoginForm.OnSubmit"/> hands back — the entered credentials, not
