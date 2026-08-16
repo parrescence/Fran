@@ -1,8 +1,8 @@
-using FactoryAspects.Rendering;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Layout;
+namespace FaFa.Layout;
 
 /// <summary>
 /// Template 1: header + content + footer, no sidebar. For pages that don't need app

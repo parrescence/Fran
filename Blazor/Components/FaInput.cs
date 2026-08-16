@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Generic text/number field, matching the inputs already used across the app

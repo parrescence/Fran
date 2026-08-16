@@ -1,9 +1,9 @@
-using FactoryAspects.Rendering;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Bordered tile — matches the dashboard's category tiles, but with the shared orange

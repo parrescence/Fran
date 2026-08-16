@@ -1,8 +1,8 @@
-using FactoryAspects.Rendering;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Renders a real &lt;table&gt;/&lt;thead&gt;/&lt;tbody&gt; from typed data — pass
