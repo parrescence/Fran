@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// The bound value for <see cref="FaDateRange"/> — a from/to pair, either end

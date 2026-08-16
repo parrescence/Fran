@@ -1,17 +1,17 @@
 # CLAUDE.md (Blazor)
 
 Guidance for working in `Blazor/` specifically — the Blazor Razor Class Library
-style-library within the `FactoryAspects` repo. See the root `CLAUDE.md` first for
+style-library within the `FaFa` repo. See the root `CLAUDE.md` first for
 repo-wide policy (branching, publishing, the multi-library layout); this file only
 covers what's unique to this library.
 
 ## This library ships standalone — treat it that way
 
 Built on the assumption it's consumed outside any one app — as a package (currently
-via **GitHub Packages**, `https://nuget.pkg.github.com/bencalvin/index.json`, not
+via **GitHub Packages**, `https://nuget.pkg.github.com/benzaesintese/index.json`, not
 NuGet.org), or imported as source. `README.md` (this folder's) is the consumer-facing
 high-level overview and is packed into the `.nupkg` itself (`<None Include=
-"README.md" Pack="true" .../>` in `FactoryAspects.csproj`) — keep it accurate, not
+"README.md" Pack="true" .../>` in `FaFa.csproj`) — keep it accurate, not
 just this file. Full step-by-step/reference detail lives under `docs/` instead (not
 packed into the `.nupkg` — link to it from README with relative paths, not absolute
 GitHub URLs, so each branch's README stays self-contained).
@@ -26,7 +26,7 @@ Consequences for any change here:
   `FaSidebarShell`/`FaStandardShell` is `[Parameter, EditorRequired]` with an empty-string
   default — every consumer supplies its own. Follow the same pattern for any new
   parameter that would otherwise bake in one consumer's branding/copy.
-- **`PackageId` (`FactoryAspects.csproj`) is pinned to `FactoryAspects`, and
+- **`PackageId` (`FaFa.csproj`) is pinned to `FaFa`, and
   `RootNamespace`/`AssemblyName` match it too.** Razor Class Library static assets are
   served at `_content/{PackageId}/...` — `fa-styles.css`/`theme.js`/`sidebar.js` are
   referenced that way from every consumer's `index.html`. Renaming `PackageId`
@@ -44,9 +44,9 @@ Consequences for any change here:
   file here means `docs/install.md`'s wiring step (and every real consumer's
   `index.html`) needs the corresponding `<link>`/`<script>` tag added by hand —
   `dotnet pack` bundles the file, it doesn't wire up the tag for you.
-- **No license is set yet** (`FactoryAspects.csproj`'s `PackageLicenseExpression` is
+- **No license is set yet** (`FaFa.csproj`'s `PackageLicenseExpression` is
   intentionally absent) — pick one before this is relied on by any consumer outside
-  `bencalvin`'s own accounts.
+  `benzaesintese`'s own accounts.
 
 ## Folder layout: components vs. supporting types
 
@@ -61,10 +61,10 @@ in their own C# (not as a tag) live in two separate folders instead:
   `FaGridResult<TItem>` (DTOs/records passed to or bound by a specific component).
 
 Folder placement is purely physical organization — it does **not** change a type's
-namespace. `FaButtonVariant` still declares `namespace FactoryAspects.Components;`
+namespace. `FaButtonVariant` still declares `namespace FaFa.Components;`
 even though the file lives in `Enums/`; `FaIconColor`/`FaIconName` still declare
-`namespace FactoryAspects.Icons;` even though the file lives in `Enums/` rather than
-`Icons/`. This is deliberate: a consumer's existing `@using FactoryAspects.Components`/
+`namespace FaFa.Icons;` even though the file lives in `Enums/` rather than
+`Icons/`. This is deliberate: a consumer's existing `@using FaFa.Components`/
 `.Icons` keeps resolving every type it always did — moving a file between these
 folders is never a breaking API change and never needs a version bump for that reason
 alone. When adding a new enum/DTO, put it in `Enums`/`Models` but keep its namespace
@@ -75,7 +75,7 @@ folder name.
 support building a component's output — `CssClassNames` today, potentially other
 HTML/CSS/JS-interop-support helpers later. Nothing in a consumer's own code can ever
 reference an `internal` type, so — unlike `Enums`/`Models` above — `Rendering/`'s
-namespace *does* match the folder (`namespace FactoryAspects.Rendering;`) with no
+namespace *does* match the folder (`namespace FaFa.Rendering;`) with no
 breaking-change concern, since there's no public API surface to break.
 
 ## Component authoring: C# builder, not markup
@@ -116,7 +116,7 @@ style consistent:
 
 ## Publishing this library
 
-Bump `<Version>` in `FactoryAspects.csproj` as part of normal `dev` work (semantic
+Bump `<Version>` in `FaFa.csproj` as part of normal `dev` work (semantic
 `major.minor.patch`), on every change that reaches `main` — the patch (`z`) number by
 default, `minor`/`major` only when a consumer explicitly calls for it. Each segment's
 range: `major` counts from `1` upward with no ceiling (today's `0.x` line is the
@@ -139,10 +139,10 @@ project.
 `wwwroot/css/fa-styles.scss`/`wwwroot/css/scss/*.scss` instead, never
 `fa-styles.css` directly (it's gitignored; a stale hand-edit there just gets
 silently overwritten on the next build). `DartSassBuilder` (a build-time
-`PackageReference` in `FactoryAspects.csproj`, not a global CLI tool — nothing extra
+`PackageReference` in `FaFa.csproj`, not a global CLI tool — nothing extra
 to install in CI) compiles `fa-styles.scss` to `fa-styles.css` on every `dotnet
 build`/`dotnet pack`, so the compiled file always ends up at
-`_content/FactoryAspects/css/fa-styles.css` for consumers to link. That compiled
+`_content/FaFa/css/fa-styles.css` for consumers to link. That compiled
 *filename* is the thing that can't change again without breaking every consumer's
 `<link>` — it was deliberately renamed once already (from an earlier `theme.css`,
 before this file was split into partials) specifically so it wouldn't need to be
@@ -159,7 +159,7 @@ content split by component, not by CSS property (no separate "all borders" or "a
 flexbox" file) — a component's full style stays in one file. They follow the
 standard Sass partial convention (underscore-prefixed, never compiled to their own
 `.css`); `fa-styles.scss` at the `wwwroot/css/` root `@use`s each one in source
-order and is the only file `FactoryAspects.csproj`'s explicit `<SassFile>` lists, so
+order and is the only file `FaFa.csproj`'s explicit `<SassFile>` lists, so
 a partial can never accidentally get compiled standalone. Adding a new component's
 styles means adding its own `_name.scss` partial and one `@use` line in
 `fa-styles.scss`, not appending to an existing partial.
@@ -227,7 +227,7 @@ root [`CLAUDE.md`](../CLAUDE.md)'s Showcase-sync rule, which this extends to `do
 validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two
 `Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
 Value)>` — a `System.ValueTuple`, deliberately not a custom DTO type, to avoid forcing
-consumers to reference a FactoryAspects-specific model type just to build a list of
+consumers to reference a FaFa-specific model type just to build a list of
 options. `FaRadioGroup<TValue>` mirrors the same Options-tuple shape.
 
 `FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea`, `FaCheckbox`, `FaDatePicker`, and

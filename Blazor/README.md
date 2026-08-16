@@ -1,4 +1,4 @@
-# FactoryAspects
+# FaFa
 
 A self-contained Blazor Razor Class Library of UI primitives — components, form
 inputs, layout shells, a theme switcher, and an icon set. No dependency on any other
@@ -11,20 +11,20 @@ any non-.NET frontend.
 
 Every component keeps its original `Fa`-prefixed name (`FaButton`, `FaCard`,
 `FaToggle<TValue>`, `FaIcon`, ...) — only the package/namespace/repo identity is
-`FactoryAspects`. Every component is a plain C# class (`ComponentBase`/
+`FaFa`. Every component is a plain C# class (`ComponentBase`/
 `InputBase<TValue>` subclass overriding `BuildRenderTree` directly), not `.razor`
 markup — see `CLAUDE.md` if you're contributing.
 
 ## Install
 
-Published to **GitHub Packages** (not NuGet.org, for now) under `bencalvin`:
+Published to **GitHub Packages** (not NuGet.org, for now) under `benzaesintese`:
 
 ```bash
-dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
-  --name github-bencalvin --username <your-github-username> \
+dotnet nuget add source https://nuget.pkg.github.com/benzaesintese/index.json \
+  --name github-benzaesintese --username <your-github-username> \
   --password <a GitHub PAT with read:packages>
 
-dotnet add package FactoryAspects
+dotnet add package FaFa
 ```
 
 That's the package reference. The library also ships CSS/JS static assets that Blazor

@@ -1,4 +1,4 @@
-namespace FactoryAspects.Icons;
+namespace FaFa.Icons;
 
 public enum FaIconColor
 {

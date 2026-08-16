@@ -1,4 +1,4 @@
-# FactoryAspects Showcase
+# FaFa Showcase
 
 A live, in-repo demo of `Blazor/` (and, over time, every other style library in this
 repo) — every component rendered for real, with the actual markup used to produce
@@ -7,7 +7,7 @@ it. Not published anywhere yet: pull this branch and run it locally.
 Two projects:
 
 - **`Showcase.Web.Client`** — a standalone Blazor WebAssembly app. References
-  `Blazor/FactoryAspects.csproj` directly via `<ProjectReference>` (not the
+  `Blazor/FaFa.csproj` directly via `<ProjectReference>` (not the
   published GitHub Packages package), so it always shows whatever's currently on
   this branch, in-progress work included. A real consumer app outside this repo
   installs the package instead — see

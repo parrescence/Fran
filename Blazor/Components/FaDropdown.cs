@@ -1,10 +1,10 @@
-using FactoryAspects.Icons;
-using FactoryAspects.Rendering;
+using FaFa.Icons;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Dropdown over a caller-supplied local <see cref="Items"/> list — or, when <see

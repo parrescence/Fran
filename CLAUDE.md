@@ -3,7 +3,7 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in
 this repository.
 
-`FactoryAspects` houses one or more standalone UI **style libraries**, each in its own
+`FaFa` houses one or more standalone UI **style libraries**, each in its own
 top-level folder, each targeting a different framework/architecture. Currently:
 
 - **`Blazor/`** — a Blazor Razor Class Library (C#). See
@@ -29,7 +29,7 @@ local-only design-reference folders.
 `Showcase/` holds `Showcase.Web.Client` (a standalone Blazor WebAssembly app) and
 `Showcase.Web.Api` (a small local-only ASP.NET Core Web API backing its
 "pulled from the database" demos) — an in-repo, live demo of every style library's
-components, referencing `Blazor/FactoryAspects.csproj` via `<ProjectReference>`
+components, referencing `Blazor/FaFa.csproj` via `<ProjectReference>`
 rather than the published package, so it always reflects whatever's currently on
 the branch. See [`Showcase/README.md`](Showcase/README.md) for how to run it.
 
@@ -77,7 +77,7 @@ same template, without touching the Blazor files at all.
 **CI (`ci-<library>.yml`)**: its job (`build-and-pack-<library>`, e.g.
 `build-and-pack-blazor`) is a **required** status check on `test`/`main` branch
 protection (one context per library, added there once that library's workflow
-exists — check current required contexts with `gh api repos/bencalvin/FactoryAspects/
+exists — check current required contexts with `gh api repos/benzaesintese/FaFa/
 branches/<branch>/protection/required_status_checks`). Because it's required, the
 workflow's **trigger** is deliberately *not* path-filtered to that library's folder —
 a PR touching only another library (or root files) would then never fire it, and

@@ -1,4 +1,4 @@
-# FactoryAspects
+# FaFa
 
 Standalone UI style libraries, one per framework/architecture, each living in its own
 top-level folder in this repo.
