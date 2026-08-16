@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Flex <c>justify-content</c> alignment for a row of elements — <see

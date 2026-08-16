@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FactoryAspects — component docs</title>
+<title>FaFa — component docs</title>
 <style>
   /* ============================= Tokens ============================= */
-  /* Pulled directly from FactoryAspects' own wwwroot/css/fa-styles.css (Northwest Fall,
+  /* Pulled directly from FaFa' own wwwroot/css/fa-styles.css (Northwest Fall,
      the library's default palette) — this page documents that library, so it wears
      the library's own design system rather than inventing a separate one. */
   :root {
@@ -380,7 +380,7 @@
 <body>
 
 <div class="topbar">
-  <div class="topbar-brand">FactoryAspects <span class="version">v0.3.0 docs</span></div>
+  <div class="topbar-brand">FaFa <span class="version">v0.3.0 docs</span></div>
   <div class="topbar-tagline">Blazor UI components — no app, just the pieces</div>
   <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="sidenav">Menu</button>
 </div>
@@ -481,14 +481,14 @@
     <section class="component" id="install">
       <span class="kicker">Start here</span>
       <h2>Install &amp; setup</h2>
-      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>bencalvin</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
+      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>benzaesintese</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
 
       <h3>1. Add the GitHub Packages feed as a NuGet source</h3>
       <p>Pick whichever matches where you're installing from — local dev (one-time, per machine) or CI (a GitHub Actions workflow in the same account/org, no PAT needed).</p>
 
       <h4>Local dev</h4>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
-  --name github-bencalvin \
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet nuget add source https://nuget.pkg.github.com/benzaesintese/index.json \
+  --name github-benzaesintese \
   --username &lt;your-github-username&gt; \
   --password &lt;a GitHub PAT with read:packages&gt;</code></pre></div>
 
@@ -502,26 +502,26 @@
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;!-- nuget.config --&gt;
 &lt;configuration&gt;
   &lt;packageSources&gt;
-    &lt;add key="github-bencalvin" value="https://nuget.pkg.github.com/bencalvin/index.json" /&gt;
+    &lt;add key="github-benzaesintese" value="https://nuget.pkg.github.com/benzaesintese/index.json" /&gt;
   &lt;/packageSources&gt;
 &lt;/configuration&gt;</code></pre></div>
       <p>The workflow's own <code>GITHUB_TOKEN</code> is sufficient — no PAT needed. GitHub Packages' NuGet feeds require authentication to read even for a public repo like this one, but a same-account workflow's own token satisfies that once granted the permission above.</p>
 
       <h3>2. Reference the package</h3>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package FactoryAspects</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package FaFa</code></pre></div>
 
       <h3>3. Import the namespaces</h3>
       <p>Add to <code>_Imports.razor</code>:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@using FactoryAspects.Components
-@using FactoryAspects.Icons
-@using FactoryAspects.Layout</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@using FaFa.Components
+@using FaFa.Icons
+@using FaFa.Layout</code></pre></div>
 
       <h3>4. Wire the static assets into your host page</h3>
       <p>Razor Class Libraries ship their static assets under <code>_content/{PackageId}/...</code>, but they are <strong>not</strong> auto-injected into your host page — this is standard Blazor RCL behavior, not something specific to this package. Add these tags yourself:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FactoryAspects/css/fa-styles.css" /&gt;
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FaFa/css/fa-styles.css" /&gt;
 ...
-&lt;script src="_content/FactoryAspects/js/theme.js"&gt;&lt;/script&gt;
-&lt;script src="_content/FactoryAspects/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
+&lt;script src="_content/FaFa/js/theme.js"&gt;&lt;/script&gt;
+&lt;script src="_content/FaFa/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
       <p><code>theme.js</code>/<code>sidebar.js</code> are plain vanilla-JS IIFEs (no Blazor JS interop, no external dependencies) backing the theme switcher and the sidebar's collapse toggle — both persist to <code>localStorage</code> and stamp classes on <code>&lt;html&gt;</code>, so no Blazor component state needs to stay in sync with them.</p>
       <p><code>fa-styles.css</code> pulls one Google Font over <code>@import</code> (<code>Baloo 2</code>) from <code>fonts.googleapis.com</code> — a public CDN URL that works from any host, but if your app needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.</p>
 
@@ -1795,12 +1795,17 @@
           <tr><td><code>FooterPosition</code></td><td><code>FaNavPosition</code></td><td>Standard (default) · Sticky · Floating</td></tr>
           <tr><td><code>SidebarPosition</code></td><td><code>FaNavPosition</code></td><td>FaSidebarShell only — Standard (default) · Sticky · Floating</td></tr>
           <tr><td><code>SidebarCollapsible</code></td><td><code>bool</code></td><td>FaSidebarShell only — icon-only collapse toggle, default false</td></tr>
+          <tr><td><code>ContainScroll</code></td><td><code>bool</code></td><td>pins header/sidebar/footer to the viewport, only &lt;main&gt; scrolls internally, default false</td></tr>
         </table>
       </div>
 
       <p class="getting-value"><code>FaHeader</code>/<code>FaFooter</code>/<code>FaSidebar</code> each also take their own <code>Position="FaNavPosition.___"</code> when used directly (not through a shell) — <code>Standard</code> scrolls away with the page, <code>Sticky</code> pins to that bar's edge of the viewport, <code>Floating</code> is the same pinning inset with margin/rounded corners. Pinning the sidebar additionally switches it to its own internal scroll (<code>overflow-y: auto</code>) and settles it in right below the header (offset by <code>--fa-header-height</code>, a fixed <code>4rem</code> also enforced as FaHeader's own <code>min-height</code>) instead of underneath it, since it no longer scrolls away with the rest of the page once stuck full-height.</p>
 
-      <p class="getting-value"><code>FaSidebar</code>'s own <code>Collapsible</code> (default <code>false</code>) controls whether its icon-only collapse toggle renders at all — small screens still auto-collapse to a compact row regardless, that's a separate breakpoint-driven behavior. Turn it on only once every link in the sidebar has its own <code>FaIcon</code> + <code>.fa-sidebar-link-text</code> wrapper; a link with no icon has nothing to show at 64px wide, so it's hidden while collapsed rather than left to wrap.</p>
+      <p class="getting-value">By default a shell's <code>.fa-shell</code> only sets <code>min-height: 100vh</code>, so the whole page grows past one viewport and scrolls as a single document — right for most pages, wrong for a dashboard-style page that wants the header/sidebar/footer pinned to the viewport edges with only <code>&lt;main&gt;</code> scrolling internally. Set <code>ContainScroll="true"</code> on either shell for that instead (a separate opt-in <code>.fa-shell-contained</code> class, so existing whole-page-scroll consumers are unaffected). A <code>Standard</code>-position sidebar taller than the viewport scrolls independently under <code>ContainScroll</code> too, same as <code>Sticky</code>/<code>Floating</code> already do.</p>
+
+      <p class="getting-value"><code>FaSidebar</code>'s own <code>Collapsible</code> (default <code>false</code>) controls whether its icon-only collapse toggle renders at all — that's a desktop-only affordance, separate from small-screen behavior below. Turn it on only once every link in the sidebar has its own <code>FaIcon</code> + <code>.fa-sidebar-link-text</code> wrapper; a link with no icon has nothing to show at 64px wide, so it's hidden while collapsed rather than left to wrap.</p>
+
+      <p class="getting-value">Below 720px wide, <code>FaSidebar</code> goes off-canvas — hidden until opened — regardless of <code>Collapsible</code>. <code>FaSidebarShell</code> automatically shows a hamburger button left of the brand at that width (<code>FaHeader.ShowSidebarToggle</code>, set for you) that reveals the sidebar as a full-width row below the header; tapping it again hides it. This is also independent of <code>Position</code> — <code>Sticky</code>/<code>Floating</code>'s pinned-full-height styling is reset at this breakpoint too, so every <code>Position</code> collapses into the same off-canvas row. Using <code>FaHeader</code>/<code>FaSidebar</code> directly, set <code>ShowSidebarToggle="true"</code> on <code>FaHeader</code> yourself for the same behavior.</p>
     </section>
 
     <!-- ============================= FaThemeSwitcher ============================= -->
@@ -1855,7 +1860,7 @@
     </section>
 
     <footer class="page-end">
-      FactoryAspects is a self-contained Blazor Razor Class Library — see <a href="#install">Install &amp; setup</a> above for the full step-by-step, the repo's README for a high-level overview, and CLAUDE.md for contributor guidelines.
+      FaFa is a self-contained Blazor Razor Class Library — see <a href="#install">Install &amp; setup</a> above for the full step-by-step, the repo's README for a high-level overview, and CLAUDE.md for contributor guidelines.
     </footer>
 
   </main>

@@ -34,6 +34,21 @@
     font-size: 0.82rem;
 }
 
+/* LayoutShellsPage's boxed Position preview: .fa-sidebar-sticky/-floating's real
+   height (calc(100vh - header-height), Blazor/wwwroot/css/scss/_layout.scss) is sized
+   for an actual full page, where 100vh and the row wrapper's real height line up. Here
+   the row wrapper sits inside a fixed-height (360px) scrollable box instead of the real
+   viewport, so that 100vh-based height way overshoots it — the sidebar juts out past the
+   footer instead of visibly sticking alongside the header/footer. Stretching it to the
+   row wrapper's own height (like a non-positioned sidebar) fixes the demo without
+   touching the library's real, correct-for-full-page rule.
+*/
+.fa-position-demo .fa-sidebar-sticky,
+.fa-position-demo .fa-sidebar-floating {
+    height: auto;
+    align-self: stretch;
+}
+
 .fa-code-block {
     background: var(--fa-surface);
     border: var(--fa-border-width) solid var(--fa-border);

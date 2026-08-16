@@ -1,4 +1,4 @@
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Shared color variant for <see cref="FaProgress"/>, <see cref="FaSpinner"/>,

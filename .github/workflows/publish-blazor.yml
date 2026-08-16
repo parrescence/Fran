@@ -6,7 +6,7 @@ name: Publish Blazor to GitHub Packages
 #
 # Every push to main that touches Blazor/ packs and pushes it to GitHub Packages.
 # GitHub Packages rejects re-publishing an already-existing version, so a push that
-# doesn't bump <Version> in Blazor/FactoryAspects.csproj will fail this step — bump
+# doesn't bump <Version> in Blazor/FaFa.csproj will fail this step — bump
 # it first when you actually want to ship a new version, not just merge a change.
 #
 # After a successful publish, also stamps a "vX.Y.Z" git tag (matching <Version>) on
@@ -45,21 +45,21 @@ jobs:
           dotnet-version: "10.0.x"
 
       - name: Restore
-        run: dotnet restore Blazor/FactoryAspects.csproj
+        run: dotnet restore Blazor/FaFa.csproj
 
       - name: Pack
-        run: dotnet pack Blazor/FactoryAspects.csproj --configuration Release -o ./artifacts
+        run: dotnet pack Blazor/FaFa.csproj --configuration Release -o ./artifacts
 
       - name: Push to GitHub Packages
         run: |
           dotnet nuget push ./artifacts/*.nupkg \
-            --source https://nuget.pkg.github.com/bencalvin/index.json \
+            --source https://nuget.pkg.github.com/benzaesintese/index.json \
             --api-key ${{ secrets.GITHUB_TOKEN }} \
             --skip-duplicate
 
       - name: Tag release
         run: |
-          VERSION=$(grep -oP '(?<=<Version>)[^<]+(?=</Version>)' Blazor/FactoryAspects.csproj)
+          VERSION=$(grep -oP '(?<=<Version>)[^<]+(?=</Version>)' Blazor/FaFa.csproj)
           TAG="v$VERSION"
           if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "refs/tags/$TAG$"; then
             echo "Tag $TAG already exists on origin — skipping (tags are immutable, not re-pointed)."

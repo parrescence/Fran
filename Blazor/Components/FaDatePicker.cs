@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using FactoryAspects.Icons;
-using FactoryAspects.Rendering;
+using FaFa.Icons;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FactoryAspects.Components;
+namespace FaFa.Components;
 
 /// <summary>
 /// Split day/month/year date entry with a calendar popup, min/max range support, and

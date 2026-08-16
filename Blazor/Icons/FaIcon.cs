@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Icons;
+namespace FaFa.Icons;
 
 /// <summary>
 /// Small hand-drawn icon set — no third-party icon font/library, matching the
