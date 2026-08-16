@@ -481,14 +481,14 @@
     <section class="component" id="install">
       <span class="kicker">Start here</span>
       <h2>Install &amp; setup</h2>
-      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>benzaesintese</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
+      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>parrescence</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
 
       <h3>1. Add the GitHub Packages feed as a NuGet source</h3>
       <p>Pick whichever matches where you're installing from — local dev (one-time, per machine) or CI (a GitHub Actions workflow in the same account/org, no PAT needed).</p>
 
       <h4>Local dev</h4>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet nuget add source https://nuget.pkg.github.com/benzaesintese/index.json \
-  --name github-benzaesintese \
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet nuget add source https://nuget.pkg.github.com/parrescence/index.json \
+  --name github-parrescence \
   --username &lt;your-github-username&gt; \
   --password &lt;a GitHub PAT with read:packages&gt;</code></pre></div>
 
@@ -502,7 +502,7 @@
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;!-- nuget.config --&gt;
 &lt;configuration&gt;
   &lt;packageSources&gt;
-    &lt;add key="github-benzaesintese" value="https://nuget.pkg.github.com/benzaesintese/index.json" /&gt;
+    &lt;add key="github-parrescence" value="https://nuget.pkg.github.com/parrescence/index.json" /&gt;
   &lt;/packageSources&gt;
 &lt;/configuration&gt;</code></pre></div>
       <p>The workflow's own <code>GITHUB_TOKEN</code> is sufficient — no PAT needed. GitHub Packages' NuGet feeds require authentication to read even for a public repo like this one, but a same-account workflow's own token satisfies that once granted the permission above.</p>

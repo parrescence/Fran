@@ -8,7 +8,7 @@ covers what's unique to this library.
 ## This library ships standalone — treat it that way
 
 Built on the assumption it's consumed outside any one app — as a package (currently
-via **GitHub Packages**, `https://nuget.pkg.github.com/benzaesintese/index.json`, not
+via **GitHub Packages**, `https://nuget.pkg.github.com/parrescence/index.json`, not
 NuGet.org), or imported as source. `README.md` (this folder's) is the consumer-facing
 high-level overview and is packed into the `.nupkg` itself (`<None Include=
 "README.md" Pack="true" .../>` in `FaFa.csproj`) — keep it accurate, not
@@ -46,7 +46,7 @@ Consequences for any change here:
   `dotnet pack` bundles the file, it doesn't wire up the tag for you.
 - **No license is set yet** (`FaFa.csproj`'s `PackageLicenseExpression` is
   intentionally absent) — pick one before this is relied on by any consumer outside
-  `benzaesintese`'s own accounts.
+  `parrescence`'s own accounts.
 
 ## Folder layout: components vs. supporting types
 

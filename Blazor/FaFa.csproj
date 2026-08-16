@@ -84,7 +84,7 @@
   </Target>
 
   <!-- ============================= NuGet packaging =============================
-       Published to GitHub Packages (https://nuget.pkg.github.com/benzaesintese/index.json)
+       Published to GitHub Packages (https://nuget.pkg.github.com/parrescence/index.json)
        via .github/workflows/publish.yml on every push to main — not NuGet.org, for now.
        Component/type names keep their existing "Fa" identity (FaButton, FaCard,
        FaToggle<TValue>, FaIcon, ...) — only the package/namespace/repo identity is
@@ -102,13 +102,13 @@
     <Authors>Ben Calvin</Authors>
     <Description>Self-contained Blazor UI component library — buttons, cards, alerts, badges, modals, a generic N-option toggle, form inputs, page-shell layouts, a theme switcher, and a hand-drawn SVG icon set (all "Fa"-prefixed: FaButton, FaCard, FaToggle, FaIcon, ...). No dependency on any specific app's project or type; built to be reusable as-is in other Blazor apps.</Description>
     <PackageTags>blazor;razor;razorclasslibrary;ui;components</PackageTags>
-    <RepositoryUrl>https://github.com/benzaesintese/FaFa</RepositoryUrl>
+    <RepositoryUrl>https://github.com/parrescence/FaFa</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageProjectUrl>https://github.com/benzaesintese/FaFa</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/parrescence/FaFa</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <!-- No PackageLicenseExpression yet — a license hasn't been chosen for this
          library specifically. Set one (e.g. MIT) before actually publishing anywhere
-         a consumer outside benzaesintese's own accounts would rely on it. -->
+         a consumer outside parrescence's own accounts would rely on it. -->
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>

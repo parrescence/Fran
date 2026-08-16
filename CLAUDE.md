@@ -77,7 +77,7 @@ same template, without touching the Blazor files at all.
 **CI (`ci-<library>.yml`)**: its job (`build-and-pack-<library>`, e.g.
 `build-and-pack-blazor`) is a **required** status check on `test`/`main` branch
 protection (one context per library, added there once that library's workflow
-exists — check current required contexts with `gh api repos/benzaesintese/FaFa/
+exists — check current required contexts with `gh api repos/parrescence/FaFa/
 branches/<branch>/protection/required_status_checks`). Because it's required, the
 workflow's **trigger** is deliberately *not* path-filtered to that library's folder —
 a PR touching only another library (or root files) would then never fire it, and
