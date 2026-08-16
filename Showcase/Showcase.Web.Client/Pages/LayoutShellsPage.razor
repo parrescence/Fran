@@ -1,10 +1,10 @@
 @page "/layout-shells"
 
-<PageTitle>Layout Shells — FactoryAspects Showcase</PageTitle>
+<PageTitle>Layout Shells — FaFa Showcase</PageTitle>
 
 <h1>Layout Shells</h1>
 <p class="fa-mb-4">
-    <code>FaStandardShell</code> / <code>FaSidebarShell</code>. Full reference: <a href="https://github.com/bencalvin/FactoryAspects/blob/dev/Blazor/docs/layout-shells.md" target="_blank">Blazor/docs/layout-shells.md</a>.
+    <code>FaStandardShell</code> / <code>FaSidebarShell</code>. Full reference: <a href="https://github.com/benzaesintese/FaFa/blob/dev/Blazor/docs/layout-shells.md" target="_blank">Blazor/docs/layout-shells.md</a>.
 </p>
 
 <FaCard>
@@ -27,6 +27,7 @@
     <div class="fa-class-legend-row"><span class="fa-class-legend-label">Header</span><code>.fa-header</code></div>
     <div class="fa-class-legend-row"><span class="fa-class-legend-label">Sidebar</span><code>.fa-sidebar</code></div>
     <div class="fa-class-legend-row"><span class="fa-class-legend-label">Footer</span><code>.fa-footer</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Contained scroll</span><code>.fa-shell-contained</code></div>
 </div>
 <div class="fa-code-block"><code>&lt;FaSidebarShell BrandText="My App" BrandHref="/"&gt;
     &lt;Sidebar&gt;
@@ -52,7 +53,7 @@
     <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Sticky ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Sticky)">Sticky</FaButton>
     <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Floating ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Floating)">Floating</FaButton>
 </div>
-<div style="height: 360px; overflow-y: auto; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg);">
+<div class="fa-position-demo" style="height: 360px; overflow-y: auto; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg);">
     <div style="display: flex; flex-direction: column; min-height: 720px;">
         <FaHeader BrandText="Preview" BrandHref="#" Position="_demoPosition" />
         <div style="display: flex; flex: 1;">
@@ -71,6 +72,40 @@
             </main>
         </div>
         <FaFooter BrandText="Preview" Position="_demoPosition" />
+    </div>
+</div>
+
+<h2>Contained scroll</h2>
+<p class="fa-mb-4">
+    Both shells default to <code>ContainScroll="false"</code> — the whole page grows
+    past one viewport and scrolls as a single document, the header/sidebar/footer
+    included. Set <code>ContainScroll="true"</code> to pin the chrome to the viewport
+    edges instead, so only <code>&lt;main&gt;</code> scrolls internally — a
+    dashboard-style layout. The box below is fixed-height purely so the effect fits on
+    this page; a real page sets no height of its own; <code>ContainScroll</code>
+    handles that via <code>height: 100vh</code>.
+</p>
+<div style="height: 320px; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg); overflow: hidden;">
+    <div class="fa-shell fa-shell-sidebar fa-shell-contained" style="height: 320px;">
+        <FaHeader BrandText="Preview" BrandHref="#" />
+        <div class="fa-shell-body">
+            <FaSidebar>
+                <a class="fa-sidebar-link" href="#" data-tooltip="First"><span class="fa-sidebar-link-text">First link</span></a>
+                <a class="fa-sidebar-link" href="#" data-tooltip="Second"><span class="fa-sidebar-link-text">Second link</span></a>
+                <a class="fa-sidebar-link" href="#" data-tooltip="Third"><span class="fa-sidebar-link-text">Third link</span></a>
+            </FaSidebar>
+            <div class="fa-shell-main-col">
+                <main class="fa-shell-main">
+                    <p>Only this content scrolls — the header above and the sidebar/footer
+                       stay put. Scroll down to see the footer never moves.</p>
+                    <p>Filler content to make this box tall enough to scroll…</p>
+                    <p>More filler content.</p>
+                    <p>Even more filler content.</p>
+                    <p>Still more filler content.</p>
+                </main>
+                <FaFooter BrandText="Preview" />
+            </div>
+        </div>
     </div>
 </div>
 
@@ -109,6 +144,16 @@
            all; the sidebar just always shows expanded like this.</p>
     </main>
 </div>
+
+<h2>Sidebar on small screens</h2>
+<p class="fa-mb-4">
+    Below 720px wide, <code>FaSidebar</code> goes off-canvas — hidden until opened —
+    regardless of <code>Collapsible</code>, which is a separate desktop-only
+    affordance. <code>FaSidebarShell</code> shows a hamburger button left of the brand
+    at that width (<code>FaHeader.ShowSidebarToggle</code>, set for you automatically)
+    that reveals the sidebar as a full-width row below the header. Shrink this browser
+    window — or this app's own header, above — to try it live.
+</p>
 
 @code {
     private FaNavPosition _demoPosition = FaNavPosition.Sticky;

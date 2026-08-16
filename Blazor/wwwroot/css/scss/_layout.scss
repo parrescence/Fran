@@ -30,6 +30,43 @@
     flex-direction: column;
 }
 
+/* FaStandardShell.ContainScroll / FaSidebarShell.ContainScroll — opt-in, off by
+   default. Standard's own .fa-shell above only sets min-height: 100vh, so header,
+   sidebar, main, and footer all just grow the document past one viewport and the
+   whole page scrolls together — fine for most content, but wrong for a page that
+   wants header/sidebar/footer pinned to the viewport edges with only .fa-shell-main
+   scrolling internally (a dashboard-style layout). A separate class rather than
+   changing .fa-shell itself, so every existing whole-page-scroll consumer is
+   unaffected. min-height: 0 undoes the flex-item default of min-height: auto, which
+   would otherwise refuse to shrink below content height and never let the intended
+   child's overflow kick in. */
+.fa-shell-contained {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.fa-shell-contained .fa-shell-body,
+.fa-shell-contained .fa-shell-main-col {
+    min-height: 0;
+}
+
+.fa-shell-contained .fa-shell-main {
+    overflow-y: auto;
+    min-height: 0;
+}
+
+/* A Standard-position sidebar (Sticky/Floating already scroll independently via
+   .fa-sidebar-sticky/.fa-sidebar-floating further down) would otherwise just get
+   silently clipped by .fa-shell-contained's overflow: hidden once its content is
+   taller than the viewport, with no way to reach the rest of it. Scoped to
+   .fa-sidebar-scroll rather than .fa-sidebar itself, same reasoning as the
+   Sticky/Floating rules below — .fa-sidebar needs to stay overflow: visible so the
+   collapse toggle and collapsed-state tooltips can still spill past its edge. */
+.fa-shell-contained .fa-sidebar-scroll {
+    overflow-y: auto;
+    min-height: 0;
+}
+
 /* ============================= Header ============================= */
 
 .fa-header {
@@ -59,6 +96,12 @@
     border-radius: var(--fa-radius-lg);
 }
 
+.fa-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+
 .fa-header-brand {
     font-family: var(--fa-font);
     font-weight: 800;
@@ -67,6 +110,35 @@
     color: var(--fa-text-on-primary);
     text-decoration: none;
 }
+
+/* FaHeader.ShowSidebarToggle — hidden here unconditionally; _responsive.scss's
+   small-screen breakpoint is what actually shows it (and hides .fa-sidebar
+   off-canvas until this is clicked). Always present in the markup so there's no
+   flash-of-missing-button while CSS loads, just display:none until the
+   breakpoint applies. */
+.fa-header-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    flex: none;
+    border-radius: var(--fa-radius-md);
+    border: none;
+    background: rgba(0, 0, 0, 0.14);
+    color: var(--fa-text-on-primary);
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast);
+}
+
+    .fa-header-menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.16);
+    }
+
+    .fa-header-menu-toggle:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+    }
 
 .fa-header-user {
     display: flex;
@@ -380,8 +452,16 @@ html.fa-sidebar-collapsed .fa-sidebar-toggle svg {
     transition: background-color var(--fa-transition-fast), opacity var(--fa-transition-fast), gap var(--fa-transition-medium), padding var(--fa-transition-medium);
 }
 
+    /* A white-tinted overlay here (as every other hover state in this file uses,
+       e.g. .fa-header-menu-toggle/.fa-theme-btn above) washes out against this link's
+       own color: var(--fa-text-on-primary), which every palette defines as a near-
+       white off-white (_palettes.scss) — lightening the background behind
+       already-light text on hover pushes both toward the same color instead of
+       apart. Darkening it instead (the same direction .active already goes, just a
+       lighter step before it) keeps the light text legible against every palette
+       rather than fading it out. */
     .fa-sidebar-link:hover {
-        background: rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.18);
         opacity: 1;
     }
 

@@ -1,7 +1,8 @@
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Layout;
+namespace FaFa.Layout;
 
 /// <summary>
 /// Template 1: header + content + footer, no sidebar. For pages that don't need app
@@ -25,10 +26,20 @@ public sealed class FaStandardShell : ComponentBase
     /// <summary>Passed straight through to <see cref="FaFooter.Position"/>.</summary>
     [Parameter] public FaNavPosition FooterPosition { get; set; } = FaNavPosition.Standard;
 
+    /// <summary>
+    /// Opt-in, off by default. Pins the header/footer to the viewport edges and lets
+    /// only the page's own content (<see cref="ChildContent"/>, inside &lt;main&gt;)
+    /// scroll internally, instead of the whole page growing past one viewport and
+    /// scrolling as a single document (the default — fine for most content, but wrong
+    /// for a dashboard-style page that wants the chrome pinned). See
+    /// <c>_layout.scss</c>'s <c>.fa-shell-contained</c> for the mechanics.
+    /// </summary>
+    [Parameter] public bool ContainScroll { get; set; }
+
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", "fa-shell fa-shell-standard");
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-shell", "fa-shell-standard", ContainScroll ? "fa-shell-contained" : null));
 
         builder.OpenComponent<FaHeader>(2);
         builder.AddComponentParameter(3, nameof(FaHeader.BrandText), BrandText);

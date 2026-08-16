@@ -1,10 +1,10 @@
-using FactoryAspects.Components;
-using FactoryAspects.Icons;
-using FactoryAspects.Rendering;
+using FaFa.Components;
+using FaFa.Icons;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FactoryAspects.Layout;
+namespace FaFa.Layout;
 
 /// <summary>
 /// Header bar — brand on the left, user name + avatar + login/logout at the far right.
@@ -25,6 +25,17 @@ public sealed class FaHeader : ComponentBase
     /// <summary>Whether the header scrolls away with the page (default) or stays pinned to the top.</summary>
     [Parameter] public FaNavPosition Position { get; set; } = FaNavPosition.Standard;
 
+    /// <summary>
+    /// Renders a hamburger button left of the brand that calls window.faToggleSidebarMobile()
+    /// (js/sidebar.js) on click. Only meaningful when this header is paired with a sidebar —
+    /// FaSidebarShell sets this itself, so a consumer using FaHeader standalone (FaStandardShell,
+    /// no sidebar to toggle) never needs to touch it. The button itself is always in the markup
+    /// once set; it's <c>_responsive.scss</c>'s breakpoint that hides it above the mobile width and
+    /// hides/shows <c>.fa-sidebar</c> off-canvas below it — independent of FaSidebar.Collapsible,
+    /// which is a separate, desktop-only icon-rail affordance.
+    /// </summary>
+    [Parameter] public bool ShowSidebarToggle { get; set; }
+
     private string? PositionClass => Position switch
     {
         FaNavPosition.Sticky => "fa-header-sticky",
@@ -37,11 +48,36 @@ public sealed class FaHeader : ComponentBase
         builder.OpenElement(0, "header");
         builder.AddAttribute(1, "class", CssClassNames.Combine("fa-header", PositionClass));
 
+        builder.OpenElement(30, "div");
+        builder.AddAttribute(31, "class", "fa-header-left");
+
+        if (ShowSidebarToggle)
+        {
+            builder.OpenElement(32, "button");
+            builder.AddAttribute(33, "type", "button");
+            builder.AddAttribute(34, "class", "fa-header-menu-toggle");
+            builder.AddAttribute(35, "data-sidebar-mobile-toggle", true);
+            builder.AddAttribute(36, "title", "Toggle menu");
+            builder.AddAttribute(37, "aria-label", "Toggle menu");
+            builder.AddAttribute(38, "aria-expanded", "false");
+            builder.AddAttribute(39, "onclick", "faToggleSidebarMobile()");
+
+            builder.OpenComponent<FaIcon>(40);
+            builder.AddComponentParameter(41, nameof(FaIcon.Name), FaIconName.Menu);
+            builder.AddComponentParameter(42, nameof(FaIcon.Color), FaIconColor.White);
+            builder.AddComponentParameter(43, nameof(FaIcon.Size), 18);
+            builder.CloseComponent();
+
+            builder.CloseElement(); // .fa-header-menu-toggle
+        }
+
         builder.OpenElement(2, "a");
         builder.AddAttribute(3, "class", "fa-header-brand");
         builder.AddAttribute(4, "href", BrandHref);
         builder.AddContent(5, BrandText);
         builder.CloseElement();
+
+        builder.CloseElement(); // .fa-header-left
 
         builder.OpenElement(6, "div");
         builder.AddAttribute(7, "class", "fa-header-user");

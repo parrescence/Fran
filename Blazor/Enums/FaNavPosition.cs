@@ -1,4 +1,4 @@
-namespace FactoryAspects.Layout;
+namespace FaFa.Layout;
 
 /// <summary>
 /// How a layout bar (<see cref="FaHeader"/>, <see cref="FaFooter"/>, <see

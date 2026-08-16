@@ -1,6 +1,6 @@
-using FactoryAspects.Components;
+using FaFa.Components;
 
-namespace FactoryAspects.Rendering;
+namespace FaFa.Rendering;
 
 /// <summary>
 /// Maps <see cref="FaAlign"/> to its <c>.fa-align-*</c> utility class (_utilities.scss)

@@ -110,13 +110,34 @@ of `0`/`100vh`. That offset assumes a standard-height header sits above it, whic
 how both shells pair them — as in the example above. Using the pieces directly, set
 `Position` on `FaHeader`/`FaFooter`/`FaSidebar` themselves the same way.
 
+## Contained scroll
+
+By default (`ContainScroll="false"`), a shell's `.fa-shell` only sets `min-height:
+100vh` — header, sidebar, main content, and footer all just grow the page past one
+viewport, and the whole document scrolls together. That's the right default for most
+pages, but wrong for a dashboard-style page that wants the header/sidebar/footer
+pinned to the viewport edges with only the page's own content scrolling inside
+`<main>`. Set `ContainScroll="true"` on either shell to switch to that instead:
+
+```razor
+<FaSidebarShell BrandText="MyApp" BrandHref="/" ContainScroll="true">
+    <Sidebar><NavMenu /></Sidebar>
+    <ChildContent>@Body</ChildContent>
+</FaSidebarShell>
+```
+
+This is a separate opt-in class (`.fa-shell-contained` in `_layout.scss`) rather than
+a change to `.fa-shell` itself, so existing whole-page-scroll consumers are
+unaffected. A `Standard`-position `Sidebar` taller than the viewport scrolls
+independently under `ContainScroll` too, the same way `Sticky`/`Floating` already do
+(see above) — nothing extra to configure for that.
+
 ## Collapsible sidebar
 
 `FaSidebar` also takes `Collapsible` — `false` by default, meaning no toggle button
-renders and the sidebar always shows expanded (small screens still auto-collapse to
-a compact icon+label row regardless, via `_responsive.scss`'s own breakpoint — that's
-unrelated to this parameter and can't be turned off). `FaSidebarShell` exposes the
-same choice as `SidebarCollapsible`:
+renders and the sidebar always shows expanded on desktop widths (small screens ignore
+this entirely — see "Sidebar on small screens" below, unrelated to this parameter and
+can't be turned off). `FaSidebarShell` exposes the same choice as `SidebarCollapsible`:
 
 ```razor
 <FaSidebarShell BrandText="MyApp" BrandHref="/" SidebarCollapsible="true">
@@ -135,6 +156,20 @@ an icon-less nav effectively hides most of your navigation once a user collapses
 This repo's own Showcase app leaves `SidebarCollapsible` at its `false` default for
 exactly that reason — its `NavMenu.razor` groups links under `<details>` disclosure
 sections that don't have individual icons.
+
+## Sidebar on small screens
+
+Below `_responsive.scss`'s breakpoint (720px), `FaSidebar` goes off-canvas — hidden
+until opened — regardless of `Collapsible`, which is a separate, desktop-only
+icon-rail affordance. `FaSidebarShell` automatically shows a hamburger button left of
+the brand in the header at that width (`FaHeader.ShowSidebarToggle`, which the shell
+sets for you — nothing to configure); tapping it reveals the sidebar as a full-width
+row below the header, tapping again hides it. This is also independent of `Position` —
+`Sticky`/`Floating`'s pinned-full-height styling is reset at this breakpoint too, so
+every `Position` collapses into the same off-canvas row rather than only `Standard`
+behaving this way. State isn't persisted across page loads, unlike the desktop
+collapse above. Using `FaHeader`/`FaSidebar` directly instead of `FaSidebarShell`, set
+`ShowSidebarToggle="true"` on `FaHeader` yourself to get the same behavior.
 
 ## Getting the value
 
@@ -160,5 +195,6 @@ works) — nothing to wire up for it.
 | `FooterPosition` | `FaNavPosition` | `Standard` (default) \| `Sticky` \| `Floating` |
 | `SidebarPosition` | `FaNavPosition` | **`FaSidebarShell` only** — `Standard` (default) \| `Sticky` \| `Floating` |
 | `SidebarCollapsible` | `bool` | **`FaSidebarShell` only** — icon-only collapse toggle, defaults to `false` |
+| `ContainScroll` | `bool` | pins header/sidebar/footer to the viewport, only `<main>` scrolls internally, defaults to `false` |
 
 [← Back to index](index.md)

@@ -1,6 +1,6 @@
 # Install & setup
 
-Published to **GitHub Packages** (not NuGet.org, for now) under `bencalvin`. Five
+Published to **GitHub Packages** (not NuGet.org, for now) under `benzaesintese`. Five
 steps: add the feed, reference the package, import the namespaces, wire the static
 assets into your host page, then optionally pick a color palette.
 
@@ -12,8 +12,8 @@ machine) or **CI** (a GitHub Actions workflow in the same account/org, no PAT ne
 **Local dev:**
 
 ```bash
-dotnet nuget add source https://nuget.pkg.github.com/bencalvin/index.json \
-  --name github-bencalvin \
+dotnet nuget add source https://nuget.pkg.github.com/benzaesintese/index.json \
+  --name github-benzaesintese \
   --username <your-github-username> \
   --password <a GitHub PAT with read:packages>
 ```
@@ -39,7 +39,7 @@ permissions:
 <!-- nuget.config -->
 <configuration>
   <packageSources>
-    <add key="github-bencalvin" value="https://nuget.pkg.github.com/bencalvin/index.json" />
+    <add key="github-benzaesintese" value="https://nuget.pkg.github.com/benzaesintese/index.json" />
   </packageSources>
 </configuration>
 ```
@@ -51,7 +51,7 @@ a same-account workflow's own token satisfies that once granted the permission a
 ## 2. Reference the package
 
 ```bash
-dotnet add package FactoryAspects
+dotnet add package FaFa
 ```
 
 ## 3. Import the namespaces
@@ -59,9 +59,9 @@ dotnet add package FactoryAspects
 Add to `_Imports.razor`:
 
 ```razor
-@using FactoryAspects.Components
-@using FactoryAspects.Icons
-@using FactoryAspects.Layout
+@using FaFa.Components
+@using FaFa.Icons
+@using FaFa.Layout
 ```
 
 ## 4. Wire the static assets into your host page
@@ -71,10 +71,10 @@ they are **not** auto-injected into your host page — this is standard Blazor R
 behavior, not something specific to this package. Add these tags yourself:
 
 ```html
-<link rel="stylesheet" href="_content/FactoryAspects/css/fa-styles.css" />
+<link rel="stylesheet" href="_content/FaFa/css/fa-styles.css" />
 ...
-<script src="_content/FactoryAspects/js/theme.js"></script>
-<script src="_content/FactoryAspects/js/sidebar.js"></script>
+<script src="_content/FaFa/js/theme.js"></script>
+<script src="_content/FaFa/js/sidebar.js"></script>
 ```
 
 - `theme.js`/`sidebar.js` are plain vanilla-JS IIFEs (no Blazor JS interop, no external
