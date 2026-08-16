@@ -17,11 +17,11 @@ markup — see `CLAUDE.md` if you're contributing.
 
 ## Install
 
-Published to **GitHub Packages** (not NuGet.org, for now) under `benzaesintese`:
+Published to **GitHub Packages** (not NuGet.org, for now) under `parrescence`:
 
 ```bash
-dotnet nuget add source https://nuget.pkg.github.com/benzaesintese/index.json \
-  --name github-benzaesintese --username <your-github-username> \
+dotnet nuget add source https://nuget.pkg.github.com/parrescence/index.json \
+  --name github-parrescence --username <your-github-username> \
   --password <a GitHub PAT with read:packages>
 
 dotnet add package FaFa

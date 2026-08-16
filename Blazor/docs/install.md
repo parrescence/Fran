@@ -1,6 +1,6 @@
 # Install & setup
 
-Published to **GitHub Packages** (not NuGet.org, for now) under `benzaesintese`. Five
+Published to **GitHub Packages** (not NuGet.org, for now) under `parrescence`. Five
 steps: add the feed, reference the package, import the namespaces, wire the static
 assets into your host page, then optionally pick a color palette.
 
@@ -12,8 +12,8 @@ machine) or **CI** (a GitHub Actions workflow in the same account/org, no PAT ne
 **Local dev:**
 
 ```bash
-dotnet nuget add source https://nuget.pkg.github.com/benzaesintese/index.json \
-  --name github-benzaesintese \
+dotnet nuget add source https://nuget.pkg.github.com/parrescence/index.json \
+  --name github-parrescence \
   --username <your-github-username> \
   --password <a GitHub PAT with read:packages>
 ```
@@ -39,7 +39,7 @@ permissions:
 <!-- nuget.config -->
 <configuration>
   <packageSources>
-    <add key="github-benzaesintese" value="https://nuget.pkg.github.com/benzaesintese/index.json" />
+    <add key="github-parrescence" value="https://nuget.pkg.github.com/parrescence/index.json" />
   </packageSources>
 </configuration>
 ```
