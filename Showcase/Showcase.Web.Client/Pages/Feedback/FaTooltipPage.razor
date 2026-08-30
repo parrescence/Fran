@@ -1,0 +1,23 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-tooltip"
+
+<DemoPageHeader Title="Tooltip" ComponentName="FaTooltip" DocSlug="fa-tooltip">
+    Pure CSS — no JS positioning. Try tabbing to the button below instead of hovering it.
+</DemoPageHeader>
+
+<div class="fa-demo-preview">
+    <FaTooltip Text="Exports the current view as a CSV file">
+        <FaButton Variant="FaButtonVariant.Secondary">Export</FaButton>
+    </FaTooltip>
+    <FaTooltip Text="Shown below the trigger instead" Position="FaTooltipPosition.Bottom">
+        <FaButton Variant="FaButtonVariant.Secondary">Bottom</FaButton>
+    </FaTooltip>
+</div>
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Bubble</span><code>.fa-tooltip-bubble</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaTooltip Text="Exports the current view as a CSV file"&gt;
+    &lt;FaButton Variant="FaButtonVariant.Secondary"&gt;Export&lt;/FaButton&gt;
+&lt;/FaTooltip&gt;</code></div>

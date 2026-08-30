@@ -1,0 +1,110 @@
+/* ============================= Page templates ============================= */
+/* FaDashboardTemplate, FaFormTemplate, FaHomeTemplate, FaAuthTemplate (Templates/) —
+   each wraps FaStandardShell/FaSidebarShell (_layout.scss), so this partial only
+   covers what those shells don't already style: the page-header row, the centered
+   form/hero/auth bodies. */
+
+.fa-template-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+    .fa-template-page-header h1 {
+        margin: 0;
+    }
+
+.fa-template-page-actions {
+    display: flex;
+    gap: 0.6rem;
+}
+
+/* --- FaFormTemplate --- */
+
+.fa-template-form-wrap {
+    margin: 2.5rem auto;
+    width: 100%;
+}
+
+.fa-template-back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--fa-text-muted);
+    font-family: var(--fa-font);
+    font-size: 0.88rem;
+    text-decoration: none;
+}
+
+    .fa-template-back-link:hover {
+        color: var(--fa-primary-dark);
+    }
+
+.fa-template-form-title {
+    margin: 0 0 0.4rem;
+}
+
+.fa-template-form-description {
+    margin: 0 0 1.2rem;
+    color: var(--fa-text-muted);
+}
+
+/* --- FaHomeTemplate --- */
+
+.fa-template-hero {
+    text-align: center;
+    padding: 4rem 1.5rem;
+}
+
+    .fa-template-hero h1 {
+        margin: 0 0 0.8rem;
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .fa-template-hero p {
+        max-width: 46ch;
+        margin: 0 auto;
+        color: var(--fa-text-muted);
+        font-size: 1.05rem;
+    }
+
+.fa-template-hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1.6rem;
+}
+
+/* --- FaAuthTemplate: chrome-free, so it owns full-viewport centering itself
+   instead of relying on a shell's <main>. --- */
+
+.fa-template-auth {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    background: var(--fa-cream);
+}
+
+.fa-template-auth-brand {
+    font-family: var(--fa-font);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--fa-primary-dark);
+    text-decoration: none;
+}
+
+.fa-template-auth-card-wrap {
+    width: 100%;
+}
+
+.fa-template-auth-footer {
+    text-align: center;
+    color: var(--fa-text-muted);
+    font-size: 0.88rem;
+}

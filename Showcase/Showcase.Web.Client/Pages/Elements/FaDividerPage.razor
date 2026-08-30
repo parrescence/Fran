@@ -1,0 +1,26 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-divider"
+
+<DemoPageHeader Title="Divider" ComponentName="FaDivider" DocSlug="fa-divider" />
+
+<p>Above the line.</p>
+<FaDivider />
+<p>Below the line.</p>
+
+<FaDivider Label="OR" />
+
+<div class="fa-flex" style="height:2rem;">
+    <span>Left</span>
+    <FaDivider Vertical="true" />
+    <span>Right</span>
+</div>
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Plain</span><code>.fa-divider</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Labeled</span><code>.fa-divider.fa-divider-labeled</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Vertical</span><code>.fa-divider.fa-divider-vertical</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaDivider /&gt;
+&lt;FaDivider Label="OR" /&gt;
+&lt;FaDivider Vertical="true" /&gt;</code></div>

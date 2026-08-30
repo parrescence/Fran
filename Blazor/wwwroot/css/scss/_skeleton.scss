@@ -1,0 +1,48 @@
+/* ============================= Skeleton ============================= */
+
+.fa-skeleton-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.fa-skeleton {
+    display: block;
+    background: linear-gradient(90deg, var(--fa-border) 25%, var(--fa-surface) 50%, var(--fa-border) 75%);
+    background-size: 200% 100%;
+    animation: fa-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+.fa-skeleton-text {
+    width: 100%;
+    height: 0.85em;
+    border-radius: var(--fa-radius-sm);
+}
+
+.fa-skeleton-text-last {
+    width: 60%;
+}
+
+.fa-skeleton-circle {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+}
+
+.fa-skeleton-rect {
+    width: 100%;
+    height: 8rem;
+    border-radius: var(--fa-radius-md);
+}
+
+@keyframes fa-skeleton-shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fa-skeleton {
+        animation: none;
+        background: var(--fa-border);
+    }
+}

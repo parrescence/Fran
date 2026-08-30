@@ -1,0 +1,51 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-login-form"
+@inject HttpClient Http
+
+<DemoPageHeader Title="Login Form" ComponentName="FaLoginForm" DocSlug="fa-login-form">
+    Username/password + remember-me, emits an <code>FaLoginRequest</code>.
+</DemoPageHeader>
+
+<p>
+    Really calls <code>POST /api/auth/login</code> on <code>Showcase.Web.Api</code>.
+    Try <code>demo</code> / <code>password</code> for success, anything else fails.
+</p>
+<div style="max-width: 360px;">
+    <FaLoginForm OnSubmit="HandleLoginAsync" Busy="_loginBusy" ErrorText="@_loginError" />
+</div>
+@if (_loginSuccess)
+{
+    <p class="fa-mt-2"><FaBadge Variant="FaBadgeVariant.Success">Logged in.</FaBadge></p>
+}
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-form.fa-login-form</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaLoginForm OnSubmit="HandleLoginAsync" Busy="_busy" ErrorText="@@_error" /&gt;
+
+@@code {
+    private async Task HandleLoginAsync(FaLoginRequest request)
+    {
+        var response = await Http.PostAsJsonAsync("/api/auth/login", request);
+        // ...
+    }
+}</code></div>
+
+@code {
+    private bool _loginBusy;
+    private bool _loginSuccess;
+    private string? _loginError;
+
+    private async Task HandleLoginAsync(FaLoginRequest request)
+    {
+        _loginBusy = true;
+        _loginError = null;
+        var response = await Http.PostAsJsonAsync("/api/auth/login", request);
+        var result = await response.Content.ReadFromJsonAsync<LoginResult>();
+        _loginBusy = false;
+        _loginSuccess = result?.Success ?? false;
+        _loginError = result?.Success == true ? null : result?.ErrorMessage ?? "Login failed.";
+    }
+
+    private sealed record LoginResult(bool Success, string? ErrorMessage);
+}

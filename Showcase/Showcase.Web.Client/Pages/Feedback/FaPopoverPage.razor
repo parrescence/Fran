@@ -1,0 +1,38 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-popover"
+
+<DemoPageHeader Title="Popover" ComponentName="FaPopover" DocSlug="fa-popover">
+    Same open/close pattern as <code>FaDatePicker</code>'s calendar popup — click to open, Escape or focus-out to close.
+</DemoPageHeader>
+
+<EditForm Model="_filters">
+    <FaPopover Position="FaTooltipPosition.Bottom">
+        <Trigger>Filters</Trigger>
+        <ChildContent>
+            <FaCheckbox Label="In stock only" @bind-Value="_filters.InStockOnly" />
+            <FaCheckbox Label="On sale" @bind-Value="_filters.OnSaleOnly" />
+        </ChildContent>
+    </FaPopover>
+</EditForm>
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Trigger</span><code>.fa-popover-trigger</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Panel (open)</span><code>.fa-popover-panel.fa-popover-panel-open</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaPopover Position="FaTooltipPosition.Bottom"&gt;
+    &lt;Trigger&gt;Filters&lt;/Trigger&gt;
+    &lt;ChildContent&gt;
+        &lt;FaCheckbox Label="In stock only" @@bind-Value="_inStockOnly" /&gt;
+    &lt;/ChildContent&gt;
+&lt;/FaPopover&gt;</code></div>
+
+@code {
+    private class DemoFilters
+    {
+        public bool InStockOnly { get; set; }
+        public bool OnSaleOnly { get; set; }
+    }
+
+    private DemoFilters _filters = new();
+}

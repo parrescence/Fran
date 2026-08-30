@@ -1,0 +1,32 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-input"
+
+<DemoPageHeader Title="Text Input" ComponentName="FaInput" DocSlug="fa-input">
+    <code>InputBase&lt;TValue&gt;</code>-derived — only works inside an <code>&lt;EditForm&gt;</code>.
+</DemoPageHeader>
+
+<h2>Generic text/number field</h2>
+<EditForm Model="_model" class="fa-form">
+    <FaInput TValue="string" @bind-Value="_model.Name" Label="Name" Placeholder="Jane Doe" />
+    <FaInput TValue="decimal" @bind-Value="_model.Amount" Type="number" Step="0.01" Label="Amount" />
+</EditForm>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-field</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Label</span><code>.fa-label</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Input</span><code>.fa-input</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;EditForm Model="_model"&gt;
+    &lt;FaInput TValue="string" @@bind-Value="_model.Name" Label="Name" Placeholder="Jane Doe" /&gt;
+    &lt;FaInput TValue="decimal" @@bind-Value="_model.Amount" Type="number" Step="0.01" Label="Amount" /&gt;
+&lt;/EditForm&gt;</code></div>
+
+@code {
+    private class DemoModel
+    {
+        public string Name { get; set; } = "";
+        public decimal Amount { get; set; }
+    }
+
+    private DemoModel _model = new();
+}

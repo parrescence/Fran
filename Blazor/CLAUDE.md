@@ -50,15 +50,69 @@ Consequences for any change here:
 
 ## Folder layout: components vs. supporting types
 
-`Components/`, `Layout/`, and `Icons/` hold only actual renderable components —
+`Components/`, `Layout/`, `Templates/`, and `Icons/` hold only actual renderable components —
 `ComponentBase`/`InputBase<TValue>` subclasses a consumer uses as a markup tag
 (`<FaButton>`, `<FaHeader>`, `<FaIcon>`, ...). Supporting types a consumer references
 in their own C# (not as a tag) live in two separate folders instead:
 
+`Components/` is itself split into five subfolders, purely by what a component
+*is* rather than what it does internally — same "physical organization only, not a
+namespace change" rule as `Enums`/`Models` below applies here too, so this split was
+a zero-risk, no-version-bump move:
+
+- **`Components/Elements/`** — small, mostly-presentational building blocks:
+  `FaButton`, `FaCard`, `FaBadge`, `FaAvatar`, `FaTabs`, `FaAccordion`,
+  `FaBreadcrumb`, `FaPagination`, `FaDivider`, `FaChip`, `FaEmptyState`.
+- **`Components/Forms/`** — anything that collects or edits input, from a single
+  `InputBase<TValue>` field up through a whole `<EditForm>`-wrapping composite:
+  `FaInput`, `FaSelect`, `FaSearchSelect`, `FaDropdown`, `FaTextarea`, `FaCheckbox`,
+  `FaRadioGroup`, `FaToggle`, `FaDatePicker`, `FaDateRange`, `FaCurrency`, `FaFile`,
+  `FaForm`, `FaLoginForm`, `FaLogoutForm`.
+- **`Components/Feedback/`** — communicates state rather than taking input:
+  `FaAlert`, `FaModal`, `FaProgress`, `FaSpinner`, `FaLoadingDots`, `FaHelixLoader`,
+  `FaPongLoader`, `FaTooltip`, `FaPopover`, `FaToastHost`, `FaSkeleton`.
+- **`Components/Data/`** — renders a collection: `FaTable`, `FaGrid`, `FaCarousel`.
+- **`Components/Chrome/`** — app-shell controls, not page content:
+  `FaThemeSwitcher`, `FaPaletteSwitcher`.
+
+`Services/` is a sixth, sibling folder (not a `Components/` subfolder) for
+non-component types that still ship as part of the public API but aren't
+`ComponentBase` subclasses — today just `FaToastService`, a scoped injectable
+service `FaToastHost` subscribes to (register it with
+`services.AddScoped<FaToastService>()`; see `docs/fa-toast.md`). Namespace still
+`FaFa.Components`, same physical-organization-only rule as everywhere else in this
+section.
+
+`Templates/` is a separate top-level folder, sibling to `Components`/`Layout`, with
+its own `namespace FaFa.Templates` — not folded into `FaFa.Layout` even though every
+template wraps `FaStandardShell`/`FaSidebarShell`, because the two are a different
+kind of thing for a consumer to reach for: `Layout/` is the shell primitives
+themselves (header/sidebar/footer, the two shells), `Templates/` is a handful of
+full-page compositions built on top of them (`FaDashboardTemplate`,
+`FaFormTemplate`, `FaHomeTemplate`, `FaAuthTemplate`) — a page-header row, a
+centered form card, a hero band, a chrome-free auth card, respectively. Every
+shell-level parameter a template exposes (brand/auth props, `Sidebar`,
+`FooterContent`, and each bar's own `FaNavPosition`) is a straight pass-through
+using the shell's own parameter names, so switching between the raw shell and a
+template is a rename, not a rewrite. See `docs/page-templates.md` for the
+consumer-facing how-to.
+
+Every one of those still declares `namespace FaFa.Components;` regardless of which
+subfolder it physically lives in — a consumer's existing `@using FaFa.Components`
+keeps resolving every one of them unchanged. When adding a new component, place it
+in whichever of the five subfolders matches its role; don't invent a sixth without
+a reason (a component that only sort-of fits one of these belongs in the closest
+match, not a new single-purpose folder).
+
+Supporting types a consumer references in their own C# (not as a tag) live in two
+more folders instead:
+
 - **`Enums/`** — `FaButtonVariant`, `FaBadgeVariant`, `FaAlertVariant`,
-  `FaTogglePosition`, `FaIconColor`, `FaIconName`.
+  `FaTogglePosition`, `FaIconColor`, `FaIconName`, `FaSkeletonVariant`,
+  `FaTooltipPosition` (shared by `FaTooltip` and `FaPopover`), `FaToastPosition`.
 - **`Models/`** — `FaDateRangeValue`, `FaGridColumn<TItem>`, `FaGridRequest`,
-  `FaGridResult<TItem>` (DTOs/records passed to or bound by a specific component).
+  `FaGridResult<TItem>`, `FaToastMessage` (DTOs/records passed to or bound by a
+  specific component).
 
 Folder placement is purely physical organization — it does **not** change a type's
 namespace. `FaButtonVariant` still declares `namespace FaFa.Components;`
@@ -189,7 +243,7 @@ styles means adding its own `_name.scss` partial and one `@use` line in
   design. Only add a token for a value that's supposed to be identical everywhere
   it appears, not for reuse's own sake.
 
-Twenty-three color palettes live in `_palettes.scss`, picked via `data-fa-palette` on
+Twenty-eight color palettes live in `_palettes.scss`, picked via `data-fa-palette` on
 `<html>` — a second, independent axis from the existing light/dark/colorblind
 `data-theme` mode switch, so every palette × mode combination needs its own dark-mode
 block (`:root[data-fa-palette="X"][data-theme="dark"]`, plus the
@@ -207,6 +261,12 @@ Each palette's color choices are worked out first in `.themes/` in this folder �
 and not committed. Once a palette is wired into `_palettes.scss`, `.themes/`'s copy
 of it is just historical design rationale, not the source of truth —
 `_palettes.scss` is. Don't assume `.themes/` exists when cloning fresh elsewhere.
+**Adding or changing a palette still means updating `.themes/` in the same change**
+when it does exist — a new `<slug>.md` + `<slug>.html` pair (copy an existing
+palette's, e.g. `ruckus.md`/`ruckus.html`, as the template), plus a card in
+`.themes/index.html` and a row in `.themes/README.md`'s table. Being gitignored makes
+it invisible to a diff/PR review, which makes it easy to forget — it isn't optional
+just because nothing enforces it.
 
 ## Components inventory
 
@@ -223,7 +283,7 @@ grep `docs/` and `Showcase/` for the old name before considering the change done
 stale examples/links that still reference it are as broken as a stale demo page (see
 root [`CLAUDE.md`](../CLAUDE.md)'s Showcase-sync rule, which this extends to `docs/`).
 
-`FaToggle<TValue>` (`Components/FaToggle.cs`) is the one component with real runtime
+`FaToggle<TValue>` (`Components/Forms/FaToggle.cs`) is the one component with real runtime
 validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two
 `Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
 Value)>` — a `System.ValueTuple`, deliberately not a custom DTO type, to avoid forcing

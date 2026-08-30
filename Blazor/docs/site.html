@@ -431,11 +431,38 @@
       </ul>
     </div>
     <div class="nav-group">
+      <div class="nav-group-title">Content display</div>
+      <ul>
+        <li><a href="#fa-code-block">FaCodeBlock</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
       <div class="nav-group-title">Self-contained forms</div>
       <ul>
         <li><a href="#fa-form">FaForm</a></li>
         <li><a href="#fa-login-form">FaLoginForm</a></li>
         <li><a href="#fa-logout-form">FaLogoutForm</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Navigation &amp; structure</div>
+      <ul>
+        <li><a href="#fa-tabs">FaTabs</a></li>
+        <li><a href="#fa-accordion">FaAccordion</a></li>
+        <li><a href="#fa-breadcrumb">FaBreadcrumb</a></li>
+        <li><a href="#fa-pagination">FaPagination</a></li>
+        <li><a href="#fa-divider">FaDivider</a></li>
+        <li><a href="#fa-chip">FaChip</a></li>
+        <li><a href="#fa-empty-state">FaEmptyState</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Overlays &amp; feedback</div>
+      <ul>
+        <li><a href="#fa-tooltip">FaTooltip</a></li>
+        <li><a href="#fa-popover">FaPopover</a></li>
+        <li><a href="#fa-toast">FaToastHost</a></li>
+        <li><a href="#fa-skeleton">FaSkeleton</a></li>
       </ul>
     </div>
     <div class="nav-group">
@@ -446,6 +473,16 @@
         <li><a href="#fa-loading-dots">FaLoadingDots</a></li>
         <li><a href="#fa-helix-loader">FaHelixLoader</a></li>
         <li><a href="#fa-pong-loader">FaPongLoader</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Page templates</div>
+      <ul>
+        <li><a href="#page-templates">Overview</a></li>
+        <li><a href="#fa-dashboard-template">FaDashboardTemplate</a></li>
+        <li><a href="#fa-form-template">FaFormTemplate</a></li>
+        <li><a href="#fa-home-template">FaHomeTemplate</a></li>
+        <li><a href="#fa-auth-template">FaAuthTemplate</a></li>
       </ul>
     </div>
     <div class="nav-group">
@@ -481,7 +518,7 @@
     <section class="component" id="install">
       <span class="kicker">Start here</span>
       <h2>Install &amp; setup</h2>
-      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>parrescence</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette.</p>
+      <p class="dek">Published to GitHub Packages (not NuGet.org, for now) under <code>parrescence</code>. Five steps: add the feed, reference the package, import the namespaces, wire the static assets into your host page, then optionally pick a color palette — plus one more, optional, if you're using FaToastHost.</p>
 
       <h3>1. Add the GitHub Packages feed as a NuGet source</h3>
       <p>Pick whichever matches where you're installing from — local dev (one-time, per machine) or CI (a GitHub Actions workflow in the same account/org, no PAT needed).</p>
@@ -526,8 +563,8 @@
       <p><code>fa-styles.css</code> pulls one Google Font over <code>@import</code> (<code>Baloo 2</code>) from <code>fonts.googleapis.com</code> — a public CDN URL that works from any host, but if your app needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.</p>
 
       <h3>5. Pick a color palette (optional)</h3>
-      <p>Fourteen seasonal/regional/country color palettes ship in the one <code>fa-styles.css</code>, picked via a <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> — a second, independent axis from the light/dark/colorblind mode (<code>data-theme</code>); any palette combines with any mode. Default is <code>northwest-fall</code> (no attribute needed) if you skip this step.</p>
-      <p>Available names: <code>northwest-fall</code>, <code>southwest-summer</code>, <code>northeast-spring</code>, <code>midwest-winter</code>, <code>southeast-beach</code>, <code>greece-aegean</code>, <code>spain-flamenco</code>, <code>ireland-emerald</code>, <code>jamaica-blue-mountain</code>, <code>japan-indigo</code>, <code>korea-celadon</code>, <code>china-cinnabar</code>, <code>india-peacock</code>, <code>cameroon-rainforest</code>.</p>
+      <p>Twenty-eight seasonal/regional/country color palettes ship in the one <code>fa-styles.css</code>, picked via a <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> — a second, independent axis from the light/dark/colorblind mode (<code>data-theme</code>); any palette combines with any mode. Default is <code>northwest-fall</code> (no attribute needed) if you skip this step.</p>
+      <p>Available names: <code>northwest-fall</code>, <code>southwest-summer</code>, <code>northeast-spring</code>, <code>midwest-winter</code>, <code>southeast-beach</code>, <code>greece-aegean</code>, <code>spain-flamenco</code>, <code>ireland-emerald</code>, <code>jamaica-blue-mountain</code>, <code>japan-indigo</code>, <code>korea-celadon</code>, <code>china-cinnabar</code>, <code>india-peacock</code>, <code>cameroon-rainforest</code>, <code>sahara-desert</code>, <code>brazil-rainforest</code>, <code>brazil-favela</code>, <code>portugal-tiles</code>, <code>spain-bullfighting</code>, <code>mexico-day-of-the-dead</code>, <code>london-life</code>, <code>new-york-nightlife</code>, <code>india-henna</code>, <code>ruckus</code>, <code>dinner</code>, <code>hang-in</code>, <code>floating</code>, <code>fit</code>.</p>
 
       <h4>Option A — pick one at build time</h4>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;html lang="en" data-fa-palette="southeast-beach"&gt;</code></pre></div>
@@ -550,6 +587,11 @@
     if (palette) document.documentElement.setAttribute('data-fa-palette', palette);
   })();
 &lt;/script&gt;</code></pre></div>
+
+      <h3>6. Using FaToastHost (optional)</h3>
+      <p>Every other component here needs zero C#-side setup — import the namespace and use the tag. <a href="#fa-toast">FaToastHost</a>/FaToastService is the one exception: register the service once before mounting <code>&lt;FaToastHost /&gt;</code>.</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>// Program.cs
+builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
     </section>
 
     <!-- ============================= FaButton ============================= -->
@@ -1467,6 +1509,41 @@
       </div>
     </section>
 
+    <!-- ============================= FaCodeBlock ============================= -->
+    <section class="component" id="fa-code-block">
+      <span class="kicker">Content display</span>
+      <h2>FaCodeBlock</h2>
+      <p class="dek">Read-only source-code panel: a language-labeled header, an optional copy-to-clipboard button, and lightly regex-highlighted content (no third-party highlighting library). Background is var(--fa-fir), every palette's deep neutral "black" anchor token.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaCodeBlock Language="FaCodeLanguage.CSharp" Code="@_snippet" /&gt;
+
+@code {
+    private readonly string _snippet = """
+        public class Greeter
+        {
+            public string Greet(string name) =&gt; $"Hello, {name}!";
+        }
+        """;
+}</code></pre></div>
+
+      <h3>Without the copy button</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaCodeBlock Language="FaCodeLanguage.Json" Code="@_json" Copyable="false" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — <code>Code</code> is display-only. The copy button writes straight to the OS clipboard via <code>navigator.clipboard.writeText</code> (falling back to <code>document.execCommand('copy')</code> on non-secure/http origins); needs <code>_content/FaFa/js/codeblock.js</code> linked in your host page to actually work — see <a href="#install">Install &amp; setup</a>.</p>
+
+      <h4>Parameters</h4>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
+          <tr><td><code>Code</code></td><td><code>string</code></td><td class="req">required — HTML-encoded internally, safe even with &lt;/&amp; in it</td></tr>
+          <tr><td><code>Language</code></td><td><code>FaCodeLanguage</code></td><td>default PlainText — PlainText, CSharp, Razor, JavaScript, TypeScript, Html, Xml, Css, Scss, Json, Bash, PowerShell, Sql, Yaml, Markdown</td></tr>
+          <tr><td><code>Copyable</code></td><td><code>bool</code></td><td>default true — hides the copy button when false; the language label still shows</td></tr>
+          <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </table>
+      </div>
+    </section>
+
     <!-- ============================= FaForm ============================= -->
     <section class="component" id="fa-form">
       <span class="kicker">Self-contained forms</span>
@@ -1598,6 +1675,176 @@
       </div>
     </section>
 
+    <!-- ============================= FaTabs ============================= -->
+    <section class="component" id="fa-tabs">
+      <span class="kicker">Navigation &amp; structure</span>
+      <h2>FaTabs&lt;TValue&gt;</h2>
+      <p class="dek">Tab strip over a (Title, Value) list, same tuple shape as FaToggle/FaRadioGroup, rendered as a proper role="tablist"/role="tab" strip with an underline active-indicator. Only renders the strip — which panel shows is your own <code>@@if</code> on whichever value you bind.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaTabs TValue="string" Options="_tabs" @@bind-Value="_activeTab" /&gt;
+
+@@if (_activeTab == "details")
+{
+    &lt;p&gt;Order details go here.&lt;/p&gt;
+}</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> <code>@@bind-Value</code> keeps your field in sync as tabs are clicked or navigated with the arrow keys (Home/End jump to the first/last tab).</p>
+    </section>
+
+    <!-- ============================= FaAccordion ============================= -->
+    <section class="component" id="fa-accordion">
+      <span class="kicker">Navigation &amp; structure</span>
+      <h2>FaAccordion</h2>
+      <p class="dek">Stacked collapsible sections — FAQ list, settings groups. AllowMultipleOpen controls whether opening a section closes the others (the default) or each tracks its own state. Smooth height animation on open/close with no JavaScript.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaAccordion Items="@@(new (string, RenderFragment)[]
+{
+    ("What's your return policy?", @@&lt;p&gt;Returns within 30 days.&lt;/p&gt;),
+})" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — open/closed state lives entirely inside the component.</p>
+    </section>
+
+    <!-- ============================= FaBreadcrumb ============================= -->
+    <section class="component" id="fa-breadcrumb">
+      <span class="kicker">Navigation &amp; structure</span>
+      <h2>FaBreadcrumb</h2>
+      <p class="dek">Path trail — Home &gt; Section &gt; current page. The last item always renders as plain text with aria-current="page" even if it has an Href.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaBreadcrumb Items="@@(new (string, string?)[]
+{
+    ("Home", "/"),
+    ("Orders", "/orders"),
+    ("Order #4821", null),
+})" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — plain display, driven entirely by Items.</p>
+    </section>
+
+    <!-- ============================= FaPagination ============================= -->
+    <section class="component" id="fa-pagination">
+      <span class="kicker">Navigation &amp; structure</span>
+      <h2>FaPagination</h2>
+      <p class="dek">Standalone windowed page-number strip. FaGrid pages its own data internally and doesn't use this component — reach for FaPagination when paging something else.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPagination CurrentPage="_page" PageCount="_pageCount" OnPageChange="HandlePageChange" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> not two-way bindable — OnPageChange fires with the page the user picked; update your own state in the handler.</p>
+    </section>
+
+    <!-- ============================= FaDivider ============================= -->
+    <section class="component" id="fa-divider">
+      <span class="kicker">Navigation &amp; structure</span>
+      <h2>FaDivider</h2>
+      <p class="dek">A section separator — a plain rule, or a rule split around a short label. Vertical divides side-by-side content instead of stacked content.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaDivider Label="OR" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — plain display.</p>
+    </section>
+
+    <!-- ============================= FaChip ============================= -->
+    <section class="component" id="fa-chip">
+      <span class="kicker">Navigation &amp; structure</span>
+      <h2>FaChip</h2>
+      <p class="dek">A small interactive tag — a selected filter, an added recipient, a removable attachment. Distinct from FaBadge: a badge is passive, a chip is something the user is actively managing.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaChip Removable="true" OnRemove="@@(() =&gt; _recipients.Remove(recipient))"&gt;
+    @@recipient
+&lt;/FaChip&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — OnClick/OnRemove fire with the click/remove; track selection or membership in your own list.</p>
+    </section>
+
+    <!-- ============================= FaEmptyState ============================= -->
+    <section class="component" id="fa-empty-state">
+      <span class="kicker">Navigation &amp; structure</span>
+      <h2>FaEmptyState</h2>
+      <p class="dek">"Nothing here yet" placeholder for an empty table/grid/list — an icon, a title, an optional description, and optional action content through ChildContent.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaEmptyState IconName="FaIconName.Receipt" Title="No orders yet"
+              Description="Orders you place will show up here."&gt;
+    &lt;FaButton Variant="FaButtonVariant.Primary" OnClick="GoToCatalog"&gt;Browse products&lt;/FaButton&gt;
+&lt;/FaEmptyState&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — plain display.</p>
+    </section>
+
+    <!-- ============================= FaTooltip ============================= -->
+    <section class="component" id="fa-tooltip">
+      <span class="kicker">Overlays &amp; feedback</span>
+      <h2>FaTooltip</h2>
+      <p class="dek">Hover/focus label for whatever's wrapped in ChildContent — pure CSS (:hover, :focus-within), no JS positioning logic. Keyboard accessibility rides on :focus-within rather than a forced tabindex.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaTooltip Text="Exports the current view as a CSV file"&gt;
+    &lt;FaButton Variant="FaButtonVariant.Secondary" OnClick="ExportAsync"&gt;Export&lt;/FaButton&gt;
+&lt;/FaTooltip&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — plain display.</p>
+    </section>
+
+    <!-- ============================= FaPopover ============================= -->
+    <section class="component" id="fa-popover">
+      <span class="kicker">Overlays &amp; feedback</span>
+      <h2>FaPopover</h2>
+      <p class="dek">Click-to-open contextual panel — a menu, a mini-form, extra detail that doesn't belong inline. Same open/close pattern as FaDatePicker's calendar popup: a plain Blazor bool, no JS interop.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPopover Position="FaTooltipPosition.Bottom"&gt;
+    &lt;Trigger&gt;Filters&lt;/Trigger&gt;
+    &lt;ChildContent&gt;
+        &lt;FaCheckbox Label="In stock only" @@bind-Value="_inStockOnly" /&gt;
+    &lt;/ChildContent&gt;
+&lt;/FaPopover&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value of its own — whatever you put in ChildContent binds the normal way.</p>
+    </section>
+
+    <!-- ============================= FaToastHost ============================= -->
+    <section class="component" id="fa-toast">
+      <span class="kicker">Overlays &amp; feedback</span>
+      <h2>FaToastHost + FaToastService</h2>
+      <p class="dek">Stacked, auto-dismissing notifications. The one component in this library that needs a DI registration — <code>builder.Services.AddScoped&lt;FaToastService&gt;();</code> in Program.cs — so it stays scoped to one user's session on Blazor Server instead of one user's toasts reaching everyone else's browser. Mount &lt;FaToastHost /&gt; once (typically the root layout), then <code>[Inject]</code> FaToastService anywhere to fire one.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>// Program.cs
+builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaToastHost Position="FaToastPosition.TopRight" /&gt;
+
+@@code {
+    [Inject] private FaToastService ToastService { get; set; } = default!;
+
+    private async Task Save()
+    {
+        await SaveOrderAsync();
+        ToastService.Show("Order saved", FaAlertVariant.Success);
+    }
+}</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — FaToastService.Show(text, variant, durationMs) fires a toast; there's nothing to read back.</p>
+    </section>
+
+    <!-- ============================= FaSkeleton ============================= -->
+    <section class="component" id="fa-skeleton">
+      <span class="kicker">Overlays &amp; feedback</span>
+      <h2>FaSkeleton</h2>
+      <p class="dek">Content-shaped loading placeholder — a shimmering bar/circle/block standing in for text, an avatar, or an image while real data loads. Signals "here's what's coming," distinct from FaSpinner/FaLoadingDots signaling "something is happening."</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaSkeleton Variant="FaSkeletonVariant.Circle" /&gt;
+&lt;FaSkeleton Variant="FaSkeletonVariant.Text" Lines="3" /&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value — plain display.</p>
+    </section>
+
     <!-- ============================= FaProgress ============================= -->
     <section class="component" id="fa-progress">
       <span class="kicker">Progress &amp; loaders</span>
@@ -1722,6 +1969,96 @@
       </div>
     </section>
 
+    <!-- ============================= Page templates overview ============================= -->
+    <section class="component" id="page-templates">
+      <span class="kicker">Page templates</span>
+      <h2>Page templates</h2>
+      <p class="dek">Four full-page compositions in <code>namespace FaFa.Templates</code> (<code>@@using FaFa.Templates</code>), each built on <a href="#layout-shells">FaStandardShell/FaSidebarShell</a> plus whatever one recurring page shape needs beyond the bare shell: FaDashboardTemplate (sidebar shell + title/actions row), FaFormTemplate (standard shell + centered card), FaHomeTemplate (standard shell + hero band), FaAuthTemplate (chrome-free centered card).</p>
+      <p>They're <strong>routed pages, not layouts</strong> — use one directly on a <code>@@page</code>-attributed <code>.razor</code> file, rather than wrapping <code>@@Body</code> in your <code>MainLayout.razor</code>. Every shell-level parameter (<code>BrandText</code>, auth props, <code>Sidebar</code>, <code>FooterContent</code>, each bar's own <code>FaNavPosition</code>) uses the exact same name as the shell it wraps — see <a href="#layout-shells">layout shells</a> for what each one does.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@@page "/dashboard"
+@@using FaFa.Templates
+
+&lt;FaDashboardTemplate BrandText="MyApp" BrandHref="/" Title="Overview"&gt;
+    &lt;Sidebar&gt;&lt;NavMenu /&gt;&lt;/Sidebar&gt;
+    &lt;Actions&gt;&lt;FaButton Variant="FaButtonVariant.Primary"&gt;New report&lt;/FaButton&gt;&lt;/Actions&gt;
+    &lt;ChildContent&gt;&lt;FaCard&gt;Dashboard body here.&lt;/FaCard&gt;&lt;/ChildContent&gt;
+&lt;/FaDashboardTemplate&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> pure layout, no bound value of its own — see each template's own section below for its parameters.</p>
+    </section>
+
+    <!-- ============================= FaDashboardTemplate ============================= -->
+    <section class="component" id="fa-dashboard-template">
+      <span class="kicker">Page templates</span>
+      <h2>FaDashboardTemplate</h2>
+      <p class="dek">FaSidebarShell plus a title/actions row above the body. Omit both Title and Actions to skip that row and get exactly what FaSidebarShell gives you.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaDashboardTemplate BrandText="MyApp" BrandHref="/" Title="Overview"&gt;
+    &lt;Sidebar&gt;&lt;NavMenu /&gt;&lt;/Sidebar&gt;
+    &lt;Actions&gt;&lt;FaButton Variant="FaButtonVariant.Primary"&gt;New report&lt;/FaButton&gt;&lt;/Actions&gt;
+    &lt;ChildContent&gt;&lt;FaCard&gt;Stat cards, a grid, charts.&lt;/FaCard&gt;&lt;/ChildContent&gt;
+&lt;/FaDashboardTemplate&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> pure layout — no bound value. OnLogin/OnLogout fire on button click, same as the raw shells.</p>
+    </section>
+
+    <!-- ============================= FaFormTemplate ============================= -->
+    <section class="component" id="fa-form-template">
+      <span class="kicker">Page templates</span>
+      <h2>FaFormTemplate</h2>
+      <p class="dek">FaStandardShell (no sidebar) wrapped around one centered FaCard. ChildContent is your actual form; this template only owns the framing around it — an optional Title/Description and a "back" link.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaFormTemplate BrandText="MyApp" BrandHref="/" Title="Invite a teammate"
+               BackHref="/orders" BackText="Back to orders"&gt;
+    &lt;EditForm Model="_model" OnValidSubmit="HandleSubmitAsync"&gt;
+        &lt;FaInput @@bind-Value="_model.Email" Label="Email" /&gt;
+        &lt;FaButton Variant="FaButtonVariant.Primary"&gt;Send invite&lt;/FaButton&gt;
+    &lt;/EditForm&gt;
+&lt;/FaFormTemplate&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> pure layout — no bound value. Whatever form you put in ChildContent binds the normal way.</p>
+    </section>
+
+    <!-- ============================= FaHomeTemplate ============================= -->
+    <section class="component" id="fa-home-template">
+      <span class="kicker">Page templates</span>
+      <h2>FaHomeTemplate</h2>
+      <p class="dek">FaStandardShell plus a hero band above ChildContent's own sections. HeroTitle/HeroDescription/HeroActions render a built-in hero; a full Hero RenderFragment replaces it completely when set.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaHomeTemplate BrandText="MyApp" BrandHref="/"
+               HeroTitle="Run your business without the spreadsheet"
+               HeroDescription="Invoicing, budgets, and reports in one place."&gt;
+    &lt;HeroActions&gt;
+        &lt;FaButton Variant="FaButtonVariant.Primary" Href="/signup"&gt;Get started&lt;/FaButton&gt;
+    &lt;/HeroActions&gt;
+    &lt;ChildContent&gt;&lt;section&gt;Feature sections, pricing, etc.&lt;/section&gt;&lt;/ChildContent&gt;
+&lt;/FaHomeTemplate&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> pure layout — no bound value.</p>
+    </section>
+
+    <!-- ============================= FaAuthTemplate ============================= -->
+    <section class="component" id="fa-auth-template">
+      <span class="kicker">Page templates</span>
+      <h2>FaAuthTemplate</h2>
+      <p class="dek">Chrome-free — no FaHeader/FaSidebar/FaFooter. A login/register/reset-password page wants full attention on the one card. Just a brand link, a centered FaCard, and optional small content below it.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaAuthTemplate BrandText="MyApp" BrandHref="/" Title="Log in"&gt;
+    &lt;FaLoginForm OnSubmit="HandleLoginAsync" /&gt;
+    &lt;FooterContent&gt;
+        &lt;span&gt;Don't have an account? &lt;a href="/signup"&gt;Sign up&lt;/a&gt;&lt;/span&gt;
+    &lt;/FooterContent&gt;
+&lt;/FaAuthTemplate&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> pure layout — no bound value. Whatever you put in ChildContent binds the normal way.</p>
+    </section>
+
     <!-- ============================= Layout shells ============================= -->
     <section class="component" id="layout-shells">
       <span class="kicker">Layout &amp; chrome</span>
@@ -1824,7 +2161,7 @@
     <section class="component" id="palette-switcher">
       <span class="kicker">Layout &amp; chrome</span>
       <h2>FaPaletteSwitcher</h2>
-      <p class="dek">A single dropdown covering all fourteen <a href="#install">color palettes</a>. No parameters, no Blazor state: picking an option calls <code>window.faSetPalette(...)</code> from theme.js directly, client-side only — every <code>&lt;FaPaletteSwitcher&gt;</code> on the page stays in sync with whichever palette is actually active, including the one restored from <code>localStorage</code> on first paint. A separate, independent axis from FaThemeSwitcher's light/dark/colorblind mode — any palette combines with any mode.</p>
+      <p class="dek">A single dropdown covering all twenty-eight <a href="#install">color palettes</a>. No parameters, no Blazor state: picking an option calls <code>window.faSetPalette(...)</code> from theme.js directly, client-side only — every <code>&lt;FaPaletteSwitcher&gt;</code> on the page stays in sync with whichever palette is actually active, including the one restored from <code>localStorage</code> on first paint. A separate, independent axis from FaThemeSwitcher's light/dark/colorblind mode — any palette combines with any mode.</p>
 
       <h3>Usage</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPaletteSwitcher /&gt;</code></pre></div>

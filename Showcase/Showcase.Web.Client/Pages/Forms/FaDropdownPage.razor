@@ -1,0 +1,33 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-dropdown"
+
+<DemoPageHeader Title="Dropdown" ComponentName="FaDropdown" DocSlug="fa-dropdown">
+    Plain <code>@@bind-Value</code> — works with or without an <code>EditForm</code>. Type-to-filter over a
+    local list, windowed to N visible rows — unlike Search Select, no async round trip.
+</DemoPageHeader>
+
+<div class="fa-demo-preview" style="max-width: 22rem;">
+    <FaDropdown TItem="string" Label="Product (windowed dropdown)" Placeholder="Type to filter…"
+                Items="_productNames" ItemLabel="p => p" @bind-Value="_dropdownProduct" />
+</div>
+<p>Selected: <FaBadge>@(_dropdownProduct ?? "(none)")</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-field</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Input</span><code>.fa-input.fa-dropdown-input</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Dropdown</span><code>.fa-dropdown-dropdown</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Chevron</span><code>.fa-dropdown-arrow</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaDropdown TItem="string" Label="Product" Placeholder="Type to filter…"
+            Items="_productNames" ItemLabel="p => p" @@bind-Value="_selectedProduct" /&gt;</code></div>
+
+@code {
+    private readonly List<string> _productNames = new()
+    {
+        "Trail Runner Jacket", "Cedar Camp Mug", "Alpine Wool Socks", "Folding Camp Stool",
+        "Rain Shell, Packable", "Titanium Spork", "Wool Beanie", "Camp Lantern, Solar",
+        "Merino Base Layer", "Insulated Water Bottle", "Trekking Poles, Pair", "Fleece Vest"
+    };
+
+    private string? _dropdownProduct;
+}

@@ -1,0 +1,46 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-button"
+
+<DemoPageHeader Title="Buttons" ComponentName="FaButton" DocSlug="fa-button" />
+
+<h2>Color variants</h2>
+<p>Every base color is a separate class on top of <code>.fa-btn</code> — <code>Variant</code> just picks which one.</p>
+<div class="fa-demo-preview">
+    <FaButton Variant="FaButtonVariant.Primary">Primary</FaButton>
+    <FaButton Variant="FaButtonVariant.Secondary">Secondary</FaButton>
+    <FaButton Variant="FaButtonVariant.Outline">Outline</FaButton>
+    <FaButton Variant="FaButtonVariant.Accent">Accent</FaButton>
+    <FaButton Variant="FaButtonVariant.OutlineAccent">Outline accent</FaButton>
+    <FaButton Variant="FaButtonVariant.Danger">Danger</FaButton>
+    <FaButton Variant="FaButtonVariant.OutlineDanger">Outline danger</FaButton>
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Primary</span><code>.fa-btn.fa-btn-primary</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Secondary</span><code>.fa-btn.fa-btn-secondary</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Outline</span><code>.fa-btn.fa-btn-outline</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Accent</span><code>.fa-btn.fa-btn-accent</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Outline accent</span><code>.fa-btn.fa-btn-outline-accent</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Danger</span><code>.fa-btn.fa-btn-danger</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Outline danger</span><code>.fa-btn.fa-btn-outline-danger</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaButton Variant="FaButtonVariant.Primary"&gt;Primary&lt;/FaButton&gt;
+&lt;FaButton Variant="FaButtonVariant.OutlineDanger"&gt;Outline danger&lt;/FaButton&gt;</code></div>
+
+<h2 class="fa-mt-5">Size &amp; disabled</h2>
+<p><code>Small="true"</code> adds <code>.fa-btn-sm</code>; <code>Disabled="true"</code> uses the native <code>disabled</code> attribute.</p>
+<div class="fa-demo-preview">
+    <FaButton Variant="FaButtonVariant.Primary" Small="true">Small</FaButton>
+    <FaButton Variant="FaButtonVariant.Primary" Disabled="true">Disabled</FaButton>
+</div>
+<div class="fa-code-block"><code>&lt;FaButton Variant="FaButtonVariant.Primary" Small="true"&gt;Small&lt;/FaButton&gt;
+&lt;FaButton Variant="FaButtonVariant.Primary" Disabled="true"&gt;Disabled&lt;/FaButton&gt;</code></div>
+
+<h2 class="fa-mt-5">As a link</h2>
+<p>Set <code>Href</code> to render an <code>&lt;a&gt;</code> styled as a button instead of a <code>&lt;button&gt;</code> — same <code>.fa-btn</code> classes either way.</p>
+<div class="fa-demo-preview">
+    <FaButton Href="https://github.com/parrescence/FaFa" Target="_blank" Variant="FaButtonVariant.Secondary">Link styled as a button</FaButton>
+</div>
+<div class="fa-code-block"><code>&lt;FaButton Href="/reports" Variant="FaButtonVariant.Secondary"&gt;
+    View reports
+&lt;/FaButton&gt;</code></div>

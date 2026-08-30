@@ -1,0 +1,45 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-skeleton"
+
+<DemoPageHeader Title="Skeleton" ComponentName="FaSkeleton" DocSlug="fa-skeleton" />
+
+<FaToggle TValue="bool" Label="Simulated loading state" Options="_loadingOptions" @bind-Value="_loading" />
+
+<FaCard CssClass="fa-mt-3" style="max-width:22rem;">
+    @if (_loading)
+    {
+        <div class="fa-flex fa-gap-3">
+            <FaSkeleton Variant="FaSkeletonVariant.Circle" />
+            <FaSkeleton Variant="FaSkeletonVariant.Text" Lines="2" />
+        </div>
+        <FaSkeleton Variant="FaSkeletonVariant.Rect" Height="8rem" CssClass="fa-mt-3" />
+    }
+    else
+    {
+        <div class="fa-flex fa-gap-3">
+            <FaAvatar DisplayName="Jamie Doe" />
+            <div>
+                <strong>Jamie Doe</strong>
+                <p>Product designer</p>
+            </div>
+        </div>
+    }
+</FaCard>
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Text bar</span><code>.fa-skeleton.fa-skeleton-text</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Circle</span><code>.fa-skeleton.fa-skeleton-circle</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaSkeleton Variant="FaSkeletonVariant.Circle" /&gt;
+&lt;FaSkeleton Variant="FaSkeletonVariant.Text" Lines="2" /&gt;</code></div>
+
+@code {
+    private bool _loading = true;
+
+    private IReadOnlyList<(string Title, bool Value)> _loadingOptions = new[]
+    {
+        ("Loading", true),
+        ("Loaded", false)
+    };
+}

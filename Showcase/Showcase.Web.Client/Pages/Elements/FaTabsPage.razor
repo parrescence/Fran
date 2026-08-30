@@ -1,0 +1,41 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-tabs"
+
+<DemoPageHeader Title="Tabs" ComponentName="FaTabs&lt;TValue&gt;" DocSlug="fa-tabs">
+    Only renders the strip — which panel shows is your own <code>@@if</code> on the bound value.
+</DemoPageHeader>
+
+<FaTabs TValue="string" Options="_tabs" @bind-Value="_activeTab" />
+
+<div class="fa-mt-3">
+    @if (_activeTab == "details")
+    {
+        <p>Order #4821 — placed August 12, shipped August 14.</p>
+    }
+    else if (_activeTab == "history")
+    {
+        <p>Created → Paid → Shipped → Delivered.</p>
+    }
+</div>
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Strip</span><code>.fa-tabs</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Tab (active)</span><code>.fa-tabs-tab.fa-tabs-tab-active</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaTabs TValue="string" Options="_tabs" @@bind-Value="_activeTab" /&gt;
+
+@@if (_activeTab == "details")
+{
+    &lt;p&gt;Order details go here.&lt;/p&gt;
+}</code></div>
+
+@code {
+    private string _activeTab = "details";
+
+    private IReadOnlyList<(string Title, string Value)> _tabs = new[]
+    {
+        ("Details", "details"),
+        ("History", "history")
+    };
+}

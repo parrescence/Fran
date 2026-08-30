@@ -1,0 +1,8 @@
+@* Used only by the page-template demo pages (FaDashboardTemplatePage, etc.) —
+   each of those templates renders its own full page chrome (or, for
+   FaAuthTemplate, deliberately none), so nesting one inside MainLayout's
+   FaSidebarShell would double up on headers/sidebars. See Blazor/docs/
+   page-templates.md: "they're routed pages, not layouts." *@
+@inherits LayoutComponentBase
+
+@Body

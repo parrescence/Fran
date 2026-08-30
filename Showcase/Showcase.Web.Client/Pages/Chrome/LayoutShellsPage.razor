@@ -1,0 +1,158 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/layout-shells"
+
+<DemoPageHeader Title="Layout Shells" ComponentName="FaStandardShell / FaSidebarShell" DocSlug="layout-shells" />
+
+<FaCard>
+    <p>
+        This whole app is already the live demo — <code>Layout/MainLayout.razor</code>
+        wraps every page in <code>&lt;FaSidebarShell&gt;</code>, with <code>Layout/NavMenu.razor</code>
+        as its <code>Sidebar</code> content, and <code>HeaderPosition</code>/<code>SidebarPosition</code>
+        both set to <code>FaNavPosition.Sticky</code> — the header and sidebar you're looking at
+        right now stay pinned as you scroll this page. <code>SidebarCollapsible</code> is left at
+        its default <code>false</code> here on purpose — <code>NavMenu.razor</code>'s links are
+        grouped under <code>&lt;details&gt;</code> sections without individual icons, so collapsing
+        would just hide most of the nav (see the Collapsible sidebar section below). The header's
+        theme switcher is the same <code>FaHeader</code>/<code>FaFooter</code>/<code>FaSidebar</code>
+        pieces a real consumer wires up via <code>FaStandardShell</code>/<code>FaSidebarShell</code>.
+    </p>
+</FaCard>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Standard shell</span><code>.fa-shell.fa-shell-standard</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Sidebar shell</span><code>.fa-shell.fa-shell-sidebar</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Header</span><code>.fa-header</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Sidebar</span><code>.fa-sidebar</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Footer</span><code>.fa-footer</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Contained scroll</span><code>.fa-shell-contained</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaSidebarShell BrandText="My App" BrandHref="/"&gt;
+    &lt;Sidebar&gt;
+        &lt;NavMenu /&gt;
+    &lt;/Sidebar&gt;
+    &lt;ChildContent&gt;
+        @@Body
+    &lt;/ChildContent&gt;
+&lt;/FaSidebarShell&gt;</code></div>
+
+<h2>Position: Standard, Sticky, Floating</h2>
+<p class="fa-mb-4">
+    <code>FaHeader</code>/<code>FaFooter</code>/<code>FaSidebar</code> (and the two
+    shells' <code>HeaderPosition</code>/<code>FooterPosition</code>/<code>SidebarPosition</code>)
+    take a <code>Position</code> of <code>Standard</code> (default, scrolls away),
+    <code>Sticky</code> (pinned to that bar's edge), or <code>Floating</code> (pinned +
+    inset with margin/rounded corners). Scroll the boxed preview below to try all
+    three in isolation — or just scroll this page itself, since this app's own
+    header and sidebar are <code>Sticky</code> too (see above).
+</p>
+<div class="fa-demo-preview">
+    <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Standard ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Standard)">Standard</FaButton>
+    <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Sticky ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Sticky)">Sticky</FaButton>
+    <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Floating ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Floating)">Floating</FaButton>
+</div>
+<div class="fa-position-demo" style="height: 360px; overflow-y: auto; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg);">
+    <div style="display: flex; flex-direction: column; min-height: 720px;">
+        <FaHeader BrandText="Preview" BrandHref="#" Position="_demoPosition" />
+        <div style="display: flex; flex: 1;">
+            <FaSidebar Position="_demoPosition">
+                <a class="fa-sidebar-link" href="#" data-tooltip="First"><span class="fa-sidebar-link-text">First link</span></a>
+                <a class="fa-sidebar-link" href="#" data-tooltip="Second"><span class="fa-sidebar-link-text">Second link</span></a>
+                <a class="fa-sidebar-link" href="#" data-tooltip="Third"><span class="fa-sidebar-link-text">Third link</span></a>
+            </FaSidebar>
+            <main style="flex: 1; padding: 1.5rem;">
+                <p>Scroll this box — with <code>Sticky</code>/<code>Floating</code> selected, the header pins to
+                   the top, the footer pins to the bottom, and the sidebar pins full-height with its own
+                   scroll once its content outgrows the viewport.</p>
+                <p>Filler content to make the box tall enough to scroll…</p>
+                <p>More filler content.</p>
+                <p>Even more filler content.</p>
+            </main>
+        </div>
+        <FaFooter BrandText="Preview" Position="_demoPosition" />
+    </div>
+</div>
+
+<h2>Contained scroll</h2>
+<p class="fa-mb-4">
+    Both shells default to <code>ContainScroll="false"</code> — the whole page grows
+    past one viewport and scrolls as a single document, the header/sidebar/footer
+    included. Set <code>ContainScroll="true"</code> to pin the chrome to the viewport
+    edges instead, so only <code>&lt;main&gt;</code> scrolls internally — a
+    dashboard-style layout. The box below is fixed-height purely so the effect fits on
+    this page; a real page sets no height of its own; <code>ContainScroll</code>
+    handles that via <code>height: 100vh</code>.
+</p>
+<div style="height: 320px; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg); overflow: hidden;">
+    <div class="fa-shell fa-shell-sidebar fa-shell-contained" style="height: 320px;">
+        <FaHeader BrandText="Preview" BrandHref="#" />
+        <div class="fa-shell-body">
+            <FaSidebar>
+                <a class="fa-sidebar-link" href="#" data-tooltip="First"><span class="fa-sidebar-link-text">First link</span></a>
+                <a class="fa-sidebar-link" href="#" data-tooltip="Second"><span class="fa-sidebar-link-text">Second link</span></a>
+                <a class="fa-sidebar-link" href="#" data-tooltip="Third"><span class="fa-sidebar-link-text">Third link</span></a>
+            </FaSidebar>
+            <div class="fa-shell-main-col">
+                <main class="fa-shell-main">
+                    <p>Only this content scrolls — the header above and the sidebar/footer
+                       stay put. Scroll down to see the footer never moves.</p>
+                    <p>Filler content to make this box tall enough to scroll…</p>
+                    <p>More filler content.</p>
+                    <p>Even more filler content.</p>
+                    <p>Still more filler content.</p>
+                </main>
+                <FaFooter BrandText="Preview" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2>Collapsible sidebar</h2>
+<p class="fa-mb-4">
+    <code>FaSidebar</code>'s <code>Collapsible</code> (and the sidebar shell's own
+    <code>SidebarCollapsible</code>) defaults to <code>false</code> — no toggle
+    button, sidebar always expanded. Turn it on only once every link has its own
+    <code>FaIcon</code> + <code>.fa-sidebar-link-text</code> wrapper, like the three
+    below — a collapsed sidebar is an icon-only rail, and a link with no icon has
+    nothing left to show at 64px wide.
+</p>
+<div class="fa-demo-preview">
+    <FaButton Small="true" Variant="@(_demoCollapsible ? FaButtonVariant.Outline : FaButtonVariant.Primary)" OnClick="@(() => _demoCollapsible = false)">Collapsible="false"</FaButton>
+    <FaButton Small="true" Variant="@(_demoCollapsible ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoCollapsible = true)">Collapsible="true"</FaButton>
+</div>
+<div style="display: flex; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg); overflow: hidden;">
+    <FaSidebar Collapsible="_demoCollapsible">
+        <a class="fa-sidebar-link" href="#" data-tooltip="First">
+            <FaIcon Name="FaIconName.Star" CssClass="fa-nav-icon" />
+            <span class="fa-sidebar-link-text">First link</span>
+        </a>
+        <a class="fa-sidebar-link" href="#" data-tooltip="Second">
+            <FaIcon Name="FaIconName.Bell" CssClass="fa-nav-icon" />
+            <span class="fa-sidebar-link-text">Second link</span>
+        </a>
+        <a class="fa-sidebar-link" href="#" data-tooltip="Third">
+            <FaIcon Name="FaIconName.Settings" CssClass="fa-nav-icon" />
+            <span class="fa-sidebar-link-text">Third link</span>
+        </a>
+    </FaSidebar>
+    <main style="flex: 1; padding: 1.5rem;">
+        <p>With <code>Collapsible="true"</code>, click the toggle poking above the sidebar's
+           top-right corner to collapse it to an icon-only rail — hover an icon for its
+           tooltip. With <code>Collapsible="false"</code> (the default) there's no toggle at
+           all; the sidebar just always shows expanded like this.</p>
+    </main>
+</div>
+
+<h2>Sidebar on small screens</h2>
+<p class="fa-mb-4">
+    Below 720px wide, <code>FaSidebar</code> goes off-canvas — hidden until opened —
+    regardless of <code>Collapsible</code>, which is a separate desktop-only
+    affordance. <code>FaSidebarShell</code> shows a hamburger button left of the brand
+    at that width (<code>FaHeader.ShowSidebarToggle</code>, set for you automatically)
+    that reveals the sidebar as a full-width row below the header. Shrink this browser
+    window — or this app's own header, above — to try it live.
+</p>
+
+@code {
+    private FaNavPosition _demoPosition = FaNavPosition.Sticky;
+    private bool _demoCollapsible;
+}

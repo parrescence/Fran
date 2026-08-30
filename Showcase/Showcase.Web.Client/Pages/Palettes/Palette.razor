@@ -1,0 +1,38 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/palette"
+
+<PageTitle>Palette — FaFa Showcase</PageTitle>
+
+<h1>Palette</h1>
+<p class="fa-mb-4">
+    Twenty-eight color palettes — the running-app equivalent of
+    <code>Blazor/.themes/</code>'s static <code>index.html</code>/<code>&lt;slug&gt;.html</code>
+    pair per palette (that folder is gitignored, local-only design reference).
+    Switching the app's actual palette is what the sidebar's
+    <code>&lt;FaPaletteSwitcher /&gt;</code> is for — this page just lets you preview
+    every palette's full set of colors first. Click a card to see every
+    <code>--fa-*</code> token it defines, light mode and dark-mode overrides both.
+</p>
+
+<div class="palette-index-grid">
+    @foreach (var entry in PaletteCatalog.All)
+    {
+        <FaCard CssClass="palette-index-card" Clickable="true" OnClick="@(() => Nav.NavigateTo($"/palette/{entry.Slug}"))">
+            <div class="palette-index-strip">
+                <span style="background:@(entry.Light["primary"])"></span>
+                <span style="background:@(entry.Light["accent"])"></span>
+                <span style="background:@(entry.Light["ember"])"></span>
+                <span class="palette-index-strip-cream" style="background:@(entry.Light["cream"])"></span>
+            </div>
+            <div class="palette-index-body">
+                <h3>@entry.Title</h3>
+                <p>@entry.Blurb</p>
+            </div>
+        </FaCard>
+    }
+</div>
+
+@code {
+    [Inject] private Microsoft.AspNetCore.Components.NavigationManager Nav { get; set; } = default!;
+}

@@ -1,0 +1,46 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-toggle"
+
+<DemoPageHeader Title="Toggle" ComponentName="FaToggle" DocSlug="fa-toggle">
+    Plain <code>@@bind-Value</code> — works with or without an <code>EditForm</code>. Segmented N-option switch.
+</DemoPageHeader>
+
+<FaToggle TValue="string" Label="Billing period" Options="_periodOptions" @bind-Value="_period" />
+<p>Selected: <FaBadge>@_period</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Switch</span><code>.fa-toggle-switch</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Option (active)</span><code>.fa-toggle-option.fa-toggle-option-active</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaToggle TValue="string" Label="Billing period"
+          Options="_periodOptions" @@bind-Value="_period" /&gt;</code></div>
+
+<h2 class="fa-mt-5">With a companion input</h2>
+<p><code>ShowInputWhen</code> reveals an inline field alongside the switch for a "custom" option.</p>
+<FaToggle TValue="string" Label="Amount" Options="_amountOptions" @bind-Value="_amountMode"
+          InputType="number" InputPlaceholder="Enter amount"
+          ShowInputWhen="@(mode => mode == "custom")" @bind-InputValue="_customAmountText" />
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Expanded group</span><code>.fa-toggle-group.fa-toggle-group-expanded</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Companion input</span><code>.fa-toggle-input</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaToggle TValue="string" Label="Amount" Options="_amountOptions" @@bind-Value="_amountMode"
+          InputType="number" InputPlaceholder="Enter amount"
+          ShowInputWhen="@@(mode =&gt; mode == "custom")" @@bind-InputValue="_customAmountText" /&gt;</code></div>
+
+@code {
+    private string _period = "monthly";
+    private IReadOnlyList<(string Title, string Value)> _periodOptions = new[]
+    {
+        ("Monthly", "monthly"),
+        ("Yearly", "yearly")
+    };
+
+    private string _amountMode = "default";
+    private string? _customAmountText;
+    private IReadOnlyList<(string Title, string Value)> _amountOptions = new[]
+    {
+        ("Default", "default"),
+        ("Custom", "custom")
+    };
+}

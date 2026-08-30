@@ -1,0 +1,29 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-date-range"
+
+<DemoPageHeader Title="Date Range" ComponentName="FaDateRange" DocSlug="fa-date-range">
+    Plain <code>@@bind-Value</code> — works with or without an <code>EditForm</code>. Linked From/To date fields.
+</DemoPageHeader>
+
+<FaDateRange Label="Date range" @bind-Value="_range" />
+<p>Showing @_range.From?.ToString("MMM d") – @_range.To?.ToString("MMM d")</p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-daterange</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Each field</span><code>.fa-daterange-field</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Input</span><code>.fa-input.fa-daterange-input</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Separator</span><code>.fa-daterange-separator</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaDateRange Label="Date range" @@bind-Value="_range" /&gt;
+
+@@code {
+    private FaDateRangeValue _range = new(
+        DateOnly.FromDateTime(DateTime.Today.AddMonths(-1)),
+        DateOnly.FromDateTime(DateTime.Today));
+}</code></div>
+
+@code {
+    private FaDateRangeValue _range = new(
+        DateOnly.FromDateTime(DateTime.Today.AddMonths(-1)),
+        DateOnly.FromDateTime(DateTime.Today));
+}
