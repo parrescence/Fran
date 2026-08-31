@@ -17,7 +17,7 @@ consume them the normal Blazor way, tags and all.
 Two binding shapes show up repeatedly:
 
 - **`InputBase<TValue>`-derived fields** (`FaInput`, `FaSelect`, `FaTextarea`,
-  `FaCheckbox`, `FaDatePicker`, `FaCurrency`) only work inside an `<EditForm>`/
+  `FaCheckbox`, `FaDate`, `FaCurrency`) only work inside an `<EditForm>`/
   `EditContext`, same as Blazor's own `InputText`/`InputNumber`.
 - **Everything else that's bindable** (`FaToggle`, `FaRadioGroup`, `FaSearchSelect`,
   `FaDropdown`, `FaDateRange`) uses a plain `Value`/`ValueChanged` pair, so
@@ -47,7 +47,7 @@ Two binding shapes show up repeatedly:
 - [FaCheckbox](fa-checkbox.md) — checkbox with a clickable label
 - [FaRadioGroup](fa-radio-group.md) — a group of radio buttons from a tuple list
 - [FaToggle](fa-toggle.md) — segmented N-option switch, with an optional companion input
-- [FaDatePicker](fa-date-picker.md) — day/month/year fields + calendar popup
+- [FaDate](fa-date.md) — day/month/year fields + calendar popup
 - [FaDateRange](fa-date-range.md) — linked From/To date fields
 - [FaCurrency](fa-currency.md) — formatted amount field
 - [FaFile](fa-file.md) — file picker, optionally styled as a button

@@ -37,7 +37,7 @@
 
 /* Shared "input type" readonly look — FaInput/FaSelect/FaTextarea/FaCurrency: same
    box as normal, just muted and non-interactive. (FaCheckbox/FaToggle/FaRadioGroup/
-   FaDatePicker/FaDateRange/FaSearchSelect/FaDropdown use the flattened
+   FaDate/FaDateRange/FaSearchSelect/FaDropdown use the flattened
    .fa-readonly-flat look instead — see below — since they aren't plain boxed
    inputs to begin with.) */
 .fa-input[readonly], .fa-input:disabled,

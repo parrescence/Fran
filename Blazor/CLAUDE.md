@@ -66,7 +66,7 @@ a zero-risk, no-version-bump move:
 - **`Components/Forms/`** — anything that collects or edits input, from a single
   `InputBase<TValue>` field up through a whole `<EditForm>`-wrapping composite:
   `FaInput`, `FaSelect`, `FaSearchSelect`, `FaDropdown`, `FaTextarea`, `FaCheckbox`,
-  `FaRadioGroup`, `FaToggle`, `FaDatePicker`, `FaDateRange`, `FaCurrency`, `FaFile`,
+  `FaRadioGroup`, `FaToggle`, `FaDate`, `FaDateRange`, `FaCurrency`, `FaFile`,
   `FaForm`, `FaLoginForm`, `FaLogoutForm`.
 - **`Components/Feedback/`** — communicates state rather than taking input:
   `FaAlert`, `FaModal`, `FaProgress`, `FaSpinner`, `FaLoadingDots`, `FaHelixLoader`,
@@ -161,7 +161,7 @@ style consistent:
   component — keeps it consumer-overridable and testable.
 - **Vanilla-JS, not Blazor JS interop, for client-only visual state.** But check for a
   pure-Blazor answer first, since one often exists and needs no JS file at all:
-  `FaDatePicker`'s calendar popup looks JS-shaped (open/close, outside-click-to-close,
+  `FaDate`'s calendar popup looks JS-shaped (open/close, outside-click-to-close,
   positioning) but ships with zero JavaScript — open/closed is a plain bool field, and
   "close when focus leaves the control" is a native `@onfocusout` + short
   grace-period delay instead of a document click listener reaching back into Blazor
@@ -196,7 +196,19 @@ silently overwritten on the next build). `DartSassBuilder` (a build-time
 `PackageReference` in `FaFa.csproj`, not a global CLI tool — nothing extra
 to install in CI) compiles `fa-styles.scss` to `fa-styles.css` on every `dotnet
 build`/`dotnet pack`, so the compiled file always ends up at
-`_content/FaFa/css/fa-styles.css` for consumers to link. That compiled
+`_content/FaFa/css/fa-styles.css` for consumers to link.
+
+**DartSassBuilder's incremental-build cache only hashes `fa-styles.scss` itself, not
+the partials it `@use`s** (`obj/Debug/net10.0/FaFa.csproj.DartSassBuilder.cache`) —
+edit a `_<name>.scss` partial without touching `fa-styles.scss` and `dotnet build`
+reports success while silently reusing the stale `fa-styles.css` from before your
+edit. Easy to lose real time to: the C# side rebuilds fine, a running `dotnet run`
+dev server keeps serving the old CSS, and nothing errors. If a CSS change isn't
+showing up after a rebuild, delete that cache file (and `wwwroot/css/fa-styles.css`
+for good measure) and rebuild — don't trust "Build succeeded" alone for a
+partial-only change.
+
+That compiled
 *filename* is the thing that can't change again without breaking every consumer's
 `<link>` — it was deliberately renamed once already (from an earlier `theme.css`,
 before this file was split into partials) specifically so it wouldn't need to be
@@ -204,7 +216,7 @@ before this file was split into partials) specifically so it wouldn't need to be
 without a matching migration note in the docs.
 
 `wwwroot/css/scss/` holds one partial per component (`_buttons.scss`,
-`_date-picker.scss`, `_dropdown.scss`, ...), each named after — and scoped to — the
+`_date.scss`, `_dropdown.scss`, ...), each named after — and scoped to — the
 same section boundaries the pre-split stylesheet used to have as comment headers,
 plus `_palettes.scss` (all twenty-three palettes' color tokens — the actual "theme"
 partial), `_base.scss`, `_layout.scss` (page shells/header/footer/sidebar/theme-
@@ -290,7 +302,7 @@ Value)>` — a `System.ValueTuple`, deliberately not a custom DTO type, to avoid
 consumers to reference a FaFa-specific model type just to build a list of
 options. `FaRadioGroup<TValue>` mirrors the same Options-tuple shape.
 
-`FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea`, `FaCheckbox`, `FaDatePicker`, and
+`FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea`, `FaCheckbox`, `FaDate`, and
 `FaCurrency` are all `InputBase<TValue>`-derived (directly or via `InputTextArea`/
 `InputCheckbox`) — they only work inside an `EditForm`/`EditContext`. Don't assume any
 of these are exercised by a particular consumer just because they exist here — check

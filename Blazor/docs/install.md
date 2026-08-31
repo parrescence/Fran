@@ -77,6 +77,7 @@ behavior, not something specific to this package. Add these tags yourself:
 <script src="_content/FaFa/js/theme.js"></script>
 <script src="_content/FaFa/js/sidebar.js"></script>
 <script src="_content/FaFa/js/codeblock.js"></script>
+<script src="_content/FaFa/js/fa-date-wheel.js"></script>
 ```
 
 - `theme.js`/`sidebar.js`/`codeblock.js` are plain vanilla-JS IIFEs (no Blazor JS
@@ -86,6 +87,14 @@ behavior, not something specific to this package. Add these tags yourself:
   to stay in sync with them. Skip the `codeblock.js` tag if you never use
   `<FaCodeBlock Copyable="true">` (the default) — without it, the copy button
   renders but clicking it does nothing.
+- `fa-date-wheel.js` is the same kind of plain vanilla-JS IIFE, backing `<FaDate>`'s
+  compact wheel picker (see `fa-date.md`) — watches each wheel and, once scrolling
+  settles, clicks whichever value ended up centered, running that click through the
+  button's own Blazor `onclick` exactly as a manual click would (no JS-to-Blazor
+  interop call in the file at all). Skip this tag if you never use `<FaDate>`'s
+  compact picker — without it, the wheels still scroll (plain CSS), the number
+  inputs above them still work, and tapping a value directly still works; only
+  scroll-to-select stops updating the value on its own.
 - `fa-styles.css` pulls one Google Font over `@import` (`Baloo 2`) from
   `fonts.googleapis.com` — a public CDN URL that works from any host, but if your app
   needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.

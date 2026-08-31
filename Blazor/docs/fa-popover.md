@@ -3,7 +3,7 @@
 # FaPopover
 
 Click-to-open contextual panel — a menu, a mini-form, extra detail that doesn't
-belong inline. Same open/close pattern as `FaDatePicker`'s calendar popup: a plain
+belong inline. Same open/close pattern as `FaDate`'s calendar popup: a plain
 Blazor bool, no JS interop, closing on Escape or on focus leaving the control (with
 a short grace period so tabbing between elements inside the panel doesn't flicker
 it shut).

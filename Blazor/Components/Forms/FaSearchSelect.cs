@@ -18,7 +18,7 @@ namespace FaFa.Components;
 /// <typeparamref name="TItem"/>, not a string, so there's no
 /// TryParseValueFromString round-trip to hook into (see FaToggle for the same
 /// reasoning). The dropdown's open/close and "close when focus leaves the control"
-/// behavior follows FaDatePicker's pattern — a bool field plus a
+/// behavior follows FaDate's pattern — a bool field plus a
 /// <c>@onfocusout</c>-with-grace-period, no JS interop.
 /// </remarks>
 public sealed class FaSearchSelect<TItem> : ComponentBase
@@ -147,7 +147,7 @@ public sealed class FaSearchSelect<TItem> : ComponentBase
         }
     }
 
-    // Same grace-period pattern as FaDatePicker: focusout fires when focus leaves the
+    // Same grace-period pattern as FaDate: focusout fires when focus leaves the
     // whole control, and a short delay lets a focusin on a sibling (e.g. moving focus
     // into the dropdown to click an option) cancel the pending close first.
     private async Task HandleFocusOutAsync()

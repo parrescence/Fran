@@ -7,9 +7,9 @@ namespace FaFa.Components;
 
 /// <summary>
 /// Click-to-open contextual panel — a menu, a mini-form, extra detail that doesn't
-/// belong inline. Same open/close pattern as FaDatePicker's calendar popup: a plain
+/// belong inline. Same open/close pattern as FaDate's calendar popup: a plain
 /// Blazor bool, no JS interop, closing on Escape or on focus leaving the control via
-/// a short grace-period @onfocusout (see FaDatePicker.cs's remarks for why a grace
+/// a short grace-period @onfocusout (see FaDate.cs's remarks for why a grace
 /// period beats a bare focusout).
 /// </summary>
 public sealed class FaPopover : ComponentBase

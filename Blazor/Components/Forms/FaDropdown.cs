@@ -26,7 +26,7 @@ namespace FaFa.Components;
 /// <remarks>
 /// Not InputBase-based — same reasoning as FaSearchSelect: the bound <see cref="Value"/>
 /// is an arbitrary <typeparamref name="TItem"/>, not a string. Open/close and the
-/// focus-out grace period follow the same FaDatePicker-derived pattern as
+/// focus-out grace period follow the same FaDate-derived pattern as
 /// FaSearchSelect — no JS interop.
 /// </remarks>
 public sealed class FaDropdown<TItem> : ComponentBase
@@ -324,7 +324,7 @@ public sealed class FaDropdown<TItem> : ComponentBase
         }
     }
 
-    // Same grace-period pattern as FaSearchSelect/FaDatePicker: focusout fires when
+    // Same grace-period pattern as FaSearchSelect/FaDate: focusout fires when
     // focus leaves the whole control, and a short delay lets a focusin on a sibling
     // (e.g. moving focus into the dropdown to click an option) cancel the pending close.
     private async Task HandleFocusOutAsync()

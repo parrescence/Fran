@@ -176,4 +176,77 @@
     .fa-table-actions::before {
         content: none;
     }
+
+    /* FaDate: the calendar becomes a sticky sheet pinned near the bottom of the
+       viewport instead of a popup anchored under the input — a plain
+       top:100%/bottom:100% popup (_date.scss) can run off the top or bottom of
+       a short/mobile viewport depending on where the field sits on the page.
+       Ported from the mobile behavior of the library FaDate was originally
+       split from, but kept at the calendar's own natural width/height (just
+       centered and pinned) rather than stretched full-bleed — stretching it
+       full width inflates the day grid's cells (aspect-ratio 1, so a wider
+       column means a taller row too) past what a capped sheet height can show
+       without its own internal scrollbar, which is exactly the clipped,
+       partly-hidden calendar this is meant to fix. max-height is generous
+       enough that the calendar (desktop or compact) is never actually
+       clipped except on a genuinely tiny viewport, where overflow-y still
+       falls back to scrolling its own content rather than running off-screen.
+       scroll-margin-bottom on the wrapper leaves room for the sheet when the
+       browser's own "scroll the focused element into view" kicks in, so
+       opening the calendar doesn't hide the field it belongs to above it. */
+    .fa-date {
+        scroll-margin-bottom: 23rem;
+    }
+
+    /* The auto-mode flip: FaDate.cs's RenderCalendar always renders both an
+       .fa-date-calendar-auto-desktop (grid) and an .fa-date-calendar-auto-mobile
+       (wheels) variant unless CompactPicker or a manual mode-toggle click has
+       already settled on one — see _date.scss's own remarks on both classes,
+       including the default (desktop-shown) rule this overrides. */
+    .fa-date-calendar-auto-desktop {
+        display: none;
+    }
+
+    .fa-date-calendar-auto-mobile {
+        display: block;
+    }
+
+    .fa-date-calendar.fa-date-calendar-open {
+        position: fixed;
+        top: auto;
+        left: 50%;
+        right: auto;
+        bottom: 0.75rem;
+        transform: translateX(-50%);
+        width: calc(100% - 1.5rem);
+        max-width: 20rem;
+        max-height: calc(100vh - 1.5rem);
+        margin-top: 0;
+        box-shadow: 0 -0.25rem 1rem rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        /* Above everything else on the page (matches .fa-modal-backdrop/
+           .fa-blazor-error-ui's "top of everything" tier, _modal.scss/
+           _blazor-chrome.scss) — a sheet pinned to the viewport bottom is
+           pointless if page content it's supposed to sit above can still
+           paint over it. */
+        z-index: 1000;
+        padding-bottom: calc(0.6rem + env(safe-area-inset-bottom));
+        animation: fa-date-sheet-up 0.18s ease;
+    }
+
+    @keyframes fa-date-sheet-up {
+        from {
+            transform: translateX(-50%) translateY(100%);
+        }
+
+        to {
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .fa-date-calendar.fa-date-calendar-open {
+            animation: none;
+        }
+    }
 }

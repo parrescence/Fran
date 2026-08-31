@@ -416,7 +416,7 @@
         <li><a href="#fa-checkbox">FaCheckbox</a></li>
         <li><a href="#fa-radio-group">FaRadioGroup</a></li>
         <li><a href="#fa-toggle">FaToggle</a></li>
-        <li><a href="#fa-date-picker">FaDatePicker</a></li>
+        <li><a href="#fa-date">FaDate</a></li>
         <li><a href="#fa-date-range">FaDateRange</a></li>
         <li><a href="#fa-currency">FaCurrency</a></li>
         <li><a href="#fa-file">FaFile</a></li>
@@ -505,7 +505,7 @@
       <div class="binding-note">
         <div class="binding-card">
           <h3>Inside an EditForm</h3>
-          <p><code>FaInput</code>, <code>FaSelect</code>, <code>FaTextarea</code>, <code>FaCheckbox</code>, <code>FaDatePicker</code>, <code>FaCurrency</code> are all <code>InputBase&lt;TValue&gt;</code>-derived — same as Blazor's own <code>InputText</code>/<code>InputNumber</code>, they only work inside an <code>&lt;EditForm&gt;</code>/<code>EditContext</code>.</p>
+          <p><code>FaInput</code>, <code>FaSelect</code>, <code>FaTextarea</code>, <code>FaCheckbox</code>, <code>FaDate</code>, <code>FaCurrency</code> are all <code>InputBase&lt;TValue&gt;</code>-derived — same as Blazor's own <code>InputText</code>/<code>InputNumber</code>, they only work inside an <code>&lt;EditForm&gt;</code>/<code>EditContext</code>.</p>
         </div>
         <div class="binding-card">
           <h3>Anywhere</h3>
@@ -1187,17 +1187,17 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
       </div>
     </section>
 
-    <!-- ============================= FaDatePicker ============================= -->
-    <section class="component" id="fa-date-picker">
+    <!-- ============================= FaDate ============================= -->
+    <section class="component" id="fa-date">
       <span class="kicker">Form fields</span>
-      <h2>FaDatePicker</h2>
+      <h2>FaDate</h2>
       <p class="dek">Split day/month/year date entry with a calendar popup, Min/Max range support, and an optional floating label. No JS interop. <code>InputBase&lt;DateOnly?&gt;</code>-derived, only works inside an <code>&lt;EditForm&gt;</code>.</p>
 
       <h3>Usage</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;EditForm Model="_model"&gt;
-    &lt;FaDatePicker @bind-Value="_model.Date"
-                  Label="Order date"
-                  Max="DateOnly.FromDateTime(DateTime.Today)" /&gt;
+    &lt;FaDate @bind-Value="_model.Date"
+            Label="Order date"
+            Max="DateOnly.FromDateTime(DateTime.Today)" /&gt;
 &lt;/EditForm&gt;
 
 @code {
@@ -1207,6 +1207,10 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
 
       <p class="getting-value"><strong>Getting the value:</strong> <code>@bind-Value</code> writes into <code>_model.Date</code> — typing all three fields, arrow keys, or picking a day on the calendar all commit through the same path.</p>
 
+      <p class="getting-value"><strong>Keyboard &amp; scroll:</strong> Up/Down spin the focused field ±1 (wrapping at its min/max); Left/Right hop focus to the adjacent field instead of moving the text caret. Mouse-wheel/trackpad scroll over a field is the same ±1 spin as Up/Down; scroll over the calendar popup's year stepper spins the displayed year without touching the committed value.</p>
+
+      <p class="getting-value"><strong>Custom field order:</strong> <code>Format</code> sets both the field order and each field's width, using the same <code>y</code>/<code>M</code>/<code>d</code> tokens as a .NET custom date format string (case-insensitive here — no time-of-day component to disambiguate <code>m</code> from minutes), e.g. <code>Format="yyyy-MM-dd"</code>. A run's length sets that field's width — <code>yyyy</code> is a full 4-digit year, <code>yy</code> stores/shows only the last two digits (resolved back to a full year through a +/-50-year pivot around today); <code>MM</code>/<code>dd</code> zero-pad, <code>M</code>/<code>d</code> don't. Anything that isn't <code>y</code>/<code>M</code>/<code>d</code> is a literal separator rendered as-is, not limited to <code>/</code>. Defaults to <code>"MM/dd/yyyy"</code>; a format missing exactly one of each field falls back to that default.</p>
+
       <h4>Parameters</h4>
       <div class="table-wrap">
         <table class="params">
@@ -1215,6 +1219,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>FloatingLabel</code></td><td><code>bool</code></td><td>label overlaps the field</td></tr>
           <tr><td><code>Min</code> / <code>Max</code></td><td><code>DateOnly?</code></td><td></td></tr>
+          <tr><td><code>Format</code></td><td><code>string</code></td><td>field order + width, e.g. <code>"yyyy-MM-dd"</code>; defaults to <code>"MM/dd/yyyy"</code></td></tr>
           <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens the fields, toggle, and popup to the formatted date as plain text with a bottom border</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
@@ -1795,7 +1800,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
     <section class="component" id="fa-popover">
       <span class="kicker">Overlays &amp; feedback</span>
       <h2>FaPopover</h2>
-      <p class="dek">Click-to-open contextual panel — a menu, a mini-form, extra detail that doesn't belong inline. Same open/close pattern as FaDatePicker's calendar popup: a plain Blazor bool, no JS interop.</p>
+      <p class="dek">Click-to-open contextual panel — a menu, a mini-form, extra detail that doesn't belong inline. Same open/close pattern as FaDate's calendar popup: a plain Blazor bool, no JS interop.</p>
 
       <h3>Usage</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPopover Position="FaTooltipPosition.Bottom"&gt;

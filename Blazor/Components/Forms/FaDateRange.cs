@@ -8,7 +8,7 @@ namespace FaFa.Components;
 /// <summary>
 /// Two linked date fields (From/To) for range filters — e.g. "show transactions
 /// between X and Y". Plain native &lt;input type="date"&gt; elements styled with the
-/// same .fa-input class FaInput/FaSelect use, rather than a pair of FaDatePicker
+/// same .fa-input class FaInput/FaSelect use, rather than a pair of FaDate
 /// popups — picking each end's date is a browser-native concern; this component's
 /// job is keeping the two ends coherent (editing From past the current To pushes To
 /// forward to match, and vice versa, rather than silently rejecting the edit) and
@@ -16,7 +16,7 @@ namespace FaFa.Components;
 /// </summary>
 /// <remarks>
 /// Not InputBase-based — a from/to pair has no single string round-trip the way
-/// InputBase&lt;TValue&gt; expects (see FaInput/FaSelect/FaDatePicker). This follows the
+/// InputBase&lt;TValue&gt; expects (see FaInput/FaSelect/FaDate). This follows the
 /// plain two-way-bindable-parameter pattern FaToggle uses instead: <c>@bind-Value</c>
 /// works the same way.
 /// </remarks>

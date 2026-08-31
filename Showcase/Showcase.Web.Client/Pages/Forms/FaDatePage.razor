@@ -1,0 +1,80 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-date"
+
+<DemoPageHeader Title="Date" ComponentName="FaDate" DocSlug="fa-date">
+    <code>InputBase&lt;TValue&gt;</code>-derived — only works inside an <code>&lt;EditForm&gt;</code>.
+</DemoPageHeader>
+
+<EditForm Model="_model" class="fa-form">
+    <FaDate @bind-Value="_model.Date" Label="Start date" />
+</EditForm>
+<p>Selected: <FaBadge>@(_model.Date?.ToString("MMM d, yyyy") ?? "(none)")</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-date</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Day/month/year fields</span><code>.fa-date-fields</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Calendar toggle</span><code>.fa-date-toggle</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Compact picker mode toggle</span><code>.fa-date-calendar-mode-toggle</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;EditForm Model="_model"&gt;
+    &lt;FaDate @@bind-Value="_model.Date" Label="Start date" /&gt;
+&lt;/EditForm&gt;</code></div>
+
+<h2 class="fa-mt-5">Min/Max range</h2>
+<p>No day outside <code>Min</code>/<code>Max</code> renders disabled/greyed unless you set them —
+    the default view never restricts selection on its own.</p>
+<EditForm Model="_model" class="fa-form">
+    <FaDate @bind-Value="_model.Date3" Label="Delivery date" Min="DateOnly.FromDateTime(DateTime.Today)"
+            Max="DateOnly.FromDateTime(DateTime.Today.AddMonths(3))" />
+</EditForm>
+<p>Selected: <FaBadge>@(_model.Date3?.ToString("MMM d, yyyy") ?? "(none)")</FaBadge></p>
+<div class="fa-code-block"><code>&lt;FaDate @@bind-Value="_model.Date3" Label="Delivery date"
+        Min="DateOnly.FromDateTime(DateTime.Today)"
+        Max="DateOnly.FromDateTime(DateTime.Today.AddMonths(3))" /&gt;</code></div>
+
+<h2 class="fa-mt-5">Compact scroll picker</h2>
+<p>The calendar's day grid can swap for three scrollable day/month/year wheels, a
+    smaller, thumb-friendlier picker — each with a plain number input above it so a
+    value can be typed instead of scrolled to. A value can be set three ways, all
+    going through the same commit: type into the input above a wheel, scroll the
+    wheel so the wanted value settles in the highlighted middle band and let go, or
+    tap the value directly. Typing directly into the day/month/year fields above the
+    popup still works the same too.</p>
+<p><code>CompactPicker="true"</code> locks the popup to the wheels — the header's mode
+    toggle button (<code>.fa-date-calendar-mode-toggle</code>, seen on the very first
+    example above, which doesn't set this) is hidden entirely, since there'd be
+    nothing else for it to switch to.</p>
+<EditForm Model="_model" class="fa-form">
+    <FaDate @bind-Value="_model.Date4" Label="Pick a date" CompactPicker="true" />
+</EditForm>
+<p>Selected: <FaBadge>@(_model.Date4?.ToString("MMM d, yyyy") ?? "(none)")</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Compact calendar</span><code>.fa-date-calendar-compact</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Number input row</span><code>.fa-date-wheel-inputs</code> / <code>.fa-date-wheel-input</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wheel columns</span><code>.fa-date-wheels</code> / <code>.fa-date-wheel</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wheel value</span><code>.fa-date-wheel-item</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaDate @@bind-Value="_model.Date4" Label="Pick a date" CompactPicker="true" /&gt;</code></div>
+
+<h2 class="fa-mt-5">Custom field order</h2>
+<p><code>Format</code> reorders the day/month/year fields and sets each one's width — <code>yyyy-MM-dd</code>,
+    <code>M/d/yy</code>, <code>dd.MM.yyyy</code>, whatever a locale needs. A width of 2 zero-pads
+    (<code>MM</code>, <code>dd</code>); a width of 1 (<code>M</code>, <code>d</code>) doesn't; a 2-digit year
+    (<code>yy</code>) round-trips through a +/-50-year pivot around today.</p>
+<EditForm Model="_model" class="fa-form">
+    <FaDate @bind-Value="_model.Date2" Label="Order placed" Format="yyyy-MM-dd" />
+</EditForm>
+<p>Selected: <FaBadge>@(_model.Date2?.ToString("MMM d, yyyy") ?? "(none)")</FaBadge></p>
+<div class="fa-code-block"><code>&lt;FaDate @@bind-Value="_model.Date2" Label="Order placed" Format="yyyy-MM-dd" /&gt;</code></div>
+
+@code {
+    private class DemoModel
+    {
+        public DateOnly? Date { get; set; }
+        public DateOnly? Date2 { get; set; }
+        public DateOnly? Date3 { get; set; }
+        public DateOnly? Date4 { get; set; }
+    }
+
+    private DemoModel _model = new();
+}
