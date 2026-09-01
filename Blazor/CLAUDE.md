@@ -62,7 +62,8 @@ a zero-risk, no-version-bump move:
 
 - **`Components/Elements/`** — small, mostly-presentational building blocks:
   `FaButton`, `FaCard`, `FaBadge`, `FaAvatar`, `FaTabs`, `FaAccordion`,
-  `FaBreadcrumb`, `FaPagination`, `FaDivider`, `FaChip`, `FaEmptyState`.
+  `FaBreadcrumb`, `FaPagination`, `FaDivider`, `FaChip`, `FaEmptyState`,
+  `FaCodeBlock`.
 - **`Components/Forms/`** — anything that collects or edits input, from a single
   `InputBase<TValue>` field up through a whole `<EditForm>`-wrapping composite:
   `FaInput`, `FaSelect`, `FaSearchSelect`, `FaDropdown`, `FaTextarea`, `FaCheckbox`,
@@ -109,10 +110,12 @@ more folders instead:
 
 - **`Enums/`** — `FaButtonVariant`, `FaBadgeVariant`, `FaAlertVariant`,
   `FaTogglePosition`, `FaIconColor`, `FaIconName`, `FaSkeletonVariant`,
-  `FaTooltipPosition` (shared by `FaTooltip` and `FaPopover`), `FaToastPosition`.
+  `FaTooltipPosition` (shared by `FaTooltip` and `FaPopover`), `FaToastPosition`,
+  `FaAlign`, `FaCodeLanguage`, `FaFormMode`, `FaLoaderVariant`, `FaModalPosition`,
+  `FaModalSize`, `FaNavPosition`, `FaProgressDirection`.
 - **`Models/`** — `FaDateRangeValue`, `FaGridColumn<TItem>`, `FaGridRequest`,
-  `FaGridResult<TItem>`, `FaToastMessage` (DTOs/records passed to or bound by a
-  specific component).
+  `FaGridResult<TItem>`, `FaToastMessage`, `FaLoginRequest` (DTOs/records passed to
+  or bound by a specific component).
 
 Folder placement is purely physical organization — it does **not** change a type's
 namespace. `FaButtonVariant` still declares `namespace FaFa.Components;`
@@ -126,7 +129,9 @@ declaration matching whichever component/feature area it belongs to, not the new
 folder name.
 
 `Rendering/` is different from both: `internal` (not `public`) helper types that
-support building a component's output — `CssClassNames` today, potentially other
+support building a component's output — `CssClassNames`, `FaAlignClassNames`,
+`CodeHighlighter` (backs `FaCodeBlock`'s syntax highlighting), and
+`FaValidationMessageRenderer` (see Validation below) today, potentially other
 HTML/CSS/JS-interop-support helpers later. Nothing in a consumer's own code can ever
 reference an `internal` type, so — unlike `Enums`/`Models` above — `Rendering/`'s
 namespace *does* match the folder (`namespace FaFa.Rendering;`) with no
@@ -269,7 +274,7 @@ without a matching migration note in the docs.
 `wwwroot/css/scss/` holds one partial per component (`_buttons.scss`,
 `_date.scss`, `_dropdown.scss`, ...), each named after — and scoped to — the
 same section boundaries the pre-split stylesheet used to have as comment headers,
-plus `_palettes.scss` (all twenty-three palettes' color tokens — the actual "theme"
+plus `_palettes.scss` (all twenty-eight palettes' color tokens — the actual "theme"
 partial), `_base.scss`, `_layout.scss` (page shells/header/footer/sidebar/theme-
 switcher chrome), `_utilities.scss`, and `_responsive.scss`. Partials are plain CSS
 content split by component, not by CSS property (no separate "all borders" or "all
@@ -312,7 +317,7 @@ Twenty-eight color palettes live in `_palettes.scss`, picked via `data-fa-palett
 block (`:root[data-fa-palette="X"][data-theme="dark"]`, plus the
 `prefers-color-scheme` equivalent) rather than just a light-mode override. Colorblind
 mode stays palette-agnostic on purpose (see its comment in `_palettes.scss`) — one
-known-safe accent/danger substitution reused across every palette, not twenty-three
+known-safe accent/danger substitution reused across every palette, not twenty-eight
 separate ones. The full palette list, and how a consumer picks one
 (`<FaPaletteSwitcher>`, `window.faSetPalette(...)`, or a build-time attribute), is
 documented in `docs/install.md`/`docs/palette-switcher.md` — don't duplicate that
