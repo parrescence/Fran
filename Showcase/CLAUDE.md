@@ -37,6 +37,50 @@ page's own class name doesn't collide with the `<FaButton>` component tag it ren
 reference risk in Blazor, since both the page's own namespace and the imported
 component namespace are in scope unqualified inside that file.
 
+## Each component's demo is split into up to three pages
+
+A component's route (`/fa-button`, matching `Blazor/docs/fa-button.md`'s slug) is
+only the **"How to use"** page — live examples with the exact markup used to produce
+them, per the "one `.razor` page per component" rule above. Two more pages sit
+alongside it, all three cross-linked by `Components/ComponentSubNav.razor`
+(`BaseRoute="/fa-button"` reproduces the other two routes from it):
+
+- **`/fa-button` — "How to use"** (`FaButtonPage.razor`) — the page itself, unchanged
+  route so existing links/bookmarks keep working.
+- **`/fa-button/api` — "API"** (`FaButtonApiPage.razor`) — a parameter/event
+  reference table (`Parameter`/`Type`/`Notes` columns, one row per `[Parameter]` and
+  `EventCallback`, including `CssClass`/`AdditionalAttributes` where the component
+  has them) — the live-app equivalent of `Blazor/docs/fa-button.md`'s own reference
+  section, kept in sync with it the same way every other Showcase/docs pair is (see
+  root [`CLAUDE.md`](../CLAUDE.md)'s Showcase-sync rule).
+- **`/fa-button/wiring` — "Wiring up"** (`Fa*WiringPage.razor`) — only for the
+  handful of components that need real setup beyond the standard package install:
+  a DI registration, an `ItemsProvider`, etc. (`FaToastWiringPage.razor` is the
+  reference example — DI-register `FaToastService`, mount `FaToastHost` once, inject
+  and call it). Most components don't need this page at all;
+  `ComponentSubNav`'s `ShowWiring` parameter defaults to `false` and the tab is
+  omitted unless a page explicitly passes `ShowWiring="true"`.
+
+Every one of these pages opens with `<DemoPageHeader Title="..." ComponentName="..."
+DocSlug="..." />` (`Components/DemoPageHeader.razor`) — the repeated h1 + "full
+parameter reference" link back to `Blazor/docs/<DocSlug>.md` on GitHub — then
+`<ComponentSubNav BaseRoute="/fa-button" />` right below it. Both are Showcase's own
+app-internal plumbing, not part of the FaFa library itself, same as `PaletteDetail.razor`.
+
+**Adding a new component's demo means adding at least the "How to use" + "API"
+pages** (`Fa*Page.razor` + `Fa*ApiPage.razor`), both routed, both carrying
+`ComponentSubNav`, both linked from `Home.razor`/`NavMenu.razor` under the "How to
+use" route only (the API/wiring routes are reached via the sub-nav, not a second nav
+entry) — add the "Wiring up" page too only if the component needs real setup beyond
+`<FaWhatever ... />`.
+
+Validation (`/validation`, `/validation/usage`, `/validation/api`,
+`/validation/wiring`) is the one exception to this pattern: it's a cross-cutting
+concept spanning several components, not one component's demo split into sub-pages,
+so it gets its own `Components/ValidationSubNav.razor` (four routes, no "How to
+use"/API split — the four pages are `/validation` as the index plus its own
+wiring/usage/api trio) instead of reusing `ComponentSubNav`.
+
 ## Palette gallery
 
 The `Palette` section (`Pages/Palettes/Palette.razor` plus
