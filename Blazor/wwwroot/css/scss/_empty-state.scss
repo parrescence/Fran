@@ -1,0 +1,42 @@
+/* ============================= Empty state ============================= */
+
+.fa-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 2.5rem 1.5rem;
+}
+
+.fa-empty-state-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    background: var(--fa-footer);
+    margin-bottom: 0.4rem;
+}
+
+.fa-empty-state-title {
+    margin: 0;
+    font-family: var(--fa-font);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--fa-text);
+}
+
+.fa-empty-state-description {
+    margin: 0;
+    max-width: 32ch;
+    color: var(--fa-text-muted);
+    font-size: 0.9rem;
+}
+
+.fa-empty-state-actions {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+}

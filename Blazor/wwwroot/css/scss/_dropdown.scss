@@ -121,7 +121,7 @@
     }
 
 /* Shared "other fa styles" readonly look — FaCheckbox/FaToggle/FaRadioGroup/
-   FaDatePicker/FaDateRange/FaSearchSelect/FaDropdown: none of these are a plain
+   FaDate/FaDateRange/FaSearchSelect/FaDropdown: none of these are a plain
    boxed input to begin with (a pill row, a set of buttons, a text field with a
    dropdown affordance, ...), so their readonly state flattens all of that away
    instead of just muting it — no inset/box, no background, same font as

@@ -1,0 +1,18 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-breadcrumb/api"
+
+<DemoPageHeader Title="Breadcrumb: API" ComponentName="FaBreadcrumb" DocSlug="fa-breadcrumb" />
+
+<ComponentSubNav BaseRoute="/fa-breadcrumb" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Items</code></td><td><code>IReadOnlyList&lt;(string Text, string? Href)&gt;</code></td><td>required; the last item always renders as plain text with <code>aria-current="page"</code> even if it has an <code>Href</code> — any earlier item with a null/empty <code>Href</code> renders as plain text too</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above.</p>

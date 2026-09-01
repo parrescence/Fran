@@ -1,0 +1,76 @@
+/* ============================= Accordion ============================= */
+
+.fa-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.fa-accordion-item {
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    background: var(--fa-surface);
+    overflow: hidden;
+}
+
+    .fa-accordion-item-open {
+        border-color: var(--fa-glow);
+    }
+
+.fa-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-family: var(--fa-font);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: left;
+    color: var(--fa-text);
+    background: none;
+    border: none;
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+}
+
+.fa-accordion-chevron {
+    display: inline-flex;
+    transition: transform var(--fa-transition-medium);
+}
+
+    .fa-accordion-item-open .fa-accordion-chevron {
+        transform: rotate(180deg);
+    }
+
+/* The no-JS smooth-height trick: a grid row that animates from 0fr to 1fr instead
+   of animating max-height (which needs a hardcoded upper bound) or requiring JS to
+   measure the panel's real height. */
+.fa-accordion-panel-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--fa-transition-medium);
+}
+
+    .fa-accordion-item-open .fa-accordion-panel-wrapper {
+        grid-template-rows: 1fr;
+    }
+
+.fa-accordion-panel {
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 1rem;
+    color: var(--fa-text-muted);
+    font-size: 0.9rem;
+    transition: padding var(--fa-transition-medium);
+}
+
+    .fa-accordion-item-open .fa-accordion-panel {
+        padding: 0 1rem 1rem;
+    }
+
+@media (prefers-reduced-motion: reduce) {
+    .fa-accordion-panel-wrapper,
+    .fa-accordion-chevron {
+        transition: none;
+    }
+}

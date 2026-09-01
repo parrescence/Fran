@@ -1,0 +1,30 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-textarea"
+
+<DemoPageHeader Title="Textarea" ComponentName="FaTextarea" DocSlug="fa-textarea">
+    <code>InputBase&lt;TValue&gt;</code>-derived — only works inside an <code>&lt;EditForm&gt;</code>.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/fa-textarea" />
+
+<EditForm Model="_model" class="fa-form">
+    <FaTextarea @bind-Value="_model.Notes" Label="Notes" MaxLength="280" />
+</EditForm>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Wrapper</span><code>.fa-field</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Textarea</span><code>.fa-textarea</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Char counter</span><code>.fa-textarea-counter</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;EditForm Model="_model"&gt;
+    &lt;FaTextarea @@bind-Value="_model.Notes" Label="Notes" MaxLength="280" /&gt;
+&lt;/EditForm&gt;</code></div>
+
+@code {
+    private class DemoModel
+    {
+        public string? Notes { get; set; }
+    }
+
+    private DemoModel _model = new();
+}

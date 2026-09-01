@@ -1,0 +1,29 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-breadcrumb"
+
+<DemoPageHeader Title="Breadcrumb" ComponentName="FaBreadcrumb" DocSlug="fa-breadcrumb" />
+
+<ComponentSubNav BaseRoute="/fa-breadcrumb" />
+
+<FaBreadcrumb Items="_items" />
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Trail</span><code>.fa-breadcrumb</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Current page</span><code>span[aria-current="page"]</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaBreadcrumb Items="@@(new (string, string?)[]
+{
+    ("Home", "/"),
+    ("Orders", "/orders"),
+    ("Order #4821", null),
+})" /&gt;</code></div>
+
+@code {
+    private IReadOnlyList<(string Text, string? Href)> _items = new (string, string?)[]
+    {
+        ("Home", "/"),
+        ("Orders", "/fa-table"),
+        ("Order #4821", null)
+    };
+}

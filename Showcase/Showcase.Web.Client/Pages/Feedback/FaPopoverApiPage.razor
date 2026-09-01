@@ -1,0 +1,25 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-popover/api"
+
+<DemoPageHeader Title="Popover: API" ComponentName="FaPopover" DocSlug="fa-popover" />
+
+<ComponentSubNav BaseRoute="/fa-popover" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Trigger</code></td><td><code>RenderFragment</code></td><td>required — the always-visible clickable content</td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment</code></td><td>required — the panel content, shown/hidden by <code>_isOpen</code></td></tr>
+            <tr><td><code>Position</code></td><td><code>FaTooltipPosition</code></td><td>default <code>Bottom</code> — same enum <code>FaTooltip</code> uses</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    No <code>AdditionalAttributes</code> splat on this component — every attribute
+    you set is one of the above. Open/closed is a plain internal <code>bool</code>,
+    no JS interop — closes on Escape or on focus leaving the control via a short
+    grace-period <code>@@onfocusout</code>.
+</p>

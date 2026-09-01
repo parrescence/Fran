@@ -1,0 +1,21 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-progress/api"
+
+<DemoPageHeader Title="Progress Bar: API" ComponentName="FaProgress" DocSlug="fa-progress" />
+
+<ComponentSubNav BaseRoute="/fa-progress" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Value</code></td><td><code>double</code></td><td></td></tr>
+            <tr><td><code>Max</code></td><td><code>double</code></td><td>default <code>100</code>; a <code>Max &lt;= 0</code> renders 0% rather than dividing by zero</td></tr>
+            <tr><td><code>Direction</code></td><td><code>FaProgressDirection</code></td><td><code>Right</code> (default) · <code>Left</code> · <code>Up</code> · <code>Down</code> — Right/Left are horizontal, Up/Down vertical</td></tr>
+            <tr><td><code>Variant</code></td><td><code>FaLoaderVariant</code></td><td><code>Accent</code> (default) · <code>Primary</code> · <code>Gold</code> · <code>Danger</code></td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above. Renders <code>role="progressbar"</code> with <code>aria-valuenow</code>/<code>-min</code>/<code>-max</code> automatically.</p>

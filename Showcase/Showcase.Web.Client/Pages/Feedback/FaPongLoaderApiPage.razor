@@ -1,0 +1,18 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-pong-loader/api"
+
+<DemoPageHeader Title="Pong Loader: API" ComponentName="FaPongLoader" DocSlug="fa-pong-loader" />
+
+<ComponentSubNav BaseRoute="/fa-pong-loader" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Variant</code></td><td><code>FaLoaderVariant</code></td><td><code>Accent</code> (default) · <code>Primary</code> · <code>Gold</code> · <code>Danger</code> — shared across every loader component</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above. Static markup — the ball/paddle movement is entirely CSS keyframes.</p>

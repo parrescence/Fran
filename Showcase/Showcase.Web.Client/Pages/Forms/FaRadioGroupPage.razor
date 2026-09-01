@@ -1,0 +1,40 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-radio-group"
+
+<DemoPageHeader Title="Radio Group" ComponentName="FaRadioGroup" DocSlug="fa-radio-group">
+    Plain <code>@@bind-Value</code> — works with or without an <code>EditForm</code>.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/fa-radio-group" />
+
+<FaRadioGroup TValue="string" Label="Frequency" Options="_frequencyOptions" @bind-Value="_frequency" />
+<p>Selected: <FaBadge>@_frequency</FaBadge></p>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Group</span><code>.fa-radio-group</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Each option</span><code>.fa-radio</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Input</span><code>.fa-radio-input</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Label</span><code>.fa-radio-label</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaRadioGroup TValue="string" Label="Frequency"
+              Options="_frequencyOptions" @@bind-Value="_frequency" /&gt;
+
+@@code {
+    private string _frequency = "monthly";
+    private IReadOnlyList&lt;(string Title, string Value)&gt; _frequencyOptions = new[]
+    {
+        ("Weekly", "weekly"),
+        ("Monthly", "monthly"),
+        ("Yearly", "yearly")
+    };
+}</code></div>
+
+@code {
+    private string _frequency = "monthly";
+    private IReadOnlyList<(string Title, string Value)> _frequencyOptions = new[]
+    {
+        ("Weekly", "weekly"),
+        ("Monthly", "monthly"),
+        ("Yearly", "yearly")
+    };
+}

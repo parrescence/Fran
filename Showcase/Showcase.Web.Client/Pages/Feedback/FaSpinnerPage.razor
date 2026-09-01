@@ -1,0 +1,24 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-spinner"
+
+<DemoPageHeader Title="Spinner" ComponentName="FaSpinner" DocSlug="fa-spinner">
+    Classic rotating ring. <code>FaLoaderVariant</code> is shared across every loader on this page's group —
+    same three color options everywhere.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/fa-spinner" />
+
+<div class="fa-demo-preview">
+    <FaSpinner />
+    <FaSpinner Size="16px" Variant="FaLoaderVariant.Primary" />
+    <FaSpinner Size="40px" Variant="FaLoaderVariant.Gold" />
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Base (default)</span><code>.fa-spinner</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Variant="Primary"</span><code>.fa-spinner.fa-loader-primary</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Variant="Gold"</span><code>.fa-spinner.fa-loader-gold</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Variant="Danger"</span><code>.fa-spinner.fa-loader-danger</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaSpinner /&gt;
+&lt;FaSpinner Size="40px" Variant="FaLoaderVariant.Gold" /&gt;</code></div>

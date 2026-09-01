@@ -1,0 +1,21 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-empty-state/api"
+
+<DemoPageHeader Title="Empty State: API" ComponentName="FaEmptyState" DocSlug="fa-empty-state" />
+
+<ComponentSubNav BaseRoute="/fa-empty-state" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>IconName</code></td><td><code>FaIconName</code></td><td>default <code>Search</code></td></tr>
+            <tr><td><code>Title</code></td><td><code>string</code></td><td>required</td></tr>
+            <tr><td><code>Description</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>optional action content (typically a <code>FaButton</code>) — only rendered at all when non-null</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above.</p>

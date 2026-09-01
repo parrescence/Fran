@@ -1,0 +1,46 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-dashboard-template"
+@layout EmptyLayout
+
+<PageTitle>FaDashboardTemplate — FaFa Showcase</PageTitle>
+
+<a href="/" class="fa-template-demo-back">← Back to Showcase</a>
+<ComponentSubNav BaseRoute="/fa-dashboard-template" />
+
+<FaDashboardTemplate BrandText="FaFa Showcase" BrandHref="/fa-dashboard-template"
+                    HeaderPosition="FaNavPosition.Sticky"
+                    Title="Overview">
+    <Sidebar>
+        <NavLink class="fa-sidebar-link" href="/fa-dashboard-template" Match="NavLinkMatch.All">
+            <FaIcon Name="FaIconName.Dashboard" CssClass="fa-nav-icon" />
+            <span class="fa-sidebar-link-text">Overview</span>
+        </NavLink>
+        <NavLink class="fa-sidebar-link" href="/fa-table">
+            <FaIcon Name="FaIconName.Ledger" CssClass="fa-nav-icon" />
+            <span class="fa-sidebar-link-text">Orders</span>
+        </NavLink>
+    </Sidebar>
+    <Actions>
+        <FaButton Variant="FaButtonVariant.Primary">New report</FaButton>
+    </Actions>
+    <ChildContent>
+        <p class="fa-template-demo-note">
+            A real, live <code>FaDashboardTemplate</code> — this whole page is the demo, rendered outside the Showcase's own chrome (a template supplies its own shell). Full parameter reference: <a href="https://github.com/parrescence/FaFa/blob/dev/Blazor/docs/fa-dashboard-template.md" target="_blank">Blazor/docs/fa-dashboard-template.md</a>.
+        </p>
+        <div class="fa-row fa-gap-3">
+            <FaCard CssClass="fa-col-auto" style="min-width:14rem;">
+                <p class="fa-class-legend-label">Revenue this month</p>
+                <h2>$48,210</h2>
+            </FaCard>
+            <FaCard CssClass="fa-col-auto" style="min-width:14rem;">
+                <p class="fa-class-legend-label">Open orders</p>
+                <h2>27</h2>
+            </FaCard>
+            <FaCard CssClass="fa-col-auto" style="min-width:14rem;">
+                <p class="fa-class-legend-label">Overdue invoices</p>
+                <h2 class="fa-text-danger">4</h2>
+            </FaCard>
+        </div>
+    </ChildContent>
+</FaDashboardTemplate>

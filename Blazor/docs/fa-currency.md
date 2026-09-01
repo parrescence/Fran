@@ -28,6 +28,14 @@ inside an `<EditForm>`. No JS interop.
 `@bind-Value` writes into `_model.Amount` — values are rounded to 2 decimal places
 and clamped to `Min`/`Max` as they're typed.
 
+## Min/Max validation
+
+If both `Min` and `Max` are set and `Max` ends up below `Min`, FaCurrency shows a
+`.fa-validation-message` under the label instead of silently clamping every typed
+value the same way. Same non-throwing check as [FaDate's own Min/Max
+check](fa-date.md#minmax-validation) — this is FaCurrency checking its own two
+parameters directly, not routed through [FaFa's validation system](validation.md).
+
 ## Parameters
 
 | Parameter | Type | Notes |

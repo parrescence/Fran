@@ -1,0 +1,21 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-icon/api"
+
+<DemoPageHeader Title="Icons: API" ComponentName="FaIcon" DocSlug="fa-icon" />
+
+<ComponentSubNav BaseRoute="/fa-icon" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Name</code></td><td><code>FaIconName</code></td><td>required — see the grid on the <a href="/fa-icon">How to use</a> page for the full set</td></tr>
+            <tr><td><code>Color</code></td><td><code>FaIconColor</code></td><td><code>White</code> (default) · <code>Black</code></td></tr>
+            <tr><td><code>Size</code></td><td><code>int</code></td><td>default <code>20</code> — pixel width/height</td></tr>
+            <tr><td><code>Title</code></td><td><code>string?</code></td><td>when set, renders an accessible <code>&lt;title&gt;</code> + <code>role="img"</code> instead of <code>aria-hidden="true"</code> — set this when an icon is the only content conveying meaning (no adjacent visible label)</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above. Every path fills with <code>currentColor</code> under the hood; <code>Color</code> just picks the CSS class, no per-icon markup differs.</p>

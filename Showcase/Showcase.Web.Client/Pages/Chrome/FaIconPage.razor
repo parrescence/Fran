@@ -1,0 +1,30 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-icon"
+
+<DemoPageHeader Title="Icons" ComponentName="FaIcon" DocSlug="fa-icon">
+    The full hand-drawn set — @_iconNames.Count icons, no icon font/external dependency. Every path fills with
+    <code>currentColor</code>, so color is a class, not per-icon markup.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/fa-icon" />
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Color="Black" (default)</span><code>.fa-icon.fa-icon-black</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Color="White"</span><code>.fa-icon.fa-icon-white</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaIcon Name="FaIconName.Home" Color="FaIconColor.Black" Size="24" /&gt;</code></div>
+
+<div class="fa-icon-grid">
+    @foreach (var name in _iconNames)
+    {
+        <div class="fa-icon-grid-item">
+            <FaIcon Name="name" Color="FaIconColor.Black" Size="24" Title="@name.ToString()" />
+            <span>@name</span>
+        </div>
+    }
+</div>
+
+@code {
+    private readonly List<FaIconName> _iconNames = Enum.GetValues<FaIconName>().ToList();
+}
