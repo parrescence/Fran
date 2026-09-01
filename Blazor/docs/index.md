@@ -17,7 +17,7 @@ consume them the normal Blazor way, tags and all.
 Two binding shapes show up repeatedly:
 
 - **`InputBase<TValue>`-derived fields** (`FaInput`, `FaSelect`, `FaTextarea`,
-  `FaCheckbox`, `FaDatePicker`, `FaCurrency`) only work inside an `<EditForm>`/
+  `FaCheckbox`, `FaDate`, `FaCurrency`) only work inside an `<EditForm>`/
   `EditContext`, same as Blazor's own `InputText`/`InputNumber`.
 - **Everything else that's bindable** (`FaToggle`, `FaRadioGroup`, `FaSearchSelect`,
   `FaDropdown`, `FaDateRange`) uses a plain `Value`/`ValueChanged` pair, so
@@ -47,7 +47,7 @@ Two binding shapes show up repeatedly:
 - [FaCheckbox](fa-checkbox.md) — checkbox with a clickable label
 - [FaRadioGroup](fa-radio-group.md) — a group of radio buttons from a tuple list
 - [FaToggle](fa-toggle.md) — segmented N-option switch, with an optional companion input
-- [FaDatePicker](fa-date-picker.md) — day/month/year fields + calendar popup
+- [FaDate](fa-date.md) — day/month/year fields + calendar popup
 - [FaDateRange](fa-date-range.md) — linked From/To date fields
 - [FaCurrency](fa-currency.md) — formatted amount field
 - [FaFile](fa-file.md) — file picker, optionally styled as a button
@@ -58,11 +58,19 @@ Two binding shapes show up repeatedly:
 - [FaGrid](fa-grid.md) — a table with its own paging/rows-per-page/sort/filter, in-memory or provider-backed
 - [FaCarousel](fa-carousel.md) — one-slide-at-a-time slideshow, in-memory or provider-backed
 
+## Content display
+
+- [FaCodeBlock](fa-code-block.md) — read-only source-code panel, language label, optional copy button, lightly syntax-highlighted
+
 ## Self-contained forms
 
 - [FaForm](fa-form.md) — wraps EditForm around your own field markup, returns the populated model on submit; `Mode` (Create/Edit) covers "new" vs "update"
 - [FaLoginForm](fa-login-form.md) — username/password + remember-me, emits an `FaLoginRequest`
 - [FaLogoutForm](fa-logout-form.md) — "are you sure?" confirm/cancel
+
+## Validation
+
+- [Validation](validation.md) — root/DTO, form, and per-element validation tiers, plus inline error messages on every input
 
 ## Progress & loaders
 
@@ -72,9 +80,34 @@ Two binding shapes show up repeatedly:
 - [FaHelixLoader](fa-helix-loader.md) — twisting, breathing DNA-helix dots
 - [FaPongLoader](fa-pong-loader.md) — bouncing-ball Pong loader
 
+## Navigation & structure
+
+- [FaTabs](fa-tabs.md) — role="tablist" tab strip over a (Title, Value) list, you render the panel
+- [FaAccordion](fa-accordion.md) — stacked collapsible sections, smooth height animation, no JS
+- [FaBreadcrumb](fa-breadcrumb.md) — Home › Section › current page trail
+- [FaPagination](fa-pagination.md) — standalone windowed page-number strip
+- [FaDivider](fa-divider.md) — plain rule, or a rule split around a short label
+- [FaChip](fa-chip.md) — small interactive tag: selectable, removable, or both
+- [FaEmptyState](fa-empty-state.md) — "nothing here yet" placeholder with icon/title/description/actions
+
+## Overlays & feedback
+
+- [FaTooltip](fa-tooltip.md) — pure-CSS hover/focus label, no JS positioning
+- [FaPopover](fa-popover.md) — click-to-open contextual panel
+- [FaToastHost](fa-toast.md) — stacked auto-dismissing notifications, triggered from anywhere via an injected `FaToastService`
+- [FaSkeleton](fa-skeleton.md) — shimmering content-shaped loading placeholder
+
+## Page templates
+
+- [Page templates overview](page-templates.md) — how to use one, filling in the bars, sticky vs. not
+- [FaDashboardTemplate](fa-dashboard-template.md) — sidebar shell + title/actions row
+- [FaFormTemplate](fa-form-template.md) — standard shell + centered form card
+- [FaHomeTemplate](fa-home-template.md) — standard shell + hero band
+- [FaAuthTemplate](fa-auth-template.md) — chrome-free centered card, for login/register/reset-password
+
 ## Layout & chrome
 
 - [Layout shells](layout-shells.md) — `FaStandardShell`/`FaSidebarShell` + `FaHeader`/`FaFooter`/`FaSidebar`
 - [FaThemeSwitcher](theme-switcher.md) — Light/Dark/Colorblind-safe buttons
-- [FaPaletteSwitcher](palette-switcher.md) — dropdown over all 14 color palettes
+- [FaPaletteSwitcher](palette-switcher.md) — dropdown over all 28 color palettes
 - [FaIcon](fa-icon.md) — the hand-drawn SVG icon set

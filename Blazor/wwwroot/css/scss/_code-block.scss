@@ -1,0 +1,90 @@
+/* FaCodeBlock (Components/Elements/FaCodeBlock.cs) — a read-only source-code panel.
+   Background is var(--fa-fir), the one token every palette defines as its deep
+   neutral "black" anchor (_palettes.scss) — genuinely darker than that palette's
+   --fa-surface/--fa-cream rather than a one-off dark literal, so "a darker color
+   from the palette" holds for all 28 palettes without a new token. */
+
+.fa-codeblock {
+    background: var(--fa-fir);
+    color: #e8e6e0;
+    border-radius: var(--fa-radius-md);
+    border: var(--fa-border-width) solid var(--fa-border);
+    overflow: hidden;
+    font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.fa-codeblock-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0.9rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fa-codeblock-lang {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(232, 230, 224, 0.6);
+}
+
+.fa-codeblock-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--fa-radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: transparent;
+    color: rgba(232, 230, 224, 0.85);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast), border-color var(--fa-transition-fast), color var(--fa-transition-fast);
+}
+
+    .fa-codeblock-copy:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Fixed success green, not var(--fa-accent) — same "palette-agnostic on
+       purpose" reasoning as the token colors below; a per-palette accent can land
+       anywhere in the color wheel (Fit's is green, Floating's is slate-blue,
+       Ruckus's is moss) and wouldn't reliably read as "success" against every one. */
+    .fa-codeblock-copy.fa-codeblock-copied {
+        border-color: #6bc79a;
+        color: #6bc79a;
+    }
+
+    .fa-codeblock-copy-icon {
+        flex-shrink: 0;
+    }
+
+.fa-codeblock-pre {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+.fa-codeblock-code {
+    font-family: inherit;
+}
+
+/* Token colors are fixed, not derived per-palette — same reasoning as colorblind
+   mode's "one known-safe pair reused everywhere" (_palettes.scss): --fa-fir stays
+   dark-enough-to-near-black across every one of the 28 palettes, so a single
+   light-on-dark token scheme reads correctly regardless of which palette is
+   active, without needing 28 separate highlight-color sets tuned per palette. */
+.fa-code-tok-comment { color: #8a9199; font-style: italic; }
+.fa-code-tok-string { color: #9ecb8f; }
+.fa-code-tok-number { color: #d8a657; }
+.fa-code-tok-keyword { color: #e693c2; font-weight: 600; }
+.fa-code-tok-tag { color: #7fb0e0; }
+.fa-code-tok-attr { color: #a9cf7f; }
+.fa-code-tok-literal { color: #d8a657; }
+.fa-code-tok-property { color: #7fb0e0; }

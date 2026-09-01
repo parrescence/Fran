@@ -73,7 +73,8 @@
       "japan-indigo" | "korea-celadon" | "china-cinnabar" | "india-peacock" |
       "cameroon-rainforest" | "sahara-desert" | "brazil-rainforest" | "brazil-favela" |
       "portugal-tiles" | "spain-bullfighting" | "mexico-day-of-the-dead" |
-      "london-life" | "new-york-nightlife" | "india-henna".
+      "london-life" | "new-york-nightlife" | "india-henna" | "ruckus" | "dinner" |
+      "hang-in" | "floating" | "fit".
       No attribute (or data-fa-palette="northwest-fall") means the :root defaults
       above. Toggle with window.faSetPalette(name) (js/theme.js — reads/writes
       localStorage the same way faSetTheme does).
@@ -646,6 +647,162 @@
     --fa-alert-info-bg: #dde6ee;
 }
 
+:root[data-fa-palette="ruckus"] {
+    /* --- Ruckus — a sidewalk rack of folded shirts, sorted dark-to-light: charcoal
+       stack up top down through cobalt, moss, dusty-rose clearance tags, and khaki
+       twine tickets. Not a place/season like the rest of the set — a rack, not a
+       region — so primary comes from the rack's one true standout color instead of
+       a national or seasonal reference: the cobalt blue folded partway down the
+       stack. Danger deliberately isn't a true red (there wasn't one on the rack) —
+       it's the dustiest rose deepened into a "clearance sticker" brick instead,
+       staying honest to what was actually hanging there. --- */
+    --fa-primary: #3b57cf; /* Cobalt Rack */
+    --fa-primary-dark: #26399b;
+    --fa-primary-light: #7f93e0;
+    --fa-footer: #f7e2e4; /* Petal Pink */
+    --fa-glow: #4f6ee0;
+    --fa-gold: #b99a5a; /* Tag Twine Gold */
+    --fa-accent: #6e9150; /* Moss Bright */
+    --fa-accent-dark: #4c6650; /* Forest Muted */
+    --fa-ember: #a85c62; /* Clearance Tag Red */
+    --fa-wine: #6b3238;
+    --fa-fir: #2a2b30; /* Ruckus Charcoal */
+    --fa-cream: #f7f3ec;
+    --fa-surface: #fffdf9;
+    --fa-text: #2a2b30;
+    --fa-text-muted: #7d7669;
+    --fa-text-on-primary: #f3f5ff;
+    --fa-border: #d7dcee;
+    --fa-border-focus: #26399b;
+    --fa-alert-danger-bg: #f6e3e3;
+    --fa-alert-success-bg: #e9efe1;
+    --fa-alert-info-bg: #e2e6f7;
+}
+
+:root[data-fa-palette="dinner"] {
+    /* --- Dinner — pulled straight from a photo of an antique dealer's table set for
+       browsing: sun-warmed walnut tabletop and shelving for primary, a brass pepper
+       mill for gold, a dusty sage book-spine green for accent, a mounted antler's
+       rust-brown for danger, and the wire cafe chairs' charcoal grounding everything
+       as the "black" anchor. Like Ruckus, this isn't a place/season — it's a scene,
+       so primary comes from the single warmest wood tone across the whole table
+       rather than a national/seasonal reference. --- */
+    --fa-primary: #a8672e; /* Walnut Tabletop */
+    --fa-primary-dark: #7a4820;
+    --fa-primary-light: #cf9a63;
+    --fa-footer: #ece4d3; /* Stucco Wall Cream */
+    --fa-glow: #c9843d;
+    --fa-gold: #c9a13c; /* Brass Pepper Mill */
+    --fa-accent: #4f6b52; /* Book-Spine Sage */
+    --fa-accent-dark: #364a38;
+    --fa-ember: #a6572c; /* Mounted Antler Rust */
+    --fa-wine: #5c2f1c;
+    --fa-fir: #2a2825; /* Wire Cafe Chair Charcoal */
+    --fa-cream: #f7f1e4;
+    --fa-surface: #fffcf5;
+    --fa-text: #332818;
+    --fa-text-muted: #7d7060;
+    --fa-text-on-primary: #fdf6ea;
+    --fa-border: #ddc9a0;
+    --fa-border-focus: #7a4820;
+    --fa-alert-danger-bg: #f5ded2;
+    --fa-alert-success-bg: #e2e8dd;
+    --fa-alert-info-bg: #f3e5d0;
+}
+
+:root[data-fa-palette="hang-in"] {
+    /* --- Hang'In — lifted straight from an abstract painting leaned against a
+       shop wall: a muted slate-grey-blue field of blocky brushwork for primary,
+       a mustard-ochre streak for gold, a small dusty teal-blue fragment for
+       accent, and a terracotta-rust patch for danger, all grounded by the
+       painting's darkest charcoal block. Like Ruckus/Dinner, this one's a scene
+       rather than a place/season — the whole story is "colors read off one
+       canvas," so nothing here is a national/seasonal reference. --- */
+    --fa-primary: #5c6670; /* Slate Grey-Blue Field */
+    --fa-primary-dark: #3f4750;
+    --fa-primary-light: #9aa3ab;
+    --fa-footer: #ece7db; /* Canvas Cream */
+    --fa-glow: #7d8993;
+    --fa-gold: #b8874a; /* Mustard Ochre Streak */
+    --fa-accent: #4f7080; /* Dusty Teal Fragment */
+    --fa-accent-dark: #35505c;
+    --fa-ember: #a8503a; /* Terracotta Patch */
+    --fa-wine: #5c2a1e;
+    --fa-fir: #333633; /* Canvas Charcoal Block */
+    --fa-cream: #f5f1e6;
+    --fa-surface: #fffdf8;
+    --fa-text: #2e2b26;
+    --fa-text-muted: #7d786d;
+    --fa-text-on-primary: #f5f2ec;
+    --fa-border: #d6d0c2;
+    --fa-border-focus: #3f4750;
+    --fa-alert-danger-bg: #f2ded4;
+    --fa-alert-success-bg: #dfe8e6;
+    --fa-alert-info-bg: #dfe2e6;
+}
+
+:root[data-fa-palette="floating"] {
+    /* --- Floating — lifted from a framed desert-dusk painting: a sunset-peach
+       gradient band for primary, a near-black silhouetted ridge for the dark
+       neutral anchor, a dusty slate-blue streak (from the canyon-wall half of
+       the canvas) for accent, sandy tan for gold, and the dusk sky's deep
+       wine-plum for danger. Like Ruckus/Dinner/Hang'In, this is a scene rather
+       than a place/season — everything here is read off one canvas. --- */
+    --fa-primary: #c9814a; /* Sunset Peach */
+    --fa-primary-dark: #8f5a30;
+    --fa-primary-light: #e0ac7c;
+    --fa-footer: #ede6da; /* Dusk Sky Cream */
+    --fa-glow: #d99a5c;
+    --fa-gold: #c2a06c; /* Canyon Sand Tan */
+    --fa-accent: #6b7a8a; /* Canyon-Wall Slate */
+    --fa-accent-dark: #48545f;
+    --fa-ember: #7a3f4a; /* Dusk Wine-Plum */
+    --fa-wine: #4a232b;
+    --fa-fir: #1c1620; /* Silhouetted Ridge */
+    --fa-cream: #f2ece1;
+    --fa-surface: #fffdf8;
+    --fa-text: #2b2530;
+    --fa-text-muted: #7d7580;
+    --fa-text-on-primary: #fdf3e8;
+    --fa-border: #ddd0c4;
+    --fa-border-focus: #8f5a30;
+    --fa-alert-danger-bg: #f0dfe0;
+    --fa-alert-success-bg: #e2e6e8;
+    --fa-alert-info-bg: #f5e6d6;
+}
+
+:root[data-fa-palette="fit"] {
+    /* --- Fit — lifted from a photo of a black textured knit shirt with a vivid
+       abstract brushstroke print (cobalt blue through emerald green, mustard
+       gold, and coral-red speckling) paired with black leather gloves whose
+       fingertips are piped in mint, coral, purple, gold, and pink. Primary is
+       the brushstroke's cobalt blue, accent its emerald green, gold its mustard
+       stripe, danger the coral-red speckling, and the dark neutral anchor is
+       the garment's own black knit. Like Ruckus/Dinner/Hang'In/Floating, this
+       is a scene rather than a place/season. --- */
+    --fa-primary: #1f4fa0; /* Brushstroke Cobalt */
+    --fa-primary-dark: #163a78;
+    --fa-primary-light: #5f86c9;
+    --fa-footer: #ece9e2; /* Gallery Cream */
+    --fa-glow: #2f6fc9;
+    --fa-gold: #d98a2a; /* Mustard Brushstroke */
+    --fa-accent: #2f9e6e; /* Emerald Brushstroke */
+    --fa-accent-dark: #1f6e4c;
+    --fa-ember: #d9432f; /* Coral Speckle Red */
+    --fa-wine: #7a2318;
+    --fa-fir: #141414; /* Knit Black */
+    --fa-cream: #f5f3ee;
+    --fa-surface: #fffefb;
+    --fa-text: #201f1c;
+    --fa-text-muted: #756f66;
+    --fa-text-on-primary: #f5f8fc;
+    --fa-border: #d8d4c8;
+    --fa-border-focus: #163a78;
+    --fa-alert-danger-bg: #f7ddd8;
+    --fa-alert-success-bg: #dcefe4;
+    --fa-alert-info-bg: #dbe6f5;
+}
+
 /* --- Dark mode, per palette. Northwest Fall's dark block (no data-fa-palette
    attribute needed — it's the default) stays a single-attribute selector; every
    other palette needs data-fa-palette AND data-theme="dark" together so it wins
@@ -1001,6 +1158,81 @@
     --fa-alert-info-bg: rgba(224, 161, 60, 0.22);
 }
 
+:root[data-fa-palette="ruckus"][data-theme="dark"] {
+    --fa-cream: #16151a;
+    --fa-surface: #201e23;
+    --fa-text: #efece4;
+    --fa-text-muted: #b3aca0;
+    --fa-border: #3a3742;
+    --fa-border-focus: #4f6ee0;
+    --fa-footer: #241a1d;
+    --fa-primary-dark: #7f93e0;
+    --fa-accent-dark: #a0c17f;
+    --fa-alert-danger-bg: rgba(168, 92, 98, 0.22);
+    --fa-alert-success-bg: rgba(110, 145, 80, 0.22);
+    --fa-alert-info-bg: rgba(59, 87, 207, 0.22);
+}
+
+:root[data-fa-palette="dinner"][data-theme="dark"] {
+    --fa-cream: #16110a;
+    --fa-surface: #201a10;
+    --fa-text: #f0e6d4;
+    --fa-text-muted: #b7a78d;
+    --fa-border: #4a3a24;
+    --fa-border-focus: #c9843d;
+    --fa-footer: #241d12;
+    --fa-primary-dark: #cf9a63;
+    --fa-accent-dark: #8aab86;
+    --fa-alert-danger-bg: rgba(166, 87, 44, 0.22);
+    --fa-alert-success-bg: rgba(79, 107, 82, 0.22);
+    --fa-alert-info-bg: rgba(168, 103, 46, 0.22);
+}
+
+:root[data-fa-palette="hang-in"][data-theme="dark"] {
+    --fa-cream: #131210;
+    --fa-surface: #1c1a17;
+    --fa-text: #ece7db;
+    --fa-text-muted: #b0a99a;
+    --fa-border: #443f38;
+    --fa-border-focus: #7d8993;
+    --fa-footer: #201e1a;
+    --fa-primary-dark: #9aa3ab;
+    --fa-accent-dark: #7fa3ae;
+    --fa-alert-danger-bg: rgba(168, 80, 58, 0.22);
+    --fa-alert-success-bg: rgba(79, 112, 128, 0.22);
+    --fa-alert-info-bg: rgba(92, 102, 112, 0.22);
+}
+
+:root[data-fa-palette="floating"][data-theme="dark"] {
+    --fa-cream: #14100e;
+    --fa-surface: #1e1815;
+    --fa-text: #ede6df;
+    --fa-text-muted: #b0a89f;
+    --fa-border: #453a34;
+    --fa-border-focus: #d99a5c;
+    --fa-footer: #201a17;
+    --fa-primary-dark: #e0ac7c;
+    --fa-accent-dark: #93a3b0;
+    --fa-alert-danger-bg: rgba(122, 63, 74, 0.22);
+    --fa-alert-success-bg: rgba(107, 122, 138, 0.22);
+    --fa-alert-info-bg: rgba(201, 129, 74, 0.22);
+}
+
+:root[data-fa-palette="fit"][data-theme="dark"] {
+    --fa-cream: #0e0e0c;
+    --fa-surface: #171613;
+    --fa-text: #ece9e0;
+    --fa-text-muted: #b0a99c;
+    --fa-border: #3a362c;
+    --fa-border-focus: #2f6fc9;
+    --fa-footer: #1a1916;
+    --fa-primary-dark: #5f86c9;
+    --fa-accent-dark: #6bc79a;
+    --fa-alert-danger-bg: rgba(217, 67, 47, 0.22);
+    --fa-alert-success-bg: rgba(47, 158, 110, 0.22);
+    --fa-alert-info-bg: rgba(31, 79, 160, 0.22);
+}
+
 /* --- Same dark values again, gated on prefers-color-scheme instead of an explicit
    data-theme="dark" — the OS-level fallback before any explicit mode choice. --- */
 
@@ -1348,6 +1580,81 @@
         --fa-alert-danger-bg: rgba(178, 52, 40, 0.22);
         --fa-alert-success-bg: rgba(92, 122, 58, 0.22);
         --fa-alert-info-bg: rgba(224, 161, 60, 0.22);
+    }
+
+    :root[data-fa-palette="ruckus"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #16151a;
+        --fa-surface: #201e23;
+        --fa-text: #efece4;
+        --fa-text-muted: #b3aca0;
+        --fa-border: #3a3742;
+        --fa-border-focus: #4f6ee0;
+        --fa-footer: #241a1d;
+        --fa-primary-dark: #7f93e0;
+        --fa-accent-dark: #a0c17f;
+        --fa-alert-danger-bg: rgba(168, 92, 98, 0.22);
+        --fa-alert-success-bg: rgba(110, 145, 80, 0.22);
+        --fa-alert-info-bg: rgba(59, 87, 207, 0.22);
+    }
+
+    :root[data-fa-palette="dinner"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #16110a;
+        --fa-surface: #201a10;
+        --fa-text: #f0e6d4;
+        --fa-text-muted: #b7a78d;
+        --fa-border: #4a3a24;
+        --fa-border-focus: #c9843d;
+        --fa-footer: #241d12;
+        --fa-primary-dark: #cf9a63;
+        --fa-accent-dark: #8aab86;
+        --fa-alert-danger-bg: rgba(166, 87, 44, 0.22);
+        --fa-alert-success-bg: rgba(79, 107, 82, 0.22);
+        --fa-alert-info-bg: rgba(168, 103, 46, 0.22);
+    }
+
+    :root[data-fa-palette="hang-in"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #131210;
+        --fa-surface: #1c1a17;
+        --fa-text: #ece7db;
+        --fa-text-muted: #b0a99a;
+        --fa-border: #443f38;
+        --fa-border-focus: #7d8993;
+        --fa-footer: #201e1a;
+        --fa-primary-dark: #9aa3ab;
+        --fa-accent-dark: #7fa3ae;
+        --fa-alert-danger-bg: rgba(168, 80, 58, 0.22);
+        --fa-alert-success-bg: rgba(79, 112, 128, 0.22);
+        --fa-alert-info-bg: rgba(92, 102, 112, 0.22);
+    }
+
+    :root[data-fa-palette="floating"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #14100e;
+        --fa-surface: #1e1815;
+        --fa-text: #ede6df;
+        --fa-text-muted: #b0a89f;
+        --fa-border: #453a34;
+        --fa-border-focus: #d99a5c;
+        --fa-footer: #201a17;
+        --fa-primary-dark: #e0ac7c;
+        --fa-accent-dark: #93a3b0;
+        --fa-alert-danger-bg: rgba(122, 63, 74, 0.22);
+        --fa-alert-success-bg: rgba(107, 122, 138, 0.22);
+        --fa-alert-info-bg: rgba(201, 129, 74, 0.22);
+    }
+
+    :root[data-fa-palette="fit"]:not([data-theme="light"]):not([data-theme="colorblind"]) {
+        --fa-cream: #0e0e0c;
+        --fa-surface: #171613;
+        --fa-text: #ece9e0;
+        --fa-text-muted: #b0a99c;
+        --fa-border: #3a362c;
+        --fa-border-focus: #2f6fc9;
+        --fa-footer: #1a1916;
+        --fa-primary-dark: #5f86c9;
+        --fa-accent-dark: #6bc79a;
+        --fa-alert-danger-bg: rgba(217, 67, 47, 0.22);
+        --fa-alert-success-bg: rgba(47, 158, 110, 0.22);
+        --fa-alert-info-bg: rgba(31, 79, 160, 0.22);
     }
 }
 

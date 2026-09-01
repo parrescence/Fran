@@ -1,0 +1,20 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-tooltip/api"
+
+<DemoPageHeader Title="Tooltip: API" ComponentName="FaTooltip" DocSlug="fa-tooltip" />
+
+<ComponentSubNav BaseRoute="/fa-tooltip" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Text</code></td><td><code>string</code></td><td>required</td></tr>
+            <tr><td><code>Position</code></td><td><code>FaTooltipPosition</code></td><td><code>Top</code> (default) · <code>Bottom</code> · <code>Left</code> · <code>Right</code> — a hint, not a smart auto-flip; pick the side with room in your layout</td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment</code></td><td>required — whatever's wrapped gets the hover/focus trigger</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above. Pure CSS (<code>:hover</code>/<code>:focus-within</code>), no JS positioning.</p>

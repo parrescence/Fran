@@ -1,0 +1,21 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-alert"
+
+<DemoPageHeader Title="Alerts" ComponentName="FaAlert" DocSlug="fa-alert" />
+
+<ComponentSubNav BaseRoute="/fa-alert" />
+
+<h2>Variants</h2>
+<div class="fa-demo-preview" style="flex-direction: column; align-items: stretch;">
+    <FaAlert Variant="FaAlertVariant.Info">Info — heads up, nothing's wrong.</FaAlert>
+    <FaAlert Variant="FaAlertVariant.Success">Success — that worked.</FaAlert>
+    <FaAlert Variant="FaAlertVariant.Danger">Danger — something went wrong.</FaAlert>
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Info (default)</span><code>.fa-alert.fa-alert-info</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Success</span><code>.fa-alert.fa-alert-success</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Danger</span><code>.fa-alert.fa-alert-danger</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaAlert Variant="FaAlertVariant.Success"&gt;That worked.&lt;/FaAlert&gt;
+&lt;FaAlert Variant="FaAlertVariant.Danger"&gt;Something went wrong.&lt;/FaAlert&gt;</code></div>

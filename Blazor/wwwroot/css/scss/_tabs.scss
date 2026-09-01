@@ -1,0 +1,49 @@
+/* ============================= Tabs ============================= */
+
+.fa-tabs {
+    display: flex;
+    gap: 0.2rem;
+    border-bottom: var(--fa-border-width) solid var(--fa-border);
+}
+
+.fa-tabs-tab {
+    position: relative;
+    font-family: var(--fa-font);
+    font-weight: 700;
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+    color: var(--fa-text-muted);
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: color var(--fa-transition-fast);
+}
+
+    .fa-tabs-tab::after {
+        content: "";
+        position: absolute;
+        left: 0.4rem;
+        right: 0.4rem;
+        bottom: -1px;
+        height: 2px;
+        border-radius: 2px;
+        background: transparent;
+        transition: background-color var(--fa-transition-fast);
+    }
+
+    .fa-tabs-tab:hover {
+        color: var(--fa-text);
+    }
+
+    .fa-tabs-tab:focus-visible {
+        outline: none;
+        color: var(--fa-primary-dark);
+    }
+
+    .fa-tabs-tab-active {
+        color: var(--fa-primary-dark);
+    }
+
+        .fa-tabs-tab-active::after {
+            background: var(--fa-primary);
+        }

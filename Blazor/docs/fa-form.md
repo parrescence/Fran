@@ -45,6 +45,27 @@ text ("Create" vs "Save") and whether Delete shows.
 Drop it inside an [FaModal](fa-modal.md) for the common "create/edit in a dialog"
 placement, or render it inline on a page.
 
+## Validation
+
+FaForm always renders `DataAnnotationsValidator` + (if `ShowValidationSummary`)
+`ValidationSummary`. Set `UseFaValidation="true"` to also run
+[FaFa's own validation system](validation.md) — root-tier rules from a registered
+`IFaValidator<TModel>`, plus this form's own `ConfigureValidation` override — into
+the same `EditContext`:
+
+```razor
+<FaForm TModel="ProductModel" Model="_model" UseFaValidation="true"
+        ConfigureValidation="@(b => b.Field(nameof(ProductModel.Category), m => m.Category).Required())"
+        OnSubmit="SaveAsync">
+    <FaInput TValue="string" @bind-Value="_model.Name" Label="Name" />
+    <FaInput TValue="string" @bind-Value="_model.Category" Label="Category" />
+</FaForm>
+```
+
+Off by default — not every `TModel` has a registered `IFaValidator<TModel>`, and
+turning it on for one that doesn't just silently does nothing rather than being a
+useful default.
+
 ## Getting the value
 
 `OnSubmit` hands back the same `TModel` instance you passed in as `Model` — already
@@ -66,6 +87,8 @@ populated, already past validation. There's no separate `@bind`; the fields insi
 | `DeleteText` | `string` | defaults to `"Delete"` |
 | `Busy` | `bool` | disables Submit and swaps its text to "Saving…" — flip this around your own `OnSubmit` await |
 | `ShowValidationSummary` | `bool` | defaults to `true` |
+| `UseFaValidation` | `bool` | opts into [FaFa's validation system](validation.md) alongside `DataAnnotationsValidator`; defaults `false` |
+| `ConfigureValidation` | `Action<FaValidationBuilder<TModel>>?` | form-tier override — see [Validation](validation.md); ignored unless `UseFaValidation` is set |
 | `ButtonAlign` | `FaAlign` | `Start` \| `Center` \| `End` (default) \| `Between` \| `Around` \| `Evenly` |
 | `CssClass` | `string?` | |
 

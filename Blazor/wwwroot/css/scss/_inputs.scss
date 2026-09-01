@@ -37,7 +37,7 @@
 
 /* Shared "input type" readonly look — FaInput/FaSelect/FaTextarea/FaCurrency: same
    box as normal, just muted and non-interactive. (FaCheckbox/FaToggle/FaRadioGroup/
-   FaDatePicker/FaDateRange/FaSearchSelect/FaDropdown use the flattened
+   FaDate/FaDateRange/FaSearchSelect/FaDropdown use the flattened
    .fa-readonly-flat look instead — see below — since they aren't plain boxed
    inputs to begin with.) */
 .fa-input[readonly], .fa-input:disabled,
@@ -73,6 +73,26 @@
 
 .fa-input-group-sm .fa-input, .fa-input-group-sm .fa-btn {
     padding: 0.32rem 0.9rem;
+    font-size: 0.82rem;
+}
+
+/* --- Validation (see FaFa.Validation, FaValidationMessageRenderer) ---
+   Every InputBase-derived FaFa input adds .fa-input-invalid (or, for the two
+   components with their own distinct box style, .fa-select-invalid) to itself
+   whenever EditContext reports an error for its field (or its own element-tier
+   Validate override does) — fa- prefixed rather than reviving the stock
+   unprefixed .invalid/.valid.modified Blazor-template classes that used to live
+   in _blazor-chrome.scss, since a bare .invalid could collide with anything else
+   a consuming app's own page happens to use that selector for. --fa-ember is
+   this library's already-established danger/error color token — no new one
+   needed. */
+.fa-input-invalid, .fa-select-invalid {
+    border-color: var(--fa-ember);
+    box-shadow: 0 0 0 1px var(--fa-ember);
+}
+
+.fa-validation-message {
+    color: var(--fa-ember);
     font-size: 0.82rem;
 }
 

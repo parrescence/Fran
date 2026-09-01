@@ -38,5 +38,7 @@ scrollable textarea.
 | `MaxLength` | `int?` | shows a live counter when set |
 | `ReadOnly` | `bool` | same boxed textarea look, muted and non-interactive |
 | `ReadOnlyDisplay` | `bool` | drops the box entirely, flows as plain text instead — wins over `ReadOnly` if both are set |
+| `ShowValidationMessage` | `bool` | defaults `true` — see [Validation](validation.md) |
+| `Validate` | `Func<string?, string?>?` | element-tier validation override — see [Validation](validation.md) |
 
 [← Back to index](index.md)

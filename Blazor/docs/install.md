@@ -2,7 +2,8 @@
 
 Published to **GitHub Packages** (not NuGet.org, for now) under `parrescence`. Five
 steps: add the feed, reference the package, import the namespaces, wire the static
-assets into your host page, then optionally pick a color palette.
+assets into your host page, then optionally pick a color palette — plus one more,
+optional, if you're using `FaToastHost`.
 
 ## 1. Add the GitHub Packages feed as a NuGet source
 
@@ -75,19 +76,32 @@ behavior, not something specific to this package. Add these tags yourself:
 ...
 <script src="_content/FaFa/js/theme.js"></script>
 <script src="_content/FaFa/js/sidebar.js"></script>
+<script src="_content/FaFa/js/codeblock.js"></script>
+<script src="_content/FaFa/js/fa-date-wheel.js"></script>
 ```
 
-- `theme.js`/`sidebar.js` are plain vanilla-JS IIFEs (no Blazor JS interop, no external
-  dependencies) backing the theme switcher and the sidebar's collapse toggle — both
-  persist to `localStorage` and stamp classes on `<html>`, so no Blazor component
-  state needs to stay in sync with them.
+- `theme.js`/`sidebar.js`/`codeblock.js` are plain vanilla-JS IIFEs (no Blazor JS
+  interop, no external dependencies) backing the theme switcher, the sidebar's
+  collapse toggle, and `<FaCodeBlock>`'s copy-to-clipboard button — all persist to
+  `localStorage` and/or touch the DOM directly, so no Blazor component state needs
+  to stay in sync with them. Skip the `codeblock.js` tag if you never use
+  `<FaCodeBlock Copyable="true">` (the default) — without it, the copy button
+  renders but clicking it does nothing.
+- `fa-date-wheel.js` is the same kind of plain vanilla-JS IIFE, backing `<FaDate>`'s
+  compact wheel picker (see `fa-date.md`) — watches each wheel and, once scrolling
+  settles, clicks whichever value ended up centered, running that click through the
+  button's own Blazor `onclick` exactly as a manual click would (no JS-to-Blazor
+  interop call in the file at all). Skip this tag if you never use `<FaDate>`'s
+  compact picker — without it, the wheels still scroll (plain CSS), the number
+  inputs above them still work, and tapping a value directly still works; only
+  scroll-to-select stops updating the value on its own.
 - `fa-styles.css` pulls one Google Font over `@import` (`Baloo 2`) from
   `fonts.googleapis.com` — a public CDN URL that works from any host, but if your app
   needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.
 
 ## 5. Pick a color palette (optional)
 
-Twenty-three seasonal/regional/country color palettes ship in the one `fa-styles.css`,
+Twenty-eight seasonal/regional/country color palettes ship in the one `fa-styles.css`,
 picked via a `data-fa-palette` attribute on `<html>` — a second, independent axis from
 the light/dark/colorblind mode (`data-theme`); any palette combines with any mode.
 Default is `northwest-fall` (no attribute needed) if you skip this step.
@@ -97,7 +111,8 @@ Available names: `northwest-fall`, `southwest-summer`, `northeast-spring`,
 `ireland-emerald`, `jamaica-blue-mountain`, `japan-indigo`, `korea-celadon`,
 `china-cinnabar`, `india-peacock`, `cameroon-rainforest`, `sahara-desert`,
 `brazil-rainforest`, `brazil-favela`, `portugal-tiles`, `spain-bullfighting`,
-`mexico-day-of-the-dead`, `london-life`, `new-york-nightlife`, `india-henna`.
+`mexico-day-of-the-dead`, `london-life`, `new-york-nightlife`, `india-henna`, `ruckus`,
+`dinner`, `hang-in`, `floating`, `fit`.
 
 **Option A — pick one at build time**, hardcoded in your host page:
 
@@ -137,3 +152,16 @@ before first paint instead of flashing the default and then jumping:
   })();
 </script>
 ```
+
+## 6. Using FaToastHost (optional)
+
+Every other component in this library needs zero C#-side setup — import the
+namespace and use the tag. `FaToastHost`/`FaToastService` is the one exception:
+register the service once in `Program.cs` before mounting `<FaToastHost />`.
+
+```csharp
+builder.Services.AddScoped<FaToastService>();
+```
+
+See [FaToastHost](fa-toast.md) for why it's `Scoped` and how to fire a toast from
+anywhere in your app.

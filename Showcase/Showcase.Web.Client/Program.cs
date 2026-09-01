@@ -1,6 +1,9 @@
+using FaFa.Components;
+using FaFa.Validation;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Showcase.Web.Client;
+using Showcase.Web.Client.Validation;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -12,5 +15,12 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // default; change it there if you run Web.Api on a different port.
 var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? builder.HostEnvironment.BaseAddress;
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
+
+// The one FaFa service that needs registering — see Blazor/docs/fa-toast.md.
+builder.Services.AddScoped<FaToastService>();
+
+// The root/DTO tier for FaFa's validation system — see Blazor/docs/validation.md
+// and Pages/Forms/FaValidationPage.razor's own demo.
+builder.Services.AddFaValidator<DemoProductModel, DemoProductModelValidator>();
 
 await builder.Build().RunAsync();

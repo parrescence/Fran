@@ -1,0 +1,43 @@
+/* ============================= Breadcrumb ============================= */
+
+.fa-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--fa-font);
+    font-size: 0.88rem;
+}
+
+.fa-breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+    /* "›" separator before every item except the first, rather than a per-item
+       FaIcon — cheap, and never needs its own currentColor/theme wiring. */
+    .fa-breadcrumb-item:not(:first-child)::before {
+        content: "›";
+        margin: 0 0.5rem;
+        color: var(--fa-text-muted);
+    }
+
+    .fa-breadcrumb-item a {
+        color: var(--fa-primary-dark);
+        text-decoration: none;
+    }
+
+        .fa-breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+
+    .fa-breadcrumb-item span {
+        color: var(--fa-text-muted);
+    }
+
+    .fa-breadcrumb-item span[aria-current="page"] {
+        color: var(--fa-text);
+        font-weight: 600;
+    }

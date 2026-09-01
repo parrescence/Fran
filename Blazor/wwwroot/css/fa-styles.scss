@@ -21,7 +21,7 @@
 @use "scss/layout";
 @use "scss/buttons";
 @use "scss/inputs";
-@use "scss/date-picker";
+@use "scss/date";
 @use "scss/toggle";
 @use "scss/textarea";
 @use "scss/checkbox-radio";
@@ -43,5 +43,18 @@
 @use "scss/icons";
 @use "scss/dashboard";
 @use "scss/blazor-chrome";
+@use "scss/templates";
+@use "scss/tabs";
+@use "scss/accordion";
+@use "scss/tooltip";
+@use "scss/popover";
+@use "scss/toast";
+@use "scss/breadcrumb";
+@use "scss/pagination";
+@use "scss/skeleton";
+@use "scss/chip";
+@use "scss/divider";
+@use "scss/empty-state";
+@use "scss/code-block";
 @use "scss/utilities";
 @use "scss/responsive";

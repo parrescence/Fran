@@ -1,0 +1,25 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-tabs/api"
+
+<DemoPageHeader Title="Tabs: API" ComponentName="FaTabs&lt;TValue&gt;" DocSlug="fa-tabs" />
+
+<ComponentSubNav BaseRoute="/fa-tabs" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Options</code></td><td><code>IReadOnlyList&lt;(string Title, TValue Value)&gt;</code></td><td>required; needs at least two entries or <code>OnParametersSet</code> throws <code>ArgumentException</code> — same tuple shape as <code>FaToggle</code></td></tr>
+            <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>TValue</code></td><td><code>@@bind-Value</code></td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    Only renders the tab strip itself — which panel shows is your own
+    <code>@@if</code> on whichever value you bind. Left/Right arrows (and Home/End)
+    move both the selection and keyboard focus together, matching a native
+    <code>role="tablist"</code>'s expected behavior. No <code>AdditionalAttributes</code>
+    splat on this component — every attribute you set is one of the above.
+</p>

@@ -1,0 +1,28 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-date-range/api"
+
+<DemoPageHeader Title="Date Range: API" ComponentName="FaDateRange" DocSlug="fa-date-range" />
+
+<ComponentSubNav BaseRoute="/fa-date-range" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>FaDateRangeValue</code></td><td><code>@@bind-Value</code> — not <code>InputBase</code>-based, plain two-way-bindable parameter (a from/to pair has no single string round-trip)</td></tr>
+            <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>FromLabel</code></td><td><code>string?</code></td><td>default <code>"From"</code></td></tr>
+            <tr><td><code>ToLabel</code></td><td><code>string?</code></td><td>default <code>"To"</code></td></tr>
+            <tr><td><code>Min</code> / <code>Max</code></td><td><code>DateOnly?</code></td><td>earliest/latest selectable date for either end</td></tr>
+            <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens both fields to "From – To" as plain text with a bottom border</td></tr>
+            <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    No <code>AdditionalAttributes</code> splat on this component — every
+    attribute you set is one of the above. Editing From past the current To
+    pushes To forward to match, and vice versa, rather than silently rejecting
+    the edit.
+</p>

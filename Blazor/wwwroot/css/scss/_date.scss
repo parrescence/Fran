@@ -1,0 +1,589 @@
+/* ============================= Date ============================= */
+
+.fa-date {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-md);
+    padding: 0.4rem 0.7rem;
+    box-shadow: var(--fa-border-glow);
+    transition: border-color var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    .fa-date:focus-within {
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-date-fields {
+    display: flex;
+    align-items: center;
+    /* A visible gap between the day/month/year fields (beyond the "/" separators
+       themselves) so the three segments read as distinct tappable/typeable targets
+       instead of one crowded run of digits. */
+    gap: 0.15rem;
+}
+
+.fa-date-input {
+    /* box-sizing is border-box globally (_base.scss), so the lateral padding below
+       is subtracted from a plain "width: Nch" instead of adding to it — with only
+       ~2ch left for content, the "mm"/"dd"/"yyyy" placeholder letters (each wider
+       than the "0" a "ch" is measured from) clip. calc() adds the padding back in
+       so the content box itself stays a full N characters regardless of box model. */
+    width: calc(3.2ch + 0.6rem);
+    border: none;
+    border-radius: var(--fa-radius-sm);
+    background: transparent;
+    font-family: var(--fa-font);
+    font-size: 0.95rem;
+    color: var(--fa-text);
+    text-align: center;
+    padding: 0.2rem 0.3rem;
+    transition: background-color var(--fa-transition-fast), color var(--fa-transition-fast);
+}
+
+    /* Width follows the field's own maxlength attribute (2 vs 4 typed digits) rather
+       than :last-child — FaDate's Format parameter can put the year first (e.g.
+       "yyyy/MM/dd"), so the widest field isn't always the last one rendered. */
+    .fa-date-input[maxlength="4"] {
+        width: calc(5.4ch + 0.6rem);
+    }
+
+    /* Own small pill highlight per field on hover/focus, distinct from the outer
+       wrapper's focus-within glow — makes clear which of the three fields is
+       actually about to receive typed digits or a wheel-scroll. */
+    .fa-date-input:hover {
+        background: var(--fa-footer);
+    }
+
+    .fa-date-input:focus {
+        outline: none;
+        background: var(--fa-footer);
+        color: var(--fa-primary-dark);
+    }
+
+.fa-date-separator {
+    padding: 0 0.05rem;
+    color: var(--fa-text-muted);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Round icon-button treatment, same idiom as .fa-carousel-arrow — a bordered
+   circle instead of a bare icon, so it reads as a tappable control rather than
+   decoration next to the fields. */
+.fa-date-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    border: var(--fa-border-width) solid transparent;
+    background: none;
+    cursor: pointer;
+    margin-left: auto;
+    transition: background-color var(--fa-transition-fast), border-color var(--fa-transition-fast), transform var(--fa-transition-fast);
+}
+
+    .fa-date-toggle:hover {
+        background: var(--fa-footer);
+        border-color: var(--fa-glow);
+    }
+
+    .fa-date-toggle:hover .fa-icon-black,
+    .fa-date-toggle:focus-visible .fa-icon-black {
+        color: var(--fa-primary-dark);
+    }
+
+    .fa-date-toggle:active {
+        transform: scale(0.92);
+    }
+
+    .fa-date-toggle:focus-visible {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+/* --- Floating label, same idea as the plain .fa-label but overlapping the border --- */
+.fa-date-floating {
+    min-height: 3.2em;
+}
+
+.fa-date-floating-label {
+    position: absolute;
+    top: -0.6rem;
+    left: 0.6rem;
+    font-size: 0.7rem;
+    background: var(--fa-surface);
+    padding: 0 0.3rem;
+    border-radius: var(--fa-radius-sm);
+}
+
+/* --- Popup: a plain Blazor bool (FaDate._isOpen) drives this class — no JS
+   needed to open/close it, just to size/position it would need extra work this
+   component intentionally skips (see FaDate.cs remarks). Always rendered,
+   just hidden, so no @ref remount churn between opens. --- */
+.fa-date-calendar {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 20;
+    margin-top: 0.4rem;
+    width: 17rem;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-lg);
+    box-shadow: var(--fa-border-glow);
+    padding: 0.6rem;
+}
+
+    .fa-date-calendar.fa-date-calendar-open {
+        display: block;
+        animation: fa-date-pop 0.16s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .fa-date-calendar.fa-date-calendar-open {
+            animation: none;
+        }
+    }
+
+@keyframes fa-date-pop {
+    from {
+        opacity: 0;
+        transform: translateY(-0.35rem) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.fa-date-calendar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.fa-date-calendar-month {
+    font-weight: 700;
+    color: var(--fa-primary-dark);
+    flex: 1;
+    text-align: center;
+}
+
+.fa-date-calendar-year {
+    width: 4.5rem;
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-pill);
+    padding: 0.15rem 0.5rem;
+    font-family: var(--fa-font);
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    text-align: center;
+    transition: border-color var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    .fa-date-calendar-year:hover {
+        border-color: var(--fa-glow);
+    }
+
+    .fa-date-calendar-year:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+/* Same round icon-button idiom as .fa-date-toggle above. */
+.fa-date-calendar-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 50%;
+    border: var(--fa-border-width) solid transparent;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color var(--fa-transition-fast), border-color var(--fa-transition-fast), transform var(--fa-transition-fast);
+}
+
+    .fa-date-calendar-nav:hover {
+        background: var(--fa-footer);
+        border-color: var(--fa-glow);
+    }
+
+    .fa-date-calendar-nav:hover .fa-icon-black,
+    .fa-date-calendar-nav:focus-visible .fa-icon-black {
+        color: var(--fa-primary-dark);
+    }
+
+    .fa-date-calendar-nav:active {
+        transform: scale(0.9);
+    }
+
+    .fa-date-calendar-nav:focus-visible {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-date-calendar-weekdays, .fa-date-calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+}
+
+.fa-date-calendar-weekdays span {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--fa-text-muted);
+}
+
+/* Full pill/circle rather than the library's old lightly-rounded square — matches
+   the rest of FaFa's "round things you tap" language (.fa-btn's pill radius,
+   .fa-carousel-dot's circles). */
+.fa-date-day {
+    aspect-ratio: 1;
+    border: var(--fa-border-width) solid transparent;
+    border-radius: var(--fa-radius-pill);
+    background: none;
+    color: var(--fa-text);
+    font-family: var(--fa-font);
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast), color var(--fa-transition-fast), transform var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    /* color-mix over the palette's own --fa-primary instead of a hardcoded hex —
+       the old rgba(232, 135, 61, ...) was Northwest Fall's orange glow baked in
+       literally, so every other palette's calendar hovered orange regardless of
+       its own primary color. This tracks whichever palette is actually active. */
+    .fa-date-day:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--fa-primary) 16%, transparent);
+        transform: scale(1.06);
+    }
+
+    .fa-date-day:focus-visible {
+        outline: none;
+        border-color: var(--fa-border-focus);
+    }
+
+    .fa-date-day:disabled {
+        color: var(--fa-text-muted);
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    /* Today, when it isn't also the selected day: an outline bubble instead of a
+       filled one, so "this is today" and "this is selected" stay visually distinct
+       even when they're the same button. */
+    .fa-date-day-today {
+        border-color: var(--fa-primary);
+        color: var(--fa-primary-dark);
+        font-weight: 700;
+    }
+
+    .fa-date-day-selected {
+        background: var(--fa-primary);
+        color: var(--fa-text-on-primary);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+    .fa-date-day-selected:hover:not(:disabled) {
+        background: var(--fa-primary-dark);
+        transform: scale(1.06);
+    }
+
+/* --- Compact scroll-picker: an alternate popup body (FaDate.CompactPicker
+   forces it on permanently; otherwise the header's mode toggle switches it
+   on/off) — three independently scrollable day/month/year lists instead of
+   the day grid, each snapping to whichever value sits in the middle band,
+   with a plain number input above each one so a value can be typed instead
+   of scrolled to. Smaller and thumb-friendlier than the full grid, which is
+   the point on a small screen. Typing into the day/month/year fields above
+   the popup (_dayText/_monthText/_yearText, unaffected by any of this) still
+   works exactly the same in either mode. --- */
+.fa-date-calendar-compact {
+    width: 14rem;
+}
+
+/* --- Auto mode: viewport decides grid vs wheels, no JS involved ----------
+   Whenever CompactPicker hasn't locked the mode outright, FaDate.cs's
+   RenderCalendar renders *both* an .fa-date-calendar-auto-desktop (the grid)
+   and an .fa-date-calendar-auto-mobile (the wheels) every render — which one
+   actually shows is entirely up to CSS, never a C# branch. Desktop-first
+   here (mobile hidden by default); _responsive.scss's own
+   @media (max-width: 720px) block (the same breakpoint every other
+   component in this library treats as "small screen") flips it, live, as
+   the viewport crosses it — no JS matchMedia listener needed. */
+.fa-date-calendar-auto-mobile {
+    display: none;
+}
+
+/* Added to the outer .fa-date-calendar once the header's own mode-toggle
+   button has been clicked (see FaDate.cs's _pickerModeManuallySet) — a
+   deliberate choice permanently opts an instance out of the viewport-driven
+   default above, in whichever direction was picked. Plain (non-media-query)
+   rules, so they participate in the cascade at every viewport width, not
+   just where _responsive.scss's own flip happens to apply — !important is
+   there specifically to win over that flip on a narrow screen too, not for
+   specificity's sake (both rules target the same two classes). */
+.fa-date-calendar-force-grid .fa-date-calendar-auto-desktop {
+    display: block !important;
+}
+
+.fa-date-calendar-force-grid .fa-date-calendar-auto-mobile {
+    display: none !important;
+}
+
+.fa-date-calendar-force-compact .fa-date-calendar-auto-desktop {
+    display: none !important;
+}
+
+.fa-date-calendar-force-compact .fa-date-calendar-auto-mobile {
+    display: block !important;
+}
+
+/* Matches .fa-date-calendar-compact's own width above — same "smaller,
+   thumb-friendlier" sizing, just reachable from the force-* class a manual
+   toggle click adds instead of the CompactPicker-forced path's own class.
+   Only matters on a wide-enough viewport to begin with: at/under 720px
+   _responsive.scss's own bottom-sheet override replaces this width with its
+   own formula regardless of which mode is showing, same as it already does
+   for a manually-forced grid at that width. */
+.fa-date-calendar-force-compact {
+    width: 14rem;
+}
+
+.fa-date-wheels-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.fa-date-wheel-inputs {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.fa-date-wheel-input {
+    /* flex:1 alone would still respect the input's intrinsic content width as
+       a flex-basis floor — width:0 hands sizing entirely to the flex row.
+       flex-grow itself is overridden per-field inline (see FaDate.cs's
+       WheelFlexStyle) so a 4-digit year field grows wider than a 2-digit
+       month/day field instead of all three splitting the row evenly — the
+       same ratio is applied to .fa-date-wheel below so the two rows'
+       columns still line up with each other. */
+    flex: 1;
+    width: 0;
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-sm);
+    padding: 0.2rem 0.3rem;
+    font-family: var(--fa-font);
+    font-size: 0.85rem;
+    color: var(--fa-text);
+    background: var(--fa-surface);
+    text-align: center;
+    transition: border-color var(--fa-transition-fast), box-shadow var(--fa-transition-fast);
+}
+
+    .fa-date-wheel-input:hover {
+        border-color: var(--fa-glow);
+    }
+
+    .fa-date-wheel-input:focus {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-date-wheels {
+    display: flex;
+    gap: 0.4rem;
+    position: relative;
+}
+
+    /* A static band across all three columns marking the "selected" row,
+       behind the wheel items themselves (transparent background) so it reads
+       as a highlighted slot the scrolling passes through — the usual
+       wheel-picker affordance. */
+    .fa-date-wheels::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 1.9rem;
+        background: var(--fa-footer);
+        border-radius: var(--fa-radius-sm);
+        pointer-events: none;
+    }
+
+/* One of these sits between each pair of adjacent wheel columns (see
+   FaDate.cs's RenderWheels) — a real sibling element in the `.fa-date-wheels`
+   row itself, not a per-wheel ::before/::after. Each `.fa-date-wheel` is its
+   own overflow-y:auto scroll container, and an absolutely positioned
+   pseudo-element anchored inside one scrolls (or otherwise mispaints) along
+   with that wheel's own — much taller than the visible window — scrollable
+   content instead of staying put over the visible band, which is exactly why
+   that was tried first and dropped: the two cyclic (tripled-content) columns'
+   dividers barely painted at all. A plain, unscrolled sibling row-item has
+   none of that — solid at the vertical middle (the highlighted selection
+   band) fading to nothing at the topmost/bottommost item, same effect the
+   curved items already have. Width matches .fa-date-wheel-input's own border
+   weight directly above it, so the two rows read as the same "line" weight
+   at the one point (dead center) this one is at full strength. */
+.fa-date-wheel-divider {
+    align-self: stretch;
+    width: var(--fa-border-width);
+    background: linear-gradient(to bottom, transparent, var(--fa-border) 50%, transparent);
+    pointer-events: none;
+}
+
+.fa-date-wheel {
+    position: relative;
+    flex: 1;
+    /* Tall enough to comfortably clear space for two curved rows above/below
+       the highlighted band (see fa-date-wheel.js's WHEEL_MAX_STEPS) before
+       overflow clips anything further — the previous 8rem cut a 3rd tilted
+       row off right at its own edge, reading as cramped/overlapping text. */
+    height: 9.5rem;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    /* Padding top/bottom centers the first/last item in the highlighted band
+       instead of pinning them to the wheel's own top/bottom edge. */
+    padding: 3rem 0;
+    scrollbar-width: none;
+    /* The vanishing point for each item's own rotateX/translateZ below —
+       fa-date-wheel.js recomputes those continuously while scrolling, tilting
+       and pushing items back the further they sit from the highlighted middle
+       band, so the column reads as a barrel curving away above and below
+       center (the usual native iOS/Android picker-wheel illusion) instead of
+       a flat scrolling list. Perspective lives on the scroll container itself
+       — transforms on a scrolled child don't affect its own layout/scroll
+       position, only how it's painted, so this composes with the
+       overflow-y/scroll-snap above without fighting either. */
+    perspective: 220px;
+    /* Rounded barrel silhouette to match the curvature illusion above: two
+       blurred inset shadows in the wheel's own surface color fading the
+       top/bottom rows out toward the background instead of hard-clipping
+       them — the same soft top/bottom fade native iOS/Android picker wheels
+       use. No top/bottom edge (border-radius still rounds these shadows'
+       corners) — the left/right edges get their own tapered border below. */
+    border-radius: var(--fa-radius-md);
+    box-shadow:
+        inset 0 0.9rem 0.6rem -0.5rem var(--fa-surface),
+        inset 0 -0.9rem 0.6rem -0.5rem var(--fa-surface);
+    /* Dragging/flicking is handled entirely by fa-date-wheel.js via Pointer
+       Events (mouse *and* touch, one code path — see its own remarks) rather
+       than the browser's native touch-panning, so touch-action:none stops
+       the browser's own touch scroll from fighting the manual scrollTop
+       writes that drive it. */
+    touch-action: none;
+    cursor: grab;
+}
+
+    .fa-date-wheel:active {
+        cursor: grabbing;
+    }
+
+    .fa-date-wheel::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Min/Max collapse this wheel to exactly one selectable item (every other
+       item already renders :disabled — see FaDate.cs's RenderWheelColumn) —
+       overflow:hidden stops native mouse-wheel/trackpad scroll from moving it
+       away from that one value at all, and pointer-events:none stops
+       fa-date-wheel.js's own document-level pointerdown listener from ever
+       matching this wheel to start a drag (see wheelFromEvent there) — the
+       same reasoning .fa-date-wheel-item:disabled below already uses to let a
+       pointerdown that starts on a disabled item fall through, just applied
+       to the whole column instead of one item. cursor reverts from the
+       spinnable grab/grabbing look since there's nothing left to grab. */
+    .fa-date-wheel-locked {
+        overflow: hidden;
+        pointer-events: none;
+        cursor: default;
+    }
+
+.fa-date-wheel-item {
+    display: block;
+    width: 100%;
+    padding: 0.35rem 0;
+    border: none;
+    background: none;
+    color: var(--fa-text-muted);
+    font-family: var(--fa-font);
+    font-size: 0.9rem;
+    text-align: center;
+    cursor: pointer;
+    scroll-snap-align: center;
+    transition: color var(--fa-transition-fast);
+    /* transform/opacity themselves are set inline by fa-date-wheel.js (per-item,
+       recomputed every scroll frame) rather than here — backface-visibility
+       just keeps a far-tilted item from ever flashing as mirrored text. */
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+    .fa-date-wheel-item:hover {
+        color: var(--fa-text);
+    }
+
+    .fa-date-wheel-item:focus-visible {
+        outline: none;
+        color: var(--fa-primary-dark);
+    }
+
+    .fa-date-wheel-item-selected {
+        color: var(--fa-primary-dark);
+        font-weight: 700;
+    }
+
+    /* Day always renders all 31 slots and disables whichever tail the
+       current month doesn't have (29-31 in February, say) instead of
+       omitting them — see FaDate.cs's RenderWheelColumn remarks. Same
+       muted/uninteractive treatment .fa-date-day:disabled already uses for
+       an out-of-range day in the grid view. */
+    .fa-date-wheel-item:disabled {
+        color: var(--fa-text-muted);
+        opacity: 0.35;
+        cursor: not-allowed;
+        /* Chromium never dispatches pointer events to a disabled form control
+           — a drag that happens to start on top of a disabled slot (the 29-31
+           tail in a short month) would otherwise silently do nothing instead
+           of spinning the wheel. Making it transparent to hit-testing lets
+           that pointerdown fall through to the wheel <div> underneath, whose
+           document-level listener (fa-date-wheel.js) drives the drag either
+           way — nothing about *clicking* a disabled item relied on it being
+           hit-testable in the first place, since it was already unclickable. */
+        pointer-events: none;
+    }
+
+.fa-date-calendar-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: var(--fa-border-width) solid var(--fa-border);
+}
+
+/* Today/Clear are .fa-btn.fa-btn-outline.fa-btn-sm now (see FaDate.cs) — this
+   class just trims that button's own padding back down to fit a calendar footer
+   instead of a form's action row. */
+.fa-date-calendar-footer-btn {
+    padding: 0.28rem 0.75rem;
+}
+

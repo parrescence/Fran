@@ -1,0 +1,38 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-chip"
+
+<DemoPageHeader Title="Chip" ComponentName="FaChip" DocSlug="fa-chip">
+    Distinct from <code>FaBadge</code>: a badge is a passive status label, a chip is something the user is actively managing.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/fa-chip" />
+
+<h2>Selectable filter chips</h2>
+<div class="fa-demo-preview">
+    @foreach (var tag in _tags)
+    {
+        <FaChip Selected="@(_selected == tag)" OnClick="@(() => _selected = tag)">@tag</FaChip>
+    }
+</div>
+<div class="fa-code-block"><code>&lt;FaChip Selected="@@(_selected == tag)" OnClick="@@(() =&gt; _selected = tag)"&gt;@@tag&lt;/FaChip&gt;</code></div>
+
+<h2 class="fa-mt-5">Removable chips</h2>
+<div class="fa-demo-preview">
+    @foreach (var recipient in _recipients)
+    {
+        <FaChip Removable="true" OnRemove="@(() => _recipients.Remove(recipient))">@recipient</FaChip>
+    }
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Selected</span><code>.fa-chip.fa-chip-selected</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Remove button</span><code>.fa-chip-remove</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaChip Removable="true" OnRemove="@@(() =&gt; _recipients.Remove(recipient))"&gt;@@recipient&lt;/FaChip&gt;</code></div>
+
+@code {
+    private readonly string[] _tags = { "All", "Active", "Archived" };
+    private string _selected = "All";
+
+    private List<string> _recipients = new() { "ana@example.com", "ben@example.com", "cy@example.com" };
+}
