@@ -152,6 +152,71 @@
         }
     }
 
+    // --- Bounded wheels: stop at the real choices, don't scroll into the
+    // disabled buffer around them --------------------------------------------
+    // FaDate.cs marks a wheel .fa-date-wheel-bounded whenever Min/Max leave
+    // more than one selectable item but still fewer than the wheel renders —
+    // Year almost always (it pads 15 disabled years on either side of Min/Max
+    // just so a single valid year can still reach dead center, see FaDate.cs's
+    // RenderWheels remarks), or Month/Day narrowed to a handful of real
+    // choices. Without this, letting go mid-scroll would still land back on a
+    // real value (settle() already skips disabled items), but getting there
+    // meant scrolling through however much disabled padding sat past it first
+    // — "the only two years reachable end up being the two valid ones, but
+    // only after scrolling through a decade of years that were never going to
+    // stick" reads as broken, not just decorative dimming. Clamping scrollTop
+    // to wherever the nearest in-range item sits stops the wheel exactly at
+    // the real choices instead, the same idea as a native OS picker that
+    // refuses to spin past its own end stops.
+    var WHEEL_BOUNDED_CLASS = 'fa-date-wheel-bounded';
+
+    function clampToEnabledRange(wheel) {
+        var allItems = wheel.querySelectorAll('.fa-date-wheel-item');
+        if (!allItems.length) {
+            return;
+        }
+
+        var cycleHeight = cyclicCopyHeight(wheel);
+        var perCycle = cycleHeight !== null ? (allItems.length / WHEEL_CYCLE_COUNT) : allItems.length;
+
+        // A cyclic (Month/Day) wheel only cares about the *middle* copy's own
+        // enabled items — FaDate.cs only ever marks that one copy's matching
+        // item fa-date-wheel-item-selected (see RenderWheelColumn's remarks),
+        // so clamping against any other copy's boundary could leave the wheel
+        // resting on a copy that never reads as selected at all. A non-cyclic
+        // wheel (Year) has just the one copy, so this is simply every item.
+        var rangeStart = cycleHeight !== null ? perCycle : 0;
+        var rangeEnd = rangeStart + perCycle;
+
+        var first = null;
+        var last = null;
+        for (var i = rangeStart; i < rangeEnd; i++) {
+            if (!allItems[i].disabled) {
+                if (!first) {
+                    first = allItems[i];
+                }
+                last = allItems[i];
+            }
+        }
+
+        // Nothing enabled in range at all (shouldn't happen — RenderWheels
+        // always keeps at least one item selectable — but bail rather than
+        // clamp to a nonsensical empty range).
+        if (!first || !last) {
+            return;
+        }
+
+        var center = wheelCenter(wheel);
+        var minScrollTop = (first.offsetTop + (first.offsetHeight / 2)) - center;
+        var maxScrollTop = (last.offsetTop + (last.offsetHeight / 2)) - center;
+
+        if (wheel.scrollTop < minScrollTop) {
+            wheel.scrollTop = minScrollTop;
+        } else if (wheel.scrollTop > maxScrollTop) {
+            wheel.scrollTop = maxScrollTop;
+        }
+    }
+
     // --- Mouse/touch drag-to-spin -------------------------------------------
     // Native touch-panning already moves a wheel's scrollTop for free, but it
     // never fires for a mouse, and it can't be steered mid-scroll the way
@@ -375,7 +440,17 @@
             return;
         }
 
-        checkWrap(wheel);
+        // Bounded (Year almost always, or a narrowed Month/Day) stops at its
+        // own real choices instead of wrapping/scrolling into the disabled
+        // buffer around them — see clampToEnabledRange's own remarks. A
+        // wheel is never both bounded and cyclic-wrap-eligible at once: a
+        // bounded cyclic wheel (Month/Day genuinely narrowed by Min/Max) has
+        // nowhere sensible left to wrap *to*.
+        if (wheel.classList.contains(WHEEL_BOUNDED_CLASS)) {
+            clampToEnabledRange(wheel);
+        } else {
+            checkWrap(wheel);
+        }
         scheduleCurvatureUpdate(wheel);
 
         var pending = settleTimers.get(wheel);

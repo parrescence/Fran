@@ -74,6 +74,35 @@ past 31 wraps back to 1 (and past 1 back to 31) in either direction, same for
 December/January, so neither one ever "runs out" mid-spin. Year doesn't wrap — it
 just keeps counting toward `Min`/`Max` like before.
 
+`Min`/`Max` narrow all three wheels, not just which days the day grid greys out —
+Month and Year lock out whichever of their own values can't produce a single valid
+day given the other two, and Day locks out anything outside the range once Month/Year
+already land inside it (a `Min`/`Max` a week apart, say, locks Day down to just that
+week). A locked value still shows, dimmed, rather than disappearing — the wheel still
+reads as one continuous thing to spin through, just with a stretch you can't land on.
+Year keeps a buffer of locked years on either side of `Min`/`Max` for the same
+reason (so the true edge of what's pickable never sits at the very top or bottom of
+the wheel where centering it exactly isn't possible) even when that leaves only one
+real year to pick. When `Min`/`Max` narrow things down to exactly one valid date,
+`Value` defaults straight to it — there's nothing else it could be.
+
+When `Min`/`Max` leave a wheel exactly one selectable value — Year almost always,
+Month too whenever `Min`/`Max` fall in the same year — that wheel stops accepting
+scroll/drag input entirely rather than letting it spin freely through a column of
+values it can never land on, and the one value it's locked to is filled in for you
+up front instead of waiting for a click that column can no longer receive. A
+`Min`/`Max` spanning one whole month (`8/1/2026`–`8/31/2026`, say) locks Year and
+Month to `2026`/`August` immediately and leaves Day the only wheel actually worth
+scrolling — spin it, tap a value, or type into the number input above it, same as
+always.
+
+More than one but still fewer choices than the wheel renders — `Min`/`Max` a year or
+two apart, say — stops short of a full lock (there's still something to scroll
+between) but still stops the wheel exactly at those real choices rather than letting
+it scroll on into the disabled padding around them: a `Min`/`Max` of `2026`–`2027`
+only ever lets the Year wheel land on `2026` or `2027`, no matter how far or how many
+times you scroll past either one.
+
 Scroll-to-select (letting go once the wanted value is centered) needs
 `wwwroot/js/fa-date-wheel.js` wired into your host page — see
 [install.md](install.md). Without it, the wheels still scroll, the number inputs and
@@ -117,6 +146,16 @@ Anything that isn't `y`/`M`/`d` is a literal separator rendered as-is — not li
 `/`, so `dd.MM.yyyy` or `yyyy MM dd` both work. Defaults to `"MM/dd/yyyy"`; a format
 missing exactly one of each field falls back to that default rather than rendering a
 control that can't represent a full date.
+
+## Min/Max validation
+
+If both `Min` and `Max` are set and `Max` ends up before `Min`, FaDate shows a
+`.fa-validation-message` under the label ("Max (…) must be on or after Min (…).")
+instead of silently making every day unpickable. This is FaDate checking its own
+two parameters directly — `Min`/`Max` aren't bound model fields, so this doesn't
+go through [FaFa's validation system](validation.md) at all. It's shown, not
+thrown: a transient bad combination (Min/Max still loading from data, say) doesn't
+crash the render tree, and the rest of the picker stays interactive.
 
 ## Parameters
 

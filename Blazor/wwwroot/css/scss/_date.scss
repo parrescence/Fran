@@ -501,6 +501,22 @@
         display: none;
     }
 
+    /* Min/Max collapse this wheel to exactly one selectable item (every other
+       item already renders :disabled — see FaDate.cs's RenderWheelColumn) —
+       overflow:hidden stops native mouse-wheel/trackpad scroll from moving it
+       away from that one value at all, and pointer-events:none stops
+       fa-date-wheel.js's own document-level pointerdown listener from ever
+       matching this wheel to start a drag (see wheelFromEvent there) — the
+       same reasoning .fa-date-wheel-item:disabled below already uses to let a
+       pointerdown that starts on a disabled item fall through, just applied
+       to the whole column instead of one item. cursor reverts from the
+       spinnable grab/grabbing look since there's nothing left to grab. */
+    .fa-date-wheel-locked {
+        overflow: hidden;
+        pointer-events: none;
+        cursor: default;
+    }
+
 .fa-date-wheel-item {
     display: block;
     width: 100%;

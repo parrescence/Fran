@@ -1,3 +1,4 @@
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -26,54 +27,76 @@ public sealed class FaTextarea : InputTextArea
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
+    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
+    [Parameter] public bool ShowValidationMessage { get; set; } = true;
+
+    /// <summary>Element-tier validation override — evaluated fresh every render against the current value, independent of whatever the model/form-tier validators say for this field; a non-null return always shows in addition to those.</summary>
+    [Parameter] public Func<string?, string?>? Validate { get; set; }
+
     private readonly string _id = $"fa-textarea-{Guid.NewGuid():N}";
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", $"fa-field {ContainerCssClass}");
+        // A running seq counter (rather than the fixed literals this file used to
+        // reuse across its two ReadOnlyDisplay branches) so a validation-message
+        // block that only sometimes renders can't shift a fixed-numbered sibling's
+        // identity out from under it — see FaInput.cs's own remarks on the same
+        // OpenRegion pattern used below for why that matters.
+        var seq = 0;
+        var messages = FaValidationMessageRenderer.Resolve(EditContext, FieldIdentifier, ShowValidationMessage, Validate?.Invoke(CurrentValue));
+
+        builder.OpenElement(seq++, "div");
+        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-field", ContainerCssClass));
 
         if (!string.IsNullOrEmpty(Label))
         {
-            builder.OpenElement(2, "label");
-            builder.AddAttribute(3, "class", "fa-label");
-            builder.AddAttribute(4, "for", _id);
-            builder.AddContent(5, Label);
+            builder.OpenElement(seq++, "label");
+            builder.AddAttribute(seq++, "class", "fa-label");
+            builder.AddAttribute(seq++, "for", _id);
+            builder.AddContent(seq++, Label);
             builder.CloseElement();
         }
 
+        builder.OpenRegion(seq++);
+        var regionSeq = 0;
         if (ReadOnlyDisplay)
         {
-            builder.OpenElement(6, "div");
-            builder.AddAttribute(7, "id", _id);
-            builder.AddAttribute(8, "class", "fa-textarea fa-textarea-readonly");
-            builder.AddMultipleAttributes(9, AdditionalAttributes);
-            builder.AddContent(10, CurrentValueAsString);
+            builder.OpenElement(regionSeq++, "div");
+            builder.AddAttribute(regionSeq++, "id", _id);
+            builder.AddAttribute(regionSeq++, "class", "fa-textarea fa-textarea-readonly");
+            builder.AddMultipleAttributes(regionSeq++, AdditionalAttributes);
+            builder.AddContent(regionSeq++, CurrentValueAsString);
             builder.CloseElement();
         }
         else
         {
-            builder.OpenElement(11, "textarea");
-            builder.AddAttribute(12, "id", _id);
-            builder.AddAttribute(13, "class", "fa-textarea");
-            builder.AddAttribute(14, "placeholder", Placeholder);
-            builder.AddAttribute(15, "maxlength", MaxLength);
-            builder.AddAttribute(16, "value", CurrentValueAsString);
-            builder.AddAttribute(17, "readonly", ReadOnly);
-            builder.AddMultipleAttributes(18, AdditionalAttributes);
-            builder.AddAttribute(19, "oninput", EventCallback.Factory.CreateBinder<string?>(this, value => CurrentValueAsString = value, CurrentValueAsString));
+            builder.OpenElement(regionSeq++, "textarea");
+            builder.AddAttribute(regionSeq++, "id", _id);
+            builder.AddAttribute(regionSeq++, "class", CssClassNames.Combine("fa-textarea", messages.Count > 0 ? "fa-input-invalid" : null));
+            builder.AddAttribute(regionSeq++, "placeholder", Placeholder);
+            builder.AddAttribute(regionSeq++, "maxlength", MaxLength);
+            builder.AddAttribute(regionSeq++, "value", CurrentValueAsString);
+            builder.AddAttribute(regionSeq++, "readonly", ReadOnly);
+            builder.AddMultipleAttributes(regionSeq++, AdditionalAttributes);
+            builder.AddAttribute(regionSeq++, "oninput", EventCallback.Factory.CreateBinder<string?>(this, value => CurrentValueAsString = value, CurrentValueAsString));
             builder.SetUpdatesAttributeName("value");
-            builder.AddElementReferenceCapture(20, reference => Element = reference);
+            builder.AddElementReferenceCapture(regionSeq++, reference => Element = reference);
             builder.CloseElement();
 
             if (MaxLength is int max)
             {
-                builder.OpenElement(20, "div");
-                builder.AddAttribute(21, "class", "fa-textarea-counter");
-                builder.AddContent(22, $"{(CurrentValueAsString ?? string.Empty).Length}/{max}");
+                builder.OpenElement(regionSeq++, "div");
+                builder.AddAttribute(regionSeq++, "class", "fa-textarea-counter");
+                builder.AddContent(regionSeq++, $"{(CurrentValueAsString ?? string.Empty).Length}/{max}");
                 builder.CloseElement();
             }
         }
+
+        builder.CloseRegion();
+
+        builder.OpenRegion(seq++);
+        FaValidationMessageRenderer.Render(builder, messages);
+        builder.CloseRegion();
 
         builder.CloseElement();
     }

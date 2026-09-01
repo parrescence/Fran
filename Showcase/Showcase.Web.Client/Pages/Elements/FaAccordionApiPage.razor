@@ -1,0 +1,20 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-accordion/api"
+
+<DemoPageHeader Title="Accordion: API" ComponentName="FaAccordion" DocSlug="fa-accordion" />
+
+<ComponentSubNav BaseRoute="/fa-accordion" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Items</code></td><td><code>IReadOnlyList&lt;(string Title, RenderFragment Content)&gt;</code></td><td>required — a plain tuple list, not a custom DTO type</td></tr>
+            <tr><td><code>AllowMultipleOpen</code></td><td><code>bool</code></td><td>default <code>false</code> — opening a section closes the others</td></tr>
+            <tr><td><code>InitialOpenIndex</code></td><td><code>int?</code></td><td>read once on mount only; ignored on later renders</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above.</p>

@@ -1,0 +1,9 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/palette-switcher/api"
+
+<DemoPageHeader Title="Palette Switcher: API" ComponentName="FaPaletteSwitcher" DocSlug="palette-switcher" />
+
+<ComponentSubNav BaseRoute="/palette-switcher" />
+
+<p>No parameters — <code>&lt;FaPaletteSwitcher /&gt;</code> takes nothing. It renders <code>.fa-palette-switcher</code>, reads/writes the current palette via <code>localStorage</code> and a plain vanilla-JS call (see <code>Blazor/CLAUDE.md</code>'s "no Blazor JS interop for client-only visual state" rule), and always reflects/updates the whole page's <code>data-fa-palette</code> attribute.</p>

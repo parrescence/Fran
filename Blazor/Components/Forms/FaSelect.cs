@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -22,6 +23,12 @@ public sealed class FaSelect<TValue> : InputBase<TValue>
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
+    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
+    [Parameter] public bool ShowValidationMessage { get; set; } = true;
+
+    /// <summary>Element-tier validation override — evaluated fresh every render against the current value, independent of whatever the model/form-tier validators say for this field; a non-null return always shows in addition to those.</summary>
+    [Parameter] public Func<TValue, string?>? Validate { get; set; }
+
     private readonly string _id = $"fa-select-{Guid.NewGuid():N}";
 
     private void OnChange(ChangeEventArgs e) => CurrentValueAsString = e.Value?.ToString();
@@ -36,27 +43,36 @@ public sealed class FaSelect<TValue> : InputBase<TValue>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", $"fa-field {ContainerCssClass}");
+        var seq = 0;
+        var messages = FaValidationMessageRenderer.Resolve(EditContext, FieldIdentifier, ShowValidationMessage, Validate?.Invoke(CurrentValue!));
+
+        builder.OpenElement(seq++, "div");
+        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-field", ContainerCssClass));
 
         if (!string.IsNullOrEmpty(Label))
         {
-            builder.OpenElement(2, "label");
-            builder.AddAttribute(3, "class", "fa-label");
-            builder.AddAttribute(4, "for", _id);
-            builder.AddContent(5, Label);
+            builder.OpenElement(seq++, "label");
+            builder.AddAttribute(seq++, "class", "fa-label");
+            builder.AddAttribute(seq++, "for", _id);
+            builder.AddContent(seq++, Label);
             builder.CloseElement();
         }
 
-        builder.OpenElement(6, "select");
-        builder.AddAttribute(7, "id", _id);
-        builder.AddAttribute(8, "class", "fa-select");
-        builder.AddAttribute(9, "value", CurrentValueAsString);
-        builder.AddAttribute(10, "disabled", ReadOnly);
-        builder.AddMultipleAttributes(11, AdditionalAttributes);
-        builder.AddAttribute(12, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, OnChange));
-        builder.AddContent(12, ChildContent);
+        builder.OpenElement(seq++, "select");
+        builder.AddAttribute(seq++, "id", _id);
+        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-select", messages.Count > 0 ? "fa-select-invalid" : null));
+        builder.AddAttribute(seq++, "value", CurrentValueAsString);
+        builder.AddAttribute(seq++, "disabled", ReadOnly);
+        builder.AddMultipleAttributes(seq++, AdditionalAttributes);
+        builder.AddAttribute(seq++, "onchange", EventCallback.Factory.Create<ChangeEventArgs>(this, OnChange));
+        builder.AddContent(seq++, ChildContent);
         builder.CloseElement();
+
+        // See FaInput.cs's own remarks on why this conditional block is wrapped in
+        // OpenRegion rather than a bare seq++.
+        builder.OpenRegion(seq++);
+        FaValidationMessageRenderer.Render(builder, messages);
+        builder.CloseRegion();
 
         builder.CloseElement();
     }

@@ -1,4 +1,5 @@
 using FaFa.Rendering;
+using FaFa.Validation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -36,6 +37,18 @@ public sealed class FaForm<TModel> : ComponentBase where TModel : class
     [Parameter] public bool Busy { get; set; }
 
     [Parameter] public bool ShowValidationSummary { get; set; } = true;
+
+    /// <summary>
+    /// Opts this form into FaFa's own validation system (see <c>FaFa.Validation</c>)
+    /// alongside the <c>DataAnnotationsValidator</c> this component already always
+    /// renders — off by default since not every <typeparamref name="TModel"/> has a
+    /// registered <see cref="IFaValidator{TModel}"/>, and turning it on for one that
+    /// doesn't would just silently do nothing rather than being a useful default.
+    /// </summary>
+    [Parameter] public bool UseFaValidation { get; set; }
+
+    /// <summary>The form tier of FaFa's validation system — see <c>FaModelValidator&lt;TModel&gt;.ConfigureValidation</c>. Ignored unless <see cref="UseFaValidation"/> is set.</summary>
+    [Parameter] public Action<FaValidationBuilder<TModel>>? ConfigureValidation { get; set; }
     [Parameter] public FaAlign ButtonAlign { get; set; } = FaAlign.End;
     [Parameter] public string? CssClass { get; set; }
 
@@ -62,6 +75,21 @@ public sealed class FaForm<TModel> : ComponentBase where TModel : class
         {
             builder.OpenComponent<DataAnnotationsValidator>(seq++);
             builder.CloseComponent();
+
+            // Independent of DataAnnotationsValidator above — both populate the same
+            // EditContext ValidationMessageStore, so every FaFa input's own inline
+            // error display shows whichever kind of rule actually fired regardless
+            // of which of these rendered it. Nested inside ShowValidationSummary's
+            // own check (rather than a separate top-level `if`) since that
+            // parameter already doubles as "run any validator here at all," not
+            // just "show the summary list" — UseFaValidation follows the same rule.
+            if (UseFaValidation)
+            {
+                builder.OpenComponent<FaModelValidator<TModel>>(seq++);
+                builder.AddComponentParameter(seq++, nameof(FaModelValidator<TModel>.ConfigureValidation), ConfigureValidation);
+                builder.CloseComponent();
+            }
+
             builder.OpenComponent<ValidationSummary>(seq++);
             builder.CloseComponent();
         }

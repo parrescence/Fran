@@ -68,6 +68,10 @@ Two binding shapes show up repeatedly:
 - [FaLoginForm](fa-login-form.md) — username/password + remember-me, emits an `FaLoginRequest`
 - [FaLogoutForm](fa-logout-form.md) — "are you sure?" confirm/cancel
 
+## Validation
+
+- [Validation](validation.md) — root/DTO, form, and per-element validation tiers, plus inline error messages on every input
+
 ## Progress & loaders
 
 - [FaProgress](fa-progress.md) — filled track, 4 fill directions (Right/Left/Up/Down)

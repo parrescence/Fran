@@ -1,0 +1,23 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-select/api"
+
+<DemoPageHeader Title="Select: API" ComponentName="FaSelect&lt;TValue&gt;" DocSlug="fa-select" />
+
+<ComponentSubNav BaseRoute="/fa-select" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>TValue</code></td><td><code>@@bind-Value</code></td></tr>
+            <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td><code>&lt;option&gt;</code> elements</td></tr>
+            <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>renders <code>disabled</code> (no native <code>readonly</code> on <code>&lt;select&gt;</code>)</td></tr>
+            <tr><td><code>ShowValidationMessage</code></td><td><code>bool</code></td><td>defaults <code>true</code> — see <a href="/validation">Validation</a></td></tr>
+            <tr><td><code>Validate</code></td><td><code>Func&lt;TValue, string?&gt;?</code></td><td>element-tier validation override</td></tr>
+            <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td>on the wrapping <code>.fa-field</code>, not the <code>&lt;select&gt;</code> itself</td></tr>
+            <tr><td><code>AdditionalAttributes</code></td><td>(inherited from <code>InputBase&lt;TValue&gt;</code>)</td><td>any attribute not listed above splats onto the <code>&lt;select&gt;</code></td></tr>
+        </tbody>
+    </table>
+</div>

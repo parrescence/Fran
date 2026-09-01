@@ -95,3 +95,18 @@
     font-size: 0.85rem;
     color: var(--fa-text-muted);
 }
+
+/* Every "<Component>: API" page's parameter reference table. Wide reference
+   tables shouldn't force the whole page to scroll horizontally — each one
+   scrolls in its own container instead, same reasoning FaGrid's own
+   .fa-grid-table-wrap follows for its (differently-named, FaGrid-specific)
+   overflow wrapper. Global here (not per-page scoped CSS) since every one of
+   the ~46 component API pages reuses the exact same table look. */
+.table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.table-wrap .fa-table {
+    min-width: 640px;
+}

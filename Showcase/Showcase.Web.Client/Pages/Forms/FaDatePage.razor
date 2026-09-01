@@ -6,6 +6,8 @@
     <code>InputBase&lt;TValue&gt;</code>-derived — only works inside an <code>&lt;EditForm&gt;</code>.
 </DemoPageHeader>
 
+<ComponentSubNav BaseRoute="/fa-date" />
+
 <EditForm Model="_model" class="fa-form">
     <FaDate @bind-Value="_model.Date" Label="Start date" />
 </EditForm>
@@ -31,6 +33,12 @@
 <div class="fa-code-block"><code>&lt;FaDate @@bind-Value="_model.Date3" Label="Delivery date"
         Min="DateOnly.FromDateTime(DateTime.Today)"
         Max="DateOnly.FromDateTime(DateTime.Today.AddMonths(3))" /&gt;</code></div>
+<p>The compact wheel picker (below) carries the same restriction into all three
+    wheels, not just the day grid — a <code>Min</code>/<code>Max</code> narrow enough
+    to leave only one valid month, year, or day locks that wheel to it and shows it
+    already selected. Narrow them down to exactly one valid date and <code>Value</code>
+    defaults straight to it, since there's nothing else it could be — try it in the
+    <a href="#live-playground">live playground</a> below.</p>
 
 <h2 class="fa-mt-5">Compact scroll picker</h2>
 <p>The calendar's day grid can swap for three scrollable day/month/year wheels, a
@@ -67,6 +75,31 @@
 <p>Selected: <FaBadge>@(_model.Date2?.ToString("MMM d, yyyy") ?? "(none)")</FaBadge></p>
 <div class="fa-code-block"><code>&lt;FaDate @@bind-Value="_model.Date2" Label="Order placed" Format="yyyy-MM-dd" /&gt;</code></div>
 
+<h2 class="fa-mt-5" id="live-playground">Live playground</h2>
+<p>Every control below is a real <code>FaDate</code> parameter — change any of them and the
+    picker underneath updates immediately, same as it would in your own app, with the
+    matching markup right below it.</p>
+<EditForm Model="_playground" class="fa-form">
+    <div class="fa-row fa-gap-3 fa-mb-3">
+        <FaSelect TValue="string" @bind-Value="_playground.Format" Label="Format">
+            <option value="MM/dd/yyyy">MM/dd/yyyy (US)</option>
+            <option value="yyyy-MM-dd">yyyy-MM-dd (ISO)</option>
+            <option value="dd.MM.yyyy">dd.MM.yyyy (EU)</option>
+            <option value="M/d/yy">M/d/yy (short)</option>
+        </FaSelect>
+        <FaDate @bind-Value="_playground.Min" Label="Min" />
+        <FaDate @bind-Value="_playground.Max" Label="Max" />
+        <FaCheckbox @bind-Value="_playground.CompactPicker" Label="CompactPicker" />
+        <FaButton Type="button" Variant="FaButtonVariant.Outline" OnClick="ResetPlayground">Reset</FaButton>
+    </div>
+</EditForm>
+<EditForm Model="_playground" class="fa-form">
+    <FaDate @bind-Value="_playground.Value" Label="Try it" Format="@_playground.Format"
+            Min="@_playground.Min" Max="@_playground.Max" CompactPicker="@_playground.CompactPicker" />
+</EditForm>
+<p>Selected: <FaBadge>@(_playground.Value?.ToString("MMM d, yyyy") ?? "(none)")</FaBadge></p>
+<div class="fa-code-block"><code>@PlaygroundSnippet</code></div>
+
 @code {
     private class DemoModel
     {
@@ -77,4 +110,55 @@
     }
 
     private DemoModel _model = new();
+
+    // Backs the "Live playground" section only — its own model, separate from
+    // _model above, since Min/Max here are themselves picked with a live
+    // FaDate rather than fixed in code the way the Min/Max example higher up
+    // is.
+    private class PlaygroundModel
+    {
+        public string Format { get; set; } = "MM/dd/yyyy";
+        public DateOnly? Min { get; set; }
+        public DateOnly? Max { get; set; }
+        public bool CompactPicker { get; set; }
+        public DateOnly? Value { get; set; }
+    }
+
+    private PlaygroundModel _playground = new();
+
+    private void ResetPlayground() => _playground = new();
+
+    // Mirrors whatever the controls above are currently set to, one
+    // parameter at a time — Format/CompactPicker only show up once they
+    // differ from FaDate's own default, same as you'd actually write it by
+    // hand, rather than restating every parameter unconditionally.
+    private string PlaygroundSnippet
+    {
+        get
+        {
+            var attrs = new List<string> { "@bind-Value=\"_playground.Value\"", "Label=\"Try it\"" };
+
+            if (_playground.Format != "MM/dd/yyyy")
+            {
+                attrs.Add($"Format=\"{_playground.Format}\"");
+            }
+
+            if (_playground.Min is { } min)
+            {
+                attrs.Add($"Min=\"new DateOnly({min.Year}, {min.Month}, {min.Day})\"");
+            }
+
+            if (_playground.Max is { } max)
+            {
+                attrs.Add($"Max=\"new DateOnly({max.Year}, {max.Month}, {max.Day})\"");
+            }
+
+            if (_playground.CompactPicker)
+            {
+                attrs.Add("CompactPicker=\"true\"");
+            }
+
+            return "<FaDate " + string.Join(" ", attrs) + " />";
+        }
+    }
 }

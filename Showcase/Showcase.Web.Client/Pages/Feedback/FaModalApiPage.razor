@@ -1,0 +1,29 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-modal/api"
+
+<DemoPageHeader Title="Modals: API" ComponentName="FaModal" DocSlug="fa-modal" />
+
+<ComponentSubNav BaseRoute="/fa-modal" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Show</code></td><td><code>bool</code></td><td>caller owns open/closed state — no internal show/hide state</td></tr>
+            <tr><td><code>Title</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>OnClose</code></td><td><code>EventCallback</code></td><td>fires from the header's × button and (if <code>CloseOnBackdropClick</code>) the backdrop</td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>the dialog body</td></tr>
+            <tr><td><code>FooterContent</code></td><td><code>RenderFragment?</code></td><td>footer only renders at all when this is non-null</td></tr>
+            <tr><td><code>Position</code></td><td><code>FaModalPosition</code></td><td>default <code>Center</code> — where the dialog sits within the backdrop</td></tr>
+            <tr><td><code>Size</code></td><td><code>FaModalSize</code></td><td>default <code>Medium</code> — <code>Small</code> · <code>Medium</code> · <code>Large</code></td></tr>
+            <tr><td><code>FooterAlign</code></td><td><code>FaAlign</code></td><td>default <code>End</code> — footer button row's justify-content</td></tr>
+            <tr><td><code>ShowCloseButton</code></td><td><code>bool</code></td><td>default <code>true</code></td></tr>
+            <tr><td><code>CloseOnBackdropClick</code></td><td><code>bool</code></td><td>default <code>true</code></td></tr>
+            <tr><td><code>IsLoading</code></td><td><code>bool</code></td><td>default <code>false</code> — an overlay covers header/body/footer alike; caller owns the flag, e.g. around an async submit</td></tr>
+            <tr><td><code>LoadingContent</code></td><td><code>RenderFragment?</code></td><td>defaults to <code>FaHelixLoader</code> when unset and <code>IsLoading</code> is <code>true</code></td></tr>
+            <tr><td><code>ResetOnClose</code></td><td><code>bool</code></td><td>default <code>false</code> — content stays mounted (just hidden) across a close/reopen unless set, so its values persist</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above.</p>

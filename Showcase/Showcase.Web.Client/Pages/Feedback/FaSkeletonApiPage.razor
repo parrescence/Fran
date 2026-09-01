@@ -1,0 +1,21 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-skeleton/api"
+
+<DemoPageHeader Title="Skeleton: API" ComponentName="FaSkeleton" DocSlug="fa-skeleton" />
+
+<ComponentSubNav BaseRoute="/fa-skeleton" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Variant</code></td><td><code>FaSkeletonVariant</code></td><td><code>Text</code> (default) · <code>Circle</code> · <code>Rect</code></td></tr>
+            <tr><td><code>Width</code></td><td><code>string?</code></td><td>any CSS length, e.g. <code>"3rem"</code></td></tr>
+            <tr><td><code>Height</code></td><td><code>string?</code></td><td>any CSS length</td></tr>
+            <tr><td><code>Lines</code></td><td><code>int</code></td><td>default <code>1</code>; only meaningful when <code>Variant="Text"</code> — renders this many stacked bars, the last one narrower</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above.</p>

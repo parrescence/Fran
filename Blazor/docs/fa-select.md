@@ -40,6 +40,8 @@ every change.
 | `Label` | `string?` | |
 | `ChildContent` | `RenderFragment?` | `<option>` elements |
 | `ReadOnly` | `bool` | renders `disabled` (no native `readonly` on `<select>`), same boxed look, muted |
+| `ShowValidationMessage` | `bool` | defaults `true` — see [Validation](validation.md) |
+| `Validate` | `Func<TValue, string?>?` | element-tier validation override — see [Validation](validation.md) |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

@@ -47,6 +47,8 @@ Generic text/number field. `InputBase<TValue>`-derived, so it only works inside 
 | `Type` | `string` | HTML `type`, default `"text"` |
 | `Step` | `string?` | for `type="number"` |
 | `ReadOnly` | `bool` | same boxed look, muted and non-interactive |
+| `ShowValidationMessage` | `bool` | defaults `true` — see [Validation](validation.md) |
+| `Validate` | `Func<TValue, string?>?` | element-tier validation override — see [Validation](validation.md) |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

@@ -445,6 +445,12 @@
       </ul>
     </div>
     <div class="nav-group">
+      <div class="nav-group-title">Validation</div>
+      <ul>
+        <li><a href="#validation">Validation</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
       <div class="nav-group-title">Navigation &amp; structure</div>
       <ul>
         <li><a href="#fa-tabs">FaTabs</a></li>
@@ -1678,6 +1684,36 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
+    </section>
+
+    <!-- ============================= Validation ============================= -->
+    <section class="component" id="validation">
+      <span class="kicker">Validation</span>
+      <h2>Validation</h2>
+      <p class="dek">Three tiers, most-specific wins — root/DTO-level (<code>IFaValidator&lt;TModel&gt;</code>), form-level (a <code>ConfigureValidation</code> override), and per-element (each input's own <code>Validate</code> parameter) — all feeding the same <code>EditContext</code> that <code>DataAnnotationsValidator</code>/<code>ValidationSummary</code> already read from. Plain C# delegates throughout, no expression-tree rule DSL. See <a href="validation.md">docs/validation.md</a> for the full write-up.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>public class ProductModelValidator : IFaValidator&lt;ProductModel&gt;
+{
+    public void Configure(FaValidationBuilder&lt;ProductModel&gt; builder)
+    {
+        builder.Field(nameof(ProductModel.Name), m =&gt; m.Name)
+            .Required("Name is required.");
+    }
+}
+
+// Program.cs
+builder.Services.AddFaValidator&lt;ProductModel, ProductModelValidator&gt;();</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;EditForm Model="_model"&gt;
+    &lt;FaModelValidator TModel="ProductModel" ConfigureValidation="ConfigureFormValidation" /&gt;
+    &lt;ValidationSummary /&gt;
+
+    &lt;FaInput TValue="string" @@bind-Value="_model.Name" Label="Name" /&gt;
+    &lt;FaInput TValue="string" @@bind-Value="_model.Sku" Label="SKU"
+             Validate="@@(v =&gt; v?.StartsWith("SKU-") == true ? null : "Must start with \"SKU-\".")" /&gt;
+&lt;/EditForm&gt;</code></pre></div>
+
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value of its own — it populates the same <code>ValidationMessageStore</code> the model binds against, so every FaFa input's own inline error display (<code>ShowValidationMessage</code>, on by default) shows whichever tier's rule fired.</p>
     </section>
 
     <!-- ============================= FaTabs ============================= -->

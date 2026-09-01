@@ -1,0 +1,25 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-chip/api"
+
+<DemoPageHeader Title="Chip: API" ComponentName="FaChip" DocSlug="fa-chip" />
+
+<ComponentSubNav BaseRoute="/fa-chip" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>the chip's label</td></tr>
+            <tr><td><code>IconName</code></td><td><code>FaIconName?</code></td><td>optional leading icon</td></tr>
+            <tr><td><code>Variant</code></td><td><code>FaBadgeVariant</code></td><td><code>Neutral</code> (default) · <code>Success</code> · <code>Danger</code> · <code>Primary</code> — same enum FaBadge uses</td></tr>
+            <tr><td><code>Selected</code></td><td><code>bool</code></td><td>adds <code>.fa-chip-selected</code> and <code>aria-pressed="true"</code></td></tr>
+            <tr><td><code>Removable</code></td><td><code>bool</code></td><td>shows a remove (×) button</td></tr>
+            <tr><td><code>Disabled</code></td><td><code>bool</code></td><td>suppresses both <code>OnClick</code> and the remove button</td></tr>
+            <tr><td><code>OnClick</code></td><td><code>EventCallback</code></td><td>only wired up (<code>role="button"</code>, keyboard Enter/Space) when this has a delegate — a chip with no <code>OnClick</code> is a passive tag</td></tr>
+            <tr><td><code>OnRemove</code></td><td><code>EventCallback</code></td><td>fires from the remove button; click doesn't bubble into <code>OnClick</code></td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above.</p>

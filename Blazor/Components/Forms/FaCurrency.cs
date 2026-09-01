@@ -28,6 +28,21 @@ public sealed class FaCurrency : InputBase<decimal?>
     private readonly string _id = $"fa-currency-{Guid.NewGuid():N}";
     private bool _isEditing;
 
+    // A developer-configuration mistake, not user input — same reasoning as
+    // FaDate's own _rangeError (see its OnParametersSet remarks): Min/Max are
+    // plain parameters with no FieldIdentifier, so this is shown directly rather
+    // than routed through FaFa.Validation, reusing that system's
+    // .fa-validation-message look without its machinery. Doesn't throw for the
+    // same "Min/Max might be transiently bad while data's still loading" reason.
+    private string? _rangeError;
+
+    protected override void OnParametersSet()
+    {
+        _rangeError = Min is { } rangeMin && Max is { } rangeMax && rangeMax < rangeMin
+            ? $"Max ({rangeMax:F2}) must be greater than or equal to Min ({rangeMin:F2})."
+            : null;
+    }
+
     protected override bool TryParseValueFromString(string? value, out decimal? result, [NotNullWhen(false)] out string? validationErrorMessage)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -81,32 +96,50 @@ public sealed class FaCurrency : InputBase<decimal?>
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
-        builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", $"fa-field {ContainerCssClass}");
+        var seq = 0;
+
+        builder.OpenElement(seq++, "div");
+        builder.AddAttribute(seq++, "class", $"fa-field {ContainerCssClass}");
 
         if (!string.IsNullOrEmpty(Label))
         {
-            builder.OpenElement(2, "label");
-            builder.AddAttribute(3, "class", "fa-label");
-            builder.AddAttribute(4, "for", _id);
-            builder.AddContent(5, Label);
+            builder.OpenElement(seq++, "label");
+            builder.AddAttribute(seq++, "class", "fa-label");
+            builder.AddAttribute(seq++, "for", _id);
+            builder.AddContent(seq++, Label);
             builder.CloseElement();
         }
 
-        builder.OpenElement(6, "input");
-        builder.AddAttribute(7, "id", _id);
-        builder.AddAttribute(8, "class", "fa-input fa-currency-input");
-        builder.AddAttribute(9, "type", _isEditing ? "number" : "text");
-        builder.AddAttribute(10, "inputmode", "decimal");
-        builder.AddAttribute(11, "step", "0.01");
-        builder.AddAttribute(12, "min", Min);
-        builder.AddAttribute(13, "max", Max);
-        builder.AddAttribute(14, "value", _isEditing ? CurrentValueAsString : DisplayText);
-        builder.AddAttribute(15, "readonly", ReadOnly);
-        builder.AddMultipleAttributes(16, AdditionalAttributes);
-        builder.AddAttribute(17, "onfocus", EventCallback.Factory.Create<FocusEventArgs>(this, HandleFocus));
-        builder.AddAttribute(18, "onblur", EventCallback.Factory.Create<FocusEventArgs>(this, HandleBlur));
-        builder.AddAttribute(19, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, HandleInput));
+        // Reuses FaFa.Validation's own .fa-validation-message look without going
+        // through that system — see _rangeError's own remarks. OpenRegion isolates
+        // this conditional block the same way FaDate.cs's identical block does, so
+        // Min/Max flipping between valid and invalid can't shift the input right
+        // after it out from under Blazor's diff.
+        builder.OpenRegion(seq++);
+        if (_rangeError is not null)
+        {
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "fa-validation-message");
+            builder.AddContent(2, _rangeError);
+            builder.CloseElement();
+        }
+
+        builder.CloseRegion();
+
+        builder.OpenElement(seq++, "input");
+        builder.AddAttribute(seq++, "id", _id);
+        builder.AddAttribute(seq++, "class", "fa-input fa-currency-input");
+        builder.AddAttribute(seq++, "type", _isEditing ? "number" : "text");
+        builder.AddAttribute(seq++, "inputmode", "decimal");
+        builder.AddAttribute(seq++, "step", "0.01");
+        builder.AddAttribute(seq++, "min", Min);
+        builder.AddAttribute(seq++, "max", Max);
+        builder.AddAttribute(seq++, "value", _isEditing ? CurrentValueAsString : DisplayText);
+        builder.AddAttribute(seq++, "readonly", ReadOnly);
+        builder.AddMultipleAttributes(seq++, AdditionalAttributes);
+        builder.AddAttribute(seq++, "onfocus", EventCallback.Factory.Create<FocusEventArgs>(this, HandleFocus));
+        builder.AddAttribute(seq++, "onblur", EventCallback.Factory.Create<FocusEventArgs>(this, HandleBlur));
+        builder.AddAttribute(seq++, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, HandleInput));
         builder.CloseElement();
 
         builder.CloseElement();

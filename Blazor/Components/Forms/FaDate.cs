@@ -132,6 +132,10 @@ public sealed class FaDate : InputBase<DateOnly?>
     private bool _displayInitialized;
     private CancellationTokenSource? _pendingClose;
 
+    // Set in OnParametersSet whenever Max < Min — see its own remarks for why this
+    // is a plain field rather than routed through FaFa.Validation.
+    private string? _rangeError;
+
     // Alternate popup body for small screens: three scrollable day/month/year
     // "wheel" lists instead of the day grid — a smaller, thumb-friendly target.
     // _compactPicker is the end user's own toggle state (header button, only
@@ -175,14 +179,100 @@ public sealed class FaDate : InputBase<DateOnly?>
     protected override void OnParametersSet()
     {
         EnsureFormatParsed();
+
+        // A developer-configuration mistake, not user input — Min/Max are plain
+        // component parameters with no FieldIdentifier, so this deliberately isn't
+        // routed through FaFa's own model-validation system (FaFa.Validation);
+        // it's just shown, reusing that system's .fa-validation-message class for
+        // the same look. Doesn't throw (unlike FaToggle<TValue>'s ArgumentException
+        // for its own bad-parameter-combination case) — Min/Max are plausibly
+        // computed from data that's still loading, so a transient bad combination
+        // shouldn't crash the render tree; WithinRange already degrades safely on
+        // its own (every date fails both conditions, so nothing's selectable)
+        // regardless of whether this message is showing.
+        _rangeError = Min is { } rangeMin && Max is { } rangeMax && rangeMax < rangeMin
+            ? $"Max ({rangeMax:MM/dd/yyyy}) must be on or after Min ({rangeMin:MM/dd/yyyy})."
+            : null;
+
+        // When Min/Max together leave exactly one valid date, there's nothing
+        // left to pick — defaulting straight to it (rather than leaving the
+        // field blank until the user picks the one date that was always the
+        // only option) is the same idea behind padding the Year wheel with
+        // locked years around a narrow Min/Max: the picker should always be
+        // able to show the choice Min/Max already made, not just allow it.
+        // Runs on every parameter set, not just the first — Value staying
+        // null is exactly what lets a later Clear() re-trigger this the
+        // instant Min/Max still leave only the one answer, rather than
+        // fighting a real user edit once Value is non-null for any other
+        // reason.
+        if (Value is null && Min is { } onlyValidDate && Max == onlyValidDate)
+        {
+            CurrentValue = onlyValidDate;
+        }
+
         SyncTextFromValue();
 
         if (!_displayInitialized)
         {
             var basis = Value ?? DateOnly.FromDateTime(DateTime.Today);
+
+            // Same reasoning one level up: "today" isn't necessarily a valid
+            // choice once Min/Max are set, and the wheels/grid should open
+            // already showing a date Min/Max actually allow — most usefully,
+            // whichever single month/year Min/Max collapse down to, if any —
+            // rather than one that's immediately out of range.
+            if (Min is { } minBasis && basis < minBasis)
+            {
+                basis = minBasis;
+            }
+
+            if (Max is { } maxBasis && basis > maxBasis)
+            {
+                basis = maxBasis;
+            }
+
             _displayYear = basis.Year;
             _displayMonth = basis.Month;
             _displayInitialized = true;
+        }
+
+        AutoFillLockedFields();
+    }
+
+    // When Min/Max collapse Year (and/or, within that year, Month) down to a
+    // single valid choice, that wheel has nothing left to spin — MonthValidRange/
+    // the minYear/maxYear pair RenderWheels derives from Min/Max already disable
+    // every other item, and RenderWheelColumn/the CSS below lock the wheel itself
+    // (no scroll, no drag) once minValidValue == maxValidValue. But locking the
+    // *wheel* doesn't by itself put that value into _yearText/_monthText — those
+    // only ever get set by an actual click (SelectWheelValue) or typed digits
+    // (HandleWheelFieldInput), neither of which a locked wheel's one remaining
+    // item can still receive. Left unfilled, the year (most commonly) stays
+    // "selected" only in the sense of which item is highlighted, while
+    // TryCommitValue's own length guard keeps refusing to commit anything — a
+    // user who only ever touches the Day wheel would find nothing they picked
+    // ever turns into a value. Filling the text directly here, the same idea as
+    // the single-valid-*date* case above one level up, is what a click on that
+    // one remaining item would have done anyway. Only fills an empty field — a
+    // real edit already in progress (typed digits, or a value synced down from
+    // Value) is left alone rather than overwritten out from under it.
+    private void AutoFillLockedFields()
+    {
+        if (Min is not { } minLock || Max is not { } maxLock)
+        {
+            return;
+        }
+
+        if (minLock.Year == maxLock.Year && string.IsNullOrEmpty(_yearText))
+        {
+            _yearText = FormatFieldValue(DateField.Year, minLock.Year);
+            _displayYear = minLock.Year;
+        }
+
+        if (minLock.Year == maxLock.Year && minLock.Month == maxLock.Month && string.IsNullOrEmpty(_monthText))
+        {
+            _monthText = FormatFieldValue(DateField.Month, minLock.Month);
+            _displayMonth = minLock.Month;
         }
     }
 
@@ -332,6 +422,73 @@ public sealed class FaDate : InputBase<DateOnly?>
     }
 
     private bool WithinRange(DateOnly date) => (Min is null || date >= Min) && (Max is null || date <= Max);
+
+    // Min/Max-derived (min, max) bounds for the Month wheel, given whichever
+    // year the Day/Month wheels are currently contextualized against
+    // (CurrentWheelBasis' Year) — used by RenderWheels the same way it already
+    // uses a plain (min, max) pair for Year and Day. A month is valid there
+    // when it isn't entirely before Min or entirely after Max; for the year
+    // Min/Max themselves fall in, that's just Min/Max's own Month component.
+    // Min.Month=13/Max.Month=0 are deliberately out-of-range sentinels for
+    // "Min/Max's *year* alone already rules out every month this year" (e.g.
+    // browsing a year before Min's, or after Max's) — RenderWheelColumn's
+    // disabled check only ever compares against real 1-12 values, so either
+    // sentinel disables the whole wheel without needing a separate code path.
+    private (int? Min, int? Max) MonthValidRange(int year)
+    {
+        int? min = null;
+        int? max = null;
+
+        if (Min is { } minDate)
+        {
+            min = minDate.Year > year ? 13 : minDate.Year == year ? minDate.Month : null;
+        }
+
+        if (Max is { } maxDate)
+        {
+            max = maxDate.Year < year ? 0 : maxDate.Year == year ? maxDate.Month : null;
+        }
+
+        return (min, max);
+    }
+
+    // Same idea as MonthValidRange, one level down — Min/Max-derived (min, max)
+    // day bounds for whichever month/year the Day wheel is currently showing.
+    // maxValidValue defaults to daysInMonth regardless of Min/Max (the
+    // pre-existing "don't offer Feb 30" clamp) rather than null, since that
+    // bound needs to hold even when Min/Max don't restrict anything further.
+    private (int? Min, int? Max) DayValidRange(int year, int month, int daysInMonth)
+    {
+        // year comes from CurrentWheelBasis(), which — like DateTime.DaysInMonth's
+        // own Math.Max(1, year) call right where daysInMonth gets computed — can't
+        // assume the raw typed/bound year is already within DateOnly's own valid
+        // range (a typed "0000" year, or any Value/_displayYear that ends up 0 or
+        // negative some other way, previously threw ArgumentOutOfRangeException
+        // straight out of the DateOnly constructors below instead of just
+        // rendering a wheel that can't usefully validate anything for a year that
+        // doesn't really exist).
+        var safeYear = Math.Clamp(year, 1, 9999);
+        var monthStart = new DateOnly(safeYear, month, 1);
+        var monthEnd = new DateOnly(safeYear, month, daysInMonth);
+
+        int? min = null;
+        int? max = daysInMonth;
+
+        if (Min is { } minDate)
+        {
+            // Min falls after this month entirely: daysInMonth + 1 disables
+            // every real day (1..daysInMonth), same trick MonthValidRange's
+            // 13 sentinel uses one level up.
+            min = minDate > monthEnd ? daysInMonth + 1 : minDate >= monthStart ? minDate.Day : null;
+        }
+
+        if (Max is { } maxDate)
+        {
+            max = maxDate < monthStart ? 0 : maxDate <= monthEnd ? maxDate.Day : daysInMonth;
+        }
+
+        return (min, max);
+    }
 
     // advanceFocus is false for the wheel-column number inputs (RenderWheelColumn) —
     // those live inside the popup, so auto-advancing into _monthRef/_dayRef/_yearRef
@@ -783,6 +940,24 @@ public sealed class FaDate : InputBase<DateOnly?>
             builder.CloseElement();
         }
 
+        // Reuses FaFa.Validation's own .fa-validation-message look (see
+        // FaValidationMessageRenderer) without going through that system — see
+        // _rangeError's own remarks in OnParametersSet. OpenRegion isolates this
+        // conditional block's own sequence numbering the same way FaInput.cs's
+        // validation-message block does, so Min/Max flipping between valid and
+        // invalid across renders can't shift the ReadOnly/interactive branch right
+        // after it out from under Blazor's diff.
+        builder.OpenRegion(seq++);
+        if (_rangeError is not null)
+        {
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "fa-validation-message");
+            builder.AddContent(2, _rangeError);
+            builder.CloseElement();
+        }
+
+        builder.CloseRegion();
+
         if (ReadOnly)
         {
             builder.OpenElement(seq++, "div");
@@ -1190,7 +1365,32 @@ public sealed class FaDate : InputBase<DateOnly?>
         var today = DateOnly.FromDateTime(DateTime.Today);
 
         var (selectedMonth, selectedYear, daysInMonth) = CurrentWheelBasis();
-        var selectedDay = int.TryParse(_dayText, out var d) ? Math.Clamp(d, 1, daysInMonth) : Math.Min(today.Day, daysInMonth);
+
+        // Computed once here rather than inline in the DateField.Day switch
+        // arm below — selectedDay's own fallback needs the same bounds, so a
+        // narrow Min/Max (a single valid week, say) lands the *default*
+        // highlighted day inside it too, not on "today" clamped only to
+        // daysInMonth the way it used to be. Without this, an out-of-range
+        // "today" fallback used to only get corrected after the fact by
+        // fa-date-wheel.js's settle() finding the nearest enabled item once
+        // the popup actually opened — working by accident (whichever boundary
+        // happened to be nearest) rather than by a deliberate, server-decided
+        // default.
+        var (dayMinValid, dayMaxValid) = DayValidRange(selectedYear, selectedMonth, daysInMonth);
+        // Min > Max (an inverted range — see FaDate's own _rangeError check) can
+        // make dayMinValid come out greater than dayMaxValid here, since each is
+        // derived independently from Min/Max without knowing about the other's
+        // inversion. Math.Clamp throws if min > max, and this fallback default is
+        // cosmetic only (which day the wheel highlights first, not a hard bound
+        // enforced anywhere else), so just fall back to the un-narrowed range
+        // rather than let a caller's bad Min/Max combination crash the render.
+        var fallbackMin = dayMinValid ?? 1;
+        var fallbackMax = dayMaxValid ?? daysInMonth;
+        var selectedDay = int.TryParse(_dayText, out var d)
+            ? Math.Clamp(d, 1, daysInMonth)
+            : fallbackMin <= fallbackMax
+                ? Math.Clamp(today.Day, fallbackMin, fallbackMax)
+                : Math.Clamp(today.Day, 1, daysInMonth);
 
         // Bounded to a sane scroll length even when Min/Max are unset — nobody
         // needs to scroll through 9999 years to reach one near today.
@@ -1244,11 +1444,31 @@ public sealed class FaDate : InputBase<DateOnly?>
             // now, never how many buttons exist. RenderWheelColumn disables (and
             // fa-date-wheel.js's settle() skips) whichever tail is invalid for
             // the current month.
+            // Year renders extra out-of-Min/Max-range years on each side,
+            // disabled/locked the same way Day disables an out-of-month tail
+            // below — not for a wrap illusion (Year never wraps), but because
+            // a narrow Min/Max (a single valid year, even) otherwise leaves
+            // too little real scrollable content for the selected item to
+            // ever actually reach the wheel's own vertical center. The center
+            // math (fa-date-wheel.js's centerSelected) computes exactly where
+            // scrollTop needs to land for that, but a scrollTop that lands
+            // outside [0, scrollHeight-clientHeight] isn't reachable at all —
+            // the browser just silently clamps it, leaving the item stuck a
+            // few px off-center (faded/tilted by however far off, per
+            // updateWheelCurvature) instead of cleanly selected. A couple of
+            // padding years on each side is already enough for that math to
+            // work out, but a wider buffer reads as a real, spinnable wheel
+            // (locked years scroll past, just can't be picked) rather than a
+            // list that visibly stops right at the edge of what's selectable.
+            const int yearEdgePadding = 15;
+            var paddedMinYear = minYear - yearEdgePadding;
+            var paddedMaxYear = maxYear + yearEdgePadding;
+
             var (items, selected) = field switch
             {
                 DateField.Month => (Enumerable.Range(1, 12).Select(v => (v, new DateOnly(2000, v, 1).ToString("MMM"))), selectedMonth),
                 DateField.Day => (Enumerable.Range(1, 31).Select(v => (v, FormatFieldValue(DateField.Day, v))), selectedDay),
-                _ => (Enumerable.Range(minYear, Math.Max(1, maxYear - minYear + 1)).Select(v => (v, FormatFieldValue(DateField.Year, v))), selectedYear)
+                _ => (Enumerable.Range(paddedMinYear, paddedMaxYear - paddedMinYear + 1).Select(v => (v, FormatFieldValue(DateField.Year, v))), selectedYear)
             };
 
             // Day/Month wrap around (31 -> 1, 12 -> 1, and back) no matter which
@@ -1257,8 +1477,26 @@ public sealed class FaDate : InputBase<DateOnly?>
             // tripling the day/month list end-to-end (see its own remarks) rather
             // than anything year needs.
             var isCyclic = field is DateField.Month or DateField.Day;
-            var maxValidValue = field == DateField.Day ? daysInMonth : (int?)null;
-            seq = RenderWheelColumn(builder, seq, field, items, selected, isCyclic, maxValidValue);
+            var (minValidValue, maxValidValue) = field switch
+            {
+                DateField.Day => (dayMinValid, dayMaxValid),
+                DateField.Month => MonthValidRange(selectedYear),
+                _ => ((int?)minYear, (int?)maxYear)
+            };
+
+            // Whether Min/Max actually narrow *this* field's real choices, as
+            // opposed to a bound that's always present regardless of Min/Max —
+            // Day's maxValidValue defaults to daysInMonth even with no Max set
+            // at all (the plain "don't offer Feb 30" clamp), so checking
+            // maxValidValue.HasValue alone would read every short month as
+            // "bounded" and needlessly stop Day's wrap-around spin the rest of
+            // the year. Month/Year have no such always-there default — either
+            // one being set at all already means Min/Max did the narrowing.
+            var isBounded = field == DateField.Day
+                ? minValidValue.HasValue || (maxValidValue.HasValue && maxValidValue.Value < daysInMonth)
+                : minValidValue.HasValue || maxValidValue.HasValue;
+
+            seq = RenderWheelColumn(builder, seq, field, items, selected, isCyclic, minValidValue, maxValidValue, isBounded);
         }
 
         builder.CloseElement();
@@ -1333,14 +1571,39 @@ public sealed class FaDate : InputBase<DateOnly?>
     private const int WheelCycleCount = 3;
     private const int WheelCenterCycleIndex = 1;
 
-    private int RenderWheelColumn(RenderTreeBuilder builder, int sequence, DateField field, IEnumerable<(int Value, string Text)> items, int selected, bool isCyclic, int? maxValidValue)
+    private int RenderWheelColumn(RenderTreeBuilder builder, int sequence, DateField field, IEnumerable<(int Value, string Text)> items, int selected, bool isCyclic, int? minValidValue, int? maxValidValue, bool isBounded)
     {
         var seq = sequence;
         var materializedItems = items as IReadOnlyList<(int Value, string Text)> ?? items.ToList();
         var cycleCount = isCyclic ? WheelCycleCount : 1;
 
+        // Min/Max leave exactly one selectable item (every other one already
+        // renders disabled below) — nothing left to scroll to, so the wheel
+        // itself stops accepting scroll/drag input entirely (see
+        // .fa-date-wheel-locked in _date.scss) instead of letting it spin
+        // freely through a column of disabled items that can never commit.
+        // AutoFillLockedFields (OnParametersSet) is what actually puts this
+        // one value into _yearText/_monthText — this only stops the wheel
+        // itself from being spun away from it.
+        var isLocked = minValidValue.HasValue && maxValidValue.HasValue && minValidValue.Value == maxValidValue.Value;
+
+        // More than one selectable item, but still fewer than the wheel
+        // renders — e.g. a Min/Max a year or two apart, or a Day range spanning
+        // less than a full month. Scrolling still works here (isLocked is
+        // false), but without a bound the wheel would happily scroll on
+        // through however many disabled padding items sit past the real
+        // choices (Year pads 15 either side just so a single valid year can
+        // still reach dead center, see RenderWheels' own remarks) before
+        // ever settling back on one that can actually commit — "scroll
+        // forever, land on one of two real values" instead of "the wheel
+        // stops at the two real values". fa-date-wheel.js's own scroll
+        // handler reads this class to clamp scrollTop to wherever the
+        // nearest enabled item in range sits, rather than the full rendered
+        // list's own top/bottom.
+        var boundedClass = isBounded && !isLocked ? "fa-date-wheel-bounded" : null;
+
         builder.OpenElement(seq++, "div");
-        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-date-wheel", isCyclic ? "fa-date-wheel-cyclic" : null));
+        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-date-wheel", isCyclic ? "fa-date-wheel-cyclic" : null, isLocked ? "fa-date-wheel-locked" : null, boundedClass));
         builder.AddAttribute(seq++, "style", WheelFlexStyle(field));
         builder.AddAttribute(seq++, "aria-label", $"{field} scroll picker");
 
@@ -1365,7 +1628,10 @@ public sealed class FaDate : InputBase<DateOnly?>
                 // an out-of-range day (see .fa-date-day:disabled), and
                 // fa-date-wheel.js's settle() skips disabled items when
                 // picking whichever one to commit, so a spin can't rest on one.
-                var isDisabled = maxValidValue.HasValue && item.Value > maxValidValue.Value;
+                // Year uses both bounds the same way, for its own extra padding
+                // years on either side of Min/Max (see RenderWheels' remarks).
+                var isDisabled = (minValidValue.HasValue && item.Value < minValidValue.Value)
+                    || (maxValidValue.HasValue && item.Value > maxValidValue.Value);
                 var capturedValue = item.Value;
 
                 builder.OpenElement(seq++, "button");

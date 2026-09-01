@@ -6,6 +6,8 @@
     "Are you sure?" confirm/cancel — typically dropped inside a small <code>FaModal</code>.
 </DemoPageHeader>
 
+<ComponentSubNav BaseRoute="/fa-logout-form" />
+
 <FaButton OnClick="@(() => _showLogoutModal = true)">Log out</FaButton>
 <FaModal Show="_showLogoutModal" Title="Log out" OnClose="@(() => _showLogoutModal = false)" Size="FaModalSize.Small">
     <FaLogoutForm OnConfirm="HandleLogoutAsync" OnCancel="@(() => _showLogoutModal = false)" />

@@ -1,0 +1,27 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-toggle/api"
+
+<DemoPageHeader Title="Toggle: API" ComponentName="FaToggle&lt;TValue&gt;" DocSlug="fa-toggle" />
+
+<ComponentSubNav BaseRoute="/fa-toggle" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Options</code></td><td><code>IReadOnlyList&lt;(string Title, TValue Value)&gt;</code></td><td>required; needs at least two entries or <code>OnParametersSet</code> throws <code>ArgumentException</code></td></tr>
+            <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>TValue</code></td><td><code>@@bind-Value</code></td></tr>
+            <tr><td><code>InputValue</code> / <code>InputValueChanged</code></td><td><code>string?</code></td><td><code>@@bind-InputValue</code> — the optional companion input's own value</td></tr>
+            <tr><td><code>InputType</code></td><td><code>string?</code></td><td>HTML input type for the companion input; <code>null</code> (default) renders no input at all</td></tr>
+            <tr><td><code>InputPosition</code></td><td><code>FaTogglePosition</code></td><td><code>Before</code> · <code>After</code> (default)</td></tr>
+            <tr><td><code>InputPlaceholder</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>ShowInputWhen</code></td><td><code>Func&lt;TValue, bool&gt;?</code></td><td>whether the companion input shows for the current <code>Value</code>; ignored when <code>InputType</code> is null</td></tr>
+            <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>Disabled</code></td><td><code>bool</code></td><td></td></tr>
+            <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens the segmented pill row to the active option's title as plain text with a bottom border</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above. Left/Right arrows move both the selection and keyboard focus together, same as a native radio group.</p>

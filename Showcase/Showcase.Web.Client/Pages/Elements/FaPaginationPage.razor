@@ -6,6 +6,8 @@
     Standalone — <code>FaGrid</code> pages its own data internally and doesn't use this component.
 </DemoPageHeader>
 
+<ComponentSubNav BaseRoute="/fa-pagination" />
+
 <FaPagination CurrentPage="_page" PageCount="12" OnPageChange="@(page => _page = page)" />
 <p>Page <FaBadge>@_page</FaBadge> of 12</p>
 

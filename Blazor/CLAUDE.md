@@ -168,6 +168,57 @@ style consistent:
   over JS interop. Only reach for a `wwwroot/js/<component>.js` IIFE when the
   behavior genuinely can't be expressed in Blazor's own event model.
 
+## Validation
+
+`Validation/` (namespace `FaFa.Validation`) is a top-level folder, sibling to
+`Components/`/`Services/`/`Rendering/`/`Templates/` — same reasoning as
+`Templates/` earning its own folder (see above): this is a new *kind* of thing a
+consumer implements against (a public API pattern, not a component, not an
+internal render helper), not a fit for any of the five `Components/` subfolders.
+The two renderable pieces (`FaModelValidator<TModel>`, `FaValidationMessage<TValue>`)
+still live in `Components/Forms/` per the "Components/ = only actual renderable
+tags" rule above.
+
+Three tiers, most-specific wins, all feeding the same `EditContext`
+`ValidationMessageStore` `DataAnnotationsValidator`/`ValidationSummary` already
+read from — full detail in `docs/validation.md`:
+
+1. **Root/DTO** — `IFaValidator<TModel>`, one implementation per model, registered
+   via `AddFaValidator<TModel, TValidator>()`. Direct analogue of EF Core's
+   `IEntityTypeConfiguration<TEntity>`.
+2. **Form** — a `ConfigureValidation` delegate (on `FaModelValidator<TModel>`
+   directly, or `FaForm<TModel>`'s own parameter of the same name) that runs after
+   the root validator on the same `FaValidationBuilder<TModel>`.
+3. **Element** — a `Validate` delegate parameter on `FaInput`/`FaSelect`/
+   `FaTextarea`/`FaCheckbox`, evaluated independently every render and always
+   additive to whatever the other two tiers already produced for that field.
+
+Deliberately **not** a FluentValidation reimplementation — `FaValidationBuilder<TModel>
+.Field<TValue>` takes a plain `Func<TModel, TValue>` accessor plus a
+`nameof(...)`-string property key, not an `Expression<Func<T,TProp>>` a rule DSL
+would need to parse. Keep any future addition to this system on the same "plain
+delegates + string keys" side of that line rather than adding expression-tree
+parsing later.
+
+**`ShowValidationMessage` on every validatable input defaults to `true` (opt-out,
+not opt-in).** Opt-in would leave the exact "have to remember it on every field"
+gap that's the whole reason this system exists — before it, none of `FaInput`/
+`FaSelect`/`FaTextarea`/`FaCheckbox`/`FaDate`/`FaCurrency` read `EditContext`/
+`FieldIdentifier`/`ValidationMessageStore` at all, so no field ever showed its own
+error. Any new `InputBase<TValue>`-derived component should follow the same
+default, using `FaValidationMessageRenderer.Resolve`/`Render`
+(`Rendering/FaValidationMessageRenderer.cs`) the same way the existing six do —
+don't reinvent the inline-message rendering per component.
+
+`FaDate.Min`/`Max` and `FaCurrency.Min`/`Max` are component *parameters*, not
+bound model fields, so their own range check (`Max` before `Min`) is deliberately
+**not** routed through `IFaValidator`/`FaModelValidator` — each checks its own two
+parameters directly in `OnParametersSet` and renders the same
+`.fa-validation-message` look. Shown, not thrown, unlike `FaToggle<TValue>`'s
+`ArgumentException` precedent for a bad parameter combo — `Min`/`Max` are
+plausibly still-loading runtime data, so a transient bad combination shouldn't
+crash the render tree.
+
 ## Publishing this library
 
 Bump `<Version>` in `FaFa.csproj` as part of normal `dev` work (semantic
