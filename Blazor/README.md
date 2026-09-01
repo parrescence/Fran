@@ -28,7 +28,7 @@ dotnet add package FaFa
 ```
 
 That's the package reference. The library also ships CSS/JS static assets that Blazor
-doesn't auto-wire into your host page, plus 24 optional color palettes — full
+doesn't auto-wire into your host page, plus 28 optional color palettes — full
 step-by-step (including the CI-friendly no-PAT path, and the exact host-page tags to
 add) is in **[`docs/install.md`](docs/install.md)**.
 
@@ -36,12 +36,13 @@ add) is in **[`docs/install.md`](docs/install.md)**.
 
 Buttons, cards, alerts, badges, an avatar, a modal, a generic N-option toggle, a full
 set of form inputs (text, select, search-select, textarea, checkbox, radio group, date
-picker, date range, file, currency), a plain table and a paged/sortable/filterable
-grid, tabs, an accordion, breadcrumbs, pagination, a divider, chips, an empty-state
-placeholder, tooltips, a popover, toast notifications, a skeleton loader, page-shell
-layouts (header/sidebar/footer), four full-page templates built on those shells
-(dashboard, form, home, auth), 24 color palettes, a light/dark/colorblind-safe theme
-switcher, and a hand-drawn SVG icon set — see **[`docs/index.md`](docs/index.md)** for
-the full inventory with usage examples for each, or open
-[`docs/site.html`](docs/site.html) in a browser for the same content as one
-scrollable page (no server needed).
+[+ calendar/wheel picker], date range, file, currency), a three-tier validation system
+(root/DTO, form, and per-element, with inline error messages on every field), a plain
+table and a paged/sortable/filterable grid, a carousel, code blocks, tabs, an
+accordion, breadcrumbs, pagination, a divider, chips, an empty-state placeholder,
+tooltips, a popover, toast notifications, a skeleton loader, page-shell layouts
+(header/sidebar/footer), four full-page templates built on those shells (dashboard,
+form, home, auth), 28 color palettes, a light/dark/colorblind-safe theme switcher, and
+a hand-drawn SVG icon set — see **[`docs/index.md`](docs/index.md)** for the full
+inventory with usage examples for each, or open [`docs/site.html`](docs/site.html) in
+a browser for the same content as one scrollable page (no server needed).
