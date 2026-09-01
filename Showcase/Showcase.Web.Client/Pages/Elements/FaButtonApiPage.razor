@@ -1,0 +1,25 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-button/api"
+
+<DemoPageHeader Title="FaButton: API" ComponentName="FaButton" DocSlug="fa-button" />
+
+<ComponentSubNav BaseRoute="/fa-button" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Variant</code></td><td><code>FaButtonVariant</code></td><td><code>Primary</code> (default) · <code>Secondary</code> · <code>Outline</code> · <code>Danger</code> · <code>OutlineDanger</code> · <code>Accent</code> · <code>OutlineAccent</code></td></tr>
+            <tr><td><code>Small</code></td><td><code>bool</code></td><td>adds <code>.fa-btn-sm</code> — smaller padding/font</td></tr>
+            <tr><td><code>Disabled</code></td><td><code>bool</code></td><td>native <code>disabled</code> on <code>&lt;button&gt;</code>; <code>aria-disabled</code> on <code>&lt;a&gt;</code> (anchors have no native disabled state)</td></tr>
+            <tr><td><code>Type</code></td><td><code>string</code></td><td>HTML <code>type</code>, default <code>"button"</code> — set <code>"submit"</code> inside an <code>EditForm</code>; ignored when <code>Href</code> is set</td></tr>
+            <tr><td><code>Href</code></td><td><code>string?</code></td><td>set to render an <code>&lt;a&gt;</code> styled as a button instead of a <code>&lt;button&gt;</code></td></tr>
+            <tr><td><code>Target</code></td><td><code>string?</code></td><td><code>&lt;a&gt;</code>'s <code>target</code>, e.g. <code>"_blank"</code> — only meaningful when <code>Href</code> is set</td></tr>
+            <tr><td><code>OnClick</code></td><td><code>EventCallback&lt;MouseEventArgs&gt;</code></td><td>fires on both the <code>&lt;button&gt;</code> and <code>&lt;a&gt;</code> forms</td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>the button/link's own content — not required by the compiler, but a button with nothing in it renders empty</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td>appended after <code>.fa-btn</code>/the variant class</td></tr>
+            <tr><td><code>AdditionalAttributes</code></td><td><code>Dictionary&lt;string, object&gt;?</code></td><td>any attribute not listed above splats straight onto the rendered element — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, <code>style</code>, etc. Pass it directly, e.g. <code>&lt;FaButton data-testid="save-btn"&gt;</code>, no separate parameter needed.</td></tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,19 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-alert/api"
+
+<DemoPageHeader Title="Alerts: API" ComponentName="FaAlert" DocSlug="fa-alert" />
+
+<ComponentSubNav BaseRoute="/fa-alert" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Variant</code></td><td><code>FaAlertVariant</code></td><td><code>Info</code> (default) · <code>Success</code> · <code>Danger</code></td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>the alert's message content</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on this component — every attribute you set is one of the above. Renders <code>role="alert"</code> automatically.</p>

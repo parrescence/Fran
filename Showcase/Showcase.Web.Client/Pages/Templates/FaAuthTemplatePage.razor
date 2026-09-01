@@ -1,0 +1,25 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-auth-template"
+@layout EmptyLayout
+
+<PageTitle>FaAuthTemplate — FaFa Showcase</PageTitle>
+
+<a href="/" class="fa-template-demo-back">← Back to Showcase</a>
+<ComponentSubNav BaseRoute="/fa-auth-template" />
+
+<FaAuthTemplate BrandText="FaFa Showcase" BrandHref="/fa-auth-template" Title="Log in">
+    <ChildContent>
+        <p class="fa-template-demo-note fa-mb-3">
+            A real, live <code>FaAuthTemplate</code> — chrome-free by design. Full parameter reference: <a href="https://github.com/parrescence/FaFa/blob/dev/Blazor/docs/fa-auth-template.md" target="_blank">Blazor/docs/fa-auth-template.md</a>.
+        </p>
+        <FaLoginForm OnSubmit="HandleLoginAsync" />
+    </ChildContent>
+    <FooterContent>
+        <span>Don't have an account? <a href="/fa-form-template">Sign up</a></span>
+    </FooterContent>
+</FaAuthTemplate>
+
+@code {
+    private void HandleLoginAsync(FaLoginRequest request) { /* demo only */ }
+}

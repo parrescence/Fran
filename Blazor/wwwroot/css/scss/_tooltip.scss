@@ -1,0 +1,81 @@
+/* ============================= Tooltip ============================= */
+
+.fa-tooltip {
+    position: relative;
+    display: inline-flex;
+}
+
+.fa-tooltip-trigger {
+    display: inline-flex;
+}
+
+.fa-tooltip-bubble {
+    position: absolute;
+    z-index: 30;
+    left: 50%;
+    transform: translateX(-50%) translateY(0.2rem);
+    background: var(--fa-fir);
+    color: var(--fa-text-on-primary);
+    font-family: var(--fa-font);
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--fa-radius-sm);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--fa-transition-fast), transform var(--fa-transition-fast), visibility var(--fa-transition-fast);
+}
+
+.fa-tooltip-bottom {
+    top: 100%;
+    margin-top: 0.4rem;
+}
+
+.fa-tooltip-top {
+    bottom: 100%;
+    margin-bottom: 0.4rem;
+}
+
+.fa-tooltip-left {
+    top: 50%;
+    right: 100%;
+    left: auto;
+    margin-right: 0.4rem;
+    transform: translateY(-50%) translateX(-0.2rem);
+}
+
+.fa-tooltip-right {
+    top: 50%;
+    left: 100%;
+    margin-left: 0.4rem;
+    transform: translateY(-50%) translateX(0.2rem);
+}
+
+    .fa-tooltip:hover .fa-tooltip-bubble,
+    .fa-tooltip:focus-within .fa-tooltip-bubble {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .fa-tooltip:hover .fa-tooltip-top,
+    .fa-tooltip:focus-within .fa-tooltip-top {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .fa-tooltip:hover .fa-tooltip-bottom,
+    .fa-tooltip:focus-within .fa-tooltip-bottom {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .fa-tooltip:hover .fa-tooltip-left,
+    .fa-tooltip:focus-within .fa-tooltip-left {
+        transform: translateY(-50%) translateX(0);
+    }
+
+    .fa-tooltip:hover .fa-tooltip-right,
+    .fa-tooltip:focus-within .fa-tooltip-right {
+        transform: translateY(-50%) translateX(0);
+    }

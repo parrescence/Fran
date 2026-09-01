@@ -1,0 +1,35 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-search-select/api"
+
+<DemoPageHeader Title="Search Select: API" ComponentName="FaSearchSelect&lt;TItem&gt;" DocSlug="fa-search-select" />
+
+<ComponentSubNav BaseRoute="/fa-search-select" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>QueryAsync</code></td><td><code>Func&lt;string, Task&lt;IReadOnlyList&lt;TItem&gt;&gt;&gt;</code></td><td>required — your own lookup, called debounced, not on every keystroke</td></tr>
+            <tr><td><code>ItemLabel</code></td><td><code>Func&lt;TItem, string&gt;</code></td><td>required — text shown for an item, both in the dropdown and once selected</td></tr>
+            <tr><td><code>ItemTemplate</code></td><td><code>RenderFragment&lt;TItem&gt;?</code></td><td>optional custom row rendering; falls back to plain <code>ItemLabel</code> text</td></tr>
+            <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>TItem?</code></td><td><code>@@bind-Value</code></td></tr>
+            <tr><td><code>SearchText</code> / <code>SearchTextChanged</code></td><td><code>string?</code></td><td><code>@@bind-SearchText</code></td></tr>
+            <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>Placeholder</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>NoResultsText</code></td><td><code>string</code></td><td>default <code>"No results"</code></td></tr>
+            <tr><td><code>MinQueryLength</code></td><td><code>int</code></td><td>default <code>1</code> — search text shorter than this doesn't trigger a query</td></tr>
+            <tr><td><code>DebounceMilliseconds</code></td><td><code>int</code></td><td>default <code>250</code></td></tr>
+            <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens the field to the selected item's label as plain text with a bottom border</td></tr>
+            <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    No <code>AdditionalAttributes</code> splat on this component — every
+    attribute you set is one of the above. Not <code>InputBase</code>-based —
+    the bound <code>Value</code> is an arbitrary <code>TItem</code>, not a
+    string. Open/close and "close when focus leaves the control" follow
+    FaDate's own pattern — a plain bool field plus a grace-period
+    <code>@@onfocusout</code>, no JS interop.
+</p>

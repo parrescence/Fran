@@ -1,0 +1,42 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-grid/api"
+
+<DemoPageHeader Title="Data Grid: API" ComponentName="FaGrid&lt;TItem&gt;" DocSlug="fa-grid" />
+
+<ComponentSubNav BaseRoute="/fa-grid" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Items</code></td><td><code>IReadOnlyList&lt;TItem&gt;?</code></td><td>the whole in-memory dataset — FaGrid filters/sorts/pages it client-side. Exactly one of <code>Items</code>/<code>ItemsProvider</code> must be set, or <code>OnParametersSet</code> throws <code>ArgumentException</code></td></tr>
+            <tr><td><code>ItemsProvider</code></td><td><code>Func&lt;FaGridRequest, Task&lt;FaGridResult&lt;TItem&gt;&gt;&gt;?</code></td><td>server-paged mode — every page/sort/filter change awaits this with a built <code>FaGridRequest</code>; FaGrid never holds more than one page in memory. <code>Column.SortKey</code>/<code>FilterPredicate</code> are never invoked in this mode</td></tr>
+            <tr><td><code>Columns</code></td><td><code>IReadOnlyList&lt;FaGridColumn&lt;TItem&gt;&gt;</code></td><td>required</td></tr>
+            <tr><td><code>PageSize</code></td><td><code>int</code></td><td>default <code>10</code></td></tr>
+            <tr><td><code>PageSizeChanged</code></td><td><code>EventCallback&lt;int&gt;</code></td><td></td></tr>
+            <tr><td><code>PageSizeOptions</code></td><td><code>IReadOnlyList&lt;int&gt;</code></td><td>default <code>[10, 25, 50, 100]</code></td></tr>
+            <tr><td><code>EmptyText</code></td><td><code>string?</code></td><td>default <code>"No rows to show."</code></td></tr>
+            <tr><td><code>LoadingContent</code></td><td><code>RenderFragment?</code></td><td>defaults to <code>FaLoadingDots</code> when unset — shown as an overlay on top of the (still-visible, stale) table while an <code>ItemsProvider</code> request is in flight</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2 class="fa-mt-5">FaGridColumn&lt;TItem&gt;</h2>
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Member</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Header</code></td><td><code>string</code></td><td></td></tr>
+            <tr><td><code>CellContent</code></td><td><code>Func&lt;TItem, RenderFragment&gt;</code></td><td></td></tr>
+            <tr><td><code>Sortable</code></td><td><code>bool</code></td><td></td></tr>
+            <tr><td><code>SortKey</code></td><td><code>Func&lt;TItem, object&gt;?</code></td><td>client (<code>Items</code>) mode only — ignored entirely in provider mode</td></tr>
+            <tr><td><code>FilterOptions</code></td><td><code>IReadOnlyList&lt;(string Key, string Label)&gt;?</code></td><td>renders a per-column filter <code>&lt;select&gt;</code> when non-empty on any column</td></tr>
+            <tr><td><code>FilterPredicate</code></td><td><code>Func&lt;TItem, string, bool&gt;?</code></td><td>client mode only — ignored entirely in provider mode</td></tr>
+            <tr><td><code>EffectiveKey</code></td><td><code>string</code></td><td>what's sent as <code>FaGridRequest.SortKey</code>/<code>Filters</code> key in provider mode</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>No <code>AdditionalAttributes</code> splat on <code>FaGrid</code> itself — every attribute you set is one of the above.</p>

@@ -1,0 +1,36 @@
+/* ============================= Divider ============================= */
+
+.fa-divider {
+    border: none;
+    border-top: var(--fa-border-width) solid var(--fa-border);
+    margin: 1rem 0;
+}
+
+.fa-divider-vertical {
+    border-top: none;
+    border-left: var(--fa-border-width) solid var(--fa-border);
+    width: 0;
+    align-self: stretch;
+    margin: 0 1rem;
+}
+
+.fa-divider-labeled {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: none;
+    margin: 1rem 0;
+    color: var(--fa-text-muted);
+    font-family: var(--fa-font);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+    .fa-divider-labeled::before,
+    .fa-divider-labeled::after {
+        content: "";
+        flex: 1;
+        border-top: var(--fa-border-width) solid var(--fa-border);
+    }

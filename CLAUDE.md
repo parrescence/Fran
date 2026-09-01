@@ -31,7 +31,10 @@ local-only design-reference folders.
 "pulled from the database" demos) — an in-repo, live demo of every style library's
 components, referencing `Blazor/FaFa.csproj` via `<ProjectReference>`
 rather than the published package, so it always reflects whatever's currently on
-the branch. See [`Showcase/README.md`](Showcase/README.md) for how to run it.
+the branch. See [`Showcase/README.md`](Showcase/README.md) for what it is and how to
+run it, and [`Showcase/CLAUDE.md`](Showcase/CLAUDE.md) for the conventions behind how
+it's structured (page-per-component layout, naming, palette gallery, page
+templates).
 
 It's a **consumer** of the libraries above, not one itself — it doesn't get its own
 `ci-<library>.yml`/`publish-<library>.yml` pair (nothing in it is published as a

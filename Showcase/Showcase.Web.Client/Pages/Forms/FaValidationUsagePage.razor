@@ -1,0 +1,88 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/validation/usage"
+
+@using Showcase.Web.Client.Validation
+
+<DemoPageHeader Title="Validation: How to use" ComponentName="FaFa.Validation" DocSlug="validation">
+    Every rule shorthand and every tier, live — type into a field below and watch
+    the message appear. Full code for what's wired up here is on the
+    <a href="/validation/wiring">Wiring it up</a> page.
+</DemoPageHeader>
+
+<ValidationSubNav />
+
+<p>
+    <code>Name</code>, <code>Price</code>, <code>Quantity</code>, and <code>Country</code>
+    below come from <code>DemoProductModelValidator</code> (the root tier, registered
+    once in <code>Program.cs</code>) — every form for this model gets those rules for
+    free, one field per rule shorthand. <code>Category</code> has no root-tier rule at
+    all; it only becomes required because <em>this page's own</em>
+    <code>ConfigureValidation</code> delegate adds it (the form tier). <code>Sku</code>
+    isn't in either — it uses its own <code>Validate</code> parameter directly (the
+    element tier), independent of the model entirely.
+</p>
+
+<div class="fa-class-legend fa-mb-4">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Name</span><code>.Required().MaxLength(40)</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Price</span><code>.Between(0.01m, 10_000m, ...)</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Quantity</span><code>.Between(1, 100, ...)</code> — Between on an <code>int</code>, not just <code>decimal</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Country</span><code>.EqualTo("US", ...)</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Category</span><code>.Required(...)</code> — form tier only</div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">SKU</span><code>Validate="@@(v => ...)"</code> — element tier, a <code>Must</code>-style predicate with no builder involved</div>
+</div>
+
+<EditForm Model="_model" class="fa-form">
+    <FaModelValidator TModel="DemoProductModel" ConfigureValidation="ConfigureFormValidation" />
+    <ValidationSummary />
+
+    <FaInput TValue="string" @bind-Value="_model.Name" Label="Name (root tier: Required + MaxLength)" Placeholder="Trail Runner Jacket" />
+    <FaInput TValue="string" @bind-Value="_model.Sku" Label="SKU (element tier: Validate)"
+             Validate="@(v => string.IsNullOrEmpty(v) || v.StartsWith("SKU-") ? null : "Must start with \"SKU-\".")" />
+    <FaInput TValue="decimal" @bind-Value="_model.Price" Type="number" Step="0.01" Label="Price (root tier: Between)" />
+    <FaInput TValue="int" @bind-Value="_model.Quantity" Type="number" Label="Quantity (root tier: Between)" />
+    <FaInput TValue="string" @bind-Value="_model.Country" Label="Country (root tier: EqualTo)" Placeholder="US" />
+    <FaInput TValue="string" @bind-Value="_model.Category" Label="Category (form tier: Required)" Placeholder="Outerwear" />
+
+    <FaButton Type="submit">Validate</FaButton>
+</EditForm>
+
+<h2 class="fa-mt-5">FaDate's own Min/Max check</h2>
+<p>
+    <code>Min</code>/<code>Max</code> are plain <code>FaDate</code> parameters, not
+    bound model fields, so this doesn't go through <code>IFaValidator</code> at all —
+    it's FaDate checking its own two parameters and showing the same
+    <code>.fa-validation-message</code> look directly. Set the range below so Max
+    ends up before Min to see it.
+</p>
+<EditForm Model="_rangeModel" class="fa-form fa-row fa-gap-3">
+    <FaDate @bind-Value="_rangeModel.Min" Label="Min" />
+    <FaDate @bind-Value="_rangeModel.Max" Label="Max" />
+</EditForm>
+<EditForm Model="_rangeModel" class="fa-form fa-mt-3">
+    <FaDate @bind-Value="_rangeModel.Value" Label="Range-bound date" Min="_rangeModel.Min" Max="_rangeModel.Max" />
+</EditForm>
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Invalid input/select</span><code>.fa-input-invalid</code> / <code>.fa-select-invalid</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Inline message</span><code>.fa-validation-message</code></div>
+</div>
+
+@code {
+    private DemoProductModel _model = new();
+
+    private sealed class RangeModel
+    {
+        public DateOnly? Min { get; set; }
+        public DateOnly? Max { get; set; }
+        public DateOnly? Value { get; set; }
+    }
+
+    private RangeModel _rangeModel = new();
+
+    private void ConfigureFormValidation(FaFa.Validation.FaValidationBuilder<DemoProductModel> builder)
+    {
+        builder.Field(nameof(DemoProductModel.Category), m => m.Category)
+            .Required("Category is required on this form (not required everywhere DemoProductModel is used).");
+    }
+}

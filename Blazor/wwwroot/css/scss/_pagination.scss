@@ -1,0 +1,61 @@
+/* ============================= Pagination ============================= */
+
+.fa-pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.fa-pagination-nav,
+.fa-pagination-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.4rem;
+    border-radius: var(--fa-radius-pill);
+    border: var(--fa-border-width) solid transparent;
+    background: none;
+    font-family: var(--fa-font);
+    font-size: 0.88rem;
+    color: var(--fa-text);
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast), border-color var(--fa-transition-fast), color var(--fa-transition-fast);
+}
+
+    .fa-pagination-nav:hover:not(:disabled),
+    .fa-pagination-page:hover:not(:disabled) {
+        background: var(--fa-footer);
+        border-color: var(--fa-glow);
+    }
+
+    .fa-pagination-nav:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    .fa-pagination-nav:focus-visible,
+    .fa-pagination-page:focus-visible {
+        outline: none;
+        border-color: var(--fa-border-focus);
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
+.fa-pagination-page-active {
+    background: var(--fa-primary);
+    color: var(--fa-text-on-primary);
+}
+
+    .fa-pagination-page-active:hover {
+        background: var(--fa-primary-dark);
+    }
+
+.fa-pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    color: var(--fa-text-muted);
+}

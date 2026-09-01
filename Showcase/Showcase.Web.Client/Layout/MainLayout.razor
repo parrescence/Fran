@@ -1,5 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
+@* Mounted once here, per fa-toast.md — every FaToastService.Show(...) call anywhere
+   in the Showcase renders through this one host. *@
+<FaToastHost />
+
 <FaSidebarShell BrandText="FaFa Showcase" BrandHref="/"
               HeaderPosition="FaNavPosition.Sticky" SidebarPosition="FaNavPosition.Sticky">
     <Sidebar>

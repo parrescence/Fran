@@ -1,0 +1,31 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-date/api"
+
+<DemoPageHeader Title="Date: API" ComponentName="FaDate" DocSlug="fa-date" />
+
+<ComponentSubNav BaseRoute="/fa-date" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>DateOnly?</code></td><td><code>@@bind-Value</code></td></tr>
+            <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>FloatingLabel</code></td><td><code>bool</code></td><td>label overlaps the field instead of sitting above it</td></tr>
+            <tr><td><code>Min</code> / <code>Max</code></td><td><code>DateOnly?</code></td><td>narrows every wheel/day-grid cell; shows a non-throwing inline range message if <code>Max</code> ends up before <code>Min</code> — see <a href="/validation">Validation</a></td></tr>
+            <tr><td><code>Format</code></td><td><code>string</code></td><td>field order + width, e.g. <code>"yyyy-MM-dd"</code>; defaults to <code>"MM/dd/yyyy"</code></td></tr>
+            <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens the day/month/year fields, toggle, and popup to the formatted date as plain text with a bottom border</td></tr>
+            <tr><td><code>CompactPicker</code></td><td><code>bool</code></td><td>locks the popup to the compact day/month/year wheels; hides the header's mode toggle entirely</td></tr>
+            <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>
+    No <code>AdditionalAttributes</code> splat exposed on this component — its
+    render tree spans multiple elements (split fields, popup, wheels), so there's
+    no single element an arbitrary splat could land on unambiguously. The compact
+    wheel picker's scroll-to-select needs <code>wwwroot/js/fa-date-wheel.js</code>
+    wired into your host page — see
+    <a href="https://github.com/parrescence/FaFa/blob/dev/Blazor/docs/install.md" target="_blank">install.md</a>.
+</p>

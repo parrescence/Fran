@@ -1,0 +1,21 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-card/api"
+
+<DemoPageHeader Title="Cards: API" ComponentName="FaCard" DocSlug="fa-card" />
+
+<ComponentSubNav BaseRoute="/fa-card" />
+
+<div class="table-wrap">
+    <table class="fa-table">
+        <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>Clickable</code></td><td><code>bool</code></td><td>adds <code>tabindex="0"</code> so the card is keyboard-focusable</td></tr>
+            <tr><td><code>Active</code></td><td><code>bool</code></td><td>adds <code>.fa-card-active</code></td></tr>
+            <tr><td><code>OnClick</code></td><td><code>EventCallback&lt;MouseEventArgs&gt;</code></td><td></td></tr>
+            <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>the card's body content</td></tr>
+            <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
+            <tr><td><code>AdditionalAttributes</code></td><td><code>Dictionary&lt;string, object&gt;?</code></td><td>any attribute not listed above splats straight onto the rendered <code>&lt;div&gt;</code> — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, <code>style</code>, etc.</td></tr>
+        </tbody>
+    </table>
+</div>

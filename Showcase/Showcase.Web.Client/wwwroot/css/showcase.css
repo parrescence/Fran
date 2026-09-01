@@ -65,3 +65,48 @@
         color: var(--fa-text);
         white-space: pre;
     }
+
+/* Page-template demo pages (FaDashboardTemplatePage, etc.) render outside the
+   Showcase's own FaSidebarShell chrome (@layout EmptyLayout — a template supplies
+   its own shell, or none at all for FaAuthTemplate), so they need their own way
+   back and their own inline explanation that the shell's <main> padding would
+   otherwise have provided for free. */
+.fa-template-demo-back {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 50;
+    background: var(--fa-surface);
+    border: var(--fa-border-width) solid var(--fa-border);
+    border-radius: var(--fa-radius-pill);
+    padding: 0.4rem 0.9rem;
+    font-family: var(--fa-font);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--fa-primary-dark);
+    text-decoration: none;
+    box-shadow: var(--fa-border-glow);
+}
+
+.fa-template-demo-note {
+    background: var(--fa-footer);
+    border-radius: var(--fa-radius-md);
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    color: var(--fa-text-muted);
+}
+
+/* Every "<Component>: API" page's parameter reference table. Wide reference
+   tables shouldn't force the whole page to scroll horizontally — each one
+   scrolls in its own container instead, same reasoning FaGrid's own
+   .fa-grid-table-wrap follows for its (differently-named, FaGrid-specific)
+   overflow wrapper. Global here (not per-page scoped CSS) since every one of
+   the ~46 component API pages reuses the exact same table look. */
+.table-wrap {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.table-wrap .fa-table {
+    min-width: 640px;
+}

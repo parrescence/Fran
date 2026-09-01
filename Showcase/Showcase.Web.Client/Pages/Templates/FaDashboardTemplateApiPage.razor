@@ -1,0 +1,34 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-dashboard-template/api"
+@layout EmptyLayout
+
+<PageTitle>FaDashboardTemplate: API — FaFa Showcase</PageTitle>
+
+<a href="/" class="fa-template-demo-back">← Back to Showcase</a>
+<ComponentSubNav BaseRoute="/fa-dashboard-template" />
+
+<div style="max-width: 900px; margin: 0 auto; padding: 5rem 1.5rem 2rem;">
+    <h1>FaDashboardTemplate: API</h1>
+    <p>Every shell-level parameter is a straight pass-through to <code>FaSidebarShell</code>, same names — see <a href="/layout-shells/api">Layout Shells: API</a> for what each one does.</p>
+    <div class="table-wrap">
+        <table class="fa-table">
+            <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
+            <tbody>
+                <tr><td><code>BrandText</code></td><td><code>string</code></td><td>required</td></tr>
+                <tr><td><code>BrandHref</code></td><td><code>string</code></td><td></td></tr>
+                <tr><td><code>IsAuthenticated</code></td><td><code>bool</code></td><td></td></tr>
+                <tr><td><code>UserDisplayName</code> / <code>UserImageUrl</code></td><td><code>string?</code></td><td></td></tr>
+                <tr><td><code>OnLogin</code> / <code>OnLogout</code></td><td><code>EventCallback</code></td><td></td></tr>
+                <tr><td><code>Sidebar</code></td><td><code>RenderFragment?</code></td><td>your app's own nav-menu component</td></tr>
+                <tr><td><code>FooterContent</code></td><td><code>RenderFragment?</code></td><td></td></tr>
+                <tr><td><code>HeaderPosition</code> / <code>FooterPosition</code> / <code>SidebarPosition</code></td><td><code>FaNavPosition</code></td><td>each default <code>Standard</code></td></tr>
+                <tr><td><code>SidebarCollapsible</code></td><td><code>bool</code></td><td></td></tr>
+                <tr><td><code>ContainScroll</code></td><td><code>bool</code></td><td></td></tr>
+                <tr><td><code>Title</code></td><td><code>string?</code></td><td>page heading above <code>ChildContent</code>; omit both this and <code>Actions</code> to skip the header row entirely</td></tr>
+                <tr><td><code>Actions</code></td><td><code>RenderFragment?</code></td><td>right-aligned content next to <code>Title</code> — typically one or two <code>FaButton</code>s</td></tr>
+                <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>the dashboard body — stat cards, a grid, charts</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>

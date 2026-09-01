@@ -1,0 +1,29 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/fa-accordion"
+
+<DemoPageHeader Title="Accordion" ComponentName="FaAccordion" DocSlug="fa-accordion">
+    Smooth open/close height animation with no JavaScript.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/fa-accordion" />
+
+<FaAccordion Items="_faqs" InitialOpenIndex="0" />
+
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Item (open)</span><code>.fa-accordion-item.fa-accordion-item-open</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Header</span><code>.fa-accordion-header</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaAccordion Items="@@(new (string, RenderFragment)[]
+{
+    ("What's your return policy?", @@&lt;p&gt;Returns within 30 days.&lt;/p&gt;),
+})" InitialOpenIndex="0" /&gt;</code></div>
+
+@code {
+    private IReadOnlyList<(string Title, RenderFragment Content)> _faqs = new (string, RenderFragment)[]
+    {
+        ("What's your return policy?", @<p>Returns are accepted within 30 days of delivery.</p>),
+        ("Do you ship internationally?", @<p>Yes — most countries, rates shown at checkout.</p>),
+        ("How do I track my order?", @<p>A tracking link is emailed once it ships.</p>)
+    };
+}
