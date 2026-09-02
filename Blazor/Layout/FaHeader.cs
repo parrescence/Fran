@@ -16,6 +16,16 @@ public sealed class FaHeader : ComponentBase
 {
     [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public string BrandHref { get; set; } = "";
+
+    /// <summary>
+    /// Optional logo/icon shown to the left of <see cref="BrandText"/> inside the brand
+    /// link — any URL an &lt;img&gt; src accepts (a static asset path, a data: URI, a
+    /// CDN URL). Omit for text-only branding (the default). Rendered decorative
+    /// (<c>alt=""</c>) since <see cref="BrandText"/> already supplies the link's
+    /// accessible name — this never doubles as the only content conveying meaning.
+    /// </summary>
+    [Parameter] public string? BrandIconUrl { get; set; }
+
     [Parameter] public bool IsAuthenticated { get; set; }
     [Parameter] public string? UserDisplayName { get; set; }
     [Parameter] public string? UserImageUrl { get; set; }
@@ -74,6 +84,16 @@ public sealed class FaHeader : ComponentBase
         builder.OpenElement(2, "a");
         builder.AddAttribute(3, "class", "fa-header-brand");
         builder.AddAttribute(4, "href", BrandHref);
+
+        if (!string.IsNullOrEmpty(BrandIconUrl))
+        {
+            builder.OpenElement(44, "img");
+            builder.AddAttribute(45, "class", "fa-header-brand-icon");
+            builder.AddAttribute(46, "src", BrandIconUrl);
+            builder.AddAttribute(47, "alt", "");
+            builder.CloseElement();
+        }
+
         builder.AddContent(5, BrandText);
         builder.CloseElement();
 
@@ -99,7 +119,7 @@ public sealed class FaHeader : ComponentBase
 
             builder.OpenComponent<FaButton>(15);
             builder.AddComponentParameter(16, nameof(FaButton.Variant), FaButtonVariant.Secondary);
-            builder.AddComponentParameter(17, nameof(FaButton.Small), true);
+            builder.AddComponentParameter(17, nameof(FaButton.Size), FaSize.Small);
             builder.AddComponentParameter(18, nameof(FaButton.OnClick), EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(this, () => OnLogout.InvokeAsync()));
             builder.AddComponentParameter(19, nameof(FaButton.ChildContent), (RenderFragment)(b => b.AddContent(0, "Log out")));
             builder.CloseComponent();
@@ -108,7 +128,7 @@ public sealed class FaHeader : ComponentBase
         {
             builder.OpenComponent<FaButton>(20);
             builder.AddComponentParameter(21, nameof(FaButton.Variant), FaButtonVariant.Secondary);
-            builder.AddComponentParameter(22, nameof(FaButton.Small), true);
+            builder.AddComponentParameter(22, nameof(FaButton.Size), FaSize.Small);
             builder.AddComponentParameter(23, nameof(FaButton.OnClick), EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(this, () => OnLogin.InvokeAsync()));
             builder.AddComponentParameter(24, nameof(FaButton.ChildContent), (RenderFragment)(b => b.AddContent(0, "Log in")));
             builder.CloseComponent();

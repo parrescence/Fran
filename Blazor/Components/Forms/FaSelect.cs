@@ -23,6 +23,12 @@ public sealed class FaSelect<TValue> : InputBase<TValue>
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
+    /// <summary>XSmall/Small/Medium(default)/Large/XLarge — see <see cref="FaSize"/>.</summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
+    /// <summary>Stretches to 100% width below the 720px breakpoint (<c>.fa-responsive</c> in <c>_responsive.scss</c>). Off by default.</summary>
+    [Parameter] public bool Responsive { get; set; }
+
     /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
     [Parameter] public bool ShowValidationMessage { get; set; } = true;
 
@@ -60,7 +66,7 @@ public sealed class FaSelect<TValue> : InputBase<TValue>
 
         builder.OpenElement(seq++, "select");
         builder.AddAttribute(seq++, "id", _id);
-        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-select", messages.Count > 0 ? "fa-select-invalid" : null));
+        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-select", FaSizeClassNames.Class("fa-input", Size), Responsive ? "fa-responsive" : null, messages.Count > 0 ? "fa-select-invalid" : null));
         builder.AddAttribute(seq++, "value", CurrentValueAsString);
         builder.AddAttribute(seq++, "disabled", ReadOnly);
         builder.AddMultipleAttributes(seq++, AdditionalAttributes);

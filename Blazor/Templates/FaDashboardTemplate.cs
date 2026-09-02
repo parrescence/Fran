@@ -19,6 +19,10 @@ public sealed class FaDashboardTemplate : ComponentBase
 {
     [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public string BrandHref { get; set; } = "";
+
+    /// <summary>Passed straight through to <see cref="FaSidebarShell.BrandIconUrl"/>.</summary>
+    [Parameter] public string? BrandIconUrl { get; set; }
+
     [Parameter] public bool IsAuthenticated { get; set; }
     [Parameter] public string? UserDisplayName { get; set; }
     [Parameter] public string? UserImageUrl { get; set; }
@@ -53,6 +57,7 @@ public sealed class FaDashboardTemplate : ComponentBase
         builder.OpenComponent<FaSidebarShell>(0);
         builder.AddComponentParameter(1, nameof(FaSidebarShell.BrandText), BrandText);
         builder.AddComponentParameter(2, nameof(FaSidebarShell.BrandHref), BrandHref);
+        builder.AddComponentParameter(16, nameof(FaSidebarShell.BrandIconUrl), BrandIconUrl);
         builder.AddComponentParameter(3, nameof(FaSidebarShell.IsAuthenticated), IsAuthenticated);
         builder.AddComponentParameter(4, nameof(FaSidebarShell.UserDisplayName), UserDisplayName);
         builder.AddComponentParameter(5, nameof(FaSidebarShell.UserImageUrl), UserImageUrl);

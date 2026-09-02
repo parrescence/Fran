@@ -19,7 +19,22 @@ namespace FaFa.Components;
 public sealed class FaButton : ComponentBase
 {
     [Parameter] public FaButtonVariant Variant { get; set; } = FaButtonVariant.Primary;
-    [Parameter] public bool Small { get; set; }
+
+    /// <summary>
+    /// XSmall/Small/Medium(default)/Large/XLarge — see <see cref="FaSize"/>. Replaces
+    /// the old <c>bool Small</c> parameter (breaking change — <c>Small="true"</c>
+    /// becomes <c>Size="FaSize.Small"</c>).
+    /// </summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
+    /// <summary>
+    /// Stretches to 100% width below the 720px breakpoint (<c>.fa-responsive</c> in
+    /// <c>_responsive.scss</c>) — off by default, since a button's intrinsic width is
+    /// usually exactly what's wanted even on small screens. Opt in for a button that
+    /// should read as the primary mobile action (e.g. a form's submit button).
+    /// </summary>
+    [Parameter] public bool Responsive { get; set; }
+
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string Type { get; set; } = "button";
     [Parameter] public string? CssClass { get; set; }
@@ -48,7 +63,7 @@ public sealed class FaButton : ComponentBase
         var isLink = !string.IsNullOrEmpty(Href);
 
         builder.OpenElement(0, isLink ? "a" : "button");
-        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-btn", VariantClass, Small ? "fa-btn-sm" : null, CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-btn", VariantClass, FaSizeClassNames.Class("fa-btn", Size), Responsive ? "fa-responsive" : null, CssClass));
 
         if (isLink)
         {

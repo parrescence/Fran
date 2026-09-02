@@ -127,18 +127,81 @@ dropdown:
 <FaPaletteSwitcher />
 ```
 
-See [FaPaletteSwitcher](palette-switcher.md) for details. Or call the underlying
-function yourself, the same way `<FaThemeSwitcher>` calls `window.faSetTheme(...)`:
+**Option C — bring your own palette at runtime**, in addition to the twenty-eight
+built-ins, by passing `FaPalette` objects to `FaPaletteSwitcher`'s `CustomPalettes`
+parameter:
+
+```razor
+<FaPaletteSwitcher CustomPalettes="_myPalettes" />
+
+@code {
+    private readonly FaPalette[] _myPalettes =
+    [
+        new FaPalette(
+            Value: "acme-brand",
+            Label: "Acme Brand",
+            Colors: new FaPaletteColors(
+                Primary: "#2454ff", PrimaryDark: "#1638b0", PrimaryLight: "#7a9bff",
+                Footer: "#eef1fb", Glow: "#3f6bff", Gold: "#d9a441", Accent: "#00a389",
+                AccentDark: "#00786a", Ember: "#c0392b", Wine: "#6b1f2a", Fir: "#20242b",
+                Cream: "#f7f8fc", Surface: "#ffffff", Text: "#1b1f2a", TextMuted: "#5c6270",
+                TextOnPrimary: "#ffffff", Border: "#c9d2ec", BorderFocus: "#1638b0",
+                AlertDangerBg: "#fbeaea", AlertSuccessBg: "#e3f5f1", AlertInfoBg: "#eaf0fc"),
+            DarkOverrides: new FaPaletteDarkOverrides(
+                Cream: "#14161d", Surface: "#1c1f29", Text: "#eef0f7", TextMuted: "#a3a9ba")),
+    ];
+}
+```
+
+A custom palette has no compiled CSS of its own — unlike a built-in, its colors travel
+as JSON on the `<option>` itself and get applied as inline `--fa-*` custom properties on
+`<html>` at selection time (see [FaPaletteSwitcher](palette-switcher.md)). Only
+`Colors` is required; `DarkOverrides` is optional and only needs the tokens that should
+actually change in dark mode.
+
+See [FaPaletteSwitcher](palette-switcher.md) for details on Options B/C. Or call the
+underlying function yourself, the same way `<FaThemeSwitcher>` calls
+`window.faSetTheme(...)` — built-ins only, since a custom palette's colors have to come
+from a rendered `<option>`'s data attributes:
 
 ```js
 window.faSetPalette('southeast-beach');
 // or window.faSetPalette('northwest-fall') / window.faSetPalette(null) to reset
 ```
 
-Either way, this persists the choice to `localStorage` under `fa-palette` and stamps
-`data-fa-palette` on `<html>`.
+Either way, this persists the choice to `localStorage` under `fa-palette` (a custom
+palette's colors also go into `fa-custom-palette`) and stamps `data-fa-palette` on
+`<html>` (skipped for a custom palette — see below).
 
-**Either way**, add this inline snippet to your host page's `<head>`, **before** the
+**Option D — override colors directly with your own CSS**, no picker at all. Every
+component reads color exclusively through the `--fa-*` custom properties `:root`
+defines (see `Blazor/CLAUDE.md`'s "Themes" section) — so redeclaring any of them in
+your own stylesheet, loaded **after** `fa-styles.css`, silently wins over whichever
+built-in palette is active, no `FaPalette`/C# involved:
+
+```css
+/* your-app.css, linked after fa-styles.css */
+:root {
+  --fa-primary: #2454ff;
+  --fa-primary-dark: #1638b0;
+  --fa-accent: #00a389;
+  /* ...override only the tokens you actually want to change; every token this
+     omits keeps coming from whichever built-in palette is active. */
+}
+```
+
+Options A–C are all for a palette a user can *pick* — one fixed choice hardcoded at
+build time (A), one chosen at runtime from the bundled dropdown, built-in (B) or
+your own addition to it (C). Option D is for reskinning the app to one brand with no
+picker UI at all, and needs nothing from this library beyond the `--fa-*` names
+themselves — see `_palettes.scss` in this repo, or any rendered palette's swatch page
+under `Showcase`'s `/palette` gallery, for the full token list and what each one
+controls. It combines fine with A/B/C too: your override CSS simply wins over
+whichever built-in/custom palette happens to be active for any token it redeclares,
+since it loads later in the cascade — handy for "start from a built-in palette but
+tweak two or three tokens" without hand-copying the other eighteen.
+
+**Whichever of A–C you use**, add this inline snippet to your host page's `<head>`, **before** the
 `fa-styles.css` `<link>` from step 4, so a returning visitor's saved mode/palette applies
 before first paint instead of flashing the default and then jumping:
 
@@ -148,12 +211,67 @@ before first paint instead of flashing the default and then jumping:
     var theme = localStorage.getItem('fa-theme');
     if (theme) document.documentElement.setAttribute('data-theme', theme);
     var palette = localStorage.getItem('fa-palette');
-    if (palette) document.documentElement.setAttribute('data-fa-palette', palette);
+    // A "custom:..." palette has no compiled CSS to select via the attribute — its
+    // colors get applied as inline custom properties by theme.js once it loads
+    // (Blazor mounts <FaPaletteSwitcher> after this snippet runs), so there's a
+    // brief flash of the default palette for that case only; skip the attribute here
+    // rather than stamping a value nothing selects on.
+    if (palette && palette.indexOf('custom:') !== 0) {
+      document.documentElement.setAttribute('data-fa-palette', palette);
+    }
   })();
 </script>
 ```
 
-## 6. Using FaToastHost (optional)
+## 6. Customize typography & shape (optional)
+
+`--fa-font` is a single global custom property (same architecture as the color
+tokens above) — every component reads its font through it, so swapping it in your
+own stylesheet, loaded **after** `fa-styles.css`, reskins the whole library's
+typography with no FaFa code involved:
+
+```css
+/* your-app.css, linked after fa-styles.css */
+:root {
+  --fa-font: 'Inter', system-ui, sans-serif;
+}
+```
+
+A handful of other palette-agnostic "standard" tokens work the same way — defined
+once in `:root`, reused everywhere, and safe to override the same way:
+
+| Token | Default | Controls |
+| --- | --- | --- |
+| `--fa-radius-sm` / `-md` / `-lg` / `-pill` | `8px` / `14px` / `22px` / `999px` | Corner rounding — small controls, cards/panels, large surfaces, pill shapes |
+| `--fa-border-width` | `2px` | Standard border weight everywhere a component draws one |
+| `--fa-transition-fast` / `-medium` | `0.15s ease` / `0.2s ease` | Hover/focus color & shadow changes vs. size/layout changes (sidebar collapse, toggle width) |
+
+**Not** overridable this way: per-component padding/margin/gap and most font-size/
+font-weight values. Those are deliberately hand-tuned per component rather than
+drawn from a shared scale (see `Blazor/CLAUDE.md`'s "Themes" section) — two
+components using different spacing isn't drift to fix, it's the design. To change
+one of those, target that component's own class (`.fa-btn`, `.fa-card`, ...) in your
+own CSS instead of looking for a token.
+
+## 7. Set a favicon / app icon (optional)
+
+This library ships no favicon of its own — like `BrandText`, it's your app's own
+branding, not something a style library should hardcode (see `Blazor/CLAUDE.md`'s
+"no hardcoded brand/app defaults" rule). Add the usual `<link>` tags to your host
+page's `<head>` yourself, the same as any Blazor app:
+
+```html
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+```
+
+If you want a logo next to your app's name in the header/sidebar chrome itself
+(distinct from the browser-tab favicon above), that's `BrandIconUrl` on
+`<FaHeader>`/the page shells/templates — see
+[Layout shells](layout-shells.md#parameters-shared-by-both-shells) and
+[Page templates](page-templates.md).
+
+## 8. Using FaToastHost (optional)
 
 Every other component in this library needs zero C#-side setup — import the
 namespace and use the tag. `FaToastHost`/`FaToastService` is the one exception:

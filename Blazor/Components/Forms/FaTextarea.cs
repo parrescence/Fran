@@ -27,6 +27,12 @@ public sealed class FaTextarea : InputTextArea
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
+    /// <summary>XSmall/Small/Medium(default)/Large/XLarge — see <see cref="FaSize"/>.</summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
+    /// <summary>Stretches to 100% width below the 720px breakpoint (<c>.fa-responsive</c> in <c>_responsive.scss</c>). Off by default.</summary>
+    [Parameter] public bool Responsive { get; set; }
+
     /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
     [Parameter] public bool ShowValidationMessage { get; set; } = true;
 
@@ -72,7 +78,7 @@ public sealed class FaTextarea : InputTextArea
         {
             builder.OpenElement(regionSeq++, "textarea");
             builder.AddAttribute(regionSeq++, "id", _id);
-            builder.AddAttribute(regionSeq++, "class", CssClassNames.Combine("fa-textarea", messages.Count > 0 ? "fa-input-invalid" : null));
+            builder.AddAttribute(regionSeq++, "class", CssClassNames.Combine("fa-textarea", FaSizeClassNames.Class("fa-input", Size), Responsive ? "fa-responsive" : null, messages.Count > 0 ? "fa-input-invalid" : null));
             builder.AddAttribute(regionSeq++, "placeholder", Placeholder);
             builder.AddAttribute(regionSeq++, "maxlength", MaxLength);
             builder.AddAttribute(regionSeq++, "value", CurrentValueAsString);

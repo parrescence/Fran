@@ -29,14 +29,19 @@
 <div class="fa-code-block"><code>&lt;FaButton Variant="FaButtonVariant.Primary"&gt;Primary&lt;/FaButton&gt;
 &lt;FaButton Variant="FaButtonVariant.OutlineDanger"&gt;Outline danger&lt;/FaButton&gt;</code></div>
 
-<h2 class="fa-mt-5">Size &amp; disabled</h2>
-<p><code>Small="true"</code> adds <code>.fa-btn-sm</code>; <code>Disabled="true"</code> uses the native <code>disabled</code> attribute.</p>
+<h2 class="fa-mt-5">Size, disabled &amp; responsive</h2>
+<p><code>Size</code> is the shared <code>FaSize</code> scale (<code>XSmall</code>/<code>Small</code>/<code>Medium</code> default/<code>Large</code>/<code>XLarge</code>) — <code>Medium</code> renders with no extra class, same look as before <code>Size</code> existed. <code>Disabled="true"</code> uses the native <code>disabled</code> attribute. <code>Responsive="true"</code> stretches the button to 100% width below 720px — resize this window to try it.</p>
 <div class="fa-demo-preview">
-    <FaButton Variant="FaButtonVariant.Primary" Small="true">Small</FaButton>
+    <FaButton Variant="FaButtonVariant.Primary" Size="FaSize.XSmall">XSmall</FaButton>
+    <FaButton Variant="FaButtonVariant.Primary" Size="FaSize.Small">Small</FaButton>
+    <FaButton Variant="FaButtonVariant.Primary">Medium (default)</FaButton>
+    <FaButton Variant="FaButtonVariant.Primary" Size="FaSize.Large">Large</FaButton>
+    <FaButton Variant="FaButtonVariant.Primary" Size="FaSize.XLarge">XLarge</FaButton>
     <FaButton Variant="FaButtonVariant.Primary" Disabled="true">Disabled</FaButton>
 </div>
-<div class="fa-code-block"><code>&lt;FaButton Variant="FaButtonVariant.Primary" Small="true"&gt;Small&lt;/FaButton&gt;
-&lt;FaButton Variant="FaButtonVariant.Primary" Disabled="true"&gt;Disabled&lt;/FaButton&gt;</code></div>
+<div class="fa-code-block"><code>&lt;FaButton Variant="FaButtonVariant.Primary" Size="FaSize.Small"&gt;Small&lt;/FaButton&gt;
+&lt;FaButton Variant="FaButtonVariant.Primary" Disabled="true"&gt;Disabled&lt;/FaButton&gt;
+&lt;FaButton Variant="FaButtonVariant.Primary" Responsive="true"&gt;Full-width on mobile&lt;/FaButton&gt;</code></div>
 
 <h2 class="fa-mt-5">As a link</h2>
 <p>Set <code>Href</code> to render an <code>&lt;a&gt;</code> styled as a button instead of a <code>&lt;button&gt;</code> — same <code>.fa-btn</code> classes either way.</p>

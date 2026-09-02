@@ -11,7 +11,8 @@
         <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
         <tbody>
             <tr><td><code>Variant</code></td><td><code>FaButtonVariant</code></td><td><code>Primary</code> (default) · <code>Secondary</code> · <code>Outline</code> · <code>Danger</code> · <code>OutlineDanger</code> · <code>Accent</code> · <code>OutlineAccent</code></td></tr>
-            <tr><td><code>Small</code></td><td><code>bool</code></td><td>adds <code>.fa-btn-sm</code> — smaller padding/font</td></tr>
+            <tr><td><code>Size</code></td><td><code>FaSize</code></td><td><code>XSmall</code> · <code>Small</code> · <code>Medium</code> (default) · <code>Large</code> · <code>XLarge</code> — see <a href="/sizing">Sizing</a>. Replaces the old <code>bool Small</code> parameter</td></tr>
+            <tr><td><code>Responsive</code></td><td><code>bool</code></td><td>stretches to 100% width below 720px, default <code>false</code></td></tr>
             <tr><td><code>Disabled</code></td><td><code>bool</code></td><td>native <code>disabled</code> on <code>&lt;button&gt;</code>; <code>aria-disabled</code> on <code>&lt;a&gt;</code> (anchors have no native disabled state)</td></tr>
             <tr><td><code>Type</code></td><td><code>string</code></td><td>HTML <code>type</code>, default <code>"button"</code> — set <code>"submit"</code> inside an <code>EditForm</code>; ignored when <code>Href</code> is set</td></tr>
             <tr><td><code>Href</code></td><td><code>string?</code></td><td>set to render an <code>&lt;a&gt;</code> styled as a button instead of a <code>&lt;button&gt;</code></td></tr>

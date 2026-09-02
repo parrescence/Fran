@@ -33,6 +33,7 @@ whatever error/success state you're tracking:
 | Parameter | Type | Notes |
 |---|---|---|
 | `Variant` | `FaAlertVariant` | `Info` (default) \| `Success` \| `Danger` |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — see [Sizing](sizing.md) |
 | `CssClass` | `string?` | |
 
 [← Back to index](index.md)

@@ -40,6 +40,8 @@ every change.
 | `Label` | `string?` | |
 | `ChildContent` | `RenderFragment?` | `<option>` elements |
 | `ReadOnly` | `bool` | renders `disabled` (no native `readonly` on `<select>`), same boxed look, muted |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — see [Sizing](sizing.md) |
+| `Responsive` | `bool` | stretches to 100% width below 720px, default `false` — see [Sizing](sizing.md#responsive) |
 | `ShowValidationMessage` | `bool` | defaults `true` — see [Validation](validation.md) |
 | `Validate` | `Func<TValue, string?>?` | element-tier validation override — see [Validation](validation.md) |
 | `ContainerCssClass` | `string?` | |
