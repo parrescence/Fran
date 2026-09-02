@@ -12,7 +12,7 @@ instead of a `<button>`.
     Save
 </FaButton>
 
-<FaButton Variant="FaButtonVariant.OutlineDanger" Small="true" OnClick="HandleDeleteAsync">
+<FaButton Variant="FaButtonVariant.OutlineDanger" Size="FaSize.Small" OnClick="HandleDeleteAsync">
     Delete
 </FaButton>
 
@@ -45,7 +45,8 @@ raw `MouseEventArgs`, same as a native `<button onclick>`.
 | Parameter | Type | Notes |
 |---|---|---|
 | `Variant` | `FaButtonVariant` | `Primary` \| `Secondary` \| `Outline` \| `Danger` \| `OutlineDanger` \| `Accent` \| `OutlineAccent` |
-| `Small` | `bool` | smaller padding/font |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — see [Sizing](sizing.md). Replaces the old `bool Small` parameter |
+| `Responsive` | `bool` | stretches to 100% width below 720px, default `false` — see [Sizing](sizing.md#responsive) |
 | `Disabled` | `bool` | |
 | `Type` | `string` | HTML `type`, default `"button"` — set `"submit"` inside an `EditForm` |
 | `Href` / `Target` | `string?` | set `Href` to render as `<a>` instead of `<button>` |

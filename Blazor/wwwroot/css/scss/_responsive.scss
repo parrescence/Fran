@@ -1,6 +1,16 @@
 /* ============================= Small screens ============================= */
 
 @media (max-width: 720px) {
+    /* Shared opt-in utility, not a per-component class — any component with a
+       Responsive parameter (FaButton/FaCard/FaInput/FaSelect/FaTextarea/FaCurrency
+       today) adds this one class when Responsive="true" instead of each defining
+       its own identical "full width below the breakpoint" rule. Off by default:
+       a button/card/input's intrinsic width is usually exactly what's wanted even
+       on small screens, so this is opt-in per instance rather than automatic. */
+    .fa-responsive {
+        width: 100%;
+    }
+
     .fa-shell-sidebar .fa-shell-body {
         flex-direction: column;
     }

@@ -35,6 +35,31 @@
         opacity: 0.7;
     }
 
+/* FaInput/FaSelect/FaTextarea/FaCurrency's Size (FaSize) — all four share this one
+   ladder (applied via the "fa-input-{size}" prefix even on a <select>/<textarea>;
+   they're the same padding/font-size as a plain input already) since Medium is
+   identical across all four to begin with. Medium itself renders with none of
+   these, the same look every one of these already had before Size existed. */
+.fa-input-xs, .fa-select.fa-input-xs, .fa-textarea.fa-input-xs {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.78rem;
+}
+
+.fa-input-sm, .fa-select.fa-input-sm, .fa-textarea.fa-input-sm {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.86rem;
+}
+
+.fa-input-lg, .fa-select.fa-input-lg, .fa-textarea.fa-input-lg {
+    padding: 0.7rem 1.15rem;
+    font-size: 1.05rem;
+}
+
+.fa-input-xl, .fa-select.fa-input-xl, .fa-textarea.fa-input-xl {
+    padding: 0.9rem 1.4rem;
+    font-size: 1.15rem;
+}
+
 /* Shared "input type" readonly look — FaInput/FaSelect/FaTextarea/FaCurrency: same
    box as normal, just muted and non-interactive. (FaCheckbox/FaToggle/FaRadioGroup/
    FaDate/FaDateRange/FaSearchSelect/FaDropdown use the flattened
@@ -95,4 +120,71 @@
     color: var(--fa-ember);
     font-size: 0.82rem;
 }
+
+/* ============================= Input style (standard/minimal/maximal) =============================
+   A third independent axis alongside palette (data-fa-palette) and mode (data-theme),
+   both on <html> — see theme.js's own comment for the full three-axis picture. No
+   attribute (or data-fa-input-style="standard") is today's default look, defined
+   above; "minimal"/"maximal" only override the handful of properties that actually
+   change. Applies to the boxed native-input-like controls that already share this
+   base look (.fa-input/.fa-select/.fa-textarea/.fa-currency-input) — not the
+   flattened controls (checkbox/toggle/date/etc., see _checkbox-radio.scss's own
+   comment on why those never were boxed to begin with). Toggle with
+   window.faSetInputStyle(...) (js/theme.js) or <FaInputStyleSwitcher>. */
+:root[data-fa-input-style="minimal"] {
+    .fa-input, .fa-select, .fa-textarea, .fa-currency-input {
+        border-width: 1px;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .fa-input:focus, .fa-select:focus, .fa-textarea:focus, .fa-currency-input:focus {
+        box-shadow: none;
+    }
+}
+
+:root[data-fa-input-style="maximal"] {
+    .fa-input, .fa-select, .fa-textarea, .fa-currency-input {
+        border-width: 3px;
+        border-radius: var(--fa-radius-lg);
+    }
+}
+
+/* ============================= Floating label ============================= */
+/* FaInput.FloatingLabel — pure CSS, no JS: the label sits absolutely positioned
+   inside the input until the input is focused or non-empty, then animates up to sit
+   on the border. Relies on :placeholder-shown (which needs a non-empty placeholder —
+   FaInput.cs supplies a single space when none is set) and the label coming *after*
+   the <input> in markup so the ~ general-sibling combinator can reach it. */
+.fa-field-floating {
+    position: relative;
+    display: block;
+}
+
+    .fa-field-floating .fa-input {
+        width: 100%;
+    }
+
+.fa-label-floating {
+    position: absolute;
+    left: 0.9rem;
+    top: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--fa-text-muted);
+    background: var(--fa-surface);
+    padding: 0 0.3rem;
+    pointer-events: none;
+    transition: transform var(--fa-transition-fast), font-size var(--fa-transition-fast), color var(--fa-transition-fast);
+    transform-origin: left top;
+}
+
+.fa-input:focus ~ .fa-label-floating,
+.fa-input:not(:placeholder-shown) ~ .fa-label-floating {
+    transform: translateY(-1.35rem) scale(0.85);
+    color: var(--fa-primary-dark);
+}
+
+    .fa-input:focus ~ .fa-label-floating {
+        color: var(--fa-border-focus);
+    }
 

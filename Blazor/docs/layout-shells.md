@@ -81,6 +81,22 @@ If neither shell fits (a custom page structure), compose `FaHeader`/`FaSidebar`/
 <FaFooter BrandText="MyApp" />
 ```
 
+## Brand icon
+
+Set `BrandIconUrl` on either shell (or `FaHeader` directly) to show a logo next to
+`BrandText`:
+
+```razor
+<FaSidebarShell BrandText="MyApp" BrandHref="/" BrandIconUrl="/logo.svg">
+    <Sidebar><NavMenu /></Sidebar>
+    <ChildContent>@Body</ChildContent>
+</FaSidebarShell>
+```
+
+Omit it for text-only branding (the default). This is the header/sidebar chrome's
+own logo, not the browser tab's favicon — see
+[Install & setup, step 7](install.md#7-set-a-favicon--app-icon-optional) for that.
+
 ## Position: Standard, Sticky, or Floating
 
 `FaHeader`, `FaFooter`, and `FaSidebar` each take a `Position="FaNavPosition.___"`
@@ -185,6 +201,7 @@ works) — nothing to wire up for it.
 |---|---|---|
 | `BrandText` | `string` | **required** (no hardcoded default — see [CLAUDE.md](../CLAUDE.md)) |
 | `BrandHref` | `string` | link target for the brand |
+| `BrandIconUrl` | `string?` | optional logo/icon shown left of `BrandText` — any `<img>` src (static asset path, `data:` URI, CDN URL); omit for text-only branding (default) |
 | `IsAuthenticated` | `bool` | swaps between login button and avatar+name+logout |
 | `UserDisplayName` / `UserImageUrl` | `string?` | fed into `FaAvatar` |
 | `OnLogin` / `OnLogout` | `EventCallback` | |

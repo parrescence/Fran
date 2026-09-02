@@ -24,6 +24,19 @@
     &lt;strong&gt;Pro&lt;/strong&gt;
 &lt;/FaCard&gt;</code></div>
 
+
+<h2 class="fa-mt-5">Size &amp; responsive</h2>
+<p><code>Size</code> is the shared <a href="/sizing">FaSize</a> scale — <code>Medium</code> (default) renders with no extra class. <code>Responsive="true"</code> stretches to 100% width below 720px.</p>
+<div class="fa-demo-preview">
+    <FaCard Size="FaSize.XSmall">XSmall</FaCard>
+    <FaCard Size="FaSize.Small">Small</FaCard>
+    <FaCard>Medium</FaCard>
+    <FaCard Size="FaSize.Large">Large</FaCard>
+    <FaCard Size="FaSize.XLarge">XLarge</FaCard>
+</div>
+<div class="fa-code-block"><code>&lt;FaCard Size="FaSize.Small"&gt;Small&lt;/FaCard&gt;
+&lt;FaCard Responsive="true"&gt;Full-width on mobile&lt;/FaCard&gt;</code></div>
+
 @code {
     private readonly string[] _cardOptions = { "Starter", "Pro", "Enterprise" };
     private string _selectedCard = "Pro";

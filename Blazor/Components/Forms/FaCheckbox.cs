@@ -21,6 +21,9 @@ public sealed class FaCheckbox : InputCheckbox
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
+    /// <summary>XSmall/Small/Medium(default)/Large/XLarge — scales the box and label together. See <see cref="FaSize"/>.</summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
     /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
     [Parameter] public bool ShowValidationMessage { get; set; } = true;
 
@@ -55,7 +58,7 @@ public sealed class FaCheckbox : InputCheckbox
         }
 
         builder.OpenElement(seq++, "label");
-        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-checkbox", ContainerCssClass));
+        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-checkbox", FaSizeClassNames.Class("fa-checkbox", Size), ContainerCssClass));
 
         builder.OpenElement(seq++, "input");
         builder.AddAttribute(seq++, "type", "checkbox");

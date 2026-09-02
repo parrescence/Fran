@@ -72,6 +72,10 @@ Two binding shapes show up repeatedly:
 
 - [Validation](validation.md) — root/DTO, form, and per-element validation tiers, plus inline error messages on every input
 
+## Sizing & responsive
+
+- [Sizing & responsive](sizing.md) — the shared `FaSize` scale, opt-in `Responsive` full-width-on-mobile, `FaInput`'s floating label, and the app-wide input-style axis
+
 ## Progress & loaders
 
 - [FaProgress](fa-progress.md) — filled track, 4 fill directions (Right/Left/Up/Down)
@@ -110,4 +114,5 @@ Two binding shapes show up repeatedly:
 - [Layout shells](layout-shells.md) — `FaStandardShell`/`FaSidebarShell` + `FaHeader`/`FaFooter`/`FaSidebar`
 - [FaThemeSwitcher](theme-switcher.md) — Light/Dark/Colorblind-safe buttons
 - [FaPaletteSwitcher](palette-switcher.md) — dropdown over all 28 color palettes
+- [FaInputStyleSwitcher](input-style-switcher.md) — Standard/Minimal/Maximal buttons for the app-wide input-style axis
 - [FaIcon](fa-icon.md) — the hand-drawn SVG icon set

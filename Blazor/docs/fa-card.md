@@ -35,6 +35,8 @@ selected" yourself (as above) and pass it back in via `Active`.
 |---|---|---|
 | `Clickable` | `bool` | adds `tabindex="0"` so it's keyboard-focusable |
 | `Active` | `bool` | highlighted border/glow |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — scales padding, see [Sizing](sizing.md) |
+| `Responsive` | `bool` | stretches to 100% width below 720px, default `false` — see [Sizing](sizing.md#responsive) |
 | `OnClick` | `EventCallback<MouseEventArgs>` | |
 | `CssClass` | `string?` | |
 

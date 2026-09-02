@@ -1,0 +1,39 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/input-style-switcher"
+
+<DemoPageHeader Title="Input Style Switcher" ComponentName="FaInputStyleSwitcher" DocSlug="input-style-switcher">
+    Standard/Minimal/Maximal buttons for the app-wide input-style axis — see also <a href="/sizing">Sizing &amp; responsive</a>.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/input-style-switcher" />
+
+<p>Picking a style here affects every boxed input across the whole Showcase — try the fields below, then check another page's inputs too.</p>
+<div class="fa-demo-preview">
+    <FaInputStyleSwitcher />
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Group</span><code>.fa-input-style-switcher</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Each button</span><code>.fa-input-style-btn</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Active button</span><code>.fa-input-style-btn.fa-input-style-btn-active</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaInputStyleSwitcher /&gt;</code></div>
+
+<h2 class="fa-mt-5">Try it</h2>
+<EditForm Model="_model" style="max-width:20rem;">
+    <FaInput TValue="string" @bind-Value="_model.Name" Label="Name" />
+    <FaSelect TValue="string" @bind-Value="_model.Choice" Label="Choice">
+        <option value="a">Option A</option>
+        <option value="b">Option B</option>
+    </FaSelect>
+</EditForm>
+
+@code {
+    private readonly DemoModel _model = new();
+
+    private class DemoModel
+    {
+        public string Name { get; set; } = "";
+        public string Choice { get; set; } = "a";
+    }
+}
