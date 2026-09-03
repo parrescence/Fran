@@ -22,3 +22,17 @@
         object-fit: cover;
     }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — drops the
+   colored glow blur but keeps the plain ring, which is doing real separation
+   work against whatever background the avatar sits on. */
+:root[data-fa-ui-style="terse"] .fa-avatar {
+    box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+}
+
+/* Typewriter UI style (data-fa-ui-style="typewriter", see _palettes.scss) — keeps
+   the plain ring (same separation reasoning as terse's override above) and adds
+   the soft neutral shadow behind it, so an avatar reads as gently lifted too. */
+:root[data-fa-ui-style="typewriter"] .fa-avatar {
+    box-shadow: 0 0 0 2px var(--fa-text-on-primary), var(--fa-border-glow);
+}
+

@@ -36,3 +36,13 @@
     font-size: 0.95rem;
 }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — the tracked-out
+   uppercase mono micro-label treatment from the reference look. Radius stays
+   --fa-radius-pill (badges are status pills in both styles, see _palettes.scss's
+   terse comment) — only the label typography changes. */
+:root[data-fa-ui-style="terse"] .fa-badge {
+    font-family: var(--fa-font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+

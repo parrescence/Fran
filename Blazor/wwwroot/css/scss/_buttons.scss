@@ -165,3 +165,26 @@
     font-size: 1.2rem;
 }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — a button isn't a
+   status pill, so it drops to the same small radius as boxed inputs instead of
+   inheriting --fa-radius-pill. Everything else about .fa-btn (padding, weight,
+   the border-glow/transition tokens it already reads) falls out of the token
+   overrides in _palettes.scss with no change needed here. */
+:root[data-fa-ui-style="terse"] .fa-btn {
+    border-radius: var(--fa-radius-sm);
+}
+
+/* Typewriter UI style (data-fa-ui-style="typewriter", see _palettes.scss) — same
+   "a button isn't a status pill" reasoning as terse's override above, but to the
+   rounded-rectangle --fa-radius-md instead of terse's small-and-square. .fa-btn
+   never draws a shadow at all in flow/terse, so the signature soft "resting"
+   shadow needs adding explicitly here to actually show on buttons too. */
+:root[data-fa-ui-style="typewriter"] .fa-btn {
+    border-radius: var(--fa-radius-md);
+    box-shadow: var(--fa-border-glow);
+}
+
+    :root[data-fa-ui-style="typewriter"] .fa-btn:focus-visible {
+        box-shadow: var(--fa-border-glow-focus);
+    }
+
