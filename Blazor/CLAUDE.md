@@ -336,6 +336,21 @@ conflict with the "no shared spacing scale" rule two paragraphs up: each compone
 still tunes its own literal padding/font-size per size step, `FaSize` is only the
 shared *scale name*, not shared values.
 
+A fourth axis, `data-fa-ui-style` (`"terse"`/`"typewriter"`, absent means the
+default "flow" look), retunes the library's shared shape/type/motion tokens
+themselves — `--fa-radius-*`, `--fa-font`, `--fa-border-glow`/`-focus`,
+`--fa-transition-*`, all defined once in `_palettes.scss` — to two contrasting
+alternatives to the default rounded/animated look: `terse` is flatter and
+editorial with no shadow and no motion, `typewriter` is paper-like with a real
+monospaced serif font and a soft neutral "resting" shadow instead of the glow
+(motion stays untouched — the gentle movement is the point). Unlike
+palette/input-style, which redefine colors or one component family, each of these
+is a token override plus a short explicit list of hardcoded (non-token) shadows
+and a couple of per-component flourishes (badge/chip label typography for
+`terse`; a subtle shadow added to `.fa-btn`, which never drew one before, for
+`typewriter`) — see `_palettes.scss`'s own comment above its
+`[data-fa-ui-style="..."]` blocks and `docs/ui-style-switcher.md`.
+
 Each palette's color choices are worked out first in `.themes/` in this folder — a
 **gitignored**, local-only folder of Markdown design docs, not shipped in the package
 and not committed. Once a palette is wired into `_palettes.scss`, `.themes/`'s copy

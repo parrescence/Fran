@@ -71,6 +71,22 @@
         color: var(--fa-text);
     }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — flat border only,
+   no drop shadow; the slide/scale-in entrance also drops since "no motion" is
+   part of the same style's identity as the flattened shadow/transition tokens. */
+:root[data-fa-ui-style="terse"] .fa-toast {
+    box-shadow: none;
+    animation: none;
+}
+
+/* Typewriter UI style (data-fa-ui-style="typewriter", see _palettes.scss) — soft
+   neutral shadow instead of the literal one; the slide/scale-in entrance stays
+   (unlike terse/brutal's "no motion" stance) since a toast easing in is exactly
+   the gentle, physical-feeling movement this style is going for. */
+:root[data-fa-ui-style="typewriter"] .fa-toast {
+    box-shadow: var(--fa-border-glow);
+}
+
 @keyframes fa-toast-in {
     from {
         opacity: 0;
