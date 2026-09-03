@@ -28,9 +28,11 @@ dotnet add package FaFa
 ```
 
 That's the package reference. The library also ships CSS/JS static assets that Blazor
-doesn't auto-wire into your host page, plus 28 optional color palettes — full
-step-by-step (including the CI-friendly no-PAT path, and the exact host-page tags to
-add) is in **[`docs/install.md`](docs/install.md)**.
+doesn't auto-wire into your host page, plus 28 optional color palettes — pick one,
+switch between them at runtime, add your own alongside them, or override the color
+tokens directly with your own CSS — full step-by-step (including the CI-friendly
+no-PAT path, and the exact host-page tags to add) is in
+**[`docs/install.md`](docs/install.md)**.
 
 ## What's available
 

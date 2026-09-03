@@ -12,6 +12,10 @@ public sealed class FaStandardShell : ComponentBase
 {
     [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public string BrandHref { get; set; } = "";
+
+    /// <summary>Passed straight through to <see cref="FaHeader.BrandIconUrl"/>.</summary>
+    [Parameter] public string? BrandIconUrl { get; set; }
+
     [Parameter] public bool IsAuthenticated { get; set; }
     [Parameter] public string? UserDisplayName { get; set; }
     [Parameter] public string? UserImageUrl { get; set; }
@@ -44,6 +48,7 @@ public sealed class FaStandardShell : ComponentBase
         builder.OpenComponent<FaHeader>(2);
         builder.AddComponentParameter(3, nameof(FaHeader.BrandText), BrandText);
         builder.AddComponentParameter(4, nameof(FaHeader.BrandHref), BrandHref);
+        builder.AddComponentParameter(22, nameof(FaHeader.BrandIconUrl), BrandIconUrl);
         builder.AddComponentParameter(5, nameof(FaHeader.IsAuthenticated), IsAuthenticated);
         builder.AddComponentParameter(6, nameof(FaHeader.UserDisplayName), UserDisplayName);
         builder.AddComponentParameter(7, nameof(FaHeader.UserImageUrl), UserImageUrl);

@@ -33,6 +33,7 @@ Pure layout — no bound value. Whatever you put in `ChildContent` (typically
 |---|---|---|
 | `BrandText` | `string` | **required** — shown above the card, not inside a header bar |
 | `BrandHref` | `string` | |
+| `BrandIconUrl` | `string?` | optional logo shown left of `BrandText` — see [layout shells](layout-shells.md#brand-icon) |
 | `Title` / `Description` | `string?` | shown above `ChildContent` inside the card |
 | `MaxWidth` | `string` | any CSS width; defaults to `24rem` |
 | `ChildContent` | `RenderFragment?` | the form itself |

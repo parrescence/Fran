@@ -22,6 +22,7 @@ already have, as above.
 | Parameter | Type | Notes |
 |---|---|---|
 | `Variant` | `FaBadgeVariant` | `Neutral` (default) \| `Primary` \| `Success` \| `Danger` |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — see [Sizing](sizing.md) |
 | `CssClass` | `string?` | |
 
 [← Back to index](index.md)

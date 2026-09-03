@@ -45,6 +45,8 @@ parameters directly, not routed through [FaFa's validation system](validation.md
 | `Min` / `Max` | `decimal?` | |
 | `CurrencySymbol` | `string` | default `"$"` |
 | `ReadOnly` | `bool` | same boxed look, muted and non-interactive |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — see [Sizing](sizing.md) |
+| `Responsive` | `bool` | stretches to 100% width below 720px, default `false` — see [Sizing](sizing.md#responsive) |
 | `ContainerCssClass` | `string?` | |
 
 [← Back to index](index.md)

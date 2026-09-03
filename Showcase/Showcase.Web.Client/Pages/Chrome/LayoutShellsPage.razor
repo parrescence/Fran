@@ -37,6 +37,18 @@
     &lt;/ChildContent&gt;
 &lt;/FaSidebarShell&gt;</code></div>
 
+<h2>Brand icon</h2>
+<p class="fa-mb-4">
+    Set <code>BrandIconUrl</code> (on either shell or <code>FaHeader</code> directly)
+    to show a logo left of <code>BrandText</code> — any <code>&lt;img&gt;</code> src,
+    a static asset path here for simplicity. Omit it for text-only branding, the
+    default used everywhere else on this page.
+</p>
+<div class="fa-position-demo" style="border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg); overflow: hidden;">
+    <FaHeader BrandText="Preview" BrandHref="#" BrandIconUrl="@_brandIconDataUrl" />
+</div>
+<div class="fa-code-block"><code>&lt;FaHeader BrandText="Preview" BrandHref="#" BrandIconUrl="/logo.svg" /&gt;</code></div>
+
 <h2>Position: Standard, Sticky, Floating</h2>
 <p class="fa-mb-4">
     <code>FaHeader</code>/<code>FaFooter</code>/<code>FaSidebar</code> (and the two
@@ -48,9 +60,9 @@
     header and sidebar are <code>Sticky</code> too (see above).
 </p>
 <div class="fa-demo-preview">
-    <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Standard ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Standard)">Standard</FaButton>
-    <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Sticky ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Sticky)">Sticky</FaButton>
-    <FaButton Small="true" Variant="@(_demoPosition == FaNavPosition.Floating ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Floating)">Floating</FaButton>
+    <FaButton Size="FaSize.Small" Variant="@(_demoPosition == FaNavPosition.Standard ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Standard)">Standard</FaButton>
+    <FaButton Size="FaSize.Small" Variant="@(_demoPosition == FaNavPosition.Sticky ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Sticky)">Sticky</FaButton>
+    <FaButton Size="FaSize.Small" Variant="@(_demoPosition == FaNavPosition.Floating ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoPosition = FaNavPosition.Floating)">Floating</FaButton>
 </div>
 <div class="fa-position-demo" style="height: 360px; overflow-y: auto; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg);">
     <div style="display: flex; flex-direction: column; min-height: 720px;">
@@ -118,8 +130,8 @@
     nothing left to show at 64px wide.
 </p>
 <div class="fa-demo-preview">
-    <FaButton Small="true" Variant="@(_demoCollapsible ? FaButtonVariant.Outline : FaButtonVariant.Primary)" OnClick="@(() => _demoCollapsible = false)">Collapsible="false"</FaButton>
-    <FaButton Small="true" Variant="@(_demoCollapsible ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoCollapsible = true)">Collapsible="true"</FaButton>
+    <FaButton Size="FaSize.Small" Variant="@(_demoCollapsible ? FaButtonVariant.Outline : FaButtonVariant.Primary)" OnClick="@(() => _demoCollapsible = false)">Collapsible="false"</FaButton>
+    <FaButton Size="FaSize.Small" Variant="@(_demoCollapsible ? FaButtonVariant.Primary : FaButtonVariant.Outline)" OnClick="@(() => _demoCollapsible = true)">Collapsible="true"</FaButton>
 </div>
 <div style="display: flex; border: var(--fa-border-width) solid var(--fa-border); border-radius: var(--fa-radius-lg); overflow: hidden;">
     <FaSidebar Collapsible="_demoCollapsible">
@@ -157,4 +169,10 @@
 @code {
     private FaNavPosition _demoPosition = FaNavPosition.Sticky;
     private bool _demoCollapsible;
+
+    // A tiny inline SVG data: URI so this demo needs no extra asset file — a real
+    // consumer would point BrandIconUrl at a static path instead (see the code
+    // block below), same as the docs example.
+    private const string _brandIconDataUrl =
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='white'/%3E%3Ccircle cx='12' cy='12' r='5' fill='%23bf5b26'/%3E%3C/svg%3E";
 }

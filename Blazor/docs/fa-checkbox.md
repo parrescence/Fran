@@ -34,6 +34,7 @@ so it only works inside an `<EditForm>`.
 | `Value` / `ValueChanged` | `bool` | `@bind-Value` |
 | `Label` | `string?` | clickable label text |
 | `ReadOnly` | `bool` | flattens to a plain ☑/☐ + label with a bottom border instead of a clickable checkbox |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — scales the box and label together, see [Sizing](sizing.md) |
 | `ShowValidationMessage` | `bool` | defaults `true` — see [Validation](validation.md) |
 | `Validate` | `Func<bool, string?>?` | element-tier validation override — see [Validation](validation.md) |
 | `ContainerCssClass` | `string?` | |

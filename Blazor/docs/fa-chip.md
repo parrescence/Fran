@@ -42,6 +42,7 @@ or membership in your own list the same way the examples above do.
 | `ChildContent` | `RenderFragment?` | the chip's label |
 | `IconName` | `FaIconName?` | optional leading icon |
 | `Variant` | `FaBadgeVariant` | `Neutral` (default) \| `Primary` \| `Success` \| `Danger` |
+| `Size` | `FaSize` | `XSmall` \| `Small` \| `Medium` (default) \| `Large` \| `XLarge` — see [Sizing](sizing.md) |
 | `Selected` | `bool` | |
 | `Removable` | `bool` | shows a remove (×) button |
 | `Disabled` | `bool` | |

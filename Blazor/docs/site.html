@@ -451,6 +451,12 @@
       </ul>
     </div>
     <div class="nav-group">
+      <div class="nav-group-title">Sizing &amp; responsive</div>
+      <ul>
+        <li><a href="#sizing">Sizing &amp; responsive</a></li>
+      </ul>
+    </div>
+    <div class="nav-group">
       <div class="nav-group-title">Navigation &amp; structure</div>
       <ul>
         <li><a href="#fa-tabs">FaTabs</a></li>
@@ -497,6 +503,7 @@
         <li><a href="#layout-shells">Layout shells</a></li>
         <li><a href="#theme-switcher">FaThemeSwitcher</a></li>
         <li><a href="#palette-switcher">FaPaletteSwitcher</a></li>
+        <li><a href="#input-style-switcher">FaInputStyleSwitcher</a></li>
         <li><a href="#fa-icon">FaIcon</a></li>
       </ul>
     </div>
@@ -578,23 +585,88 @@
       <h4>Option B — switch palettes at runtime</h4>
       <p>Drop in the bundled dropdown:</p>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPaletteSwitcher /&gt;</code></pre></div>
-      <p>See <a href="#palette-switcher">FaPaletteSwitcher</a> for details. Or call the underlying function yourself, the same way <code>&lt;FaThemeSwitcher&gt;</code> calls <code>window.faSetTheme(...)</code>:</p>
+      <p>See <a href="#palette-switcher">FaPaletteSwitcher</a> for details. Or call the underlying function yourself, the same way <code>&lt;FaThemeSwitcher&gt;</code> calls <code>window.faSetTheme(...)</code> — built-ins only:</p>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>window.faSetPalette('southeast-beach');
 // or window.faSetPalette('northwest-fall') / window.faSetPalette(null) to reset</code></pre></div>
-      <p>Either way, this persists the choice to <code>localStorage</code> under <code>fa-palette</code> and stamps <code>data-fa-palette</code> on <code>&lt;html&gt;</code>.</p>
 
-      <h4>Either way</h4>
+      <h4>Option C — bring your own palette at runtime</h4>
+      <p>In addition to the twenty-eight built-ins, pass <code>FaPalette</code> objects to <code>FaPaletteSwitcher</code>'s <code>CustomPalettes</code> parameter:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPaletteSwitcher CustomPalettes="_myPalettes" /&gt;
+
+@code {
+    private readonly FaPalette[] _myPalettes =
+    [
+        new FaPalette(
+            Value: "acme-brand",
+            Label: "Acme Brand",
+            Colors: new FaPaletteColors(
+                Primary: "#2454ff", PrimaryDark: "#1638b0", PrimaryLight: "#7a9bff",
+                Footer: "#eef1fb", Glow: "#3f6bff", Gold: "#d9a441", Accent: "#00a389",
+                AccentDark: "#00786a", Ember: "#c0392b", Wine: "#6b1f2a", Fir: "#20242b",
+                Cream: "#f7f8fc", Surface: "#ffffff", Text: "#1b1f2a", TextMuted: "#5c6270",
+                TextOnPrimary: "#ffffff", Border: "#c9d2ec", BorderFocus: "#1638b0",
+                AlertDangerBg: "#fbeaea", AlertSuccessBg: "#e3f5f1", AlertInfoBg: "#eaf0fc"),
+            DarkOverrides: new FaPaletteDarkOverrides(
+                Cream: "#14161d", Surface: "#1c1f29", Text: "#eef0f7", TextMuted: "#a3a9ba")),
+    ];
+}</code></pre></div>
+      <p>A custom palette has no compiled CSS of its own — its colors travel as JSON on the <code>&lt;option&gt;</code> itself and get applied as inline <code>--fa-*</code> custom properties on <code>&lt;html&gt;</code> at selection time. Only <code>Colors</code> is required; <code>DarkOverrides</code> is optional and only needs the tokens that should actually change in dark mode.</p>
+
+      <p>Options A–C persist the choice to <code>localStorage</code> under <code>fa-palette</code> (a custom palette's colors also go into <code>fa-custom-palette</code>) and stamp <code>data-fa-palette</code> on <code>&lt;html&gt;</code> (skipped for a custom palette).</p>
+
+      <h4>Option D — override colors directly with your own CSS</h4>
+      <p>No picker at all. Every component reads color exclusively through the <code>--fa-*</code> custom properties <code>:root</code> defines — so redeclaring any of them in your own stylesheet, loaded <strong>after</strong> <code>fa-styles.css</code>, silently wins over whichever built-in palette is active, no <code>FaPalette</code>/C# involved:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>/* your-app.css, linked after fa-styles.css */
+:root {
+  --fa-primary: #2454ff;
+  --fa-primary-dark: #1638b0;
+  --fa-accent: #00a389;
+  /* ...override only the tokens you actually want to change; every token this
+     omits keeps coming from whichever built-in palette is active. */
+}</code></pre></div>
+      <p>Combines fine with A–C too — your override CSS wins over whichever built-in/custom palette happens to be active for any token it redeclares, since it loads later in the cascade. Handy for "start from a built-in palette but tweak two or three tokens" without hand-copying the other eighteen.</p>
+
+      <h4>Whichever of A–C you use</h4>
       <p>Add this inline snippet to your host page's <code>&lt;head&gt;</code>, before the <code>fa-styles.css</code> <code>&lt;link&gt;</code> from step 4, so a returning visitor's saved mode/palette applies before first paint instead of flashing the default and then jumping:</p>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;script&gt;
   (function () {
     var theme = localStorage.getItem('fa-theme');
     if (theme) document.documentElement.setAttribute('data-theme', theme);
     var palette = localStorage.getItem('fa-palette');
-    if (palette) document.documentElement.setAttribute('data-fa-palette', palette);
+    // A "custom:..." palette has no compiled CSS to select via the attribute — its
+    // colors get applied as inline custom properties by theme.js once it loads, so
+    // there's a brief flash of the default palette for that case only; skip the
+    // attribute here rather than stamping a value nothing selects on.
+    if (palette && palette.indexOf('custom:') !== 0) {
+      document.documentElement.setAttribute('data-fa-palette', palette);
+    }
   })();
 &lt;/script&gt;</code></pre></div>
 
-      <h3>6. Using FaToastHost (optional)</h3>
+      <h3>6. Customize typography &amp; shape (optional)</h3>
+      <p><code>--fa-font</code> is a single global custom property (same architecture as the color tokens above) — every component reads its font through it, so swapping it in your own stylesheet, loaded <strong>after</strong> <code>fa-styles.css</code>, reskins the whole library's typography with no FaFa code involved:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>/* your-app.css, linked after fa-styles.css */
+:root {
+  --fa-font: 'Inter', system-ui, sans-serif;
+}</code></pre></div>
+      <p>A handful of other palette-agnostic "standard" tokens work the same way — defined once in <code>:root</code>, reused everywhere, and safe to override the same way:</p>
+      <div class="table-wrap">
+        <table class="params">
+          <tr><th>Token</th><th>Default</th><th>Controls</th></tr>
+          <tr><td><code>--fa-radius-sm</code> / <code>-md</code> / <code>-lg</code> / <code>-pill</code></td><td><code>8px</code> / <code>14px</code> / <code>22px</code> / <code>999px</code></td><td>Corner rounding — small controls, cards/panels, large surfaces, pill shapes</td></tr>
+          <tr><td><code>--fa-border-width</code></td><td><code>2px</code></td><td>Standard border weight everywhere a component draws one</td></tr>
+          <tr><td><code>--fa-transition-fast</code> / <code>-medium</code></td><td><code>0.15s ease</code> / <code>0.2s ease</code></td><td>Hover/focus color &amp; shadow changes vs. size/layout changes</td></tr>
+        </table>
+      </div>
+      <p><strong>Not</strong> overridable this way: per-component padding/margin/gap and most font-size/font-weight values — those are deliberately hand-tuned per component rather than drawn from a shared scale. Target that component's own class in your own CSS instead of looking for a token.</p>
+
+      <h3>7. Set a favicon / app icon (optional)</h3>
+      <p>This library ships no favicon of its own — like <code>BrandText</code>, it's your app's own branding, not something a style library should hardcode. Add the usual <code>&lt;link&gt;</code> tags to your host page's <code>&lt;head&gt;</code> yourself, the same as any Blazor app:</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="icon" type="image/png" href="favicon.png" /&gt;
+&lt;link rel="apple-touch-icon" href="apple-touch-icon.png" /&gt;</code></pre></div>
+      <p>Want a logo next to your app's name in the header/sidebar chrome itself (distinct from the browser-tab favicon above)? That's <code>BrandIconUrl</code> on <a href="#layout-shells">FaHeader / the page shells / templates</a>.</p>
+
+      <h3>8. Using FaToastHost (optional)</h3>
       <p>Every other component here needs zero C#-side setup — import the namespace and use the tag. <a href="#fa-toast">FaToastHost</a>/FaToastService is the one exception: register the service once before mounting <code>&lt;FaToastHost /&gt;</code>.</p>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>// Program.cs
 builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
@@ -611,7 +683,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
     Save
 &lt;/FaButton&gt;
 
-&lt;FaButton Variant="FaButtonVariant.OutlineDanger" Small="true" OnClick="HandleDeleteAsync"&gt;
+&lt;FaButton Variant="FaButtonVariant.OutlineDanger" Size="FaSize.Small" OnClick="HandleDeleteAsync"&gt;
     Delete
 &lt;/FaButton&gt;
 
@@ -640,7 +712,8 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
         <table class="params">
           <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
           <tr><td><code>Variant</code></td><td><code>FaButtonVariant</code></td><td>Primary · Secondary · Outline · Danger · OutlineDanger · Accent · OutlineAccent</td></tr>
-          <tr><td><code>Small</code></td><td><code>bool</code></td><td>smaller padding/font</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — see <a href="#sizing">Sizing &amp; responsive</a>. Replaces the old bool Small parameter</td></tr>
+          <tr><td><code>Responsive</code></td><td><code>bool</code></td><td>stretches to 100% width below 720px, default false</td></tr>
           <tr><td><code>Disabled</code></td><td><code>bool</code></td><td></td></tr>
           <tr><td><code>Type</code></td><td><code>string</code></td><td>HTML type, default "button" — use "submit" inside an EditForm</td></tr>
           <tr><td><code>Href</code> / <code>Target</code></td><td><code>string?</code></td><td>set Href to render as &lt;a&gt; instead of &lt;button&gt;</td></tr>
@@ -680,6 +753,8 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
           <tr><td><code>Clickable</code></td><td><code>bool</code></td><td>adds tabindex="0"</td></tr>
           <tr><td><code>Active</code></td><td><code>bool</code></td><td>highlighted border/glow</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — scales padding, see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
+          <tr><td><code>Responsive</code></td><td><code>bool</code></td><td>stretches to 100% width below 720px, default false</td></tr>
           <tr><td><code>OnClick</code></td><td><code>EventCallback&lt;MouseEventArgs&gt;</code></td><td></td></tr>
           <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
@@ -709,6 +784,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
         <table class="params">
           <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
           <tr><td><code>Variant</code></td><td><code>FaAlertVariant</code></td><td>Info (default) · Success · Danger</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
           <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -732,6 +808,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
         <table class="params">
           <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
           <tr><td><code>Variant</code></td><td><code>FaBadgeVariant</code></td><td>Neutral (default) · Primary · Success · Danger</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
           <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -868,6 +945,9 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><td><code>Type</code></td><td><code>string</code></td><td>HTML type, default "text"</td></tr>
           <tr><td><code>Step</code></td><td><code>string?</code></td><td>for type="number"</td></tr>
           <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>same boxed look, muted and non-interactive</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
+          <tr><td><code>Responsive</code></td><td><code>bool</code></td><td>stretches to 100% width below 720px, default false</td></tr>
+          <tr><td><code>FloatingLabel</code></td><td><code>bool</code></td><td>Material-style floating label instead of a block label above the field, default false</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -904,6 +984,8 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><td><code>Label</code></td><td><code>string?</code></td><td></td></tr>
           <tr><td><code>ChildContent</code></td><td><code>RenderFragment?</code></td><td>&lt;option&gt; elements</td></tr>
           <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>renders disabled (no native readonly on &lt;select&gt;), same boxed look, muted</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
+          <tr><td><code>Responsive</code></td><td><code>bool</code></td><td>stretches to 100% width below 720px, default false</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -1059,6 +1141,8 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><td><code>MaxLength</code></td><td><code>int?</code></td><td>live counter when set</td></tr>
           <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>same boxed textarea look, muted and non-interactive</td></tr>
           <tr><td><code>ReadOnlyDisplay</code></td><td><code>bool</code></td><td>drops the box, flows as plain text — wins over ReadOnly if both set</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
+          <tr><td><code>Responsive</code></td><td><code>bool</code></td><td>stretches to 100% width below 720px, default false</td></tr>
         </table>
       </div>
     </section>
@@ -1088,6 +1172,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><td><code>Value</code> / <code>ValueChanged</code></td><td><code>bool</code></td><td>@bind-Value</td></tr>
           <tr><td><code>Label</code></td><td><code>string?</code></td><td>clickable label text</td></tr>
           <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>flattens to a plain ☑/☐ + label with a bottom border</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — scales the box and label together, see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -1292,6 +1377,8 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><td><code>Min</code> / <code>Max</code></td><td><code>decimal?</code></td><td></td></tr>
           <tr><td><code>CurrencySymbol</code></td><td><code>string</code></td><td>default "$"</td></tr>
           <tr><td><code>ReadOnly</code></td><td><code>bool</code></td><td>same boxed look, muted and non-interactive</td></tr>
+          <tr><td><code>Size</code></td><td><code>FaSize</code></td><td>XSmall · Small · Medium (default) · Large · XLarge — see <a href="#sizing">Sizing &amp; responsive</a></td></tr>
+          <tr><td><code>Responsive</code></td><td><code>bool</code></td><td>stretches to 100% width below 720px, default false</td></tr>
           <tr><td><code>ContainerCssClass</code></td><td><code>string?</code></td><td></td></tr>
         </table>
       </div>
@@ -1714,6 +1801,29 @@ builder.Services.AddFaValidator&lt;ProductModel, ProductModelValidator&gt;();</c
 &lt;/EditForm&gt;</code></pre></div>
 
       <p class="getting-value"><strong>Getting the value:</strong> no bound value of its own — it populates the same <code>ValidationMessageStore</code> the model binds against, so every FaFa input's own inline error display (<code>ShowValidationMessage</code>, on by default) shows whichever tier's rule fired.</p>
+    </section>
+
+    <!-- ============================= Sizing & responsive ============================= -->
+    <section class="component" id="sizing">
+      <span class="kicker">Sizing &amp; responsive</span>
+      <h2>Sizing &amp; responsive</h2>
+      <p class="dek">Cross-cutting concepts, not single components — like Validation above. Full write-up: <a href="sizing.md">docs/sizing.md</a>.</p>
+
+      <h3><code>Size</code> (the <code>FaSize</code> scale)</h3>
+      <p>A shared five-step enum — XSmall · Small · Medium (default) · Large · XLarge — on <code>FaButton</code>, <code>FaInput</code>, <code>FaSelect</code>, <code>FaTextarea</code>, <code>FaCheckbox</code>, <code>FaCurrency</code>, <code>FaCard</code>, <code>FaAlert</code>, <code>FaBadge</code>, <code>FaChip</code>. Medium renders with no extra CSS class — the exact look every one of these already had before <code>Size</code> existed. <code>FaButton.Size</code> replaces the old <code>bool Small</code> parameter (breaking — <code>Small="true"</code> becomes <code>Size="FaSize.Small"</code>).</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaButton Variant="FaButtonVariant.Primary" Size="FaSize.Small"&gt;Small&lt;/FaButton&gt;
+&lt;FaInput @@bind-Value="_search" Label="Search" Size="FaSize.Large" /&gt;</code></pre></div>
+
+      <h3><code>Responsive</code></h3>
+      <p>An opt-in <code>bool Responsive</code> parameter on <code>FaButton</code>, <code>FaCard</code>, <code>FaInput</code>, <code>FaSelect</code>, <code>FaTextarea</code>, and <code>FaCurrency</code> — stretches to 100% width below the existing 720px breakpoint. Off by default; all six share one CSS utility class (<code>.fa-responsive</code>).</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaButton Variant="FaButtonVariant.Primary" Responsive="true"&gt;Submit&lt;/FaButton&gt;</code></pre></div>
+
+      <h3>Floating label (<code>FaInput</code> only)</h3>
+      <p><code>FaInput.FloatingLabel</code> (default false) renders <code>Label</code> as a Material-style label overlaid inside the input, animating up to the border on focus/fill, instead of a block label above the field. Pure CSS, no JS. Ignored when <code>Label</code> is null/empty.</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaInput @@bind-Value="_email" Label="Email" FloatingLabel="true" /&gt;</code></pre></div>
+
+      <h3>Input style (standard / minimal / maximal)</h3>
+      <p>A third, app-wide axis — independent of <code>Size</code> above and of <a href="#palette-switcher">palette</a>/<a href="#theme-switcher">theme mode</a> — that retunes every boxed native-input-like control (<code>FaInput</code>/<code>FaSelect</code>/<code>FaTextarea</code>/<code>FaCurrency</code>) at once. See <a href="#input-style-switcher">FaInputStyleSwitcher</a>.</p>
     </section>
 
     <!-- ============================= FaTabs ============================= -->
@@ -2155,6 +2265,12 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
 
 &lt;FaFooter BrandText="MyApp" /&gt;</code></pre></div>
 
+      <h3>Brand icon</h3>
+      <p>Set <code>BrandIconUrl</code> on either shell (or <code>FaHeader</code> directly) to show a logo next to <code>BrandText</code>; omit it for text-only branding (the default). This is the header/sidebar chrome's own logo, not the browser tab's favicon — see <a href="#install">Install &amp; setup, step 7</a> for that.</p>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaSidebarShell BrandText="MyApp" BrandHref="/" BrandIconUrl="/logo.svg"&gt;
+    ...
+&lt;/FaSidebarShell&gt;</code></pre></div>
+
       <p class="getting-value"><strong>Getting the value:</strong> pure layout, no bound value. <code>OnLogin</code>/<code>OnLogout</code> fire on click; your app owns authenticating and then setting <code>IsAuthenticated</code>/<code>UserDisplayName</code>/<code>UserImageUrl</code> on the next render. <code>FaThemeSwitcher</code> is already baked into <code>FaHeader</code>.</p>
 
       <h4>Parameters (shared by both shells)</h4>
@@ -2163,6 +2279,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
           <tr><th>Parameter</th><th>Type</th><th>Notes</th></tr>
           <tr><td><code>BrandText</code></td><td><code>string</code></td><td class="req">required, no hardcoded default</td></tr>
           <tr><td><code>BrandHref</code></td><td><code>string</code></td><td></td></tr>
+          <tr><td><code>BrandIconUrl</code></td><td><code>string?</code></td><td>optional logo shown left of BrandText — any &lt;img&gt; src; omit for text-only branding (default)</td></tr>
           <tr><td><code>IsAuthenticated</code></td><td><code>bool</code></td><td>swaps login button for avatar+name+logout</td></tr>
           <tr><td><code>UserDisplayName</code> / <code>UserImageUrl</code></td><td><code>string?</code></td><td>fed into FaAvatar</td></tr>
           <tr><td><code>OnLogin</code> / <code>OnLogout</code></td><td><code>EventCallback</code></td><td></td></tr>
@@ -2202,12 +2319,32 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
     <section class="component" id="palette-switcher">
       <span class="kicker">Layout &amp; chrome</span>
       <h2>FaPaletteSwitcher</h2>
-      <p class="dek">A single dropdown covering all twenty-eight <a href="#install">color palettes</a>. No parameters, no Blazor state: picking an option calls <code>window.faSetPalette(...)</code> from theme.js directly, client-side only — every <code>&lt;FaPaletteSwitcher&gt;</code> on the page stays in sync with whichever palette is actually active, including the one restored from <code>localStorage</code> on first paint. A separate, independent axis from FaThemeSwitcher's light/dark/colorblind mode — any palette combines with any mode.</p>
+      <p class="dek">A single dropdown covering all twenty-eight <a href="#install">color palettes</a>, plus any consumer-supplied ones passed via <code>CustomPalettes</code>. Mostly no Blazor state: picking a built-in option calls <code>window.faSetPalette(...)</code> from theme.js directly, client-side only — every <code>&lt;FaPaletteSwitcher&gt;</code> on the page stays in sync with whichever palette is actually active, including the one restored from <code>localStorage</code> on first paint. A separate, independent axis from FaThemeSwitcher's light/dark/colorblind mode — any palette combines with any mode.</p>
 
       <h3>Usage</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPaletteSwitcher /&gt;</code></pre></div>
 
-      <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current palette lives in <code>localStorage</code> (<code>fa-palette</code> key) and the <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> (absent for the northwest-fall default), both managed by theme.js. Read <code>localStorage.getItem('fa-palette')</code> yourself if your own code needs it.</p>
+      <h3>Adding your own palettes</h3>
+      <p>The twenty-eight built-ins are precompiled into <code>fa-styles.css</code> and selected purely by name. A palette you define yourself has no compiled CSS to select, so it's expressed instead as an <code>FaPalette</code> object (<code>FaFa.Components</code>) and passed via <code>CustomPalettes</code> — see <a href="#install">Install &amp; setup, Option C</a> for a full example. Each renders as its own <code>&lt;option value="custom:{Value}"&gt;</code> carrying its <code>Colors</code>/<code>DarkOverrides</code> as JSON data attributes; picking it applies those colors as inline <code>--fa-*</code> custom properties on <code>&lt;html&gt;</code> instead of stamping <code>data-fa-palette</code>.</p>
+      <p><strong>Caveat:</strong> because a custom palette's colors live in the rendered <code>&lt;option&gt;</code>, not compiled CSS, the pre-paint "avoid a flash of the wrong palette" snippet (<a href="#install">Install &amp; setup</a>) can't apply one before Blazor mounts — expect a brief flash of the default/previous built-in palette on reload for a custom selection.</p>
+      <p>Don't want a picker at all — just reskinning the app to one fixed brand? Skip this component and override the <code>--fa-*</code> custom properties directly in your own CSS instead (<a href="#install">Install &amp; setup, Option D</a>); both approaches read the same tokens, so a plain-CSS override still wins over whatever this component last selected.</p>
+
+      <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current palette lives in <code>localStorage</code> (<code>fa-palette</code> key, plus <code>fa-custom-palette</code> for a custom selection's colors) and the <code>data-fa-palette</code> attribute on <code>&lt;html&gt;</code> (absent for the northwest-fall default <em>and</em> for any custom palette, which uses inline <code>--fa-*</code> properties instead), both managed by theme.js. Read <code>localStorage.getItem('fa-palette')</code> yourself if your own code needs it.</p>
+    </section>
+
+    <!-- ============================= FaInputStyleSwitcher ============================= -->
+    <section class="component" id="input-style-switcher">
+      <span class="kicker">Layout &amp; chrome</span>
+      <h2>FaInputStyleSwitcher</h2>
+      <p class="dek">Three buttons — Standard / Minimal / Maximal — for the global <a href="#sizing">input-style axis</a>: a third, independent axis alongside palette and theme mode, all stamped as data attributes on &lt;html&gt;. Unlike FaInput/etc.'s own per-instance Size, this retunes every boxed native-input-like control (FaInput, FaSelect, FaTextarea, FaCurrency) app-wide. No parameters, no Blazor state — picking a button calls <code>window.faSetInputStyle(...)</code> from theme.js directly, client-side only.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaInputStyleSwitcher /&gt;</code></pre></div>
+
+      <h3>The three styles</h3>
+      <p><strong>Standard</strong> (default, no attribute needed) — today's look. <strong>Minimal</strong> — 1px border, square corners, no shadow. <strong>Maximal</strong> — 3px border, larger radius. Only FaInput/FaSelect/FaTextarea/FaCurrency participate — the flattened controls (FaCheckbox, FaToggle, FaDate, ...) were never boxed the same way to begin with.</p>
+
+      <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current input style lives in <code>localStorage</code> (<code>fa-input-style</code> key) and the <code>data-fa-input-style</code> attribute on <code>&lt;html&gt;</code> (absent for the standard default), both managed by theme.js.</p>
     </section>
 
     <!-- ============================= FaIcon ============================= -->

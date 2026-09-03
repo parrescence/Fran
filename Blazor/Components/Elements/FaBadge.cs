@@ -10,6 +10,10 @@ namespace FaFa.Components;
 public sealed class FaBadge : ComponentBase
 {
     [Parameter] public FaBadgeVariant Variant { get; set; } = FaBadgeVariant.Neutral;
+
+    /// <summary>XSmall/Small/Medium(default)/Large/XLarge. See <see cref="FaSize"/>.</summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
     [Parameter] public string? CssClass { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
@@ -24,7 +28,7 @@ public sealed class FaBadge : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "span");
-        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-badge", VariantClass, CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-badge", VariantClass, FaSizeClassNames.Class("fa-badge", Size), CssClass));
         builder.AddContent(2, ChildContent);
         builder.CloseElement();
     }
