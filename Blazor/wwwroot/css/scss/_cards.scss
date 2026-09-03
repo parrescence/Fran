@@ -24,3 +24,20 @@
         box-shadow: var(--fa-border-glow-focus);
     }
 
+/* FaCard.Size (FaSize) — scales padding only; Medium renders with none of these. */
+.fa-card-xs {
+    padding: 0.55rem 0.7rem;
+}
+
+.fa-card-sm {
+    padding: 0.8rem 1rem;
+}
+
+.fa-card-lg {
+    padding: 1.5rem 1.8rem;
+}
+
+.fa-card-xl {
+    padding: 1.9rem 2.3rem;
+}
+

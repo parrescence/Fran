@@ -12,3 +12,24 @@
 .fa-alert-success { border-color: var(--fa-accent); color: var(--fa-accent); background: var(--fa-alert-success-bg); }
 .fa-alert-info { border-color: var(--fa-primary); color: var(--fa-primary-dark); background: var(--fa-alert-info-bg); }
 
+/* FaAlert.Size (FaSize) — scales padding and text; Medium renders with none of these. */
+.fa-alert-xs {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+}
+
+.fa-alert-sm {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.88rem;
+}
+
+.fa-alert-lg {
+    padding: 0.95rem 1.4rem;
+    font-size: 1.05rem;
+}
+
+.fa-alert-xl {
+    padding: 1.2rem 1.7rem;
+    font-size: 1.15rem;
+}
+

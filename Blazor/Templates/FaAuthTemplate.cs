@@ -18,6 +18,15 @@ public sealed class FaAuthTemplate : ComponentBase
 {
     [Parameter, EditorRequired] public string BrandText { get; set; } = "";
     [Parameter] public string BrandHref { get; set; } = "";
+
+    /// <summary>
+    /// Optional logo/icon shown to the left of <see cref="BrandText"/> — same
+    /// parameter/rendering as <see cref="FaFa.Layout.FaHeader.BrandIconUrl"/>, since
+    /// this template renders its own brand link rather than going through
+    /// <c>FaHeader</c> (see this class's own doc comment for why).
+    /// </summary>
+    [Parameter] public string? BrandIconUrl { get; set; }
+
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Description { get; set; }
     /// <summary>Any valid CSS width — how wide the centered card gets on larger screens.</summary>
@@ -36,6 +45,16 @@ public sealed class FaAuthTemplate : ComponentBase
         builder.OpenElement(2, "a");
         builder.AddAttribute(3, "class", "fa-template-auth-brand");
         builder.AddAttribute(4, "href", BrandHref);
+
+        if (!string.IsNullOrEmpty(BrandIconUrl))
+        {
+            builder.OpenElement(14, "img");
+            builder.AddAttribute(15, "class", "fa-template-auth-brand-icon");
+            builder.AddAttribute(16, "src", BrandIconUrl);
+            builder.AddAttribute(17, "alt", "");
+            builder.CloseElement();
+        }
+
         builder.AddContent(5, BrandText);
         builder.CloseElement();
 

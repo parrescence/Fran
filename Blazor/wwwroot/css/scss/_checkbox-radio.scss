@@ -32,3 +32,17 @@
     gap: 0.4rem;
 }
 
+/* FaCheckbox.Size (FaSize) — scales the box and its label together; Medium renders
+   with none of these. */
+.fa-checkbox-xs .fa-checkbox-input { width: 0.85rem; height: 0.85rem; }
+.fa-checkbox-xs .fa-checkbox-label { font-size: 0.8rem; }
+
+.fa-checkbox-sm .fa-checkbox-input { width: 0.95rem; height: 0.95rem; }
+.fa-checkbox-sm .fa-checkbox-label { font-size: 0.88rem; }
+
+.fa-checkbox-lg .fa-checkbox-input { width: 1.3rem; height: 1.3rem; }
+.fa-checkbox-lg .fa-checkbox-label { font-size: 1.05rem; }
+
+.fa-checkbox-xl .fa-checkbox-input { width: 1.5rem; height: 1.5rem; }
+.fa-checkbox-xl .fa-checkbox-label { font-size: 1.15rem; }
+

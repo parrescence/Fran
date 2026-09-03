@@ -37,7 +37,7 @@ Consequences for any change here:
 - **`theme.js`/`sidebar.js` are plain vanilla JS, not Blazor JS interop** — IIFEs using
   only `localStorage`/`document.documentElement`, invoked via plain `onclick="..."`/
   `onchange="..."` HTML attributes (`FaThemeSwitcher.cs`, `FaPaletteSwitcher.cs`,
-  `FaSidebar.cs`), not `IJSRuntime.InvokeVoidAsync`. Deliberate: this is pure
+  `FaInputStyleSwitcher.cs`, `FaSidebar.cs`), not `IJSRuntime.InvokeVoidAsync`. Deliberate: this is pure
   client-side UI state with nothing to keep in sync on the Blazor side. Keep new
   purely-visual client state in this style rather than wiring up JS interop for it.
 - **RCL static assets aren't auto-injected into the host page.** Adding a new CSS/JS
@@ -74,7 +74,7 @@ a zero-risk, no-version-bump move:
   `FaPongLoader`, `FaTooltip`, `FaPopover`, `FaToastHost`, `FaSkeleton`.
 - **`Components/Data/`** — renders a collection: `FaTable`, `FaGrid`, `FaCarousel`.
 - **`Components/Chrome/`** — app-shell controls, not page content:
-  `FaThemeSwitcher`, `FaPaletteSwitcher`.
+  `FaThemeSwitcher`, `FaPaletteSwitcher`, `FaInputStyleSwitcher`.
 
 `Services/` is a sixth, sibling folder (not a `Components/` subfolder) for
 non-component types that still ship as part of the public API but aren't
@@ -112,10 +112,12 @@ more folders instead:
   `FaTogglePosition`, `FaIconColor`, `FaIconName`, `FaSkeletonVariant`,
   `FaTooltipPosition` (shared by `FaTooltip` and `FaPopover`), `FaToastPosition`,
   `FaAlign`, `FaCodeLanguage`, `FaFormMode`, `FaLoaderVariant`, `FaModalPosition`,
-  `FaModalSize`, `FaNavPosition`, `FaProgressDirection`.
+  `FaModalSize`, `FaNavPosition`, `FaProgressDirection`, `FaSize` (shared
+  XSmall–XLarge scale — see `docs/sizing.md` for which components take it).
 - **`Models/`** — `FaDateRangeValue`, `FaGridColumn<TItem>`, `FaGridRequest`,
-  `FaGridResult<TItem>`, `FaToastMessage`, `FaLoginRequest` (DTOs/records passed to
-  or bound by a specific component).
+  `FaGridResult<TItem>`, `FaToastMessage`, `FaLoginRequest`, `FaPalette`,
+  `FaPaletteColors`, `FaPaletteDarkOverrides` (DTOs/records passed to or bound by a
+  specific component).
 
 Folder placement is purely physical organization — it does **not** change a type's
 namespace. `FaButtonVariant` still declares `namespace FaFa.Components;`
@@ -323,6 +325,16 @@ separate ones. The full palette list, and how a consumer picks one
 documented in `docs/install.md`/`docs/palette-switcher.md` — don't duplicate that
 detail here, just the two things a contributor actually needs: every palette needs
 both mode blocks, and colorblind mode never gets a palette-specific variant.
+
+A third axis, `data-fa-input-style` (`"minimal"`/`"maximal"`, absent means the
+default "standard" look), retunes the boxed native-input-like controls
+(`.fa-input`/`.fa-select`/`.fa-textarea`/`.fa-currency-input` in `_inputs.scss`) the
+same data-attribute-on-`<html>` way — see `docs/input-style-switcher.md`. Separate
+from `FaSize` (`Enums/FaSize.cs`), the shared XSmall–XLarge scale several components
+take as a per-instance `Size` parameter (`docs/sizing.md`) — `FaSize` doesn't
+conflict with the "no shared spacing scale" rule two paragraphs up: each component
+still tunes its own literal padding/font-size per size step, `FaSize` is only the
+shared *scale name*, not shared values.
 
 Each palette's color choices are worked out first in `.themes/` in this folder — a
 **gitignored**, local-only folder of Markdown design docs, not shipped in the package

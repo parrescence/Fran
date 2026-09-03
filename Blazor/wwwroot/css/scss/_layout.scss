@@ -103,12 +103,22 @@
 }
 
 .fa-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
     font-family: var(--fa-font);
     font-weight: 800;
     font-size: 1.35rem;
     letter-spacing: 0.02em;
     color: var(--fa-text-on-primary);
     text-decoration: none;
+}
+
+/* FaHeader.BrandIconUrl — omitted entirely (no img in the markup) when unset. */
+.fa-header-brand-icon {
+    height: 1.6rem;
+    width: auto;
+    border-radius: var(--fa-radius-sm);
 }
 
 /* FaHeader.ShowSidebarToggle — hidden here unconditionally; _responsive.scss's
@@ -228,6 +238,50 @@
     .fa-palette-switcher option {
         color: var(--fa-text);
         background: var(--fa-surface);
+    }
+
+/* Unlike FaThemeSwitcher/FaPaletteSwitcher above, FaInputStyleSwitcher isn't
+   header-locked — it's just as likely to sit in a settings panel as in the header —
+   so it wears normal surface colors instead of the always-white-on-burnt-orange
+   header chrome treatment. */
+.fa-input-style-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    background: var(--fa-footer);
+    border-radius: var(--fa-radius-pill);
+    padding: 0.2rem;
+}
+
+.fa-input-style-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--fa-radius-pill);
+    border: none;
+    background: transparent;
+    font-family: var(--fa-font);
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--fa-text-muted);
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast), color var(--fa-transition-fast);
+}
+
+    .fa-input-style-btn:hover {
+        color: var(--fa-text);
+    }
+
+    .fa-input-style-btn.fa-input-style-btn-active {
+        background: var(--fa-surface);
+        color: var(--fa-primary-dark);
+        box-shadow: var(--fa-border-glow);
+    }
+
+    .fa-input-style-btn:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-border-focus);
     }
 
 /* ============================= Footer ============================= */

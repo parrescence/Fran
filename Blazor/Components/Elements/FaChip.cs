@@ -20,6 +20,10 @@ public sealed class FaChip : ComponentBase
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public FaIconName? IconName { get; set; }
     [Parameter] public FaBadgeVariant Variant { get; set; } = FaBadgeVariant.Neutral;
+
+    /// <summary>XSmall/Small/Medium(default)/Large/XLarge. See <see cref="FaSize"/>.</summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
     [Parameter] public bool Selected { get; set; }
     [Parameter] public bool Removable { get; set; }
     [Parameter] public bool Disabled { get; set; }
@@ -48,6 +52,7 @@ public sealed class FaChip : ComponentBase
         builder.AddAttribute(1, "class", CssClassNames.Combine(
             "fa-chip",
             VariantClass,
+            FaSizeClassNames.Class("fa-chip", Size),
             Selected ? "fa-chip-selected" : null,
             IsInteractive ? "fa-chip-clickable" : null,
             Disabled ? "fa-chip-disabled" : null,

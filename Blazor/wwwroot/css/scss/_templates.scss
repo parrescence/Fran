@@ -92,11 +92,21 @@
 }
 
 .fa-template-auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: var(--fa-font);
     font-weight: 700;
     font-size: 1.3rem;
     color: var(--fa-primary-dark);
     text-decoration: none;
+}
+
+/* FaAuthTemplate.BrandIconUrl — omitted entirely (no img in the markup) when unset. */
+.fa-template-auth-brand-icon {
+    height: 1.5rem;
+    width: auto;
+    border-radius: var(--fa-radius-sm);
 }
 
 .fa-template-auth-card-wrap {

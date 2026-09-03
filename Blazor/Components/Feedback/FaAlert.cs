@@ -10,6 +10,10 @@ namespace FaFa.Components;
 public sealed class FaAlert : ComponentBase
 {
     [Parameter] public FaAlertVariant Variant { get; set; } = FaAlertVariant.Info;
+
+    /// <summary>XSmall/Small/Medium(default)/Large/XLarge — scales padding and text. See <see cref="FaSize"/>.</summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
     [Parameter] public string? CssClass { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
@@ -23,7 +27,7 @@ public sealed class FaAlert : ComponentBase
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-alert", VariantClass, CssClass));
+        builder.AddAttribute(1, "class", CssClassNames.Combine("fa-alert", VariantClass, FaSizeClassNames.Class("fa-alert", Size), CssClass));
         builder.AddAttribute(2, "role", "alert");
         builder.AddContent(3, ChildContent);
         builder.CloseElement();

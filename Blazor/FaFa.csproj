@@ -98,7 +98,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>FaFa</PackageId>
-    <Version>0.4.26</Version>
+    <Version>0.4.27</Version>
     <Authors>Ben Calvin</Authors>
     <Description>Self-contained Blazor UI component library — buttons, cards, alerts, badges, modals, a generic N-option toggle, form inputs, page-shell layouts, a theme switcher, and a hand-drawn SVG icon set (all "Fa"-prefixed: FaButton, FaCard, FaToggle, FaIcon, ...). No dependency on any specific app's project or type; built to be reusable as-is in other Blazor apps.</Description>
     <PackageTags>blazor;razor;razorclasslibrary;ui;components</PackageTags>

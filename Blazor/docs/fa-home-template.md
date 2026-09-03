@@ -51,6 +51,7 @@ Pure layout — no bound value.
 |---|---|---|
 | `BrandText` | `string` | **required** |
 | `BrandHref` | `string` | |
+| `BrandIconUrl` | `string?` | optional logo shown left of `BrandText` — see [layout shells](layout-shells.md#brand-icon) |
 | `IsAuthenticated` | `bool` | |
 | `UserDisplayName` / `UserImageUrl` | `string?` | |
 | `OnLogin` / `OnLogout` | `EventCallback` | |

@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using FaFa.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -24,6 +25,12 @@ public sealed class FaCurrency : InputBase<decimal?>
     [Parameter] public string CurrencySymbol { get; set; } = "$";
     /// <summary>Same boxed look as normal, just muted and non-interactive.</summary>
     [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>XSmall/Small/Medium(default)/Large/XLarge — see <see cref="FaSize"/>.</summary>
+    [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
+
+    /// <summary>Stretches to 100% width below the 720px breakpoint (<c>.fa-responsive</c> in <c>_responsive.scss</c>). Off by default.</summary>
+    [Parameter] public bool Responsive { get; set; }
 
     private readonly string _id = $"fa-currency-{Guid.NewGuid():N}";
     private bool _isEditing;
@@ -128,7 +135,7 @@ public sealed class FaCurrency : InputBase<decimal?>
 
         builder.OpenElement(seq++, "input");
         builder.AddAttribute(seq++, "id", _id);
-        builder.AddAttribute(seq++, "class", "fa-input fa-currency-input");
+        builder.AddAttribute(seq++, "class", CssClassNames.Combine("fa-input", "fa-currency-input", FaSizeClassNames.Class("fa-input", Size), Responsive ? "fa-responsive" : null));
         builder.AddAttribute(seq++, "type", _isEditing ? "number" : "text");
         builder.AddAttribute(seq++, "inputmode", "decimal");
         builder.AddAttribute(seq++, "step", "0.01");

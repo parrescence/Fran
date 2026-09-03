@@ -23,11 +23,27 @@
     &lt;FaInput TValue="decimal" @@bind-Value="_model.Amount" Type="number" Step="0.01" Label="Amount" /&gt;
 &lt;/EditForm&gt;</code></div>
 
+<h2 class="fa-mt-5">Size &amp; responsive</h2>
+<p><code>Size</code> is the shared <a href="/sizing">FaSize</a> scale — <code>Medium</code> (default) renders with no extra class. <code>Responsive="true"</code> stretches to 100% width below 720px.</p>
+<EditForm Model="_model" class="fa-form">
+    <FaInput TValue="string" @bind-Value="_model.Name" Label="Small" Size="FaSize.Small" />
+    <FaInput TValue="string" @bind-Value="_model.Name" Label="Large" Size="FaSize.Large" />
+</EditForm>
+<div class="fa-code-block"><code>&lt;FaInput @@bind-Value="_model.Name" Label="Name" Size="FaSize.Small" /&gt;</code></div>
+
+<h2 class="fa-mt-5">Floating label</h2>
+<p><code>FloatingLabel="true"</code> overlays <code>Label</code> inside the input instead of a block label above it — pure CSS, no JS.</p>
+<EditForm Model="_model" class="fa-form">
+    <FaInput TValue="string" @bind-Value="_model.Email" Label="Email" FloatingLabel="true" />
+</EditForm>
+<div class="fa-code-block"><code>&lt;FaInput @@bind-Value="_model.Email" Label="Email" FloatingLabel="true" /&gt;</code></div>
+
 @code {
     private class DemoModel
     {
         public string Name { get; set; } = "";
         public decimal Amount { get; set; }
+        public string Email { get; set; } = "";
     }
 
     private DemoModel _model = new();
