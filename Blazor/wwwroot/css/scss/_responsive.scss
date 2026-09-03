@@ -59,6 +59,14 @@
         border-bottom: var(--fa-border-width) solid var(--fa-glow);
     }
 
+    /* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — same
+       reasoning as the terse block above, swapped to the hard offset shadow. */
+    :root[data-fa-ui-style="brutal"] .fa-sidebar,
+    html[data-fa-ui-style="brutal"].fa-sidebar-collapsed .fa-sidebar.fa-sidebar-collapsible {
+        box-shadow: var(--fa-border-glow);
+        border-bottom: var(--fa-border-width) solid var(--fa-fir);
+    }
+
     /* FaSidebar.Position: Sticky/Floating's own position: sticky + fixed
        height: calc(100vh - header-height) (_layout.scss) are desktop affordances —
        "stay pinned while the page scrolls" only means something once the sidebar is

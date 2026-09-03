@@ -255,10 +255,12 @@ own CSS instead of looking for a token.
 
 Rather than hand-overriding these tokens yourself, a fourth independent axis —
 `data-fa-ui-style` on `<html>`, alongside mode/palette/input-style — flips all of
-them at once between today's look (`flow`, no attribute needed) and a flatter,
-editorial one (`terse`): smaller radii, a plain system font, no border-glow shadow,
-no transitions. Toggle it with `<FaUiStyleSwitcher />` or
-`window.faSetUiStyle('terse')` — see [FaUiStyleSwitcher](ui-style-switcher.md).
+them at once between today's look (`flow`, no attribute needed), a flatter
+editorial one (`terse`: smaller radii, a plain system font, no border-glow shadow,
+no transitions), and a loud neobrutalist one (`brutal`: zero radius, thick fixed-
+dark borders, a hard offset "block" shadow instead of the glow, no transitions).
+Toggle it with `<FaUiStyleSwitcher />` or `window.faSetUiStyle('terse')` /
+`window.faSetUiStyle('brutal')` — see [FaUiStyleSwitcher](ui-style-switcher.md).
 
 ## 7. Set a favicon / app icon (optional)
 

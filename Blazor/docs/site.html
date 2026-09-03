@@ -2352,13 +2352,13 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
     <section class="component" id="ui-style-switcher">
       <span class="kicker">Layout &amp; chrome</span>
       <h2>FaUiStyleSwitcher</h2>
-      <p class="dek">Two buttons — Flow / Terse — for the global UI-style axis: a fourth, independent axis alongside palette, theme mode, and input style, all stamped as data attributes on &lt;html&gt;. Unlike input style, which only retunes boxed inputs, this retunes the shared shape/type/motion tokens (radius, font, border-glow shadow, transition speed) nearly every component draws from. No parameters, no Blazor state — picking a button calls <code>window.faSetUiStyle(...)</code> from theme.js directly, client-side only.</p>
+      <p class="dek">Three buttons — Flow / Terse / Brutal — for the global UI-style axis: a fourth, independent axis alongside palette, theme mode, and input style, all stamped as data attributes on &lt;html&gt;. Unlike input style, which only retunes boxed inputs, this retunes the shared shape/type/motion tokens (radius, font, border-glow shadow, transition speed) nearly every component draws from. No parameters, no Blazor state — picking a button calls <code>window.faSetUiStyle(...)</code> from theme.js directly, client-side only.</p>
 
       <h3>Usage</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaUiStyleSwitcher /&gt;</code></pre></div>
 
-      <h3>The two styles</h3>
-      <p><strong>Flow</strong> (default, no attribute needed) — today's look: rounded font, 8/14/22px radii, a colored border-glow shadow, animated transitions. <strong>Terse</strong> — a flatter, editorial look: plain system font, 4/6/10px radii, no shadow, no transitions. Status pills (badges/chips) keep their pill radius in both styles, picking up an uppercase, tracked-out, monospace label under Terse.</p>
+      <h3>The three styles</h3>
+      <p><strong>Flow</strong> (default, no attribute needed) — today's look: rounded font, 8/14/22px radii, a colored border-glow shadow, animated transitions. <strong>Terse</strong> — a flatter, editorial look: plain system font, 4/6/10px radii, no shadow, no transitions. <strong>Brutal</strong> — a loud, chunky neobrutalist look: zero radius everywhere (even status pills), a thick fixed-dark border, a hard offset "block" shadow instead of the glow, and no transitions. Status pills (badges/chips) keep their pill radius in Flow/Terse, picking up an uppercase, tracked-out, monospace label under Terse — Brutal squares them off instead.</p>
 
       <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — current UI style lives in <code>localStorage</code> (<code>fa-ui-style</code> key) and the <code>data-fa-ui-style</code> attribute on <code>&lt;html&gt;</code> (absent for the flow default), both managed by theme.js.</p>
     </section>
