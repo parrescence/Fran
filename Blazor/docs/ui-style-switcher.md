@@ -28,13 +28,15 @@ same pattern as `FaThemeSwitcher`/`FaPaletteSwitcher`/`FaInputStyleSwitcher`.
   (badges/chips) keep their pill radius and pick up an uppercase, tracked-out,
   monospace label treatment under Terse.
 - **Typewriter** — a clean, minimal paper-like look: a real monospaced serif font
-  (`'Courier New'`), moderate 6/10/16px radii (a rounded-rectangle card corner,
-  not a pill and not a sharp box), a thinner 1px border, and one soft, low-opacity
-  neutral drop shadow standing in for the colored glow — read as the element
-  resting just above the page, not glowing or pronounced. Focusing something
-  nudges that shadow up slightly rather than tightening it. Motion is untouched —
-  still flow's default transition speed — since gentle, physical-feeling movement
-  is the point, not its absence.
+  (`'Courier New'`), barely-there 3/4/6px radii (just enough to soften a corner,
+  not read as "rounded" the way Flow or even Terse's own scale does), a thinner
+  1px border, and one soft, low-opacity neutral drop shadow standing in for the
+  colored glow — read as the element resting just above the page, not glowing or
+  pronounced. Focusing something nudges that shadow up only slightly rather than
+  noticeably growing it — focus is still signaled the normal way (the border
+  recoloring), just without an oversized shadow piled on top. Motion is
+  untouched — still flow's default transition speed — since gentle,
+  physical-feeling movement is the point, not its absence.
 
 Terse and Typewriter ship with system-font fallbacks only — no forced Google
 Fonts network request from the library itself. `'Courier New'` (Typewriter) ships
