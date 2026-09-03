@@ -2,8 +2,8 @@
 
 # FaUiStyleSwitcher
 
-Two buttons — Flow / Terse — for the global UI-style axis (see `_palettes.scss`'s
-own comment): a fourth, independent axis alongside [palette](palette-switcher.md),
+Three buttons — Flow / Terse / Typewriter — for the global UI-style axis (see
+`_palettes.scss`'s own comment): a fourth, independent axis alongside [palette](palette-switcher.md),
 [theme mode](theme-switcher.md), and [input style](input-style-switcher.md), all
 stamped as data attributes on `<html>`. Unlike input style, which only retunes the
 boxed native-input-like controls, this one retunes the shared shape/type/motion
@@ -18,21 +18,29 @@ same pattern as `FaThemeSwitcher`/`FaPaletteSwitcher`/`FaInputStyleSwitcher`.
 <FaUiStyleSwitcher />
 ```
 
-## The two styles
+## The three styles
 
 - **Flow** (default, no attribute needed) — today's look: `'Baloo 2'`-family font,
   8/14/22px radii, a colored "border-glow" shadow on bordered elements, and
   0.15–0.2s transitions.
 - **Terse** — a flatter, editorial look: a plain system-font stack, 4/6/10px radii,
   no border-glow shadow (flat borders instead), and no transitions. Status pills
-  (badges/chips) keep their pill radius in both styles and pick up an uppercase,
-  tracked-out, monospace label treatment under Terse.
+  (badges/chips) keep their pill radius and pick up an uppercase, tracked-out,
+  monospace label treatment under Terse.
+- **Typewriter** — a paper-like look: a real monospaced serif font
+  (`'Courier New'`), moderate 6/10/16px radii (a rounded-rectangle card corner,
+  not a pill and not a sharp box), and a soft, neutral two-layer drop shadow
+  standing in for the colored glow — read as the element resting just above the
+  page. Focusing something lifts that shadow further (larger, softer) rather than
+  tightening it. Motion is untouched — still flow's default transition speed —
+  since gentle, physical-feeling movement is the point, not its absence.
 
-Terse ships with system-font fallbacks only — no forced Google Fonts network
-request from the library itself. The original reference look used **Barlow
-Condensed** (headings), **Libre Franklin** (body), and **IBM Plex Mono** (labels/
-numbers); add your own `<link>` for those (same pattern as any other Google Font)
-if you want the exact intended look rather than the system-font fallback.
+Terse and Typewriter ship with system-font fallbacks only — no forced Google
+Fonts network request from the library itself. `'Courier New'` (Typewriter) ships
+on effectively every OS already, so it needs no `<link>` at all; Terse's original
+reference look used **Barlow Condensed** (headings), **Libre Franklin** (body),
+and **IBM Plex Mono** (labels/numbers) if you want to add those yourself for the
+exact intended look.
 
 ## Getting the value
 
@@ -40,6 +48,7 @@ Nothing to bind — the current UI style lives in `localStorage` (`fa-ui-style` 
 and the `data-fa-ui-style` attribute on `<html>` (absent for the `flow` default),
 both managed by `theme.js`. Read `localStorage.getItem('fa-ui-style')` yourself if
 your own code needs it, or call `window.faSetUiStyle('terse')` /
-`window.faSetUiStyle(null)` (reset to flow) directly.
+`window.faSetUiStyle('typewriter')` / `window.faSetUiStyle(null)` (reset to flow)
+directly.
 
 [← Back to index](index.md)

@@ -59,6 +59,13 @@
         border-bottom: var(--fa-border-width) solid var(--fa-glow);
     }
 
+    /* Typewriter UI style (data-fa-ui-style="typewriter", see _palettes.scss) —
+       same reasoning as the terse block above, swapped to the soft neutral shadow. */
+    :root[data-fa-ui-style="typewriter"] .fa-sidebar,
+    html[data-fa-ui-style="typewriter"].fa-sidebar-collapsed .fa-sidebar.fa-sidebar-collapsible {
+        box-shadow: var(--fa-border-glow);
+    }
+
     /* FaSidebar.Position: Sticky/Floating's own position: sticky + fixed
        height: calc(100vh - header-height) (_layout.scss) are desktop affordances —
        "stay pinned while the page scrolls" only means something once the sidebar is

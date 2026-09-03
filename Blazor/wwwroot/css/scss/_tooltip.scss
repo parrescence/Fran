@@ -86,3 +86,9 @@
     box-shadow: none;
     border: 1px solid var(--fa-border);
 }
+
+/* Typewriter UI style (data-fa-ui-style="typewriter", see _palettes.scss) — soft
+   neutral shadow instead of the harsher literal one. */
+:root[data-fa-ui-style="typewriter"] .fa-tooltip-bubble {
+    box-shadow: var(--fa-border-glow);
+}

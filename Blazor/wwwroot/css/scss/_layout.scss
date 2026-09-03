@@ -670,3 +670,27 @@ html[data-fa-ui-style="terse"].fa-sidebar-collapsed .fa-sidebar-collapsible .fa-
     border: 1px solid var(--fa-glow);
 }
 
+/* Typewriter UI style (data-fa-ui-style="typewriter", see _palettes.scss) — same
+   reason as the terse block above (these shadows are hardcoded, not token-
+   driven), swapped to the soft neutral "resting" shadow instead of flattening to
+   a border. The active sidebar link keeps its filled background as the only
+   "active" signal (no border-glow token used for insets like this one), same as
+   flow — nothing needed here for that one selector. */
+:root[data-fa-ui-style="typewriter"] {
+    .fa-header {
+        box-shadow: var(--fa-border-glow);
+    }
+
+    .fa-sidebar {
+        box-shadow: var(--fa-border-glow);
+    }
+
+    .fa-sidebar-toggle:not(:focus-visible) {
+        box-shadow: var(--fa-border-glow);
+    }
+}
+
+html[data-fa-ui-style="typewriter"].fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link::after {
+    box-shadow: var(--fa-border-glow);
+}
+
