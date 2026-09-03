@@ -64,6 +64,65 @@
     --fa-header-height: 4rem;
 }
 
+/* ============================= UI style: terse / typewriter ============================= */
+/* A fourth independent axis, alongside palette/mode below and input-style (its own
+   comment lives in _inputs.scss next to the code it affects, same precedent this
+   follows) — which overall shape/type/motion language is active, not which colors.
+   Three values share this one mechanism: "flow" (no attribute, the :root defaults
+   above — today's rounded, softly glowing, animated look), "terse" (flatter and
+   editorial, no shadow, no motion), "typewriter" (paper-like — a monospaced serif
+   font, moderate radii, and a soft neutral drop shadow standing in for the
+   colored glow, read as the card physically resting just above the page). All
+   three retune the same shared tokens every component already draws its shape
+   from (see Blazor/CLAUDE.md's Themes section), so a new value here is a token
+   block plus a short explicit list of hardcoded (non-token) shadows each doesn't
+   reach — header/sidebar chrome, toasts, tooltips, the avatar ring — get their
+   own `[data-fa-ui-style="..."]` overrides in their own partials instead of
+   repeating them here. Toggle with window.faSetUiStyle(name) (js/theme.js) or
+   <FaUiStyleSwitcher>. Status pills (badges/chips) keep --fa-radius-pill in all
+   three — a shape appropriate to a status pill regardless of which style is
+   active. */
+:root[data-fa-ui-style="terse"] {
+    --fa-radius-sm: 4px;
+    --fa-radius-md: 6px;
+    --fa-radius-lg: 10px;
+    --fa-font: ui-sans-serif, 'Segoe UI', system-ui, sans-serif;
+    /* Only meaningful under terse — labels/eyebrows/tabular numbers, see
+       _badges.scss/_chip.scss. Flow/typewriter have no equivalent token since
+       neither uses a separate monospace treatment (typewriter's *entire* font
+       already is one — see below). */
+    --fa-font-mono: ui-monospace, 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
+    --fa-border-glow: none;
+    --fa-border-glow-focus: 0 0 0 2px var(--fa-border-focus);
+    --fa-transition-fast: 0s;
+    --fa-transition-medium: 0s;
+}
+
+/* Typewriter: a real monospaced serif/slab typeface — 'Courier New' ships on
+   effectively every OS, so this reaches the intended look without the forced
+   Google Fonts network request a non-system font would need (same "system-font
+   fallback only" stance terse takes). Radii are barely-there — just enough to
+   soften a corner, not read as "rounded" the way flow or even terse's own scale
+   does — since the identity here is font + a whisper of a shadow, not shape.
+   Border thins to 1px and --fa-border-glow becomes one barely-there, neutral
+   (not palette-colored) drop shadow instead of flow's heavier colored blur or
+   terse's none — a clean, minimal "resting on the page" read. The focus variant
+   only nudges that shadow very slightly rather than noticeably growing it —
+   focus is still signaled the normal way (the border recoloring to
+   --fa-border-focus, same as every style), just without an oversized shadow
+   piled on top of it. Motion is untouched (still flow's default transition
+   speed): unlike terse's "no motion" stance, typewriter's whole point is gentle,
+   physical-feeling movement, not the absence of it. */
+:root[data-fa-ui-style="typewriter"] {
+    --fa-radius-sm: 3px;
+    --fa-radius-md: 4px;
+    --fa-radius-lg: 6px;
+    --fa-font: 'Courier New', Courier, ui-monospace, monospace;
+    --fa-border-width: 1px;
+    --fa-border-glow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    --fa-border-glow-focus: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
 /* ============================= Theme variants ============================= */
 /* Two independent axes, both applied via data attributes on <html>:
 
