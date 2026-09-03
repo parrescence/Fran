@@ -165,3 +165,12 @@
     font-size: 1.2rem;
 }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — a button isn't a
+   status pill, so it drops to the same small radius as boxed inputs instead of
+   inheriting --fa-radius-pill. Everything else about .fa-btn (padding, weight,
+   the border-glow/transition tokens it already reads) falls out of the token
+   overrides in _palettes.scss with no change needed here. */
+:root[data-fa-ui-style="terse"] .fa-btn {
+    border-radius: var(--fa-radius-sm);
+}
+

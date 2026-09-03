@@ -71,6 +71,14 @@
         color: var(--fa-text);
     }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — flat border only,
+   no drop shadow; the slide/scale-in entrance also drops since "no motion" is
+   part of the same style's identity as the flattened shadow/transition tokens. */
+:root[data-fa-ui-style="terse"] .fa-toast {
+    box-shadow: none;
+    animation: none;
+}
+
 @keyframes fa-toast-in {
     from {
         opacity: 0;

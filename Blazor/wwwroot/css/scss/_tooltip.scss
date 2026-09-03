@@ -79,3 +79,10 @@
     .fa-tooltip:focus-within .fa-tooltip-right {
         transform: translateY(-50%) translateX(0);
     }
+
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — flat border
+   instead of a drop shadow. */
+:root[data-fa-ui-style="terse"] .fa-tooltip-bubble {
+    box-shadow: none;
+    border: 1px solid var(--fa-border);
+}

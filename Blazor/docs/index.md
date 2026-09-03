@@ -115,4 +115,5 @@ Two binding shapes show up repeatedly:
 - [FaThemeSwitcher](theme-switcher.md) — Light/Dark/Colorblind-safe buttons
 - [FaPaletteSwitcher](palette-switcher.md) — dropdown over all 28 color palettes
 - [FaInputStyleSwitcher](input-style-switcher.md) — Standard/Minimal/Maximal buttons for the app-wide input-style axis
+- [FaUiStyleSwitcher](ui-style-switcher.md) — Flow/Terse buttons for the app-wide UI-style axis
 - [FaIcon](fa-icon.md) — the hand-drawn SVG icon set

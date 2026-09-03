@@ -1,0 +1,31 @@
+@namespace Showcase.Web.Client.Pages
+
+@page "/ui-style-switcher"
+
+<DemoPageHeader Title="UI Style Switcher" ComponentName="FaUiStyleSwitcher" DocSlug="ui-style-switcher">
+    Flow/Terse buttons for the app-wide UI-style axis — retunes the shared shape/type/motion tokens nearly every component draws from.
+</DemoPageHeader>
+
+<ComponentSubNav BaseRoute="/ui-style-switcher" />
+
+<p>Picking a style here affects the whole Showcase — try the button/card/badge below, then check another page too.</p>
+<div class="fa-demo-preview">
+    <FaUiStyleSwitcher />
+</div>
+<div class="fa-class-legend">
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Group</span><code>.fa-ui-style-switcher</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Each button</span><code>.fa-ui-style-btn</code></div>
+    <div class="fa-class-legend-row"><span class="fa-class-legend-label">Active button</span><code>.fa-ui-style-btn.fa-ui-style-btn-active</code></div>
+</div>
+<div class="fa-code-block"><code>&lt;FaUiStyleSwitcher /&gt;</code></div>
+
+<h2 class="fa-mt-5">Try it</h2>
+<div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+    <FaButton Variant="FaButtonVariant.Primary">Primary button</FaButton>
+    <FaBadge Variant="FaBadgeVariant.Primary">Status</FaBadge>
+    <FaChip>Chip label</FaChip>
+</div>
+<FaCard CssClass="fa-mt-3">A card, to show the radius/shadow difference between Flow and Terse.</FaCard>
+
+@code {
+}

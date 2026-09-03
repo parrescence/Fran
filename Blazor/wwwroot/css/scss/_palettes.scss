@@ -64,6 +64,37 @@
     --fa-header-height: 4rem;
 }
 
+/* ============================= UI style: terse ============================= */
+/* A fourth independent axis, alongside palette/mode below and input-style (its own
+   comment lives in _inputs.scss next to the code it affects, same precedent this
+   follows) — which overall shape/type/motion language is active, not which colors.
+   data-fa-ui-style="terse" retunes the same shared tokens every component already
+   draws its shape from (see Blazor/CLAUDE.md's Themes section) to a flatter,
+   editorial look: smaller radii, a plain system font stack instead of the default
+   rounded display font, no border-glow shadow, no transitions. No attribute (or
+   data-fa-ui-style="flow") means the :root defaults above. Toggle with
+   window.faSetUiStyle(name) (js/theme.js) or <FaUiStyleSwitcher>. Status pills
+   (badges/chips) keep --fa-radius-pill in both styles — that's a shape appropriate
+   to a status pill regardless of which style is active, not part of what "terse"
+   changes. A short list of hardcoded (non-token) shadows this doesn't reach —
+   header/sidebar chrome, toasts, tooltips, the avatar ring — get their own
+   `[data-fa-ui-style="terse"]` overrides in their own partials instead of
+   repeating them here. */
+:root[data-fa-ui-style="terse"] {
+    --fa-radius-sm: 4px;
+    --fa-radius-md: 6px;
+    --fa-radius-lg: 10px;
+    --fa-font: ui-sans-serif, 'Segoe UI', system-ui, sans-serif;
+    /* Only meaningful under terse — labels/eyebrows/tabular numbers, see
+       _badges.scss/_chip.scss. The default (flow) style has no equivalent token
+       since it doesn't use a monospace treatment anywhere. */
+    --fa-font-mono: ui-monospace, 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
+    --fa-border-glow: none;
+    --fa-border-glow-focus: 0 0 0 2px var(--fa-border-focus);
+    --fa-transition-fast: 0s;
+    --fa-transition-medium: 0s;
+}
+
 /* ============================= Theme variants ============================= */
 /* Two independent axes, both applied via data attributes on <html>:
 

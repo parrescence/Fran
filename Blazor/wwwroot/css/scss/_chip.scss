@@ -38,6 +38,15 @@
     color: var(--fa-text-on-primary);
 }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — same tracked-out
+   uppercase mono treatment as .fa-badge (_badges.scss). Radius stays
+   --fa-radius-pill in both styles. */
+:root[data-fa-ui-style="terse"] .fa-chip {
+    font-family: var(--fa-font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
 .fa-chip-disabled {
     opacity: 0.5;
     cursor: not-allowed;

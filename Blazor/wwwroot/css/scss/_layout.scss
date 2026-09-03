@@ -284,6 +284,50 @@
         box-shadow: 0 0 0 2px var(--fa-border-focus);
     }
 
+/* FaUiStyleSwitcher — same "not header-locked" reasoning and identical look as
+   FaInputStyleSwitcher just above; kept as its own class pair rather than reusing
+   .fa-input-style-switcher/-btn since the two switch genuinely different axes and
+   a consumer may want both switchers styled independently later. */
+.fa-ui-style-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    background: var(--fa-footer);
+    border-radius: var(--fa-radius-pill);
+    padding: 0.2rem;
+}
+
+.fa-ui-style-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.9rem;
+    border-radius: var(--fa-radius-pill);
+    border: none;
+    background: transparent;
+    font-family: var(--fa-font);
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--fa-text-muted);
+    cursor: pointer;
+    transition: background-color var(--fa-transition-fast), color var(--fa-transition-fast);
+}
+
+    .fa-ui-style-btn:hover {
+        color: var(--fa-text);
+    }
+
+    .fa-ui-style-btn.fa-ui-style-btn-active {
+        background: var(--fa-surface);
+        color: var(--fa-primary-dark);
+        box-shadow: var(--fa-border-glow);
+    }
+
+    .fa-ui-style-btn:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--fa-border-focus);
+    }
+
 /* ============================= Footer ============================= */
 
 .fa-footer {
@@ -583,5 +627,46 @@ html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link:hover::after,
 html.fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link:focus-visible::after {
     opacity: 1;
     transform: translateY(-50%) translateX(0) scale(1);
+}
+
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — this file's own
+   header/sidebar "lifted" shadows are hardcoded, not routed through
+   --fa-border-glow like most components, so they need their own flattening here
+   instead of falling out of the token overrides for free. A flat bottom/right
+   border replaces the shadow where it was doing edge-separation work; the active
+   sidebar link's inset ring becomes a left accent bar instead — the same
+   left-border-accent language the reference terse look uses in place of filled/
+   glowing highlights. */
+:root[data-fa-ui-style="terse"] {
+    .fa-header {
+        box-shadow: none;
+        border-bottom: var(--fa-border-width) solid var(--fa-glow);
+    }
+
+    .fa-sidebar {
+        box-shadow: none;
+        border-right: var(--fa-border-width) solid var(--fa-glow);
+    }
+
+    /* :not(:focus-visible) rather than a plain .fa-sidebar-toggle rule — this
+       block is appended after the component's own :focus-visible box-shadow
+       (the focus ring, not decorative), and at equal specificity a later plain
+       rule would otherwise win and silently eat that ring while terse is active. */
+    .fa-sidebar-toggle:not(:focus-visible) {
+        box-shadow: none;
+    }
+
+    .fa-sidebar-link.active {
+        box-shadow: none;
+        border-left: 3px solid var(--fa-text-on-primary);
+    }
+}
+
+/* :root[data-fa-ui-style="terse"] html.fa-sidebar-collapsed ... above would never
+   match — :root IS <html>, so it can't also be html's ancestor via a descendant
+   combinator. The attribute has to land on the same html element instead. */
+html[data-fa-ui-style="terse"].fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link::after {
+    box-shadow: none;
+    border: 1px solid var(--fa-glow);
 }
 

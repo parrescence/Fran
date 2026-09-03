@@ -22,3 +22,10 @@
         object-fit: cover;
     }
 
+/* Terse UI style (data-fa-ui-style="terse", see _palettes.scss) — drops the
+   colored glow blur but keeps the plain ring, which is doing real separation
+   work against whatever background the avatar sits on. */
+:root[data-fa-ui-style="terse"] .fa-avatar {
+    box-shadow: 0 0 0 2px var(--fa-text-on-primary);
+}
+

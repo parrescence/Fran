@@ -1,18 +1,21 @@
 // Theme toggle — plain JS on purpose, not Blazor JS interop. Nothing here needs
-// C# state: it's three independent axes stamped as data attributes on <html> —
+// C# state: it's four independent axes stamped as data attributes on <html> —
 // mode (light/dark/colorblind, data-theme), palette (seasonal/regional/custom,
-// data-fa-palette), and input style (standard/minimal/maximal, data-fa-input-style,
-// see _inputs.scss) — all persisted to localStorage, read back by an inline snippet
+// data-fa-palette), input style (standard/minimal/maximal, data-fa-input-style,
+// see _inputs.scss), and UI style (flow/terse, data-fa-ui-style, see
+// _palettes.scss) — all persisted to localStorage, read back by an inline snippet
 // in index.html <head> before first paint so there's no flash of the wrong
-// theme/palette/input-style. <FaThemeSwitcher> calls window.faSetTheme(...) directly
-// via a plain onclick attribute, <FaPaletteSwitcher> calls window.faSetPalette(...)
-// via a plain onchange attribute, and <FaInputStyleSwitcher> calls
-// window.faSetInputStyle(...) via onclick — see each .cs file for why that's fine here.
+// theme/palette/input-style/ui-style. <FaThemeSwitcher> calls window.faSetTheme(...)
+// directly via a plain onclick attribute, <FaPaletteSwitcher> calls
+// window.faSetPalette(...) via a plain onchange attribute, <FaInputStyleSwitcher>
+// calls window.faSetInputStyle(...) via onclick, and <FaUiStyleSwitcher> calls
+// window.faSetUiStyle(...) via onclick — see each .cs file for why that's fine here.
 (function () {
     var THEME_STORAGE_KEY = 'fa-theme';
     var PALETTE_STORAGE_KEY = 'fa-palette';
     var CUSTOM_PALETTE_STORAGE_KEY = 'fa-custom-palette';
     var INPUT_STYLE_STORAGE_KEY = 'fa-input-style';
+    var UI_STYLE_STORAGE_KEY = 'fa-ui-style';
 
     // The same token set FaPaletteColors (Blazor/Models/FaPalette.cs) requires, in
     // camelCase to match its System.Text.Json-serialized JSON. --fa-<kebab-case> is the
@@ -113,6 +116,31 @@
         markActiveInputStyle(inputStyle);
     };
 
+    function markActiveUiStyle(uiStyle) {
+        var resolved = uiStyle || 'flow';
+        var buttons = document.querySelectorAll('[data-ui-style-btn]');
+        for (var i = 0; i < buttons.length; i++) {
+            var btn = buttons[i];
+            var isActive = btn.getAttribute('data-ui-style-btn') === resolved;
+            btn.classList.toggle('fa-ui-style-btn-active', isActive);
+            btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        }
+    }
+
+    // Same "real unset default" shape as faSetInputStyle above — "flow" is the
+    // real default (today's look), not a follow-the-OS concept, so this always
+    // stamps/removes the attribute rather than leaving it ambiguous.
+    window.faSetUiStyle = function (uiStyle) {
+        if (!uiStyle || uiStyle === 'flow') {
+            document.documentElement.removeAttribute('data-fa-ui-style');
+            localStorage.removeItem(UI_STYLE_STORAGE_KEY);
+        } else {
+            document.documentElement.setAttribute('data-fa-ui-style', uiStyle);
+            localStorage.setItem(UI_STYLE_STORAGE_KEY, uiStyle);
+        }
+        markActiveUiStyle(uiStyle);
+    };
+
     window.faSetTheme = function (theme) {
         if (theme === 'light') {
             // "light" is the explicit choice, not just "no attribute" — otherwise
@@ -206,6 +234,12 @@
             document.documentElement.setAttribute('data-fa-input-style', storedInputStyle);
         }
         markActiveInputStyle(storedInputStyle || document.documentElement.getAttribute('data-fa-input-style'));
+
+        var storedUiStyle = localStorage.getItem(UI_STYLE_STORAGE_KEY);
+        if (storedUiStyle) {
+            document.documentElement.setAttribute('data-fa-ui-style', storedUiStyle);
+        }
+        markActiveUiStyle(storedUiStyle || document.documentElement.getAttribute('data-fa-ui-style'));
     }
 
     document.addEventListener('DOMContentLoaded', syncAll);
