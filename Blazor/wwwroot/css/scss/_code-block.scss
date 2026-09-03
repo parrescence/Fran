@@ -13,6 +13,22 @@
     font-family: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
 }
 
+    /* No rule here means the browser's own default selection highlight (usually a
+       pale, near-white overlay) applies instead — fine against ordinary dark-on-
+       light body text, but against this block's light-on-dark token colors it
+       washes both the highlight and the text it's covering out to the same near-
+       white, unreadable either way. Pin selection to an explicit, always-readable
+       pair instead of leaving it to whatever the browser/OS defaults to. */
+    .fa-codeblock ::selection {
+        background: #e8e6e0;
+        color: var(--fa-fir);
+    }
+
+    .fa-codeblock ::-moz-selection {
+        background: #e8e6e0;
+        color: var(--fa-fir);
+    }
+
 .fa-codeblock-header {
     display: flex;
     align-items: center;
