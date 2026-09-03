@@ -103,21 +103,22 @@
    Google Fonts network request a non-system font would need (same "system-font
    fallback only" stance terse takes). Radii sit between flow's very rounded and
    terse's small-and-square — a rounded-rectangle card corner, not a pill and not
-   a sharp box. --fa-border-glow becomes a soft, neutral (not palette-colored)
-   two-layer drop shadow instead of flow's colored blur or terse's none — the
-   "resting on the page" read the reference look was going for — and the focus
-   variant lifts it further (a larger, softer spread) rather than tightening it,
-   so focusing something reads as it rising slightly rather than pressing down.
-   Motion is untouched (still flow's default transition speed): unlike
-   terse/brutal-style "no motion" looks, typewriter's whole point is gentle,
-   physical-feeling movement, not the absence of it. */
+   a sharp box. Border thins to 1px and --fa-border-glow becomes one soft, neutral
+   (not palette-colored), low-opacity drop shadow instead of flow's heavier
+   colored blur or terse's none — a clean, minimal "resting on the page" read
+   rather than a pronounced lift — and the focus variant nudges that shadow up
+   just slightly rather than tightening it, so focusing something reads as
+   rising a touch, not pressing down. Motion is untouched (still flow's default
+   transition speed): unlike terse's "no motion" stance, typewriter's whole point
+   is gentle, physical-feeling movement, not the absence of it. */
 :root[data-fa-ui-style="typewriter"] {
     --fa-radius-sm: 6px;
     --fa-radius-md: 10px;
     --fa-radius-lg: 16px;
     --fa-font: 'Courier New', Courier, ui-monospace, monospace;
-    --fa-border-glow: 0 3px 10px rgba(0, 0, 0, 0.14), 0 1px 3px rgba(0, 0, 0, 0.1);
-    --fa-border-glow-focus: 0 6px 18px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12);
+    --fa-border-width: 1px;
+    --fa-border-glow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --fa-border-glow-focus: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* ============================= Theme variants ============================= */
