@@ -79,16 +79,6 @@
     animation: none;
 }
 
-/* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — hard offset
-   shadow plus a fixed dark border, same fixed-dark-outline language as
-   .fa-btn/.fa-badge/.fa-chip; the slide/scale-in entrance drops for the same
-   "snappy, not smooth" reasoning terse's does. */
-:root[data-fa-ui-style="brutal"] .fa-toast {
-    border-color: var(--fa-fir);
-    box-shadow: var(--fa-border-glow);
-    animation: none;
-}
-
 @keyframes fa-toast-in {
     from {
         opacity: 0;

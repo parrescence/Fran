@@ -64,56 +64,33 @@
     --fa-header-height: 4rem;
 }
 
-/* ============================= UI style: terse / brutal ============================= */
+/* ============================= UI style: terse ============================= */
 /* A fourth independent axis, alongside palette/mode below and input-style (its own
    comment lives in _inputs.scss next to the code it affects, same precedent this
    follows) — which overall shape/type/motion language is active, not which colors.
-   Three values share this one mechanism: "flow" (no attribute, the :root defaults
-   above — today's rounded, softly glowing, animated look), "terse" (flatter and
-   editorial), "brutal" (loud and chunky). All three retune the same shared tokens
-   every component already draws its shape from (see Blazor/CLAUDE.md's Themes
-   section), so a new value here is a token block plus a short explicit list of
-   hardcoded (non-token) shadows each doesn't reach — header/sidebar chrome,
-   toasts, tooltips, the avatar ring — get their own `[data-fa-ui-style="..."]`
-   overrides in their own partials instead of repeating them here. Toggle with
+   data-fa-ui-style="terse" retunes the same shared tokens every component already
+   draws its shape from (see Blazor/CLAUDE.md's Themes section) to a flatter,
+   editorial look: smaller radii, a plain system font stack instead of the default
+   rounded display font, no border-glow shadow, no transitions. No attribute (or
+   data-fa-ui-style="flow") means the :root defaults above. Toggle with
    window.faSetUiStyle(name) (js/theme.js) or <FaUiStyleSwitcher>. Status pills
-   (badges/chips) keep --fa-radius-pill in flow and terse — a shape appropriate to
-   a status pill regardless of style — but brutal deliberately squares even those
-   off, since "nothing stays pill-shaped" is part of its identity; that's why its
-   block below redefines --fa-radius-pill too, the only one of the three that does. */
+   (badges/chips) keep --fa-radius-pill in both styles — that's a shape appropriate
+   to a status pill regardless of which style is active, not part of what "terse"
+   changes. A short list of hardcoded (non-token) shadows this doesn't reach —
+   header/sidebar chrome, toasts, tooltips, the avatar ring — get their own
+   `[data-fa-ui-style="terse"]` overrides in their own partials instead of
+   repeating them here. */
 :root[data-fa-ui-style="terse"] {
     --fa-radius-sm: 4px;
     --fa-radius-md: 6px;
     --fa-radius-lg: 10px;
     --fa-font: ui-sans-serif, 'Segoe UI', system-ui, sans-serif;
     /* Only meaningful under terse — labels/eyebrows/tabular numbers, see
-       _badges.scss/_chip.scss. Flow/brutal have no equivalent token since neither
-       uses a monospace treatment anywhere. */
+       _badges.scss/_chip.scss. The default (flow) style has no equivalent token
+       since it doesn't use a monospace treatment anywhere. */
     --fa-font-mono: ui-monospace, 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
     --fa-border-glow: none;
     --fa-border-glow-focus: 0 0 0 2px var(--fa-border-focus);
-    --fa-transition-fast: 0s;
-    --fa-transition-medium: 0s;
-}
-
-/* Neobrutalist: zero radius everywhere (including pills, see above), thicker
-   borders, and a hard-edged offset "block" shadow — 0 blur, 0 spread, just an
-   offset — standing in for --fa-border-glow's soft colored blur. --fa-fir is
-   every palette's own dark neutral anchor (_palettes.scss's :root), so the shadow
-   reads as a consistent near-black block regardless of which of the 28 palettes
-   is active, the same "borrow the one token guaranteed dark" reasoning
-   FaCodeBlock's background already relies on (_code-block.scss). The focus/press
-   variant shrinks the offset instead of removing it — reads as the element
-   physically pressing down toward the page rather than just losing its shadow. */
-:root[data-fa-ui-style="brutal"] {
-    --fa-radius-sm: 0;
-    --fa-radius-md: 0;
-    --fa-radius-lg: 0;
-    --fa-radius-pill: 0;
-    --fa-font: ui-sans-serif, Arial, 'Helvetica Neue', sans-serif;
-    --fa-border-width: 3px;
-    --fa-border-glow: 4px 4px 0 0 var(--fa-fir);
-    --fa-border-glow-focus: 2px 2px 0 0 var(--fa-fir);
     --fa-transition-fast: 0s;
     --fa-transition-medium: 0s;
 }

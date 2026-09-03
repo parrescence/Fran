@@ -29,14 +29,3 @@
     box-shadow: 0 0 0 2px var(--fa-text-on-primary);
 }
 
-/* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — squares off
-   the one shape in the library that isn't already driven by a --fa-radius-* token
-   (circle is hardcoded 50%, not --fa-radius-pill), since "nothing stays round" is
-   as much this look's identity as the hard shadow is; the ring swaps to the same
-   fixed dark border + offset block shadow every other brutal component uses. */
-:root[data-fa-ui-style="brutal"] .fa-avatar {
-    border-radius: 0;
-    border: var(--fa-border-width) solid var(--fa-fir);
-    box-shadow: var(--fa-border-glow);
-}
-

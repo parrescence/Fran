@@ -46,13 +46,3 @@
     letter-spacing: 0.06em;
 }
 
-/* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — square corners
-   already fall out of --fa-radius-pill being 0, but a badge has no border at all
-   in flow/terse (a solid fill is enough contrast against the page there); brutal
-   adds one, same fixed dark color as .fa-btn's, since an outline is part of this
-   look's identity everywhere something reads as a discrete "block". */
-:root[data-fa-ui-style="brutal"] .fa-badge {
-    border: var(--fa-border-width) solid var(--fa-fir);
-    font-weight: 800;
-}
-

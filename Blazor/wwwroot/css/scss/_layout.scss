@@ -670,34 +670,3 @@ html[data-fa-ui-style="terse"].fa-sidebar-collapsed .fa-sidebar-collapsible .fa-
     border: 1px solid var(--fa-glow);
 }
 
-/* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — same reason as
-   the terse block above (these shadows are hardcoded, not token-driven), but
-   swapped to the hard offset block shadow instead of flattening to a plain
-   border, plus a fixed dark border everywhere brutal draws one. */
-:root[data-fa-ui-style="brutal"] {
-    .fa-header {
-        box-shadow: var(--fa-border-glow);
-        border-bottom: var(--fa-border-width) solid var(--fa-fir);
-    }
-
-    .fa-sidebar {
-        box-shadow: var(--fa-border-glow);
-        border-right: var(--fa-border-width) solid var(--fa-fir);
-    }
-
-    .fa-sidebar-toggle:not(:focus-visible) {
-        box-shadow: var(--fa-border-glow);
-        border-color: var(--fa-fir);
-    }
-
-    .fa-sidebar-link.active {
-        box-shadow: none;
-        border-left: 4px solid var(--fa-text-on-primary);
-    }
-}
-
-html[data-fa-ui-style="brutal"].fa-sidebar-collapsed .fa-sidebar-collapsible .fa-sidebar-link::after {
-    box-shadow: var(--fa-border-glow);
-    border: var(--fa-border-width) solid var(--fa-fir);
-}
-

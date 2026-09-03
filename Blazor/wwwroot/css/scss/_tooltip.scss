@@ -86,10 +86,3 @@
     box-shadow: none;
     border: 1px solid var(--fa-border);
 }
-
-/* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — hard offset
-   shadow plus a fixed dark border, same treatment as every other brutal component. */
-:root[data-fa-ui-style="brutal"] .fa-tooltip-bubble {
-    box-shadow: var(--fa-border-glow);
-    border: var(--fa-border-width) solid var(--fa-fir);
-}

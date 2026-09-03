@@ -47,16 +47,6 @@
     letter-spacing: 0.06em;
 }
 
-/* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — .fa-chip
-   already draws a border (transparent in flow/terse, just there to reserve the
-   space so hover/focus don't shift layout when they color it in), so brutal only
-   needs to give that border an always-visible color, same fixed dark tone as
-   .fa-badge's. Square corners fall out of --fa-radius-pill being 0. */
-:root[data-fa-ui-style="brutal"] .fa-chip {
-    border-color: var(--fa-fir);
-    font-weight: 800;
-}
-
 .fa-chip-disabled {
     opacity: 0.5;
     cursor: not-allowed;

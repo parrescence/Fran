@@ -174,22 +174,3 @@
     border-radius: var(--fa-radius-sm);
 }
 
-/* Brutal UI style (data-fa-ui-style="brutal", see _palettes.scss) — radius already
-   falls out of --fa-radius-pill being 0 under brutal, but .fa-btn never draws a
-   shadow at all in flow/terse (every variant's border-color already carries its
-   own color), so the signature hard offset "block" shadow needs adding here
-   explicitly, plus a fixed dark border every variant shares regardless of its own
-   color — the visible black-ish outline is as much this look's identity as the
-   shadow is. :active presses the button toward the page: shadow shrinks
-   (--fa-border-glow-focus) and the button visually moves into the space the
-   shadow gave up, instead of just changing color. */
-:root[data-fa-ui-style="brutal"] .fa-btn {
-    border-color: var(--fa-fir);
-    box-shadow: var(--fa-border-glow);
-}
-
-    :root[data-fa-ui-style="brutal"] .fa-btn:active {
-        box-shadow: var(--fa-border-glow-focus);
-        transform: translate(2px, 2px);
-    }
-
