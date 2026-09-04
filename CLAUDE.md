@@ -3,7 +3,7 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in
 this repository.
 
-`FaFa` houses one or more standalone UI **style libraries**, each in its own
+`Fran` houses one or more standalone UI **style libraries**, each in its own
 top-level folder, each targeting a different framework/architecture. Currently:
 
 - **`Blazor/`** — a Blazor Razor Class Library (C#). See
@@ -29,7 +29,7 @@ local-only design-reference folders.
 `Showcase/` holds `Showcase.Web.Client` (a standalone Blazor WebAssembly app) and
 `Showcase.Web.Api` (an Azure Functions app backing its "pulled from the database"
 demos) — an in-repo, live demo of every style library's
-components, referencing `Blazor/FaFa.csproj` via `<ProjectReference>`
+components, referencing `Blazor/Fran.csproj` via `<ProjectReference>`
 rather than the published package, so it always reflects whatever's currently on
 the branch. See [`Showcase/README.md`](Showcase/README.md) for what it is and how to
 run it, and [`Showcase/CLAUDE.md`](Showcase/CLAUDE.md) for the conventions behind how

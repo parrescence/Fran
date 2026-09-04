@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Which edge of an <see cref="FaProgress"/> track the fill grows from. Right/Left

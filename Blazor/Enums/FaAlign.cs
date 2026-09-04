@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Flex <c>justify-content</c> alignment for a row of elements — <see

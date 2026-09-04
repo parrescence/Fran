@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// One toast's content and how long it stays up (in milliseconds) before

@@ -1,8 +1,8 @@
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Content-shaped loading placeholder — a shimmering bar/circle/block standing in

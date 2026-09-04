@@ -1,9 +1,9 @@
-using FaFa.Icons;
-using FaFa.Rendering;
+using Fran.Icons;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Standalone page-number strip — prev/next icon buttons plus a windowed run of page

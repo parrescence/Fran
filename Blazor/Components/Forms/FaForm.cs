@@ -1,11 +1,11 @@
-using FaFa.Rendering;
-using FaFa.Validation;
+using Fran.Rendering;
+using Fran.Validation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A self-contained wrapper around <see cref="EditForm"/>: hand it a <typeparamref
@@ -39,7 +39,7 @@ public sealed class FaForm<TModel> : ComponentBase where TModel : class
     [Parameter] public bool ShowValidationSummary { get; set; } = true;
 
     /// <summary>
-    /// Opts this form into FaFa's own validation system (see <c>FaFa.Validation</c>)
+    /// Opts this form into Fran's own validation system (see <c>Fran.Validation</c>)
     /// alongside the <c>DataAnnotationsValidator</c> this component already always
     /// renders — off by default since not every <typeparamref name="TModel"/> has a
     /// registered <see cref="IFaValidator{TModel}"/>, and turning it on for one that
@@ -47,7 +47,7 @@ public sealed class FaForm<TModel> : ComponentBase where TModel : class
     /// </summary>
     [Parameter] public bool UseFaValidation { get; set; }
 
-    /// <summary>The form tier of FaFa's validation system — see <c>FaModelValidator&lt;TModel&gt;.ConfigureValidation</c>. Ignored unless <see cref="UseFaValidation"/> is set.</summary>
+    /// <summary>The form tier of Fran's validation system — see <c>FaModelValidator&lt;TModel&gt;.ConfigureValidation</c>. Ignored unless <see cref="UseFaValidation"/> is set.</summary>
     [Parameter] public Action<FaValidationBuilder<TModel>>? ConfigureValidation { get; set; }
     [Parameter] public FaAlign ButtonAlign { get; set; } = FaAlign.End;
     [Parameter] public string? CssClass { get; set; }
@@ -77,7 +77,7 @@ public sealed class FaForm<TModel> : ComponentBase where TModel : class
             builder.CloseComponent();
 
             // Independent of DataAnnotationsValidator above — both populate the same
-            // EditContext ValidationMessageStore, so every FaFa input's own inline
+            // EditContext ValidationMessageStore, so every Fran input's own inline
             // error display shows whichever kind of rule actually fired regardless
             // of which of these rendered it. Nested inside ShowValidationSummary's
             // own check (rather than a separate top-level `if`) since that

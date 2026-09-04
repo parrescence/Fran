@@ -12,7 +12,7 @@ instead when the page should keep the site's normal header/footer around the for
 
 ```razor
 @page "/login"
-@using FaFa.Templates
+@using Fran.Templates
 
 <FaAuthTemplate BrandText="MyApp" BrandHref="/" Title="Log in">
     <FaLoginForm OnSubmit="HandleLoginAsync" />

@@ -1,8 +1,8 @@
-using FaFa.Components;
+using Fran.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Templates;
+namespace Fran.Templates;
 
 /// <summary>
 /// A chrome-free auth page: no <c>FaHeader</c>/<c>FaSidebar</c>/<c>FaFooter</c> at
@@ -21,7 +21,7 @@ public sealed class FaAuthTemplate : ComponentBase
 
     /// <summary>
     /// Optional logo/icon shown to the left of <see cref="BrandText"/> — same
-    /// parameter/rendering as <see cref="FaFa.Layout.FaHeader.BrandIconUrl"/>, since
+    /// parameter/rendering as <see cref="Fran.Layout.FaHeader.BrandIconUrl"/>, since
     /// this template renders its own brand link rather than going through
     /// <c>FaHeader</c> (see this class's own doc comment for why).
     /// </summary>

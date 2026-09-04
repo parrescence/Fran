@@ -1,10 +1,10 @@
-using FaFa.Icons;
-using FaFa.Rendering;
+using Fran.Icons;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A step up from the plain <see cref="FaTable"/>: owns paging/rows-per-page and

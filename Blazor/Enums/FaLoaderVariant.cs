@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Shared color variant for <see cref="FaProgress"/>, <see cref="FaSpinner"/>,

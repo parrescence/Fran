@@ -10,7 +10,7 @@ shell doesn't provide: a title/actions row above the body. Omit both `Title` and
 
 ```razor
 @page "/dashboard"
-@using FaFa.Templates
+@using Fran.Templates
 
 <FaDashboardTemplate BrandText="MyApp" BrandHref="/"
                     IsAuthenticated="@_isAuthenticated" UserDisplayName="@_userName"

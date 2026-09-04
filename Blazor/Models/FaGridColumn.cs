@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// One column definition for <see cref="FaGrid{TItem}"/> — header text, how to render

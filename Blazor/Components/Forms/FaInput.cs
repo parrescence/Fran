@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Generic text/number field, matching the inputs already used across the app
@@ -39,7 +39,7 @@ public sealed class FaInput<TValue> : InputBase<TValue>
     /// </summary>
     [Parameter] public bool FloatingLabel { get; set; }
 
-    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead (e.g. paired with a standalone FaValidationMessage placed elsewhere).</summary>
+    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see Fran.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead (e.g. paired with a standalone FaValidationMessage placed elsewhere).</summary>
     [Parameter] public bool ShowValidationMessage { get; set; } = true;
 
     /// <summary>Element-tier validation override — evaluated fresh every render against the current value, independent of whatever the model/form-tier validators say for this field; a non-null return always shows in addition to those.</summary>

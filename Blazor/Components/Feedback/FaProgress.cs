@@ -1,9 +1,9 @@
 using System.Globalization;
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A filled track reporting how far along something is — a budget spent, an

@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// What <see cref="FaGrid{TItem}.ItemsProvider"/> is asked for on every page change,

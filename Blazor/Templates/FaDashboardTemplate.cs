@@ -1,9 +1,9 @@
-using FaFa.Layout;
-using FaFa.Rendering;
+using Fran.Layout;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Templates;
+namespace Fran.Templates;
 
 /// <summary>
 /// A full dashboard page: <see cref="FaSidebarShell"/> (header + sidebar + footer)

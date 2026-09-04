@@ -2,7 +2,7 @@
 
 # Page templates
 
-Four full-page compositions in `namespace FaFa.Templates` (`@using FaFa.Templates`),
+Four full-page compositions in `namespace Fran.Templates` (`@using Fran.Templates`),
 each built on [`FaStandardShell`/`FaSidebarShell`](layout-shells.md) plus whatever
 one recurring page shape needs beyond the bare shell:
 
@@ -25,7 +25,7 @@ shared layout to it at all.
 
 ```razor
 @page "/dashboard"
-@using FaFa.Templates
+@using Fran.Templates
 
 <FaDashboardTemplate BrandText="MyApp" BrandHref="/"
                     IsAuthenticated="@_isAuthenticated"

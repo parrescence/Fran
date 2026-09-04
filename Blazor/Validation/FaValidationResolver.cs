@@ -1,4 +1,4 @@
-namespace FaFa.Validation;
+namespace Fran.Validation;
 
 /// <summary>
 /// Builds the effective, resolved <see cref="FaValidationBuilder{TModel}"/> for one

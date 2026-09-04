@@ -1,4 +1,4 @@
-# FaFa Showcase
+# Fran Showcase
 
 A live, in-repo demo of `Blazor/` (and, over time, every other style library in this
 repo) — every component rendered for real, with the actual markup used to produce
@@ -11,7 +11,7 @@ just what it is and how to run it.
 Two projects:
 
 - **`Showcase.Web.Client`** — a standalone Blazor WebAssembly app. References
-  `Blazor/FaFa.csproj` directly via `<ProjectReference>` (not the
+  `Blazor/Fran.csproj` directly via `<ProjectReference>` (not the
   published GitHub Packages package), so it always shows whatever's currently on
   this branch, in-progress work included. A real consumer app outside this repo
   installs the package instead — see

@@ -1,7 +1,7 @@
-namespace FaFa.Rendering;
+namespace Fran.Rendering;
 
 /// <summary>
-/// Maps <see cref="FaFa.Components.FaSize"/> to a component's own <c>{prefix}-{suffix}</c>
+/// Maps <see cref="Fran.Components.FaSize"/> to a component's own <c>{prefix}-{suffix}</c>
 /// CSS class — <c>FaSize.Medium</c> returns <c>null</c> (no class; it's the default,
 /// unsized look every component already had before <c>Size</c> existed), so
 /// <c>CssClassNames.Combine("fa-btn", FaSizeClassNames.Class("fa-btn", Size), ...)</c>

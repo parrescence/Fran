@@ -5,10 +5,10 @@
    .form-floating, etc.) are gone along with Bootstrap itself — nothing in the app's
    markup uses those class names anymore, so styling them would just be dead CSS.
    The template's own .valid/.invalid/.validation-message outline rules used to
-   live here too, retinted the same way — removed (not just retinted) since no FaFa
+   live here too, retinted the same way — removed (not just retinted) since no Fran
    input ever used InputBase's own CssClass to trigger them in the first place, so
    they were dead CSS regardless of tint. See _inputs.scss's own .fa-input-invalid/
-   .fa-validation-message (FaFa.Validation) for the real, wired-up replacement —
+   .fa-validation-message (Fran.Validation) for the real, wired-up replacement —
    fa-prefixed on purpose, so it can't collide with a bare .invalid a consuming
    app's own page happens to use for something unrelated. */
 

@@ -1,5 +1,5 @@
-using FaFa.Components;
-using FaFa.Validation;
+using Fran.Components;
+using Fran.Validation;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Showcase.Web.Client;
@@ -16,10 +16,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? builder.HostEnvironment.BaseAddress;
 builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
 
-// The one FaFa service that needs registering — see Blazor/docs/fa-toast.md.
+// The one Fran service that needs registering — see Blazor/docs/fa-toast.md.
 builder.Services.AddScoped<FaToastService>();
 
-// The root/DTO tier for FaFa's validation system — see Blazor/docs/validation.md
+// The root/DTO tier for Fran's validation system — see Blazor/docs/validation.md
 // and Pages/Forms/FaValidationPage.razor's own demo.
 builder.Services.AddFaValidator<DemoProductModel, DemoProductModelValidator>();
 

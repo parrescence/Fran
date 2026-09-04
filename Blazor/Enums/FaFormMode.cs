@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Whether an <see cref="FaForm{TModel}"/> is creating a new record or editing an

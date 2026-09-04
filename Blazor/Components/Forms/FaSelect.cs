@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Matches the sort/filter dropdowns already in the app (e.g. Ledger's sort select) —
@@ -29,7 +29,7 @@ public sealed class FaSelect<TValue> : InputBase<TValue>
     /// <summary>Stretches to 100% width below the 720px breakpoint (<c>.fa-responsive</c> in <c>_responsive.scss</c>). Off by default.</summary>
     [Parameter] public bool Responsive { get; set; }
 
-    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
+    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see Fran.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
     [Parameter] public bool ShowValidationMessage { get; set; } = true;
 
     /// <summary>Element-tier validation override — evaluated fresh every render against the current value, independent of whatever the model/form-tier validators say for this field; a non-null return always shows in addition to those.</summary>

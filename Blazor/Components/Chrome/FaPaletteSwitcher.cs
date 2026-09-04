@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A single dropdown covering all twenty-eight <c>data-fa-palette</c> values (see

@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Rendering;
+namespace Fran.Rendering;
 
 /// <summary>
-/// Shared by every FaFa input component's own inline validation display
+/// Shared by every Fran input component's own inline validation display
 /// (<c>ShowValidationMessage</c>/<c>Validate</c> — see <c>FaInput</c>/<c>FaSelect</c>/
 /// etc.) so the "combine EditContext's model/form-tier messages with this one
 /// element's own override result, then render the first one" logic exists in one

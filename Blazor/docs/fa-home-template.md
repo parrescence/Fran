@@ -13,7 +13,7 @@ band isn't enough. Set at most one of the two; `Hero` wins if both are set.
 
 ```razor
 @page "/"
-@using FaFa.Templates
+@using Fran.Templates
 
 <FaHomeTemplate BrandText="MyApp" BrandHref="/"
                HeroTitle="Run your business without the spreadsheet"

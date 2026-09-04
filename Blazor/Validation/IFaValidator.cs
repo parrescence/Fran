@@ -1,7 +1,7 @@
-namespace FaFa.Validation;
+namespace Fran.Validation;
 
 /// <summary>
-/// One implementation per model type — the root/DTO tier of FaFa's validation
+/// One implementation per model type — the root/DTO tier of Fran's validation
 /// system, direct analogue of EF Core's <c>IEntityTypeConfiguration&lt;TEntity&gt;</c>:
 /// a separate class that declares a model's validation rules instead of attributes
 /// scattered across its properties, registered once via
