@@ -27,8 +27,8 @@ local-only design-reference folders.
 ## `Showcase/` — a demo consumer, not a library
 
 `Showcase/` holds `Showcase.Web.Client` (a standalone Blazor WebAssembly app) and
-`Showcase.Web.Api` (a small local-only ASP.NET Core Web API backing its
-"pulled from the database" demos) — an in-repo, live demo of every style library's
+`Showcase.Web.Api` (an Azure Functions app backing its "pulled from the database"
+demos) — an in-repo, live demo of every style library's
 components, referencing `Blazor/FaFa.csproj` via `<ProjectReference>`
 rather than the published package, so it always reflects whatever's currently on
 the branch. See [`Showcase/README.md`](Showcase/README.md) for what it is and how to
@@ -39,9 +39,12 @@ templates).
 It's a **consumer** of the libraries above, not one itself — it doesn't get its own
 `ci-<library>.yml`/`publish-<library>.yml` pair (nothing in it is published as a
 package) and isn't subject to a library's "no app-specific coupling" rule (the whole
-point of `Showcase.Web.Client` is to be a real, opinionated consumer app). Not
-deployed anywhere yet — no Azure Static Web App workflow, no hosting config — so for
-now it only runs by pulling the branch and running both projects locally.
+point of `Showcase.Web.Client` is to be a real, opinionated consumer app). Deployed
+on every push to `main` (`.github/workflows/deploy-showcase.yml`) — the client to a
+public, no-login Azure Static Web App, `Showcase.Web.Api` to an Azure Function App
+alongside it — see [`Showcase/README.md`](Showcase/README.md#deployment) for the
+infra. This repo itself is still what anyone consuming a library pulls via version
+control/GitHub Packages, same as always — the deployment is only the live demo.
 
 **Keep Showcase in sync with every library change.** Any change to a library that's
 user-visible — a new component, a renamed component, a new/changed parameter, a
@@ -80,7 +83,7 @@ same template, without touching the Blazor files at all.
 **CI (`ci-<library>.yml`)**: its job (`build-and-pack-<library>`, e.g.
 `build-and-pack-blazor`) is a **required** status check on `test`/`main` branch
 protection (one context per library, added there once that library's workflow
-exists — check current required contexts with `gh api repos/parrescence/FaFa/
+exists — check current required contexts with `gh api repos/parrescence/Fran/
 branches/<branch>/protection/required_status_checks`). Because it's required, the
 workflow's **trigger** is deliberately *not* path-filtered to that library's folder —
 a PR touching only another library (or root files) would then never fire it, and

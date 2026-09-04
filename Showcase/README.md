@@ -16,20 +16,21 @@ Two projects:
   this branch, in-progress work included. A real consumer app outside this repo
   installs the package instead — see
   [`Blazor/docs/install.md`](../Blazor/docs/install.md).
-- **`Showcase.Web.Api`** — a small local-only ASP.NET Core Web API (in-memory
+- **`Showcase.Web.Api`** — an Azure Functions app (isolated worker, in-memory
   sample data, no auth, no real database) that backs the client's "pulled from the
   database" demos: `FaGrid`'s `ItemsProvider`, `FaCarousel`'s `ItemsProvider`, and
   `FaLoginForm`'s `OnSubmit`. Everything else on the client runs entirely
-  client-side. **Not meant to be deployed as-is** — it's wide-open CORS and zero
-  auth, purely a stand-in so the showcase has something real to call.
+  client-side.
 
 ## Running it locally
 
-Two terminals, both from this `Showcase/` folder:
+Requires the [Azure Functions Core Tools](https://learn.microsoft.com/azure/azure-functions/functions-run-local)
+(`func`) in addition to the .NET SDK. Two terminals, both from this `Showcase/`
+folder:
 
 ```bash
 cd Showcase.Web.Api
-dotnet run --launch-profile https
+func start
 ```
 
 ```bash
@@ -38,17 +39,29 @@ dotnet run --launch-profile https
 ```
 
 Then open the client at **https://localhost:7095**. The API listens on
-**https://localhost:7296** — `Showcase.Web.Client/wwwroot/appsettings.json`'s
-`ApiBaseUrl` points there already, and the API's CORS policy already allows the
-client's dev origin. Change both together if you run either on a different port.
+**http://localhost:7071** — `Showcase.Web.Client/wwwroot/appsettings.json`'s
+`ApiBaseUrl` points there already, and `Showcase.Web.Api/local.settings.json`'s
+`Host.CORS` already allows the client's dev origin. Change all three together if
+you run either on a different port.
 
 Try the login form with `demo` / `password` (anything else fails on purpose — see
-`Showcase.Web.Api/Program.cs`).
+`Showcase.Web.Api/AuthFunctions.cs`).
 
-## Once this gets a real deployment
+## Deployment
 
-An Azure Static Web App is planned for `Showcase.Web.Client` (with `Showcase.Web.Api`
-as its linked API), but isn't wired up yet — no workflow, no `staticwebapp.config.json`.
-Until then this only runs locally, and `Showcase.Web.Api` is intentionally not
-production-hardened (see the CORS/auth note above) — harden it for real before it's
-reachable from anywhere but localhost.
+Deployed on every push to `main` (`.github/workflows/deploy-showcase.yml`):
+`Showcase.Web.Client` to an Azure Static Web App (Free tier, **no login required**
+— that's the public showcase), `Showcase.Web.Api` to an Azure Function App on a
+Flex Consumption plan. The client calls the API directly over HTTPS
+(`wwwroot/appsettings.Production.json`'s `ApiBaseUrl`) rather than through an SWA
+linked/managed backend — Free tier SWA doesn't support linking an externally
+hosted Function App, and nothing here needs the extra cost of Standard tier for
+that. `Showcase.Web.Api` stays intentionally not hardened beyond CORS (see the
+no-auth note above) — it's still purely a stand-in with sample data, not a real
+backend; harden it for real before it holds anything that matters.
+
+Both are in `Fran-RG-EastUS2-DEV` in the Parrescence-Dev subscription, deployed via
+a GitHub Actions OIDC login (`Fran-MI-EastUS2-DEV`, a user-assigned managed identity
+with a federated credential trusting this repo — no stored Azure secret for the API
+deploy job; the SWA deploy job still uses its own deployment-token secret, which is
+how the `static-web-apps-deploy` action authenticates).

@@ -1,0 +1,72 @@
+name: Deploy Showcase
+
+# Deploys Showcase.Web.Client to the Azure Static Web App (public, no login) and
+# Showcase.Web.Api to the Azure Function App (Flex Consumption) it calls directly —
+# see Showcase/README.md. Not a required status check (unlike ci-blazor.yml's
+# build-and-pack-blazor job), so it's safe to path-filter the trigger itself: a push
+# to main that doesn't touch Showcase/ or Blazor/ (the client's ProjectReference)
+# simply not firing this workflow can't block anything.
+#
+# The API job authenticates to Azure via OIDC (azure/login), no stored client
+# secret — Fran-MI-EastUS2-DEV's federated credential trusts this repo's
+# dev/test/main branches.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Showcase/**"
+      - "Blazor/**"
+      - ".github/workflows/deploy-showcase.yml"
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: false
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_FRAN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "Showcase/Showcase.Web.Client"
+          api_location: ""
+          output_location: "wwwroot"
+
+  deploy-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish
+        run: dotnet publish Showcase/Showcase.Web.Api/Showcase.Web.Api.csproj --configuration Release --output ./publish-api
+
+      - name: Log in to Azure (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID_FRAN }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID_FRAN }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID_FRAN }}
+
+      - name: Deploy to Azure Function App
+        uses: Azure/functions-action@v1
+        with:
+          app-name: "Fran-API-EastUS2-DEV"
+          package: "./publish-api"
+
+      - name: Log out
+        if: always()
+        run: az logout
