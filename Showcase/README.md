@@ -2,7 +2,9 @@
 
 A live, in-repo demo of `Blazor/` (and, over time, every other style library in this
 repo) — every component rendered for real, with the actual markup used to produce
-it. Not published anywhere yet: pull this branch and run it locally.
+it. Live (dev environment) at
+**https://purple-sand-04a828f0f.6.azurestaticapps.net** — no login required — or
+pull this branch and run it locally (below).
 
 See [`CLAUDE.md`](CLAUDE.md) for the conventions behind how this app is structured
 (page-per-component layout, naming, palette gallery, page templates) — this file is
