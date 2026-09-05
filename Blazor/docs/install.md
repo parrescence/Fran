@@ -52,7 +52,7 @@ a same-account workflow's own token satisfies that once granted the permission a
 ## 2. Reference the package
 
 ```bash
-dotnet add package FaFa
+dotnet add package Fran
 ```
 
 ## 3. Import the namespaces
@@ -60,9 +60,9 @@ dotnet add package FaFa
 Add to `_Imports.razor`:
 
 ```razor
-@using FaFa.Components
-@using FaFa.Icons
-@using FaFa.Layout
+@using Fran.Components
+@using Fran.Icons
+@using Fran.Layout
 ```
 
 ## 4. Wire the static assets into your host page
@@ -72,12 +72,12 @@ they are **not** auto-injected into your host page — this is standard Blazor R
 behavior, not something specific to this package. Add these tags yourself:
 
 ```html
-<link rel="stylesheet" href="_content/FaFa/css/fa-styles.css" />
+<link rel="stylesheet" href="_content/Fran/css/fa-styles.css" />
 ...
-<script src="_content/FaFa/js/theme.js"></script>
-<script src="_content/FaFa/js/sidebar.js"></script>
-<script src="_content/FaFa/js/codeblock.js"></script>
-<script src="_content/FaFa/js/fa-date-wheel.js"></script>
+<script src="_content/Fran/js/theme.js"></script>
+<script src="_content/Fran/js/sidebar.js"></script>
+<script src="_content/Fran/js/codeblock.js"></script>
+<script src="_content/Fran/js/fa-date-wheel.js"></script>
 ```
 
 - `theme.js`/`sidebar.js`/`codeblock.js` are plain vanilla-JS IIFEs (no Blazor JS
@@ -228,7 +228,7 @@ before first paint instead of flashing the default and then jumping:
 `--fa-font` is a single global custom property (same architecture as the color
 tokens above) — every component reads its font through it, so swapping it in your
 own stylesheet, loaded **after** `fa-styles.css`, reskins the whole library's
-typography with no FaFa code involved:
+typography with no Fran code involved:
 
 ```css
 /* your-app.css, linked after fa-styles.css */

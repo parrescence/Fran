@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// The set of source languages <see cref="FaCodeBlock"/> knows how to label and

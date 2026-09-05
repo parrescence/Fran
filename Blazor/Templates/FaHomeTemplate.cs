@@ -1,8 +1,8 @@
-using FaFa.Layout;
+using Fran.Layout;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Templates;
+namespace Fran.Templates;
 
 /// <summary>
 /// A landing/overview page: <see cref="FaStandardShell"/> plus a hero band above

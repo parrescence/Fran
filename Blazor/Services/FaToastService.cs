@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Fire a toast notification from anywhere in a consuming app: <c>[Inject]</c> this,

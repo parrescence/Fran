@@ -1,9 +1,9 @@
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Checkbox with an optional clickable label. Wrapping the input and label text in a
@@ -24,7 +24,7 @@ public sealed class FaCheckbox : InputCheckbox
     /// <summary>XSmall/Small/Medium(default)/Large/XLarge — scales the box and label together. See <see cref="FaSize"/>.</summary>
     [Parameter] public FaSize Size { get; set; } = FaSize.Medium;
 
-    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see FaFa.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
+    /// <summary>Shows this field's own EditContext validation errors (model/form-tier — see Fran.Validation) inline below it, on by default — opt out per-instance for a layout that shows errors somewhere else instead.</summary>
     [Parameter] public bool ShowValidationMessage { get; set; } = true;
 
     /// <summary>Element-tier validation override — evaluated fresh every render against the current value, independent of whatever the model/form-tier validators say for this field; a non-null return always shows in addition to those.</summary>

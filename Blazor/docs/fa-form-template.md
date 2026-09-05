@@ -10,7 +10,7 @@ form; this template only owns the framing around it.
 
 ```razor
 @page "/orders/invite"
-@using FaFa.Templates
+@using Fran.Templates
 
 <FaFormTemplate BrandText="MyApp" BrandHref="/"
                Title="Invite a teammate"

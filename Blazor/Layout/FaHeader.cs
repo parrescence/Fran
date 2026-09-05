@@ -1,10 +1,10 @@
-using FaFa.Components;
-using FaFa.Icons;
-using FaFa.Rendering;
+using Fran.Components;
+using Fran.Icons;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Layout;
+namespace Fran.Layout;
 
 /// <summary>
 /// Header bar — brand on the left, user name + avatar + login/logout at the far right.

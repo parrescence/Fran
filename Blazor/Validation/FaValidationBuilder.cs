@@ -1,4 +1,4 @@
-namespace FaFa.Validation;
+namespace Fran.Validation;
 
 /// <summary>
 /// The rule set an <see cref="IFaValidator{TModel}"/> (root tier) declares against,
@@ -18,7 +18,7 @@ public sealed class FaValidationBuilder<TModel> where TModel : class
     /// adds to the same rule list rather than replacing it; use <see cref="RemoveField"/>
     /// first if a form-tier override needs to start clean) declaring rules for one
     /// property. <paramref name="accessor"/> is a plain delegate (<c>m =&gt; m.Price</c>),
-    /// not an <c>Expression&lt;Func&lt;...&gt;&gt;</c> — FaFa's validation system
+    /// not an <c>Expression&lt;Func&lt;...&gt;&gt;</c> — Fran's validation system
     /// deliberately doesn't parse property-selector expression trees the way
     /// FluentValidation's <c>RuleFor</c> does (a large, separate undertaking this
     /// library isn't taking on); <paramref name="propertyName"/> is a plain string

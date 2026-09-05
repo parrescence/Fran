@@ -1,9 +1,9 @@
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using FaFa.Components;
+using Fran.Components;
 
-namespace FaFa.Rendering;
+namespace Fran.Rendering;
 
 /// <summary>
 /// Regex-driven, single-pass token classification backing <see cref="FaCodeBlock"/> —

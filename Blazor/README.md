@@ -1,4 +1,4 @@
-# FaFa
+# Fran
 
 A self-contained Blazor Razor Class Library of UI primitives — components, form
 inputs, layout shells, a theme switcher, and an icon set. No dependency on any other
@@ -11,7 +11,7 @@ any non-.NET frontend.
 
 Every component keeps its original `Fa`-prefixed name (`FaButton`, `FaCard`,
 `FaToggle<TValue>`, `FaIcon`, ...) — only the package/namespace/repo identity is
-`FaFa`. Every component is a plain C# class (`ComponentBase`/
+`Fran`. Every component is a plain C# class (`ComponentBase`/
 `InputBase<TValue>` subclass overriding `BuildRenderTree` directly), not `.razor`
 markup — see `CLAUDE.md` if you're contributing.
 
@@ -24,7 +24,7 @@ dotnet nuget add source https://nuget.pkg.github.com/parrescence/index.json \
   --name github-parrescence --username <your-github-username> \
   --password <a GitHub PAT with read:packages>
 
-dotnet add package FaFa
+dotnet add package Fran
 ```
 
 That's the package reference. The library also ships CSS/JS static assets that Blazor

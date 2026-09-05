@@ -1,8 +1,8 @@
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Layout;
+namespace Fran.Layout;
 
 /// <summary>
 /// Lighter footer band, closes out both page templates.

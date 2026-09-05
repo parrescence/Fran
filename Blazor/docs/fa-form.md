@@ -49,7 +49,7 @@ placement, or render it inline on a page.
 
 FaForm always renders `DataAnnotationsValidator` + (if `ShowValidationSummary`)
 `ValidationSummary`. Set `UseFaValidation="true"` to also run
-[FaFa's own validation system](validation.md) — root-tier rules from a registered
+[Fran's own validation system](validation.md) — root-tier rules from a registered
 `IFaValidator<TModel>`, plus this form's own `ConfigureValidation` override — into
 the same `EditContext`:
 
@@ -87,7 +87,7 @@ populated, already past validation. There's no separate `@bind`; the fields insi
 | `DeleteText` | `string` | defaults to `"Delete"` |
 | `Busy` | `bool` | disables Submit and swaps its text to "Saving…" — flip this around your own `OnSubmit` await |
 | `ShowValidationSummary` | `bool` | defaults to `true` |
-| `UseFaValidation` | `bool` | opts into [FaFa's validation system](validation.md) alongside `DataAnnotationsValidator`; defaults `false` |
+| `UseFaValidation` | `bool` | opts into [Fran's validation system](validation.md) alongside `DataAnnotationsValidator`; defaults `false` |
 | `ConfigureValidation` | `Action<FaValidationBuilder<TModel>>?` | form-tier override — see [Validation](validation.md); ignored unless `UseFaValidation` is set |
 | `ButtonAlign` | `FaAlign` | `Start` \| `Center` \| `End` (default) \| `Between` \| `Around` \| `Evenly` |
 | `CssClass` | `string?` | |

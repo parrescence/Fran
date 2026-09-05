@@ -3,7 +3,7 @@ namespace Showcase.Web.Client.Validation;
 /// <summary>
 /// The model behind <c>FaValidationPage</c> — deliberately carries no
 /// <c>System.ComponentModel.DataAnnotations</c> attributes at all, so every error
-/// the demo page shows comes from FaFa's own validation system
+/// the demo page shows comes from Fran's own validation system
 /// (<see cref="DemoProductModelValidator"/> for the root tier, the page's own
 /// <c>ConfigureValidation</c> delegate for the form tier, and one field's own
 /// <c>Validate</c> parameter for the element tier), not from

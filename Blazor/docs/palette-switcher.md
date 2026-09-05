@@ -29,7 +29,7 @@ Typically dropped next to `<FaThemeSwitcher>` in a header.
 
 The twenty-eight built-ins are precompiled into `fa-styles.css` and selected purely by
 name. A palette you define yourself has no compiled CSS to select, so it's expressed
-instead as an `FaPalette` object (`FaFa.Components`) and passed via `CustomPalettes`:
+instead as an `FaPalette` object (`Fran.Components`) and passed via `CustomPalettes`:
 
 ```razor
 <FaPaletteSwitcher CustomPalettes="_myPalettes" />

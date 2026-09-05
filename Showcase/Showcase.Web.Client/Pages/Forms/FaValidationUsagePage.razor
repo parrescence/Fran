@@ -4,7 +4,7 @@
 
 @using Showcase.Web.Client.Validation
 
-<DemoPageHeader Title="Validation: How to use" ComponentName="FaFa.Validation" DocSlug="validation">
+<DemoPageHeader Title="Validation: How to use" ComponentName="Fran.Validation" DocSlug="validation">
     Every rule shorthand and every tier, live — type into a field below and watch
     the message appear. Full code for what's wired up here is on the
     <a href="/validation/wiring">Wiring it up</a> page.
@@ -80,7 +80,7 @@
 
     private RangeModel _rangeModel = new();
 
-    private void ConfigureFormValidation(FaFa.Validation.FaValidationBuilder<DemoProductModel> builder)
+    private void ConfigureFormValidation(Fran.Validation.FaValidationBuilder<DemoProductModel> builder)
     {
         builder.Field(nameof(DemoProductModel.Category), m => m.Category)
             .Required("Category is required on this form (not required everywhere DemoProductModel is used).");

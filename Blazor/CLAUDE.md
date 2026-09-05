@@ -1,7 +1,7 @@
 # CLAUDE.md (Blazor)
 
 Guidance for working in `Blazor/` specifically — the Blazor Razor Class Library
-style-library within the `FaFa` repo. See the root `CLAUDE.md` first for
+style-library within the `Fran` repo. See the root `CLAUDE.md` first for
 repo-wide policy (branching, publishing, the multi-library layout); this file only
 covers what's unique to this library.
 
@@ -11,7 +11,7 @@ Built on the assumption it's consumed outside any one app — as a package (curr
 via **GitHub Packages**, `https://nuget.pkg.github.com/parrescence/index.json`, not
 NuGet.org), or imported as source. `README.md` (this folder's) is the consumer-facing
 high-level overview and is packed into the `.nupkg` itself (`<None Include=
-"README.md" Pack="true" .../>` in `FaFa.csproj`) — keep it accurate, not
+"README.md" Pack="true" .../>` in `Fran.csproj`) — keep it accurate, not
 just this file. Full step-by-step/reference detail lives under `docs/` instead (not
 packed into the `.nupkg` — link to it from README with relative paths, not absolute
 GitHub URLs, so each branch's README stays self-contained).
@@ -26,7 +26,7 @@ Consequences for any change here:
   `FaSidebarShell`/`FaStandardShell` is `[Parameter, EditorRequired]` with an empty-string
   default — every consumer supplies its own. Follow the same pattern for any new
   parameter that would otherwise bake in one consumer's branding/copy.
-- **`PackageId` (`FaFa.csproj`) is pinned to `FaFa`, and
+- **`PackageId` (`Fran.csproj`) is pinned to `Fran`, and
   `RootNamespace`/`AssemblyName` match it too.** Razor Class Library static assets are
   served at `_content/{PackageId}/...` — `fa-styles.css`/`theme.js`/`sidebar.js` are
   referenced that way from every consumer's `index.html`. Renaming `PackageId`
@@ -44,7 +44,7 @@ Consequences for any change here:
   file here means `docs/install.md`'s wiring step (and every real consumer's
   `index.html`) needs the corresponding `<link>`/`<script>` tag added by hand —
   `dotnet pack` bundles the file, it doesn't wire up the tag for you.
-- **No license is set yet** (`FaFa.csproj`'s `PackageLicenseExpression` is
+- **No license is set yet** (`Fran.csproj`'s `PackageLicenseExpression` is
   intentionally absent) — pick one before this is relied on by any consumer outside
   `parrescence`'s own accounts.
 
@@ -81,11 +81,11 @@ non-component types that still ship as part of the public API but aren't
 `ComponentBase` subclasses — today just `FaToastService`, a scoped injectable
 service `FaToastHost` subscribes to (register it with
 `services.AddScoped<FaToastService>()`; see `docs/fa-toast.md`). Namespace still
-`FaFa.Components`, same physical-organization-only rule as everywhere else in this
+`Fran.Components`, same physical-organization-only rule as everywhere else in this
 section.
 
 `Templates/` is a separate top-level folder, sibling to `Components`/`Layout`, with
-its own `namespace FaFa.Templates` — not folded into `FaFa.Layout` even though every
+its own `namespace Fran.Templates` — not folded into `Fran.Layout` even though every
 template wraps `FaStandardShell`/`FaSidebarShell`, because the two are a different
 kind of thing for a consumer to reach for: `Layout/` is the shell primitives
 themselves (header/sidebar/footer, the two shells), `Templates/` is a handful of
@@ -98,8 +98,8 @@ using the shell's own parameter names, so switching between the raw shell and a
 template is a rename, not a rewrite. See `docs/page-templates.md` for the
 consumer-facing how-to.
 
-Every one of those still declares `namespace FaFa.Components;` regardless of which
-subfolder it physically lives in — a consumer's existing `@using FaFa.Components`
+Every one of those still declares `namespace Fran.Components;` regardless of which
+subfolder it physically lives in — a consumer's existing `@using Fran.Components`
 keeps resolving every one of them unchanged. When adding a new component, place it
 in whichever of the five subfolders matches its role; don't invent a sixth without
 a reason (a component that only sort-of fits one of these belongs in the closest
@@ -120,10 +120,10 @@ more folders instead:
   specific component).
 
 Folder placement is purely physical organization — it does **not** change a type's
-namespace. `FaButtonVariant` still declares `namespace FaFa.Components;`
+namespace. `FaButtonVariant` still declares `namespace Fran.Components;`
 even though the file lives in `Enums/`; `FaIconColor`/`FaIconName` still declare
-`namespace FaFa.Icons;` even though the file lives in `Enums/` rather than
-`Icons/`. This is deliberate: a consumer's existing `@using FaFa.Components`/
+`namespace Fran.Icons;` even though the file lives in `Enums/` rather than
+`Icons/`. This is deliberate: a consumer's existing `@using Fran.Components`/
 `.Icons` keeps resolving every type it always did — moving a file between these
 folders is never a breaking API change and never needs a version bump for that reason
 alone. When adding a new enum/DTO, put it in `Enums`/`Models` but keep its namespace
@@ -136,7 +136,7 @@ support building a component's output — `CssClassNames`, `FaAlignClassNames`,
 `FaValidationMessageRenderer` (see Validation below) today, potentially other
 HTML/CSS/JS-interop-support helpers later. Nothing in a consumer's own code can ever
 reference an `internal` type, so — unlike `Enums`/`Models` above — `Rendering/`'s
-namespace *does* match the folder (`namespace FaFa.Rendering;`) with no
+namespace *does* match the folder (`namespace Fran.Rendering;`) with no
 breaking-change concern, since there's no public API surface to break.
 
 ## Component authoring: C# builder, not markup
@@ -177,7 +177,7 @@ style consistent:
 
 ## Validation
 
-`Validation/` (namespace `FaFa.Validation`) is a top-level folder, sibling to
+`Validation/` (namespace `Fran.Validation`) is a top-level folder, sibling to
 `Components/`/`Services/`/`Rendering/`/`Templates/` — same reasoning as
 `Templates/` earning its own folder (see above): this is a new *kind* of thing a
 consumer implements against (a public API pattern, not a component, not an
@@ -228,7 +228,7 @@ crash the render tree.
 
 ## Publishing this library
 
-Bump `<Version>` in `FaFa.csproj` as part of normal `dev` work (semantic
+Bump `<Version>` in `Fran.csproj` as part of normal `dev` work (semantic
 `major.minor.patch`), on every change that reaches `main` — the patch (`z`) number by
 default, `minor`/`major` only when a consumer explicitly calls for it. Each segment's
 range: `major` counts from `1` upward with no ceiling (today's `0.x` line is the
@@ -251,13 +251,13 @@ project.
 `wwwroot/css/fa-styles.scss`/`wwwroot/css/scss/*.scss` instead, never
 `fa-styles.css` directly (it's gitignored; a stale hand-edit there just gets
 silently overwritten on the next build). `DartSassBuilder` (a build-time
-`PackageReference` in `FaFa.csproj`, not a global CLI tool — nothing extra
+`PackageReference` in `Fran.csproj`, not a global CLI tool — nothing extra
 to install in CI) compiles `fa-styles.scss` to `fa-styles.css` on every `dotnet
 build`/`dotnet pack`, so the compiled file always ends up at
-`_content/FaFa/css/fa-styles.css` for consumers to link.
+`_content/Fran/css/fa-styles.css` for consumers to link.
 
 **DartSassBuilder's incremental-build cache only hashes `fa-styles.scss` itself, not
-the partials it `@use`s** (`obj/Debug/net10.0/FaFa.csproj.DartSassBuilder.cache`) —
+the partials it `@use`s** (`obj/Debug/net10.0/Fran.csproj.DartSassBuilder.cache`) —
 edit a `_<name>.scss` partial without touching `fa-styles.scss` and `dotnet build`
 reports success while silently reusing the stale `fa-styles.css` from before your
 edit. Easy to lose real time to: the C# side rebuilds fine, a running `dotnet run`
@@ -283,7 +283,7 @@ content split by component, not by CSS property (no separate "all borders" or "a
 flexbox" file) — a component's full style stays in one file. They follow the
 standard Sass partial convention (underscore-prefixed, never compiled to their own
 `.css`); `fa-styles.scss` at the `wwwroot/css/` root `@use`s each one in source
-order and is the only file `FaFa.csproj`'s explicit `<SassFile>` lists, so
+order and is the only file `Fran.csproj`'s explicit `<SassFile>` lists, so
 a partial can never accidentally get compiled standalone. Adding a new component's
 styles means adding its own `_name.scss` partial and one `@use` line in
 `fa-styles.scss`, not appending to an existing partial.
@@ -382,7 +382,7 @@ root [`CLAUDE.md`](../CLAUDE.md)'s Showcase-sync rule, which this extends to `do
 validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two
 `Options` are supplied. `Options` is a plain `IReadOnlyList<(string Title, TValue
 Value)>` — a `System.ValueTuple`, deliberately not a custom DTO type, to avoid forcing
-consumers to reference a FaFa-specific model type just to build a list of
+consumers to reference a Fran-specific model type just to build a list of
 options. `FaRadioGroup<TValue>` mirrors the same Options-tuple shape.
 
 `FaInput<TValue>`, `FaSelect<TValue>`, `FaTextarea`, `FaCheckbox`, `FaDate`, and

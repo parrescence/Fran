@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Numeric amount field that shows a formatted "$ 12.34" while unfocused and a plain
@@ -38,7 +38,7 @@ public sealed class FaCurrency : InputBase<decimal?>
     // A developer-configuration mistake, not user input — same reasoning as
     // FaDate's own _rangeError (see its OnParametersSet remarks): Min/Max are
     // plain parameters with no FieldIdentifier, so this is shown directly rather
-    // than routed through FaFa.Validation, reusing that system's
+    // than routed through Fran.Validation, reusing that system's
     // .fa-validation-message look without its machinery. Doesn't throw for the
     // same "Min/Max might be transiently bad while data's still loading" reason.
     private string? _rangeError;
@@ -117,7 +117,7 @@ public sealed class FaCurrency : InputBase<decimal?>
             builder.CloseElement();
         }
 
-        // Reuses FaFa.Validation's own .fa-validation-message look without going
+        // Reuses Fran.Validation's own .fa-validation-message look without going
         // through that system — see _rangeError's own remarks. OpenRegion isolates
         // this conditional block the same way FaDate.cs's identical block does, so
         // Min/Max flipping between valid and invalid can't shift the input right

@@ -17,7 +17,7 @@
        (dev's in-progress components included), not the last published version.
        A real consumer outside this repo follows Blazor/docs/install.md instead. -->
   <ItemGroup>
-    <ProjectReference Include="..\..\Blazor\FaFa.csproj" />
+    <ProjectReference Include="..\..\Blazor\Fran.csproj" />
   </ItemGroup>
 
 </Project>

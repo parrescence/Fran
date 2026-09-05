@@ -1,4 +1,4 @@
-namespace FaFa.Layout;
+namespace Fran.Layout;
 
 /// <summary>
 /// How a layout bar (<see cref="FaHeader"/>, <see cref="FaFooter"/>, <see

@@ -1,17 +1,17 @@
-using FaFa.Validation;
+using Fran.Validation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
-/// Runs FaFa's own validation rules — the root/DTO tier from a registered
+/// Runs Fran's own validation rules — the root/DTO tier from a registered
 /// <see cref="IFaValidator{TModel}"/> plus this instance's own <see cref="ConfigureValidation"/>
 /// form-tier override — against an <c>EditContext</c>'s model, the same way the stock
 /// <c>DataAnnotationsValidator</c> does for attribute-decorated properties. Placed
 /// alongside (not instead of) <c>DataAnnotationsValidator</c> inside an
 /// <c>EditForm</c> — both populate the same <c>ValidationMessageStore</c>, so every
-/// FaFa input's own inline error display (<c>ShowValidationMessage</c>, see
+/// Fran input's own inline error display (<c>ShowValidationMessage</c>, see
 /// <c>FaInput</c>/<c>FaSelect</c>/etc.) shows whichever kind of rule actually fired,
 /// with no extra wiring needed to tell the two apart. <c>FaForm&lt;TModel&gt;</c>
 /// renders this automatically when its own <c>UseFaValidation</c> is set.

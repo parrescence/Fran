@@ -1,6 +1,6 @@
 <Solution>
   <Folder Name="/Blazor/">
-    <Project Path="Blazor/FaFa.csproj" />
+    <Project Path="Blazor/Fran.csproj" />
   </Folder>
   <Folder Name="/Showcase/">
     <Project Path="Showcase/Showcase.Web.Client/Showcase.Web.Client.csproj" />

@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A consumer-defined color palette to add to <see cref="FaPaletteSwitcher"/> alongside
