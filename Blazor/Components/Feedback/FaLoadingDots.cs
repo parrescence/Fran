@@ -1,8 +1,8 @@
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// "Loading" with a trailing ellipsis that grows one dot at a time (<c>.</c> →

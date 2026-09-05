@@ -1,13 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
-using FaFa.Icons;
-using FaFa.Rendering;
+using Fran.Icons;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Split day/month/year date entry with a calendar popup, min/max range support, and
@@ -133,7 +133,7 @@ public sealed class FaDate : InputBase<DateOnly?>
     private CancellationTokenSource? _pendingClose;
 
     // Set in OnParametersSet whenever Max < Min — see its own remarks for why this
-    // is a plain field rather than routed through FaFa.Validation.
+    // is a plain field rather than routed through Fran.Validation.
     private string? _rangeError;
 
     // Alternate popup body for small screens: three scrollable day/month/year
@@ -182,7 +182,7 @@ public sealed class FaDate : InputBase<DateOnly?>
 
         // A developer-configuration mistake, not user input — Min/Max are plain
         // component parameters with no FieldIdentifier, so this deliberately isn't
-        // routed through FaFa's own model-validation system (FaFa.Validation);
+        // routed through Fran's own model-validation system (Fran.Validation);
         // it's just shown, reusing that system's .fa-validation-message class for
         // the same look. Doesn't throw (unlike FaToggle<TValue>'s ArgumentException
         // for its own bad-parameter-combination case) — Min/Max are plausibly
@@ -940,7 +940,7 @@ public sealed class FaDate : InputBase<DateOnly?>
             builder.CloseElement();
         }
 
-        // Reuses FaFa.Validation's own .fa-validation-message look (see
+        // Reuses Fran.Validation's own .fa-validation-message look (see
         // FaValidationMessageRenderer) without going through that system — see
         // _rangeError's own remarks in OnParametersSet. OpenRegion isolates this
         // conditional block's own sequence numbering the same way FaInput.cs's
@@ -1279,7 +1279,7 @@ public sealed class FaDate : InputBase<DateOnly?>
 
         // Reuses the shared pill-button styles (FaButton's .fa-btn/.fa-btn-outline/
         // .fa-btn-sm from _buttons.scss) instead of a bespoke footer-button look, so
-        // these two actions read as the same "button" language as the rest of FaFa
+        // these two actions read as the same "button" language as the rest of Fran
         // rather than a plain text link.
         builder.OpenElement(seq++, "button");
         builder.AddAttribute(seq++, "type", "button");

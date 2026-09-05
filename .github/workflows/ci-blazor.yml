@@ -42,12 +42,12 @@ jobs:
 
       - name: Restore
         if: steps.changes.outputs.blazor == 'true'
-        run: dotnet restore Blazor/FaFa.csproj
+        run: dotnet restore Blazor/Fran.csproj
 
       - name: Build
         if: steps.changes.outputs.blazor == 'true'
-        run: dotnet build Blazor/FaFa.csproj --no-restore --configuration Release
+        run: dotnet build Blazor/Fran.csproj --no-restore --configuration Release
 
       - name: Pack (sanity check only — publish-blazor.yml does the real push)
         if: steps.changes.outputs.blazor == 'true'
-        run: dotnet pack Blazor/FaFa.csproj --no-build --configuration Release -o ./artifacts
+        run: dotnet pack Blazor/Fran.csproj --no-build --configuration Release -o ./artifacts

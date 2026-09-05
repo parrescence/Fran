@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// What <see cref="FaLoginForm.OnSubmit"/> hands back — the entered credentials, not

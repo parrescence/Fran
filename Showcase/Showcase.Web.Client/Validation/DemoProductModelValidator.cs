@@ -1,4 +1,4 @@
-using FaFa.Validation;
+using Fran.Validation;
 
 namespace Showcase.Web.Client.Validation;
 

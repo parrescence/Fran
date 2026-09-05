@@ -1,9 +1,9 @@
-using FaFa.Icons;
-using FaFa.Rendering;
+using Fran.Icons;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A slideshow over a set of items — one slide visible at a time, with prev/next

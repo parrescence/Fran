@@ -101,8 +101,8 @@
     font-size: 0.82rem;
 }
 
-/* --- Validation (see FaFa.Validation, FaValidationMessageRenderer) ---
-   Every InputBase-derived FaFa input adds .fa-input-invalid (or, for the two
+/* --- Validation (see Fran.Validation, FaValidationMessageRenderer) ---
+   Every InputBase-derived Fran input adds .fa-input-invalid (or, for the two
    components with their own distinct box style, .fa-select-invalid) to itself
    whenever EditContext reports an error for its field (or its own element-tier
    Validate override does) — fa- prefixed rather than reviving the stock

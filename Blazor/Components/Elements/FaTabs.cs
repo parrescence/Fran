@@ -1,9 +1,9 @@
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Tab strip — pass 2+ (Title, Value) options, same tuple shape as FaToggle, but a

@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 public enum FaButtonVariant
 {

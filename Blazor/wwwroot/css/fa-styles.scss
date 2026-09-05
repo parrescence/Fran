@@ -1,11 +1,11 @@
-// FaFa — root stylesheet. Deliberately not named "theme" — that name is
+// Fran — root stylesheet. Deliberately not named "theme" — that name is
 // reserved for the palette/mode partial (scss/_palettes.scss) it @uses below; this
 // file is the all-encompassing entry point that pulls in every component's styles,
 // palettes included.
 //
 // Compiled to fa-styles.css by DartSassBuilder at build/pack time (see the
-// <SassFile>/<PackageReference> wiring in FaFa.csproj) — every consumer's
-// index.html links the compiled file as _content/FaFa/css/fa-styles.css
+// <SassFile>/<PackageReference> wiring in Fran.csproj) — every consumer's
+// index.html links the compiled file as _content/Fran/css/fa-styles.css
 // (see Blazor/CLAUDE.md). Edit the partials under scss/, not a checked-in
 // fa-styles.css directly; there isn't one, it's gitignored/generated.
 //

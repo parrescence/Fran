@@ -1,9 +1,9 @@
-using FaFa.Icons;
-using FaFa.Rendering;
+using Fran.Icons;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// "Nothing here yet" placeholder for an empty table/grid/list — an icon, a title,

@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>FaFa — component docs</title>
+<title>Fran — component docs</title>
 <style>
   /* ============================= Tokens ============================= */
-  /* Pulled directly from FaFa' own wwwroot/css/fa-styles.css (Northwest Fall,
+  /* Pulled directly from Fran' own wwwroot/css/fa-styles.css (Northwest Fall,
      the library's default palette) — this page documents that library, so it wears
      the library's own design system rather than inventing a separate one. */
   :root {
@@ -380,7 +380,7 @@
 <body>
 
 <div class="topbar">
-  <div class="topbar-brand">FaFa <span class="version">v0.3.0 docs</span></div>
+  <div class="topbar-brand">Fran <span class="version">v0.3.0 docs</span></div>
   <div class="topbar-tagline">Blazor UI components — no app, just the pieces</div>
   <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="sidenav">Menu</button>
 </div>
@@ -559,20 +559,20 @@
       <p>The workflow's own <code>GITHUB_TOKEN</code> is sufficient — no PAT needed. GitHub Packages' NuGet feeds require authentication to read even for a public repo like this one, but a same-account workflow's own token satisfies that once granted the permission above.</p>
 
       <h3>2. Reference the package</h3>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package FaFa</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>dotnet add package Fran</code></pre></div>
 
       <h3>3. Import the namespaces</h3>
       <p>Add to <code>_Imports.razor</code>:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@using FaFa.Components
-@using FaFa.Icons
-@using FaFa.Layout</code></pre></div>
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@using Fran.Components
+@using Fran.Icons
+@using Fran.Layout</code></pre></div>
 
       <h3>4. Wire the static assets into your host page</h3>
       <p>Razor Class Libraries ship their static assets under <code>_content/{PackageId}/...</code>, but they are <strong>not</strong> auto-injected into your host page — this is standard Blazor RCL behavior, not something specific to this package. Add these tags yourself:</p>
-      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/FaFa/css/fa-styles.css" /&gt;
+      <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;link rel="stylesheet" href="_content/Fran/css/fa-styles.css" /&gt;
 ...
-&lt;script src="_content/FaFa/js/theme.js"&gt;&lt;/script&gt;
-&lt;script src="_content/FaFa/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
+&lt;script src="_content/Fran/js/theme.js"&gt;&lt;/script&gt;
+&lt;script src="_content/Fran/js/sidebar.js"&gt;&lt;/script&gt;</code></pre></div>
       <p><code>theme.js</code>/<code>sidebar.js</code> are plain vanilla-JS IIFEs (no Blazor JS interop, no external dependencies) backing the theme switcher and the sidebar's collapse toggle — both persist to <code>localStorage</code> and stamp classes on <code>&lt;html&gt;</code>, so no Blazor component state needs to stay in sync with them.</p>
       <p><code>fa-styles.css</code> pulls one Google Font over <code>@import</code> (<code>Baloo 2</code>) from <code>fonts.googleapis.com</code> — a public CDN URL that works from any host, but if your app needs a strict CSP or to run fully offline/air-gapped, self-host that font instead.</p>
 
@@ -645,7 +645,7 @@
 &lt;/script&gt;</code></pre></div>
 
       <h3>6. Customize typography &amp; shape (optional)</h3>
-      <p><code>--fa-font</code> is a single global custom property (same architecture as the color tokens above) — every component reads its font through it, so swapping it in your own stylesheet, loaded <strong>after</strong> <code>fa-styles.css</code>, reskins the whole library's typography with no FaFa code involved:</p>
+      <p><code>--fa-font</code> is a single global custom property (same architecture as the color tokens above) — every component reads its font through it, so swapping it in your own stylesheet, loaded <strong>after</strong> <code>fa-styles.css</code>, reskins the whole library's typography with no Fran code involved:</p>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>/* your-app.css, linked after fa-styles.css */
 :root {
   --fa-font: 'Inter', system-ui, sans-serif;
@@ -1629,7 +1629,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
       <h3>Without the copy button</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaCodeBlock Language="FaCodeLanguage.Json" Code="@_json" Copyable="false" /&gt;</code></pre></div>
 
-      <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — <code>Code</code> is display-only. The copy button writes straight to the OS clipboard via <code>navigator.clipboard.writeText</code> (falling back to <code>document.execCommand('copy')</code> on non-secure/http origins); needs <code>_content/FaFa/js/codeblock.js</code> linked in your host page to actually work — see <a href="#install">Install &amp; setup</a>.</p>
+      <p class="getting-value"><strong>Getting the value:</strong> nothing to bind — <code>Code</code> is display-only. The copy button writes straight to the OS clipboard via <code>navigator.clipboard.writeText</code> (falling back to <code>document.execCommand('copy')</code> on non-secure/http origins); needs <code>_content/Fran/js/codeblock.js</code> linked in your host page to actually work — see <a href="#install">Install &amp; setup</a>.</p>
 
       <h4>Parameters</h4>
       <div class="table-wrap">
@@ -1801,7 +1801,7 @@ builder.Services.AddFaValidator&lt;ProductModel, ProductModelValidator&gt;();</c
              Validate="@@(v =&gt; v?.StartsWith("SKU-") == true ? null : "Must start with \"SKU-\".")" /&gt;
 &lt;/EditForm&gt;</code></pre></div>
 
-      <p class="getting-value"><strong>Getting the value:</strong> no bound value of its own — it populates the same <code>ValidationMessageStore</code> the model binds against, so every FaFa input's own inline error display (<code>ShowValidationMessage</code>, on by default) shows whichever tier's rule fired.</p>
+      <p class="getting-value"><strong>Getting the value:</strong> no bound value of its own — it populates the same <code>ValidationMessageStore</code> the model binds against, so every Fran input's own inline error display (<code>ShowValidationMessage</code>, on by default) shows whichever tier's rule fired.</p>
     </section>
 
     <!-- ============================= Sizing & responsive ============================= -->
@@ -2125,12 +2125,12 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
     <section class="component" id="page-templates">
       <span class="kicker">Page templates</span>
       <h2>Page templates</h2>
-      <p class="dek">Four full-page compositions in <code>namespace FaFa.Templates</code> (<code>@@using FaFa.Templates</code>), each built on <a href="#layout-shells">FaStandardShell/FaSidebarShell</a> plus whatever one recurring page shape needs beyond the bare shell: FaDashboardTemplate (sidebar shell + title/actions row), FaFormTemplate (standard shell + centered card), FaHomeTemplate (standard shell + hero band), FaAuthTemplate (chrome-free centered card).</p>
+      <p class="dek">Four full-page compositions in <code>namespace Fran.Templates</code> (<code>@@using Fran.Templates</code>), each built on <a href="#layout-shells">FaStandardShell/FaSidebarShell</a> plus whatever one recurring page shape needs beyond the bare shell: FaDashboardTemplate (sidebar shell + title/actions row), FaFormTemplate (standard shell + centered card), FaHomeTemplate (standard shell + hero band), FaAuthTemplate (chrome-free centered card).</p>
       <p>They're <strong>routed pages, not layouts</strong> — use one directly on a <code>@@page</code>-attributed <code>.razor</code> file, rather than wrapping <code>@@Body</code> in your <code>MainLayout.razor</code>. Every shell-level parameter (<code>BrandText</code>, auth props, <code>Sidebar</code>, <code>FooterContent</code>, each bar's own <code>FaNavPosition</code>) uses the exact same name as the shell it wraps — see <a href="#layout-shells">layout shells</a> for what each one does.</p>
 
       <h3>Usage</h3>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>@@page "/dashboard"
-@@using FaFa.Templates
+@@using Fran.Templates
 
 &lt;FaDashboardTemplate BrandText="MyApp" BrandHref="/" Title="Overview"&gt;
     &lt;Sidebar&gt;&lt;NavMenu /&gt;&lt;/Sidebar&gt;
@@ -2326,7 +2326,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
       <div class="code-block"><button class="copy-btn" data-copy>Copy</button><pre><code>&lt;FaPaletteSwitcher /&gt;</code></pre></div>
 
       <h3>Adding your own palettes</h3>
-      <p>The twenty-eight built-ins are precompiled into <code>fa-styles.css</code> and selected purely by name. A palette you define yourself has no compiled CSS to select, so it's expressed instead as an <code>FaPalette</code> object (<code>FaFa.Components</code>) and passed via <code>CustomPalettes</code> — see <a href="#install">Install &amp; setup, Option C</a> for a full example. Each renders as its own <code>&lt;option value="custom:{Value}"&gt;</code> carrying its <code>Colors</code>/<code>DarkOverrides</code> as JSON data attributes; picking it applies those colors as inline <code>--fa-*</code> custom properties on <code>&lt;html&gt;</code> instead of stamping <code>data-fa-palette</code>.</p>
+      <p>The twenty-eight built-ins are precompiled into <code>fa-styles.css</code> and selected purely by name. A palette you define yourself has no compiled CSS to select, so it's expressed instead as an <code>FaPalette</code> object (<code>Fran.Components</code>) and passed via <code>CustomPalettes</code> — see <a href="#install">Install &amp; setup, Option C</a> for a full example. Each renders as its own <code>&lt;option value="custom:{Value}"&gt;</code> carrying its <code>Colors</code>/<code>DarkOverrides</code> as JSON data attributes; picking it applies those colors as inline <code>--fa-*</code> custom properties on <code>&lt;html&gt;</code> instead of stamping <code>data-fa-palette</code>.</p>
       <p><strong>Caveat:</strong> because a custom palette's colors live in the rendered <code>&lt;option&gt;</code>, not compiled CSS, the pre-paint "avoid a flash of the wrong palette" snippet (<a href="#install">Install &amp; setup</a>) can't apply one before Blazor mounts — expect a brief flash of the default/previous built-in palette on reload for a custom selection.</p>
       <p>Don't want a picker at all — just reskinning the app to one fixed brand? Skip this component and override the <code>--fa-*</code> custom properties directly in your own CSS instead (<a href="#install">Install &amp; setup, Option D</a>); both approaches read the same tokens, so a plain-CSS override still wins over whatever this component last selected.</p>
 
@@ -2391,7 +2391,7 @@ builder.Services.AddScoped&lt;FaToastService&gt;();</code></pre></div>
     </section>
 
     <footer class="page-end">
-      FaFa is a self-contained Blazor Razor Class Library — see <a href="#install">Install &amp; setup</a> above for the full step-by-step, the repo's README for a high-level overview, and CLAUDE.md for contributor guidelines.
+      Fran is a self-contained Blazor Razor Class Library — see <a href="#install">Install &amp; setup</a> above for the full step-by-step, the repo's README for a high-level overview, and CLAUDE.md for contributor guidelines.
     </footer>
 
   </main>

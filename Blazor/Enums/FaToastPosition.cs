@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>Which corner/edge of the viewport FaToastHost stacks its toasts against.</summary>
 public enum FaToastPosition

@@ -11,7 +11,7 @@
         <thead><tr><th>Parameter</th><th>Type</th><th>Notes</th></tr></thead>
         <tbody>
             <tr><td><code>Code</code></td><td><code>string</code></td><td>required — the raw source text, HTML-encoded internally</td></tr>
-            <tr><td><code>Language</code></td><td><code>FaCodeLanguage</code></td><td>default <code>PlainText</code> (no highlighting) — see <a href="https://github.com/parrescence/FaFa/blob/dev/Blazor/docs/fa-code-block.md#facodelanguage-values" target="_blank">fa-code-block.md</a> for the full list</td></tr>
+            <tr><td><code>Language</code></td><td><code>FaCodeLanguage</code></td><td>default <code>PlainText</code> (no highlighting) — see <a href="https://github.com/parrescence/Fran/blob/dev/Blazor/docs/fa-code-block.md#facodelanguage-values" target="_blank">fa-code-block.md</a> for the full list</td></tr>
             <tr><td><code>Copyable</code></td><td><code>bool</code></td><td>default <code>true</code> — hides the copy button when <code>false</code>; the language label still shows either way</td></tr>
             <tr><td><code>CssClass</code></td><td><code>string?</code></td><td></td></tr>
             <tr><td><code>AdditionalAttributes</code></td><td><code>Dictionary&lt;string, object&gt;?</code></td><td>any attribute not listed above splats straight onto the outer <code>&lt;div&gt;</code> — <code>id</code>, <code>data-*</code>, <code>aria-*</code>, <code>style</code>, etc.</td></tr>
@@ -19,9 +19,9 @@
     </table>
 </div>
 <p>
-    The copy button needs <code>_content/FaFa/js/codeblock.js</code> linked in your
+    The copy button needs <code>_content/Fran/js/codeblock.js</code> linked in your
     host page to actually work — see
-    <a href="https://github.com/parrescence/FaFa/blob/dev/Blazor/docs/install.md#4-wire-the-static-assets-into-your-host-page" target="_blank">install.md</a>.
+    <a href="https://github.com/parrescence/Fran/blob/dev/Blazor/docs/install.md#4-wire-the-static-assets-into-your-host-page" target="_blank">install.md</a>.
     Without it, the button still renders (and <code>Copyable="false"</code> still
     hides it), but clicking it does nothing.
 </p>

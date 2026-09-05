@@ -1,8 +1,8 @@
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A DNA-helix-style loader: a row of "rungs", each a top/bottom dot pair that

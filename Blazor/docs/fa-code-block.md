@@ -63,7 +63,7 @@ case-insensitively, Bash/PowerShell/YAML use `#` line comments instead of `//`).
 
 ## Wiring
 
-Needs `_content/FaFa/js/codeblock.js` linked in your host page for the copy button
+Needs `_content/Fran/js/codeblock.js` linked in your host page for the copy button
 to actually work — see [Install & setup](install.md#4-wire-the-static-assets-into-your-host-page).
 Without it, the button still renders (and `Copyable="false"` still hides it), but
 clicking it does nothing.

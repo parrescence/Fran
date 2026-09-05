@@ -1,4 +1,4 @@
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Shared size scale for <c>Size</c> parameters across the library (buttons, form

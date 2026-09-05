@@ -1,10 +1,10 @@
-using FaFa.Icons;
-using FaFa.Rendering;
+using Fran.Icons;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// A small interactive tag — a selected filter, an added recipient, a removable

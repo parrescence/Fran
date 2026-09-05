@@ -65,7 +65,7 @@ Every one of these pages opens with `<DemoPageHeader Title="..." ComponentName="
 DocSlug="..." />` (`Components/DemoPageHeader.razor`) — the repeated h1 + "full
 parameter reference" link back to `Blazor/docs/<DocSlug>.md` on GitHub — then
 `<ComponentSubNav BaseRoute="/fa-button" />` right below it. Both are Showcase's own
-app-internal plumbing, not part of the FaFa library itself, same as `PaletteDetail.razor`.
+app-internal plumbing, not part of the Fran library itself, same as `PaletteDetail.razor`.
 
 **Adding a new component's demo means adding at least the "How to use" + "API"
 pages** (`Fa*Page.razor` + `Fa*ApiPage.razor`), both routed, both carrying
@@ -100,7 +100,7 @@ renders `<PaletteDetail Slug="..." />`.
 
 ## Page templates
 
-`Pages/Templates/` holds one thin page per `FaFa.Templates` component
+`Pages/Templates/` holds one thin page per `Fran.Templates` component
 (`FaDashboardTemplatePage.razor`, etc.) — each is a real, live instance of that
 template, not an embedded preview, so each one sets `@layout EmptyLayout`
 (`Layout/EmptyLayout.razor`, a bare `@Body` with none of `MainLayout.razor`'s own

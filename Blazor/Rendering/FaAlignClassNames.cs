@@ -1,6 +1,6 @@
-using FaFa.Components;
+using Fran.Components;
 
-namespace FaFa.Rendering;
+namespace Fran.Rendering;
 
 /// <summary>
 /// Maps <see cref="FaAlign"/> to its <c>.fa-align-*</c> utility class (_utilities.scss)

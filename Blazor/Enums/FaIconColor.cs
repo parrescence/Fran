@@ -1,4 +1,4 @@
-namespace FaFa.Icons;
+namespace Fran.Icons;
 
 public enum FaIconColor
 {

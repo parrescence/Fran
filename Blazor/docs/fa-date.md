@@ -153,7 +153,7 @@ If both `Min` and `Max` are set and `Max` ends up before `Min`, FaDate shows a
 `.fa-validation-message` under the label ("Max (…) must be on or after Min (…).")
 instead of silently making every day unpickable. This is FaDate checking its own
 two parameters directly — `Min`/`Max` aren't bound model fields, so this doesn't
-go through [FaFa's validation system](validation.md) at all. It's shown, not
+go through [Fran's validation system](validation.md) at all. It's shown, not
 thrown: a transient bad combination (Min/Max still loading from data, say) doesn't
 crash the render tree, and the rest of the picker stays interactive.
 

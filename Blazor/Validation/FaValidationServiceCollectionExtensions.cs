@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FaFa.Validation;
+namespace Fran.Validation;
 
 /// <summary>
-/// Registers a root-tier <see cref="IFaValidator{TModel}"/> — the FaFa-validation
+/// Registers a root-tier <see cref="IFaValidator{TModel}"/> — the Fran-validation
 /// equivalent of EF Core's <c>modelBuilder.ApplyConfiguration(new XConfiguration())</c>,
 /// just done once at startup instead of per-<c>DbContext</c>-build. Scoped, matching
 /// <c>FaToastService</c>'s own documented lifetime (this repo's one other DI-registered

@@ -1,9 +1,9 @@
-using FaFa.Rendering;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FaFa.Components;
+namespace Fran.Components;
 
 /// <summary>
 /// Type-to-search combobox: a text field that re-queries <see cref="QueryAsync"/>

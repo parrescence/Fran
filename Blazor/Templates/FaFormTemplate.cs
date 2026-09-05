@@ -1,10 +1,10 @@
-using FaFa.Components;
-using FaFa.Layout;
-using FaFa.Rendering;
+using Fran.Components;
+using Fran.Layout;
+using Fran.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
-namespace FaFa.Templates;
+namespace Fran.Templates;
 
 /// <summary>
 /// A single-form page: <see cref="FaStandardShell"/> (header + footer, no sidebar —

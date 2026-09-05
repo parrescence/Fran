@@ -1,21 +1,21 @@
 @* Shared header for every "one page per component" demo page — the PageTitle/h1/
    intro-paragraph-with-a-docs-link block every Pages/<Category>/Fa*Page.razor
-   repeats verbatim except for three values. Not part of the FaFa style library
+   repeats verbatim except for three values. Not part of the Fran style library
    itself (Blazor/'s own CLAUDE.md rule against markup-authored components doesn't
    apply here — that rule is for the published package; this is Showcase's own
    app-internal plumbing, same category as PaletteDetail.razor). *@
 
-<PageTitle>@Title — FaFa Showcase</PageTitle>
+<PageTitle>@Title — Fran Showcase</PageTitle>
 
 <h1>@Title</h1>
 <p class="fa-mb-4">
     <code>@ComponentName</code>. Full parameter reference:
-    <a href="https://github.com/parrescence/FaFa/blob/dev/Blazor/docs/@(DocSlug).md" target="_blank">Blazor/docs/@(DocSlug).md</a>.
+    <a href="https://github.com/parrescence/Fran/blob/dev/Blazor/docs/@(DocSlug).md" target="_blank">Blazor/docs/@(DocSlug).md</a>.
     @ChildContent
 </p>
 
 @code {
-    /// <summary>Page heading — also becomes the browser tab title, "@Title — FaFa Showcase".</summary>
+    /// <summary>Page heading — also becomes the browser tab title, "@Title — Fran Showcase".</summary>
     [Parameter, EditorRequired] public string Title { get; set; } = "";
     /// <summary>The component tag name shown in code font, e.g. "FaButton" or "FaTabs&lt;TValue&gt;".</summary>
     [Parameter, EditorRequired] public string ComponentName { get; set; } = "";
