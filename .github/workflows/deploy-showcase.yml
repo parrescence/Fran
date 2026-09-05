@@ -64,7 +64,7 @@ jobs:
       - name: Deploy to Azure Function App
         uses: Azure/functions-action@v1
         with:
-          app-name: "Fran-API-EastUS2-DEV"
+          app-name: "Fran-API-WestUS2-DEV"
           package: "./publish-api"
 
       - name: Log out

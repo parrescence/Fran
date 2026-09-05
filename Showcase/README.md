@@ -64,4 +64,8 @@ Both are in `Fran-RG-EastUS2-DEV` in the Parrescence-Dev subscription, deployed 
 a GitHub Actions OIDC login (`Fran-MI-EastUS2-DEV`, a user-assigned managed identity
 with a federated credential trusting this repo — no stored Azure secret for the API
 deploy job; the SWA deploy job still uses its own deployment-token secret, which is
-how the `static-web-apps-deploy` action authenticates).
+how the `static-web-apps-deploy` action authenticates). The Function App itself
+(`Fran-API-WestUS2-DEV`, with its own `stfranshowcasewus2dev` storage account) is in
+West US 2, not East US 2 like the resource group's name suggests — Flex Consumption
+plan creation was blocked in East US 2 by a quota shared with `vince`'s existing
+plans there, and West US 2 wasn't. The resource group itself stays in East US 2.
