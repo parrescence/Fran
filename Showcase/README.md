@@ -49,7 +49,11 @@ Try the login form with `demo` / `password` (anything else fails on purpose — 
 
 ## Deployment
 
-Deployed on every push to `main` (`.github/workflows/deploy-showcase.yml`):
+Deployed on every push to `dev` (`.github/workflows/deploy-showcase.yml`) — only a
+dev environment exists so far; the intended end state is one environment per
+branch (`dev` → dev resources, `test` → test resources, `main`/a future `prod` →
+prod resources, each its own resource group), added to the trigger once those
+resources actually exist. For now:
 `Showcase.Web.Client` to an Azure Static Web App (Free tier, **no login required**
 — that's the public showcase), `Showcase.Web.Api` to an Azure Function App on a
 Flex Consumption plan. The client calls the API directly over HTTPS

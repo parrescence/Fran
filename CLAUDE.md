@@ -40,10 +40,11 @@ It's a **consumer** of the libraries above, not one itself — it doesn't get it
 `ci-<library>.yml`/`publish-<library>.yml` pair (nothing in it is published as a
 package) and isn't subject to a library's "no app-specific coupling" rule (the whole
 point of `Showcase.Web.Client` is to be a real, opinionated consumer app). Deployed
-on every push to `main` (`.github/workflows/deploy-showcase.yml`) — the client to a
-public, no-login Azure Static Web App, `Showcase.Web.Api` to an Azure Function App
-alongside it — see [`Showcase/README.md`](Showcase/README.md#deployment) for the
-infra. This repo itself is still what anyone consuming a library pulls via version
+on every push to `dev` for now (`.github/workflows/deploy-showcase.yml`) — the
+client to a public, no-login Azure Static Web App, `Showcase.Web.Api` to an Azure
+Function App alongside it — see [`Showcase/README.md`](Showcase/README.md#deployment)
+for the infra and the planned per-branch environment split. This repo itself is
+still what anyone consuming a library pulls via version
 control/GitHub Packages, same as always — the deployment is only the live demo.
 
 **Keep Showcase in sync with every library change.** Any change to a library that's

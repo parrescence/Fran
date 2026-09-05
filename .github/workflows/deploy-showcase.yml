@@ -4,15 +4,23 @@ name: Deploy Showcase
 # Showcase.Web.Api to the Azure Function App (Flex Consumption) it calls directly —
 # see Showcase/README.md. Not a required status check (unlike ci-blazor.yml's
 # build-and-pack-blazor job), so it's safe to path-filter the trigger itself: a push
-# to main that doesn't touch Showcase/ or Blazor/ (the client's ProjectReference)
+# to dev that doesn't touch Showcase/ or Blazor/ (the client's ProjectReference)
 # simply not firing this workflow can't block anything.
+#
+# Triggers on dev only, for now — only a dev environment exists
+# (Fran-SWA-EastUS2-DEV / Fran-API-WestUS2-DEV in Fran-RG-EastUS2-DEV). The
+# intended end state is one environment per branch (dev -> dev resources,
+# test -> test resources, main/prod -> prod resources, each its own
+# resource group) — add test/main to this trigger only once those
+# resources actually exist, and split app-name/token/RG per branch at
+# that point rather than assuming dev's resources for all three.
 #
 # The API job authenticates to Azure via OIDC (azure/login), no stored client
 # secret — Fran-MI-EastUS2-DEV's federated credential trusts this repo's
 # dev/test/main branches.
 on:
   push:
-    branches: [main]
+    branches: [dev]
     paths:
       - "Showcase/**"
       - "Blazor/**"
