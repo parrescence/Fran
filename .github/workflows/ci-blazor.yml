@@ -51,3 +51,19 @@ jobs:
       - name: Pack (sanity check only — publish-blazor.yml does the real push)
         if: steps.changes.outputs.blazor == 'true'
         run: dotnet pack Blazor/Fran.csproj --no-build --configuration Release -o ./artifacts
+
+      # Fran-Showcase (a separate private repo) builds against this repo's Blazor/
+      # via a source-level ProjectReference in a sibling checkout, so a Blazor
+      # change here needs to kick off its CI/deploy too — GitHub Actions can't do
+      # that on its own across repos, so this fires a repository_dispatch at it.
+      # Only on an actual push to dev (not PRs, not test/main, not a no-op run) —
+      # FRAN_SHOWCASE_DISPATCH_TOKEN is a fine-grained PAT scoped to just that repo's
+      # Contents:read + Actions:write, the minimum that lets this call succeed.
+      - name: Notify Fran-Showcase (Blazor changed on dev)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/dev' && steps.changes.outputs.blazor == 'true'
+        run: |
+          curl -sf -X POST \
+            -H "Authorization: Bearer ${{ secrets.FRAN_SHOWCASE_DISPATCH_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/parrescence/fran-showcase/dispatches \
+            -d '{"event_type":"blazor-updated"}'

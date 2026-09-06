@@ -164,14 +164,15 @@ can't be turned off). `FaSidebarShell` exposes the same choice as `SidebarCollap
 
 Set `true` only once every link in your `Sidebar` content is set up to collapse to
 an icon — each one needs its own `FaIcon` + `<span class="fa-sidebar-link-text">`
-wrapper (see `FaSidebar`'s Overview/Palette links in this repo's own `NavMenu.razor`
-for the shape). A collapsed sidebar is an icon-only rail: any link without an icon
-of its own has nothing to show at 64px wide, so it's hidden while collapsed rather
-than left to wrap into an illegible sliver — which means `Collapsible="true"` with
-an icon-less nav effectively hides most of your navigation once a user collapses it.
-This repo's own Showcase app leaves `SidebarCollapsible` at its `false` default for
-exactly that reason — its `NavMenu.razor` groups links under `<details>` disclosure
-sections that don't have individual icons.
+wrapper (see `FaSidebar`'s Overview/Palette links in the
+[Fran Showcase](https://github.com/parrescence/fran-showcase) app's own
+`NavMenu.razor` for the shape). A collapsed sidebar is an icon-only rail: any link
+without an icon of its own has nothing to show at 64px wide, so it's hidden while
+collapsed rather than left to wrap into an illegible sliver — which means
+`Collapsible="true"` with an icon-less nav effectively hides most of your navigation
+once a user collapses it. Fran Showcase leaves `SidebarCollapsible` at its `false`
+default for exactly that reason — its `NavMenu.razor` groups links under `<details>`
+disclosure sections that don't have individual icons.
 
 ## Sidebar on small screens
 
