@@ -195,8 +195,8 @@ build time (A), one chosen at runtime from the bundled dropdown, built-in (B) or
 your own addition to it (C). Option D is for reskinning the app to one brand with no
 picker UI at all, and needs nothing from this library beyond the `--fa-*` names
 themselves — see `_palettes.scss` in this repo, or any rendered palette's swatch page
-under `Showcase`'s `/palette` gallery, for the full token list and what each one
-controls. It combines fine with A/B/C too: your override CSS simply wins over
+under the [Fran Showcase](https://github.com/parrescence/fran-showcase) app's
+`/palette` gallery, for the full token list and what each one controls. It combines fine with A/B/C too: your override CSS simply wins over
 whichever built-in/custom palette happens to be active for any token it redeclares,
 since it loads later in the cascade — handy for "start from a built-in palette but
 tweak two or three tokens" without hand-copying the other eighteen.

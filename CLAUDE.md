@@ -24,37 +24,29 @@ folder owns everything specific to it: its own `README.md` (packed into that
 library's published artifact), `docs/`, `CLAUDE.md`, build/package config, and any
 local-only design-reference folders.
 
-## `Showcase/` — a demo consumer, not a library
+## Showcase lives in a separate, private repo
 
-`Showcase/` holds `Showcase.Web.Client` (a standalone Blazor WebAssembly app) and
-`Showcase.Web.Api` (an Azure Functions app backing its "pulled from the database"
-demos) — an in-repo, live demo of every style library's
-components, referencing `Blazor/Fran.csproj` via `<ProjectReference>`
-rather than the published package, so it always reflects whatever's currently on
-the branch. See [`Showcase/README.md`](Showcase/README.md) for what it is and how to
-run it, and [`Showcase/CLAUDE.md`](Showcase/CLAUDE.md) for the conventions behind how
-it's structured (page-per-component layout, naming, palette gallery, page
-templates).
+The live demo consumer of these libraries — `Showcase.Web.Client` (a standalone
+Blazor WebAssembly app) and `Showcase.Web.Api` (an Azure Functions app backing its
+"pulled from the database" demos) — is **not in this repo**. It's
+[`parrescence/fran-showcase`](https://github.com/parrescence/fran-showcase), a
+separate private repo, split out so the demo app can stay non-public while the
+libraries here stay open source. It references this repo's `Blazor/Fran.csproj` via
+a source-level `<ProjectReference>` rather than the published package (so it always
+reflects whatever's on this repo's checked-out branch), which means working on it
+locally requires cloning both repos as siblings — see its own README/CLAUDE.md for
+details.
 
-It's a **consumer** of the libraries above, not one itself — it doesn't get its own
-`ci-<library>.yml`/`publish-<library>.yml` pair (nothing in it is published as a
-package) and isn't subject to a library's "no app-specific coupling" rule (the whole
-point of `Showcase.Web.Client` is to be a real, opinionated consumer app). Deployed
-on every push to `dev` for now (`.github/workflows/deploy-showcase.yml`) — the
-client to a public, no-login Azure Static Web App, `Showcase.Web.Api` to an Azure
-Function App alongside it — see [`Showcase/README.md`](Showcase/README.md#deployment)
-for the infra and the planned per-branch environment split. This repo itself is
-still what anyone consuming a library pulls via version
-control/GitHub Packages, same as always — the deployment is only the live demo.
-
-**Keep Showcase in sync with every library change.** Any change to a library that's
-user-visible — a new component, a renamed component, a new/changed parameter, a
-behavior change worth seeing (e.g. a new loading state) — gets its demo page(s)
-under `Showcase.Web.Client/Pages/` updated in the same change, not as a follow-up.
-Showcase is the live reference for what each library actually does right now (via
-`<ProjectReference>`, not a pinned package version) — a change that lands in the
-library but not in Showcase's demo leaves that reference stale and defeats the
-point of having it.
+**Keep Fran-Showcase in sync with every library change made here.** Any change to a
+library that's user-visible — a new component, a renamed component, a new/changed
+parameter, a behavior change worth seeing (e.g. a new loading state) — gets a
+matching commit to `Fran-Showcase`'s demo page(s) written and pushed to its `dev` in
+the same working session, not as a follow-up: since these are two separate repos now
+(not one commit spanning both), "in the same change" means push both repos' `dev`
+branches together before considering the task done, not just commit locally to one
+and move on. It's the live reference for what each library actually does right
+now — a change that lands here but not there leaves that reference stale and
+defeats the point of having it.
 
 ## Branching: dev → test → main
 
@@ -84,7 +76,7 @@ same template, without touching the Blazor files at all.
 **CI (`ci-<library>.yml`)**: its job (`build-and-pack-<library>`, e.g.
 `build-and-pack-blazor`) is a **required** status check on `test`/`main` branch
 protection (one context per library, added there once that library's workflow
-exists — check current required contexts with `gh api repos/parrescence/Fran/
+exists — check current required contexts with `gh api repos/parrescence/fran/
 branches/<branch>/protection/required_status_checks`). Because it's required, the
 workflow's **trigger** is deliberately *not* path-filtered to that library's folder —
 a PR touching only another library (or root files) would then never fire it, and

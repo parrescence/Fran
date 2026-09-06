@@ -2,8 +2,4 @@
   <Folder Name="/Blazor/">
     <Project Path="Blazor/Fran.csproj" />
   </Folder>
-  <Folder Name="/Showcase/">
-    <Project Path="Showcase/Showcase.Web.Client/Showcase.Web.Client.csproj" />
-    <Project Path="Showcase/Showcase.Web.Api/Showcase.Web.Api.csproj" />
-  </Folder>
 </Solution>
