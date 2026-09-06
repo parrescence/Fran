@@ -40,10 +40,13 @@ details.
 **Keep Fran-Showcase in sync with every library change made here.** Any change to a
 library that's user-visible — a new component, a renamed component, a new/changed
 parameter, a behavior change worth seeing (e.g. a new loading state) — gets a
-matching commit to `Fran-Showcase`'s demo page(s) in the same change, not as a
-follow-up. It's the live reference for what each library actually does right now —
-a change that lands here but not there leaves that reference stale and defeats the
-point of having it.
+matching commit to `Fran-Showcase`'s demo page(s) written and pushed to its `dev` in
+the same working session, not as a follow-up: since these are two separate repos now
+(not one commit spanning both), "in the same change" means push both repos' `dev`
+branches together before considering the task done, not just commit locally to one
+and move on. It's the live reference for what each library actually does right
+now — a change that lands here but not there leaves that reference stale and
+defeats the point of having it.
 
 ## Branching: dev → test → main
 
