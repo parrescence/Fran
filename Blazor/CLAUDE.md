@@ -372,11 +372,13 @@ duplicate the component list — it just points to `docs/index.md`.
 
 **Any code change that's user-visible — a rename, a new/changed parameter, a
 behavior change, a moved file — gets `docs/` (every page mentioning that component,
-`docs/index.md`, `docs/site.html`) and `Showcase/` updated in the same change, not as
-a follow-up.** A rename in particular touches more than the component's own doc page:
-grep `docs/` and `Showcase/` for the old name before considering the change done —
-stale examples/links that still reference it are as broken as a stale demo page (see
-root [`CLAUDE.md`](../CLAUDE.md)'s Showcase-sync rule, which this extends to `docs/`).
+`docs/index.md`, `docs/site.html`) and the separate
+[Fran-Showcase](https://github.com/parrescence/Fran-Showcase) repo updated in the
+same change, not as a follow-up.** A rename in particular touches more than the
+component's own doc page: grep `docs/` here and `Showcase.Web.Client/` in that repo
+for the old name before considering the change done — stale examples/links that
+still reference it are as broken as a stale demo page (see root
+[`CLAUDE.md`](../CLAUDE.md)'s Showcase-sync rule, which this extends to `docs/`).
 
 `FaToggle<TValue>` (`Components/Forms/FaToggle.cs`) is the one component with real runtime
 validation: it throws `ArgumentException` in `OnParametersSet` if fewer than two

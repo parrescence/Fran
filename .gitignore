@@ -6,7 +6,7 @@ obj/
 
 # Local-only editor/tooling config — machine-specific, not meant to be shared/
 # committed. Unanchored on purpose: matches at the repo root and inside every
-# project folder (Blazor/, Showcase/*, and any future one), not just the root.
+# project folder (Blazor/ and any future one), not just the root.
 .claude/
 .vscode/
 .docs/
@@ -44,12 +44,10 @@ appsettings.local.json
 local.settings.json
 
 # Azure/Terraform local state and CLI cache — credentials and environment-specific
-# state, never meant to be shared. No infra-as-code exists in this repo yet, but the
-# planned Azure Static Web App deployment (see Showcase/README.md) will likely add
-# some of this.
+# state, never meant to be shared. No infra-as-code exists in this repo (the Azure
+# Static Web App deployment lives in the separate parrescence/Fran-Showcase repo).
 .azure/
 .terraform/
 *.tfstate
 *.tfstate.*
 *.tfvars
-showcase-client-*.log
