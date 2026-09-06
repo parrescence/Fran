@@ -165,7 +165,7 @@ can't be turned off). `FaSidebarShell` exposes the same choice as `SidebarCollap
 Set `true` only once every link in your `Sidebar` content is set up to collapse to
 an icon — each one needs its own `FaIcon` + `<span class="fa-sidebar-link-text">`
 wrapper (see `FaSidebar`'s Overview/Palette links in the
-[Fran Showcase](https://github.com/parrescence/Fran-Showcase) app's own
+[Fran Showcase](https://github.com/parrescence/fran-showcase) app's own
 `NavMenu.razor` for the shape). A collapsed sidebar is an icon-only rail: any link
 without an icon of its own has nothing to show at 64px wide, so it's hidden while
 collapsed rather than left to wrap into an illegible sliver — which means

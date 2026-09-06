@@ -29,7 +29,7 @@ local-only design-reference folders.
 The live demo consumer of these libraries — `Showcase.Web.Client` (a standalone
 Blazor WebAssembly app) and `Showcase.Web.Api` (an Azure Functions app backing its
 "pulled from the database" demos) — is **not in this repo**. It's
-[`parrescence/Fran-Showcase`](https://github.com/parrescence/Fran-Showcase), a
+[`parrescence/fran-showcase`](https://github.com/parrescence/fran-showcase), a
 separate private repo, split out so the demo app can stay non-public while the
 libraries here stay open source. It references this repo's `Blazor/Fran.csproj` via
 a source-level `<ProjectReference>` rather than the published package (so it always
@@ -76,7 +76,7 @@ same template, without touching the Blazor files at all.
 **CI (`ci-<library>.yml`)**: its job (`build-and-pack-<library>`, e.g.
 `build-and-pack-blazor`) is a **required** status check on `test`/`main` branch
 protection (one context per library, added there once that library's workflow
-exists — check current required contexts with `gh api repos/parrescence/Fran/
+exists — check current required contexts with `gh api repos/parrescence/fran/
 branches/<branch>/protection/required_status_checks`). Because it's required, the
 workflow's **trigger** is deliberately *not* path-filtered to that library's folder —
 a PR touching only another library (or root files) would then never fire it, and

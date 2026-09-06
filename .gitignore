@@ -45,7 +45,7 @@ local.settings.json
 
 # Azure/Terraform local state and CLI cache — credentials and environment-specific
 # state, never meant to be shared. No infra-as-code exists in this repo (the Azure
-# Static Web App deployment lives in the separate parrescence/Fran-Showcase repo).
+# Static Web App deployment lives in the separate parrescence/fran-showcase repo).
 .azure/
 .terraform/
 *.tfstate

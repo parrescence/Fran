@@ -373,7 +373,7 @@ duplicate the component list — it just points to `docs/index.md`.
 **Any code change that's user-visible — a rename, a new/changed parameter, a
 behavior change, a moved file — gets `docs/` (every page mentioning that component,
 `docs/index.md`, `docs/site.html`) and the separate
-[Fran-Showcase](https://github.com/parrescence/Fran-Showcase) repo updated in the
+[Fran-Showcase](https://github.com/parrescence/fran-showcase) repo updated in the
 same change, not as a follow-up.** A rename in particular touches more than the
 component's own doc page: grep `docs/` here and `Showcase.Web.Client/` in that repo
 for the old name before considering the change done — stale examples/links that

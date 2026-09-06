@@ -65,5 +65,5 @@ jobs:
           curl -sf -X POST \
             -H "Authorization: Bearer ${{ secrets.FRAN_SHOWCASE_DISPATCH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/parrescence/Fran-Showcase/dispatches \
+            https://api.github.com/repos/parrescence/fran-showcase/dispatches \
             -d '{"event_type":"blazor-updated"}'
