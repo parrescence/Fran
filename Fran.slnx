@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Blazor/">
     <Project Path="Blazor/Fran.csproj" />
+    <Project Path="Blazor/tests/Fran.Tests/Fran.Tests.csproj" />
   </Folder>
 </Solution>
