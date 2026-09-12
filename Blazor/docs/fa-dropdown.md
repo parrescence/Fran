@@ -11,7 +11,11 @@ natively. Not `InputBase`-based, so it works with or without an `EditForm` — p
 `@bind-Value` like `FaToggle`.
 
 - **`Searchable="true"` (default)** — a type-to-filter combobox: the field is
-  editable and narrows the results by a contains-text match as you type.
+  editable and narrows the results by a contains-text match as you type. When
+  opened with an existing selection, it displays the full list with the selected
+  item highlighted and scrolled into view, narrowing only when actively typing.
+  Dismissing without a selection (clicking outside or pressing Escape) resets the
+  input back to the selected item's label.
 - **`Searchable="false"`** — a plain dropdown: the field is read-only, clicking it
   toggles the full (windowed) result set open/closed, same interaction shape as a
   native `<select>`.
