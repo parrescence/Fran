@@ -18,6 +18,7 @@
          want GenerateDocumentationFile on so the .nupkg ships a (mostly empty) .xml
          doc file rather than none at all. -->
     <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <DefaultItemExcludes>$(DefaultItemExcludes);tests\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <!-- ============================= Sass build (fa-styles.css) =============================
@@ -98,7 +99,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Fran</PackageId>
-    <Version>0.6.0</Version>
+    <Version>0.6.1</Version>
     <Authors>Ben Calvin</Authors>
     <Description>Self-contained Blazor UI component library — buttons, cards, alerts, badges, modals, a generic N-option toggle, form inputs, page-shell layouts, a theme switcher, and a hand-drawn SVG icon set (all "Fa"-prefixed: FaButton, FaCard, FaToggle, FaIcon, ...). No dependency on any specific app's project or type; built to be reusable as-is in other Blazor apps.</Description>
     <PackageTags>blazor;razor;razorclasslibrary;ui;components</PackageTags>

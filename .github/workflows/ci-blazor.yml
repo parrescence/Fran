@@ -48,6 +48,10 @@ jobs:
         if: steps.changes.outputs.blazor == 'true'
         run: dotnet build Blazor/Fran.csproj --no-restore --configuration Release
 
+      - name: Test
+        if: steps.changes.outputs.blazor == 'true'
+        run: dotnet test Blazor/tests/Fran.Tests/Fran.Tests.csproj --configuration Release
+
       - name: Pack (sanity check only — publish-blazor.yml does the real push)
         if: steps.changes.outputs.blazor == 'true'
         run: dotnet pack Blazor/Fran.csproj --no-build --configuration Release -o ./artifacts
