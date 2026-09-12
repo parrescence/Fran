@@ -91,7 +91,6 @@ public sealed class FaDropdown<TItem> : ComponentBase
     // Remote mode.
     private readonly List<TItem> _remoteItems = new();
     private int _remoteTotalCount;
-    private bool _remoteLoadedOnce;
     private CancellationTokenSource? _debounce;
 
     private bool _isOpen;
@@ -99,21 +98,67 @@ public sealed class FaDropdown<TItem> : ComponentBase
     private int _windowStart;
     private int _highlightedIndex = -1;
 
+    private bool _isFiltering;
+    private string? _activeFilterQuery;
+    private TItem? _lastValue;
+
     private CancellationTokenSource? _pendingClose;
+
+    private string? DisplayText => _isFiltering
+        ? _activeFilterQuery
+        : (Value is not null ? ItemLabel(Value) : SearchText);
 
     private IReadOnlyList<TItem> CurrentItems => IsRemote ? _remoteItems : _filtered;
     private int CurrentCount => IsRemote ? _remoteTotalCount : _filtered.Count;
     private int MaxWindowStart => Math.Max(0, CurrentCount - MaxVisibleItems);
 
+    protected override void OnParametersSet()
+    {
+        if (!_isFiltering)
+        {
+            if (Value is not null)
+            {
+                SearchText = ItemLabel(Value);
+            }
+            else if (_lastValue is not null)
+            {
+                SearchText = null;
+            }
+        }
+        _lastValue = Value;
+    }
+
     private void ApplyLocalFilter()
     {
-        var text = Searchable ? SearchText : null;
-        _filtered = string.IsNullOrEmpty(text)
+        var text = _isFiltering ? _activeFilterQuery : null;
+        _filtered = string.IsNullOrWhiteSpace(text)
             ? Items
-            : Items.Where(item => ItemLabel(item).Contains(text, StringComparison.OrdinalIgnoreCase)).ToArray();
+            : Items.Where(item => ItemLabel(item).Contains(text, StringComparison.OrdinalIgnoreCase)).ToList();
 
-        _windowStart = 0;
-        _highlightedIndex = _filtered.Count > 0 ? 0 : -1;
+        if (_isFiltering)
+        {
+            _windowStart = 0;
+            _highlightedIndex = _filtered.Count > 0 ? 0 : -1;
+        }
+    }
+
+    private static int FindIndexOfValue(IReadOnlyList<TItem> list, TItem? value)
+    {
+        if (value is null)
+        {
+            return -1;
+        }
+
+        var comparer = EqualityComparer<TItem>.Default;
+        for (var i = 0; i < list.Count; i++)
+        {
+            if (comparer.Equals(list[i], value))
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     private async Task LoadFirstRemotePageAsync(CancellationToken token = default)
@@ -121,7 +166,8 @@ public sealed class FaDropdown<TItem> : ComponentBase
         _isLoading = true;
         StateHasChanged();
 
-        var (items, total) = await QueryPageAsync!(Searchable ? SearchText ?? "" : "", 0, MaxVisibleItems);
+        var query = _isFiltering ? (_activeFilterQuery ?? "") : "";
+        var (items, total) = await QueryPageAsync!(query, 0, MaxVisibleItems);
         if (token.IsCancellationRequested)
         {
             return;
@@ -130,9 +176,20 @@ public sealed class FaDropdown<TItem> : ComponentBase
         _remoteItems.Clear();
         _remoteItems.AddRange(items);
         _remoteTotalCount = total;
-        _remoteLoadedOnce = true;
         _windowStart = 0;
-        _highlightedIndex = _remoteItems.Count > 0 ? 0 : -1;
+        if (Value is not null)
+        {
+            var selectedIdx = FindIndexOfValue(_remoteItems, Value);
+            _highlightedIndex = selectedIdx >= 0 ? selectedIdx : (_remoteItems.Count > 0 ? 0 : -1);
+            if (selectedIdx >= 0)
+            {
+                EnsureHighlightedInWindow();
+            }
+        }
+        else
+        {
+            _highlightedIndex = _remoteItems.Count > 0 ? 0 : -1;
+        }
         _isLoading = false;
         StateHasChanged();
     }
@@ -156,7 +213,8 @@ public sealed class FaDropdown<TItem> : ComponentBase
         _isLoading = true;
         StateHasChanged();
 
-        var (items, total) = await QueryPageAsync!(Searchable ? SearchText ?? "" : "", _remoteItems.Count, MaxVisibleItems);
+        var query = _isFiltering ? (_activeFilterQuery ?? "") : "";
+        var (items, total) = await QueryPageAsync!(query, _remoteItems.Count, MaxVisibleItems);
         _remoteItems.AddRange(items);
         _remoteTotalCount = total;
         _isLoading = false;
@@ -166,17 +224,36 @@ public sealed class FaDropdown<TItem> : ComponentBase
     private void OpenDropdown()
     {
         _isOpen = true;
+        _isFiltering = false;
+        _activeFilterQuery = null;
 
         if (IsRemote)
         {
-            if (!_remoteLoadedOnce)
-            {
-                _ = LoadFirstRemotePageAsync();
-            }
+            _ = LoadFirstRemotePageAsync();
         }
         else
         {
             ApplyLocalFilter();
+            if (Value is not null)
+            {
+                var selectedIdx = FindIndexOfValue(_filtered, Value);
+                if (selectedIdx >= 0)
+                {
+                    _highlightedIndex = selectedIdx;
+                    _windowStart = 0;
+                    EnsureHighlightedInWindow();
+                }
+                else
+                {
+                    _windowStart = 0;
+                    _highlightedIndex = _filtered.Count > 0 ? 0 : -1;
+                }
+            }
+            else
+            {
+                _windowStart = 0;
+                _highlightedIndex = _filtered.Count > 0 ? 0 : -1;
+            }
         }
     }
 
@@ -187,7 +264,9 @@ public sealed class FaDropdown<TItem> : ComponentBase
             return;
         }
 
-        SearchText = e.Value?.ToString();
+        _isFiltering = true;
+        _activeFilterQuery = e.Value?.ToString() ?? "";
+        SearchText = _activeFilterQuery;
         await SearchTextChanged.InvokeAsync(SearchText);
         _isOpen = true;
 
@@ -212,20 +291,18 @@ public sealed class FaDropdown<TItem> : ComponentBase
         }
     }
 
-    // Only meaningful in non-searchable mode: the field is read-only, so clicking it
-    // is the only way to open it, and clicking it again closes it — same toggle
-    // interaction as a native <select>.
+    // In non-searchable mode, clicking toggles open/closed (same as native <select>).
+    // In searchable mode, clicking when closed opens the dropdown; clicking when
+    // open keeps focus in the input for typing/editing.
     private void HandleClick()
     {
-        if (Searchable)
-        {
-            return;
-        }
-
         CancelPendingClose();
         if (_isOpen)
         {
-            _isOpen = false;
+            if (!Searchable)
+            {
+                _isOpen = false;
+            }
         }
         else
         {
@@ -236,12 +313,13 @@ public sealed class FaDropdown<TItem> : ComponentBase
     private async Task SelectAsync(TItem item)
     {
         Value = item;
-        await ValueChanged.InvokeAsync(item);
-
-        SearchText = ItemLabel(item);
-        await SearchTextChanged.InvokeAsync(SearchText);
-
+        _isFiltering = false;
+        _activeFilterQuery = null;
+        SearchText = item is not null ? ItemLabel(item) : "";
         _isOpen = false;
+
+        await ValueChanged.InvokeAsync(item);
+        await SearchTextChanged.InvokeAsync(SearchText);
     }
 
     // Slides the visible window by one row per wheel tick instead of letting the
@@ -290,6 +368,13 @@ public sealed class FaDropdown<TItem> : ComponentBase
                 _ = SelectAsync(CurrentItems[_highlightedIndex]);
                 break;
             case "Escape":
+                if (_isFiltering)
+                {
+                    SearchText = Value is not null ? ItemLabel(Value) : "";
+                    _ = SearchTextChanged.InvokeAsync(SearchText);
+                    _isFiltering = false;
+                    _activeFilterQuery = null;
+                }
                 _isOpen = false;
                 break;
         }
@@ -318,7 +403,7 @@ public sealed class FaDropdown<TItem> : ComponentBase
         // Searchable mode opens as soon as the field is focused, same as
         // FaSearchSelect. Non-searchable mode waits for an explicit click/arrow key
         // so that tabbing past it doesn't pop the list open unasked.
-        if (Searchable)
+        if (Searchable && !_isOpen)
         {
             OpenDropdown();
         }
@@ -335,6 +420,13 @@ public sealed class FaDropdown<TItem> : ComponentBase
         try
         {
             await Task.Delay(150, token);
+            if (_isFiltering)
+            {
+                SearchText = Value is not null ? ItemLabel(Value) : "";
+                await SearchTextChanged.InvokeAsync(SearchText);
+                _isFiltering = false;
+                _activeFilterQuery = null;
+            }
             _isOpen = false;
             StateHasChanged();
         }
@@ -388,7 +480,7 @@ public sealed class FaDropdown<TItem> : ComponentBase
         builder.AddAttribute(16, "aria-expanded", _isOpen ? "true" : "false");
         builder.AddAttribute(17, "autocomplete", "off");
         builder.AddAttribute(18, "placeholder", Placeholder);
-        builder.AddAttribute(19, "value", SearchText);
+        builder.AddAttribute(19, "value", DisplayText);
         builder.AddAttribute(20, "oninput", EventCallback.Factory.Create<ChangeEventArgs>(this, OnInputAsync));
         builder.AddAttribute(21, "onclick", EventCallback.Factory.Create(this, HandleClick));
         if (!Searchable)
